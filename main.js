@@ -43,7 +43,7 @@ function display(element,content){
 
 
 function update(){
-	$(".console").html("");
+	$(".console").text("");
 	user.age = user.age + 1;
 	if (user.age % 12 != 0){
 		var months = user.age%12;
@@ -68,7 +68,7 @@ function update(){
 
 function random_event(){
 	var num = Math.floor((Math.random()*5) + 1);
-	message = "";
+	event = "";
 	message(event);
 };
 
