@@ -25,8 +25,6 @@ function message(message){
 };
 
 
-
-
 function start(){
 	message(`You've started your journey as ${user.fname} ${user.lname}`);
 	message(`You've got ${money}$ with you`);
@@ -38,6 +36,34 @@ function display(element,content){
 	$(element).text(content);
 
 }
+
+
+
+function decrease(type,max){
+	decrement = Math.floor((Math.random()*max)+1);
+	if (type=="health"){
+		health = health - decrement;
+		display("#health",health);
+	}
+	else if (type=="morale"){
+		morale = morale - decrement;
+		display("#morale",morale);
+	}
+	else if (type=="looks"){
+		looks = looks - decrement;
+		display("#looks",looks);
+	}
+	else if (type=="intellect"){
+		intellect = intellect - decrement;
+		display("#intellect",intellect);
+	}
+	else {
+		alert("Error in decrease() function");
+	};
+
+};
+
+
 
 
 
@@ -78,7 +104,7 @@ function random_event(){
 
 
 function jobs(){
-
+	
 
 
 
@@ -111,14 +137,35 @@ function crime(){
 
 
 
+function profile(){
+	$("#profile-overlay").html(`
+		<h1 class="text-warning">Profile</h1><br>Name : ${user.fname} ${user.lname}<br>
+		Country : ${user.country}`)
+
+};
+
+
+
 
 function main(){
 	$("#update").click(update);
 	$("#actions").click(actions);
 	$("#actions-overlay").popup({
-		transition: "all 0.5s"
+		transition: "all 0.5s",
+		vertical:"top"
 	});
-	$.fn.popup.defaults.pagecontainer = '#page'
+	$("#profile-overlay").popup({
+		transition: "all 0.5s",
+		vertical:"top",
+		onopen:profile
+	});
+	$("#activities-overlay").popup({
+		transition: "all 0.5s",
+		vertical:"top"
+	});
+
+
+	$.fn.popup.defaults.pagecontainer = '#page';
 	$("#crime-btn").click(crime);
 };
 
