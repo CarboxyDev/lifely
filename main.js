@@ -1,6 +1,9 @@
+
+
+
 var user = {
-	"fname":"Arman","lname":"Ganjoo","age":18,"country":"United States",
-	"age":216
+	"fname":"Arman","lname":"Ganjoo","country":random_country(),
+	"age":216,"job":"unemployed"
 };
 
 var money = 1000;
@@ -64,6 +67,26 @@ function decrease(type,max){
 };
 
 
+function random_country(){
+	var list = [
+	"United States","Canada","United Kingdom","India","Pakistan",
+	"China","Saudi Arabia","Sri Lanka","Mexico","Sweden","Norway",
+	"Denmark","Finland","Russia","Japan","Taiwan","South Korea",
+	"Indonesia","Singapore","Italy","Hungary","Switzerland",
+	"Poland","Germany","France","Portugal","Spain","Ireland",
+	"Iceland","Argentina","Brazil","Urugay","Cuba","Albania",
+	"Australia","Austraia","Belgium","Belarus","Estonia","Bulgaria",
+	"Chile","Turkey","Greece","Cyprus","Croatia","Costa Rica",
+	"Egypt","Israel","Kuwait","Latvia","Iran","Slovenia","Lithuania",
+	"Malaysia","UAE","Morocco","Luxembourg","New Zealand","Qatar",
+	"South Africa","Bangladesh","Mongolia","Thailand","Serbia",
+	"Vietnam","Ukraine","Zimbawe","United States","United States"
+	]; // Increasing chance of getting United States
+
+	random = Math.floor((Math.random()*list.length)+1);
+	return list[random];
+};
+
 
 
 
@@ -104,11 +127,46 @@ function random_event(){
 
 
 function jobs(){
-	
+	$("#jobs-overlay").html("");
+	$("#jobs-overlay").html(`<h1 class="text-info">Available Jobs</h1>`);
+	var list = [{"Jr. Software Developer":[4000,5000]},
+	{"Teacher":[2000,3000]},{"Firefighter":[2000,3000]},
+	{"Jr. Engineer":[3500,4500]},{"Gardener":[1000,2000]},
+	{"Police Officer":[3000,4000]},{"Soldier":[1500,2500]},
+	{"Army Officer":[2500,3500]},{"Marine Biologist":[2000,4000]},
+	{"Data Scientist":[4000,5000]},{"Garbage Collector":[500,1500]},
+	{"Jr. Pilot":[6000,8000]},{"Sr. Pilot":[10000,14000]},
+	{"Chef":[2000,2500]}
 
+	];
+	var jobs = {};
+	for (x=0;x<5;x++){
+		random = Math.floor((Math.random()*list.length));
+		var sel = list[random];
+		if (sel in jobs){
+			x = x - 1;
+		}
+		else {
+		var job_name = Object.keys(sel);
+		var min = sel[job_name][0];
+		var max = sel[job_name][1];
 
+		var salary = Math.floor(Math.random()*(max-min+1))+min;
+
+		jobs[job_name] = salary;
+		var btn = `<br><button class="btn-lg btn-warning">${job_name} : ${salary}</button><br>`;
+		$("#jobs-overlay").append(btn);
+		};
+	};
 
 };
+
+
+
+
+
+
+
 
 function crime(){
 	var chance = Math.floor((Math.random()*6)+ 1);
@@ -164,9 +222,15 @@ function main(){
 		vertical:"top"
 	});
 
+	$("#jobs-overlay").popup({
+		transition: "all 1s",
+		vertical:"top",
+		onopen:jobs
+	});
 
 	$.fn.popup.defaults.pagecontainer = '#page';
 	$("#crime-btn").click(crime);
+	//$("#job-btn").click(jobs);
 };
 
 
