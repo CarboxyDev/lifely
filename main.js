@@ -2,15 +2,15 @@
 
 
 var user = {
-	"fname":"Arman","lname":"Ganjoo","country":random_country(),
+	"name":random_name(),"country":random_country(),
 	"age":216,"job":"unemployed"
 };
 
 var money = 1000;
-var health = 100;
-var morale = 100;
-var intellect = 100;
-var looks = 100;
+var health = random_feature("health");
+var morale = random_feature("morale");
+var intellect = random_feature("intellect");
+var looks = random_feature("looks");
 
 
 
@@ -29,7 +29,12 @@ function message(message){
 
 
 function start(){
-	message(`You've started your journey as ${user.fname} ${user.lname}`);
+	$("#money").text(`${money}`);
+	$("#looks").text(`${looks}`);
+	$("#health").text(`${health}`);
+	$("#morale").text(`${morale}`);
+	$("#intellect").text(`${intellect}`);
+	message(`You've started your journey as ${user.name}`);
 	message(`You've got ${money}$ with you`);
 	message(`You're currently living in <u>${user.country}</u>`);
 };
@@ -75,7 +80,7 @@ function random_country(){
 	"Indonesia","Singapore","Italy","Hungary","Switzerland",
 	"Poland","Germany","France","Portugal","Spain","Ireland",
 	"Iceland","Argentina","Brazil","Urugay","Cuba","Albania",
-	"Australia","Austraia","Belgium","Belarus","Estonia","Bulgaria",
+	"Australia","Austria","Belgium","Belarus","Estonia","Bulgaria",
 	"Chile","Turkey","Greece","Cyprus","Croatia","Costa Rica",
 	"Egypt","Israel","Kuwait","Latvia","Iran","Slovenia","Lithuania",
 	"Malaysia","UAE","Morocco","Luxembourg","New Zealand","Qatar",
@@ -86,6 +91,88 @@ function random_country(){
 	random = Math.floor((Math.random()*list.length)+1);
 	return list[random];
 };
+
+
+function random_name(){
+	var male_name = [
+	'Aiden','Arron','Zach','James','Alan','Harry','Peter','Steve',
+	'Tom','Tim','Gary','Sam','Kevin','Mark','Chester','Mike',
+	'Edward','Dyson','Tyson','Ravi','Aakash','Howard','Tony','Jason',
+	'Jordan','Felix','Quinton','Rohit','Alex','Alexander','Steven',
+	'Liam','James','Kendrick','Austin','Bailey','Elgar','Edgar',
+	'Carl','Markus','Hector','Wyatt','Ryan','Dilbert','Gilbert',
+	'Ronald','Charlie','Donald','Jacob','Jake','Jonathon','John',
+	'kelvin','Corey','Mathew'
+
+	];
+
+
+
+	var last_name = [
+	'Smith','Markram','Wolfram','Woods','Marsh','Anderson','Wright',
+	'Simpson','Joyce','Burns','Lee','Hooper','Stark','Starc','Barker',
+	'Parker','Butler','Hodges','Holmes','Garner','Lawrence',
+	'Kumar','Sharma','Singh','Oliver','Cruz','Dean','Nelson',
+	'Stuart','Woody','Turner','Rhodes','Washington','Owens',
+	'Osborn','Florence','Wilson','Patterson','Peterson','Riley',
+	'Dawson','Blair','Waters','Park','Miller','Bennington',
+	'Leonard','Marshall','Stone','Roy','Stokes','Morgan','Freeman',
+	'Yates','Drake','Wade','Griffin','Stevens','Stevenson','Cook',
+	'Williams','Williamson','Sodhi','Pierce','Roberts','Newtons',
+	'Lyon','Perkins','Perkinson','Paul','Goodman','Sanders',
+	'Smith','Smith','Lee','Anderson','Little','Hales','Marshall',
+	'Kumar','Alexson','Guzman','Chambers','Phelps','Hughes','Malfoy',
+	'Jackson','Coleson','Carlson','Mason','Bond'
+
+	];
+
+
+	var random_male_name = Math.floor((Math.random()*male_name.length)+1);
+	random_male_name = male_name[random_male_name];
+
+	var random_last_name = Math.floor((Math.random()*last_name.length)+1);
+	random_last_name = last_name[random_last_name];
+
+
+
+	var name = random_male_name +" "+ random_last_name;
+	return name;
+};
+
+
+
+function random_feature(feature){
+	if (feature=="looks"){
+		var random = Math.floor(Math.random()*(95-30+1))+30;
+
+	}
+	else if (feature=="intellect"){
+		var random = Math.floor(Math.random()*(85-40+1))+40;
+	}
+	else if (feature=="morale"){
+		var random = Math.floor(Math.random()*(100-75+1))+75;
+	}
+	else if (feature=="health"){
+		var random = Math.floor(Math.random()*(100-85+1))+85;
+	};
+
+	return random;
+};
+
+
+
+
+
+function age_events(){
+	if (user.age/12 > 30){
+		$("#study-btn").remove();
+	}; 
+
+
+
+};
+
+
 
 
 
@@ -104,7 +191,7 @@ function update(){
 		$("#age").text(`Age : ${years} years`);
 
 	};
-
+	age_events();
 	random_event();
 
 
@@ -120,6 +207,34 @@ function random_event(){
 	event = "";
 	message(event);
 };
+
+
+
+
+
+function study(){
+	var heading = `<h1 class="text-info">Study</h1><br>`;
+	var subheading = `<h5 class="">Studying makes it easier to get certain jobs</h5>`;
+	$("#study-overlay").html(heading+subheading);
+	var btn = `<br><button id="study-eng" class="btn btn-outline-success study-overlay_close study-eng-overlay_open">Engineering College</button><br>`;
+	$("#study-overlay").append(btn);
+	btn = `<br><button id="study-grad" class="btn btn-outline-success study-overlay_close study-grad-overlay_open">Graduate College</button><br>`;
+	$("#study-overlay").append(btn);
+	btn = `<br><button id="study-com" class="btn btn-outline-success study-overlay_close study-com-overlay_open">Commerce College</button><br>`;
+	$("#study-overlay").append(btn);
+	btn = `<br><button id="study-law" class="btn btn-outline-success study-overlay_close study-law-overlay_open">Law College</button><br>`;
+	$("#study-overlay").append(btn);
+	btn = `<br><button id="study-arts" class="btn btn-success study-overlay_close study-arts-overlay_open">Arts College</button><br>`;
+	$("#study-overlay").append(btn);
+	btn = `<br><button id="study-med" class="btn btn-outline-success study-overlay_close study-med-overlay_open">Medical College</button><br>`;	
+	$("#study-overlay").append(btn);
+	btn = `<br><button id="study-community" class="btn btn-outline-success study-overlay_close study-community-overlay_open">Community College</button><br>`;
+	$("#study-overlay").append(btn+"<hr>");
+
+
+
+};
+
 
 
 
@@ -154,7 +269,7 @@ function jobs(){
 		var salary = Math.floor(Math.random()*(max-min+1))+min;
 
 		jobs[job_name] = salary;
-		var btn = `<br><button class="btn-lg btn-warning">${job_name} : ${salary}</button><br>`;
+		var btn = `<br><button class="btn-lg btn-warning">${job_name} : ${salary}$ / month</button><br>`;
 		$("#jobs-overlay").append(btn);
 		};
 	};
@@ -197,7 +312,7 @@ function crime(){
 
 function profile(){
 	$("#profile-overlay").html(`
-		<h1 class="text-warning">Profile</h1><br>Name : ${user.fname} ${user.lname}<br>
+		<h1 class="text-warning">Profile</h1><br>Name : ${user.name}<br>
 		Country : ${user.country}`)
 
 };
@@ -227,10 +342,52 @@ function main(){
 		vertical:"top",
 		onopen:jobs
 	});
+	
+	$("#study-overlay").popup({
+		transition:"all 1s",
+		vertical:"top",
+		onopen:study
+	});
+	$("#study-eng-overlay").popup({
+		transition:"all 1.5s",
+		vertical:"top"
+	});
+
+	$("#study-grad-overlay").popup({
+		transition:"all 1.5s",
+		vertical:"top"
+	});
+
+	$("#study-com-overlay").popup({
+		transition:"all 1.5s",
+		vertical:"top"
+	});
+
+	$("#study-arts-overlay").popup({
+		transition:"all 1.5s",
+		vertical:"top"
+	});
+
+	$("#study-law-overlay").popup({
+		transition:"all 1.5s",
+		vertical:"top"
+	});
+
+	$("#study-med-overlay").popup({
+		transition:"all 1.5s",
+		vertical:"top"
+	});
+
+	$("#study-community-overlay").popup({
+		transition:"all 1.5s",
+		vertical:"top"
+	});
+
+
+
 
 	$.fn.popup.defaults.pagecontainer = '#page';
 	$("#crime-btn").click(crime);
-	//$("#job-btn").click(jobs);
 };
 
 
