@@ -3,7 +3,7 @@
 
 var user = {
 	"name":random_name(),"country":random_country(),
-	"age":216,"job":"unemployed"
+	"age":216,"job":"Unemployed"
 };
 
 var money = 1000;
@@ -232,9 +232,75 @@ function study(){
 	$("#study-overlay").append(btn+"<hr>");
 
 
-
 };
 
+
+
+
+function scholarship(type) {
+	$("#scholarship-"+type).attr("class",`study-${type}-overlay_close`);
+	if (type="eng"){
+		if (intellect > 80){
+		Swal.fire({title:"You got the scholarship!",
+		icon:"success"});
+		}
+		else{
+		Swal.fire({title:"You were denied a scholarship.",
+		icon:'error'});
+		};
+	}
+	else if (type="grad"){
+		if (intellect > 75){
+		Swal.fire("You got the scholarship!");
+		}
+		else{
+		Swal.fire("You were denied a scholarship.");
+		};
+	}
+	else if (type="com"){
+		if (intellect > 75){
+		Swal.fire("You got the scholarship!");
+		}
+		else{
+		Swal.fire("You were denied a scholarship.");
+		};
+	}
+	else if (type="arts"){
+		if (intellect > 75){
+		Swal.fire("You got the scholarship!");
+		}
+		else{
+		Swal.fire("You were denied a scholarship.");
+		};
+	}
+	else if (type="law"){
+		if (intellect > 80){
+		Swal.fire("You got the scholarship!");
+		}
+		else{
+		Swal.fire("You were denied a scholarship.");
+		};
+	}
+	else if (type="med"){
+		if (intellect > 80){
+		Swal.fire("You got the scholarship!");
+		}
+		else{
+		Swal.fire("You were denied a scholarship.");
+		};
+	}
+	else if (type="community"){
+		if (intellect > 70){
+		Swal.fire("You got the scholarship!");
+		}
+		else{
+		Swal.fire("You were denied a scholarship.");
+		};
+	};
+	
+
+
+};
 
 
 
@@ -313,7 +379,7 @@ function crime(){
 function profile(){
 	$("#profile-overlay").html(`
 		<h1 class="text-warning">Profile</h1><br>Name : ${user.name}<br>
-		Country : ${user.country}`)
+		Country : ${user.country}<br>Occupation : ${user.job}<br>`)
 
 };
 
@@ -338,52 +404,50 @@ function main(){
 	});
 
 	$("#jobs-overlay").popup({
-		transition: "all 1s",
+		transition: "all 0.5s",
 		vertical:"top",
 		onopen:jobs
 	});
 	
 	$("#study-overlay").popup({
-		transition:"all 1s",
+		transition:"all 0.5s",
 		vertical:"top",
 		onopen:study
 	});
 	$("#study-eng-overlay").popup({
-		transition:"all 1.5s",
+		transition:"all 0.5s",
 		vertical:"top"
 	});
 
 	$("#study-grad-overlay").popup({
-		transition:"all 1.5s",
+		transition:"all 0.5s",
 		vertical:"top"
 	});
 
 	$("#study-com-overlay").popup({
-		transition:"all 1.5s",
+		transition:"all 0.5s",
 		vertical:"top"
 	});
 
 	$("#study-arts-overlay").popup({
-		transition:"all 1.5s",
+		transition:"all 0.5s",
 		vertical:"top"
 	});
 
 	$("#study-law-overlay").popup({
-		transition:"all 1.5s",
+		transition:"all 0.5s",
 		vertical:"top"
 	});
 
 	$("#study-med-overlay").popup({
-		transition:"all 1.5s",
+		transition:"all 0.5s",
 		vertical:"top"
 	});
 
 	$("#study-community-overlay").popup({
-		transition:"all 1.5s",
+		transition:"all 0.5s",
 		vertical:"top"
 	});
-
-
 
 
 	$.fn.popup.defaults.pagecontainer = '#page';
