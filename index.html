@@ -5,8 +5,10 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="w3.css" type="text/css">
 <link rel="stylesheet" href="bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="style.css" type="text/css">
+
 <!---
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 -->
@@ -96,8 +98,8 @@
 <span>FEES : 40000$</span><br><br>
 <span>Study for better job opportunities in Engineering fields</span>
 <br><br>
-<button id="scholarship-eng" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="loan-eng" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="scholarship-eng" onclick="scholarship('eng')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -109,8 +111,8 @@
 <span>FEES : 20000$</span><br><br>
 <span>Study for better job opportunities in related job fields</span>
 <br><br>
-<button id="scholarship-grad" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="loan-grad" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="scholarship-grad" onclick="scholarship('grad')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -124,8 +126,8 @@
 <span>FEES : 33000$</span><br><br>
 <span>Study for better job opportunities in commerce / business fields</span>
 <br><br>
-<button id="scholarship-com" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="loan-com" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="scholarship-com" onclick="scholarship('com')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -138,8 +140,8 @@
 <span>FEES : 28000$</span><br><br>
 <span>Study for better job opportunities in related job fields</span>
 <br><br>
-<button id="scholarship-arts" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="loan-arts" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="scholarship-arts" onclick="scholarship('arts')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -152,8 +154,8 @@
 <span>FEES : 35000$</span><br><br>
 <span>Study for better job opportunities in law fields</span>
 <br><br>
-<button id="scholarship-law" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="loan-law" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="scholarship-law" onclick="scholarship('law')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -166,8 +168,8 @@
 <span>FEES : 45000$</span><br><br>
 <span>Study for better job opportunities in medical fields</span>
 <br><br>
-<button id="scholarship-med" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="loan-med" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="scholarship-med" onclick="scholarship('med')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -179,13 +181,21 @@
 <span>FEES : 5000$</span><br><br>
 <span>Study for better job opportunities in basic job fields</span>
 <br><br>
-<button id="scholarship-community" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="loan-community" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="scholarship-community" onclick="scholarship('community')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
 
 
+
+<div id="scholarship-overlay">
+</div>
+
+
+
+<div id="student-load-overlay">
+</div>
 
 
 
@@ -200,5 +210,6 @@
 <script src="bootstrap.min.js"></script>
 <script src="popup.js"></script>
 <script src="main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.8.2/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>
