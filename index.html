@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="w3.css" type="text/css">
 <link rel="stylesheet" href="bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="style.css" type="text/css">
-
+<link rel="stylesheet" href="sweetalert2.css" type="text/css">
 <!---
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 -->
@@ -40,6 +40,8 @@
 
 
 <div class="main">
+
+	
 <button id="actions" class="btn-lg btn-danger actions-overlay_open">Actions</button>
 
 <button id="update" class="btn-lg btn-danger">Age More</button>
@@ -99,7 +101,7 @@
 <span>Study for better job opportunities in Engineering fields</span>
 <br><br>
 <button id="scholarship-eng" onclick="scholarship('eng')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="student-loan-eng" onclick="student_loan('eng')" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -112,7 +114,7 @@
 <span>Study for better job opportunities in related job fields</span>
 <br><br>
 <button id="scholarship-grad" onclick="scholarship('grad')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="student-loan-grad" onclick="student_loan('grad')" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -127,7 +129,7 @@
 <span>Study for better job opportunities in commerce / business fields</span>
 <br><br>
 <button id="scholarship-com" onclick="scholarship('com')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="student-loan-com" onclick="student_loan('com')" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -141,7 +143,7 @@
 <span>Study for better job opportunities in related job fields</span>
 <br><br>
 <button id="scholarship-arts" onclick="scholarship('arts')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="student-loan-arts" onclick="student_loan('arts')" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -155,7 +157,7 @@
 <span>Study for better job opportunities in law fields</span>
 <br><br>
 <button id="scholarship-law" onclick="scholarship('law')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="student-loan-law" onclick="student_loan('law')" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -169,7 +171,7 @@
 <span>Study for better job opportunities in medical fields</span>
 <br><br>
 <button id="scholarship-med" onclick="scholarship('med')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="student-loan-med" onclick="student_loan('med')" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -182,7 +184,7 @@
 <span>Study for better job opportunities in basic job fields</span>
 <br><br>
 <button id="scholarship-community" onclick="scholarship('community')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan" class="btn btn-outline-primary">Take a student loan</button><br><br>
+<button id="student-loan-community" onclick="student_loan('community')" class="btn btn-outline-primary">Take a student loan</button><br><br>
 <span></span>
 </div>
 
@@ -210,6 +212,6 @@
 <script src="bootstrap.min.js"></script>
 <script src="popup.js"></script>
 <script src="main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.8.2/dist/sweetalert2.all.min.js"></script>
+<script src="sweetalert2.js"></script>
 </body>
 </html>

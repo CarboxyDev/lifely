@@ -16,6 +16,7 @@ var looks = random_feature("looks");
 
 start();
 
+
 var count = 0;
 function message(message){
 	count = count + 1;
@@ -42,7 +43,12 @@ function start(){
 
 function display(element,content){
 	$(element).text(content);
-
+	if (money < 0 ){
+		$("#money-block").css("color","red");
+	};
+	if (health < 20){
+		$("#health-block").css("color","red");
+	};
 }
 
 
@@ -102,7 +108,7 @@ function random_name(){
 	'Liam','James','Kendrick','Austin','Bailey','Elgar','Edgar',
 	'Carl','Markus','Hector','Wyatt','Ryan','Dilbert','Gilbert',
 	'Ronald','Charlie','Donald','Jacob','Jake','Jonathon','John',
-	'kelvin','Corey','Mathew'
+	'kelvin','Corey','Matthew',"Draco","Zach","Henry"
 
 	];
 
@@ -163,12 +169,57 @@ function random_feature(feature){
 
 
 
+var is_student = false;
+var student_months = 0;
+var total_student_loans = 0;
 function age_events(){
 	if (user.age/12 > 30){
 		$("#study-btn").remove();
 	}; 
 
+	if (is_student==true){
+		if (student_months >= 48){
+			student_pass();
+		};
+		if (student_months!=48){
+			student_months = student_months + 1;
+		};
+		if (student_has_loan == false){
+			// for future
+		};
 
+		if (student_months%12==0){
+			var years = student_months/12;
+			if (years != 1){
+				message(`You have completed ${years} years in college`)
+			}
+			else {
+				message(`You completed your first year in college`);
+			}
+		}
+
+		if (student_has_loan == true){
+			student_loan_months += 1;
+			if (student_loan_months%12==0){
+				var yearly_interest = Math.floor(student_fees*10/100);
+				var yearly_student_fees = Math.floor(student_fees/4)+yearly_interest;
+				total_student_loans += yearly_student_fees;
+				message(`You were charged ${yearly_student_fees}$ as yearly student loan at 10% interest rate`);
+				money = money - yearly_student_fees;
+				display("#money",money);
+			};
+			if (student_loan_months == 48){
+				student_has_loan = false;
+				message(`Your student loans are over`);
+				message(`You paid ${total_student_loans}$ in total as student loans`)
+			};
+		};
+		
+	};
+	if (has_job == false){
+
+
+	};
 
 };
 
@@ -236,70 +287,91 @@ function study(){
 
 
 
-
-function scholarship(type) {
-	$("#scholarship-"+type).attr("class",`study-${type}-overlay_close`);
-	if (type="eng"){
-		if (intellect > 80){
-		Swal.fire({title:"You got the scholarship!",
-		icon:"success"});
-		}
-		else{
-		Swal.fire({title:"You were denied a scholarship.",
-		icon:'error'});
-		};
+var student_loan_months = 0;
+var student_has_loan = false;
+var student_fees = 0;
+function student_loan(type){
+	$(`#student-loan-${type}`).attr("class",`study-${type}-overlay_close`);
+	$(`#student-loan-${type}`).remove();
+	if (type=="eng"){
+		student_fees = 40000;
+		Swal.fire({
+			title:"You were alloted a student loan!",
+			text:`You are liable to pay ${student_fees}$ in future loans`,
+			icon:"success"
+		});
+		user.job = "Engineering College Student";
+		message(`You got a student loan worth ${student_fees}$`);
+		message(`You are now enrolled in an Engineering College`);
 	}
-	else if (type="grad"){
-		if (intellect > 75){
-		Swal.fire("You got the scholarship!");
-		}
-		else{
-		Swal.fire("You were denied a scholarship.");
-		};
+	if (type=="grad"){
+		student_fees = 20000;
+		Swal.fire({
+			title:"You were alloted a student loan!",
+			text:`You are liable to pay ${student_fees}$ in future loans`,
+			icon:"success"
+		});
+		user.job = "Graduate College Student";
+		message(`You got a student loan worth ${student_fees}$`);
+		message(`You are now enrolled in a Graduate College`);
 	}
-	else if (type="com"){
-		if (intellect > 75){
-		Swal.fire("You got the scholarship!");
-		}
-		else{
-		Swal.fire("You were denied a scholarship.");
-		};
+	if (type=="com"){
+		student_fees = 33000;
+		Swal.fire({
+			title:"You were alloted a student loan!",
+			text:`You are liable to pay ${student_fees}$ in future loans`,
+			icon:"success"
+		});
+		user.job = "Commerce College Student";
+		message(`You got a student loan worth ${student_fees}$`);
+		message(`You are now enrolled in a Commerce College`);
 	}
-	else if (type="arts"){
-		if (intellect > 75){
-		Swal.fire("You got the scholarship!");
-		}
-		else{
-		Swal.fire("You were denied a scholarship.");
-		};
+	if (type=="arts"){
+		student_fees = 28000;
+		Swal.fire({
+			title:"You were alloted a student loan!",
+			text:`You are liable to pay ${student_fees}$ in future loans`,
+			icon:"success"
+		});
+		user.job = "Arts College Student";
+		message(`You got a student loan worth ${student_fees}$`);
+		message(`You are now enrolled in an Arts College`);
 	}
-	else if (type="law"){
-		if (intellect > 80){
-		Swal.fire("You got the scholarship!");
-		}
-		else{
-		Swal.fire("You were denied a scholarship.");
-		};
+	if (type=="law"){
+		student_fees = 35000;
+		Swal.fire({
+			title:"You were alloted a student loan!",
+			text:`You are liable to pay ${student_fees}$ in future loans`,
+			icon:"success"
+		});
+		user.job = "Law College Student";
+		message(`You got a student loan worth ${student_fees}$`);
 	}
-	else if (type="med"){
-		if (intellect > 80){
-		Swal.fire("You got the scholarship!");
-		}
-		else{
-		Swal.fire("You were denied a scholarship.");
-		};
+	if (type=="med"){
+		student_fees = 45000;
+		Swal.fire({
+			title:"You were alloted a student loan!",
+			text:`You are liable to pay ${student_fees}$ in future loans`,
+			icon:"success"
+		});
+		user.job = "Medical College Student";
+		message(`You got a student loan worth ${student_fees}$`);
+		message(`You are now enrolled in a Medical College`);
 	}
-	else if (type="community"){
-		if (intellect > 70){
-		Swal.fire("You got the scholarship!");
-		}
-		else{
-		Swal.fire("You were denied a scholarship.");
-		};
+	if (type=="community"){
+		student_fees = 5000;
+		Swal.fire({
+			title:"You were alloted a student loan!",
+			text:`You are liable to pay ${student_fees}$ in future loans`,
+			icon:"success"
+		});
+		user.job = "Community College Student";
+		message(`You got a student loan worth ${student_fees}$`);
+		message(`You are now enrolled in a Community College`);
 	};
 	
-
-
+	student_has_loan = true;
+	student();
 };
 
 
@@ -307,6 +379,182 @@ function scholarship(type) {
 
 
 
+
+
+
+
+
+
+
+function scholarship(type) {
+
+	$("#scholarship-"+type).attr("class",`study-${type}-overlay_close`);
+	$("#scholarship-"+type).remove();
+	if (type=="eng"){
+		if (intellect > 80){
+		Swal.fire({title:"You got the scholarship!",
+		icon:"success"});
+		user.job = "Engineering Student";
+		message("You were awarded a scholarship	at an Engineering College");
+		message(`You are now enrolled in an Engineering College`);
+		student();
+		}
+		else{
+		Swal.fire({title:"You were denied a scholarship.",
+		icon:'error'});
+		message("You were denied a scholarship in an Engineering College");
+		};
+	};
+	if (type=="grad"){
+		if (intellect > 75){
+		Swal.fire({title:"You got the scholarship!",
+		icon:"success"});
+		user.job = "Graduate Student";
+		message("You were awarded a scholarship	at a Graduate College");
+		message(`You are now enrolled in a Graduate College`);
+		student();
+		}
+		else{
+		Swal.fire({title:"You were denied a scholarship.",
+		icon:'error'});
+		message("You were denied a scholarship in a Graduate College");
+		};
+	};
+	if (type=="com"){
+		if (intellect > 80){
+		Swal.fire({title:"You got the scholarship!",
+		icon:"success"});
+		user.job = "Commerce Student";
+		message("You were awarded a scholarship	at a Commerce College");
+		message(`You are now enrolled in a Commerce College`);
+		student();
+		}
+		else{
+		Swal.fire({title:"You were denied a scholarship.",
+		icon:'error'});
+		message("You were denied a scholarship in a Commerce College");
+		};
+	};
+	if (type=="arts"){
+		if (intellect > 75){
+		Swal.fire({title:"You got the scholarship!",
+		icon:"success"});
+		user.job = "Arts Student";
+		message("You were awarded a scholarship	at an Arts College");
+		message(`You are now enrolled in an Arts College`);
+		student();
+		}
+		else{
+		Swal.fire({title:"You were denied a scholarship.",
+		icon:'error'});
+		message("You were denied a scholarship in an Arts College");
+		};
+	};
+	if (type=="law"){
+		if (intellect > 80){
+		Swal.fire({title:"You got the scholarship!",
+		icon:"success"});
+		user.job = "Law Student";
+		message("You were awarded a scholarship	at a Law College");
+		message(`You are now enrolled in a Law College`);
+		student();
+		}
+		else{
+		Swal.fire({title:"You were denied a scholarship.",
+		icon:'error'});
+		message("You were denied a scholarship in a Law College");
+		};
+	};
+	if (type=="med"){
+		if (intellect > 80){
+		Swal.fire({title:"You got the scholarship!",
+		icon:"success"});
+		user.job = "Medical Student";
+		message("You were awarded a scholarship	at a Medical College");
+		message(`You are now enrolled in an Medical College`);
+		student();
+		}
+		else{
+		Swal.fire({title:"You were denied a scholarship.",
+		icon:'error'});
+		message("You were denied a scholarship in a Medical College");
+		};
+	}
+	if (type=="community"){
+		if (intellect > 70){
+		Swal.fire({title:"You got the scholarship!",
+		icon:"success"});
+		user.job = "Community College Student";
+		message("You were awarded a scholarship	at a Community College");
+		message(`You are now enrolled in a Community College`);
+		student();
+		}
+		else{
+		Swal.fire({title:"You were denied a scholarship.",
+		icon:'error'});
+		message("You were denied a scholarship in a Community College");
+		};
+	};
+
+};
+
+
+
+
+function student(){
+	student_months = 0;
+	is_student = true;
+	// add more //:)
+	btn = `<button id="student" class="btn-lg btn-info student-overlay_open">Student</button>`;
+	$("#actions").attr("class","btn-lg btn-success student-overlay_open");
+	$("#actions").attr("id","student");
+	$("#student").attr("onclick","student_menu()");
+	
+};
+
+
+function student_menu(){
+	Swal.fire({
+		title:"Student Actions",
+		position:"top",
+		html:
+			`Months Completed - <b>${student_months}</b>/48<br>`+
+			`Current Student Debt - ${total_student_loans}$<br>`+
+			`<br>`,
+		showConfirmButton:false
+
+	});
+
+};
+
+
+
+var degree = [];
+function student_pass(){
+	deg = user.job;
+	if ("Engineer" in deg){
+		var course = "ENG";
+	}
+	if ("Graduate" in deg){
+		var course = "GRAD";
+	}
+	else{
+		document.write("ERROR in function student_pass()")
+	};
+
+
+	message(`You passed out as a ${deg}`);
+	user.job = "Unemployed";
+	is_student = false;
+	degree.push(course);
+};
+
+
+
+
+
+
+var has_job = false;
 function jobs(){
 	$("#jobs-overlay").html("");
 	$("#jobs-overlay").html(`<h1 class="text-info">Available Jobs</h1>`);
@@ -315,7 +563,7 @@ function jobs(){
 	{"Jr. Engineer":[3500,4500]},{"Gardener":[1000,2000]},
 	{"Police Officer":[3000,4000]},{"Soldier":[1500,2500]},
 	{"Army Officer":[2500,3500]},{"Marine Biologist":[2000,4000]},
-	{"Data Scientist":[4000,5000]},{"Garbage Collector":[500,1500]},
+	{"Data Scientist":[4000,5000]},{"Garbage Collector":[500,1200]},
 	{"Jr. Pilot":[6000,8000]},{"Sr. Pilot":[10000,14000]},
 	{"Chef":[2000,2500]}
 
@@ -366,11 +614,19 @@ function crime(){
 		// develop jail later
 		message(`You were caught commiting a heinous crime and were\
 		<u>jailed</u>`);
+		jail();
 	}
 	else {
 		message(`You chickened out before commiting the crime`)
 	};
 	display("#money",money);
+};
+
+
+// work on , later!
+function jail(){
+	message("will work on jail() later.")
+
 };
 
 
@@ -388,7 +644,6 @@ function profile(){
 
 function main(){
 	$("#update").click(update);
-	$("#actions").click(actions);
 	$("#actions-overlay").popup({
 		transition: "all 0.5s",
 		vertical:"top"
