@@ -53,8 +53,7 @@ function display(element,content){
 
 
 
-function decrease(type,max){
-	decrement = Math.floor((Math.random()*max)+1);
+function decrease(type,decrement){
 	if (type=="health"){
 		health = health - decrement;
 		display("#health",health);
@@ -91,10 +90,12 @@ function random_country(){
 	"Egypt","Israel","Kuwait","Latvia","Iran","Slovenia","Lithuania",
 	"Malaysia","UAE","Morocco","Luxembourg","New Zealand","Qatar",
 	"South Africa","Bangladesh","Mongolia","Thailand","Serbia",
-	"Vietnam","Ukraine","Zimbawe","United States","United States"
+	"Vietnam","Ukraine","Zimbawe","United States","United States",
+	"United States","United States","United States","Canada","Canada",
+	"Russia"
 	]; // Increasing chance of getting United States
 
-	random = Math.floor((Math.random()*list.length)+1);
+	random = Math.floor((Math.random()*list.length));
 	return list[random];
 };
 
@@ -108,7 +109,7 @@ function random_name(){
 	'Liam','James','Kendrick','Austin','Bailey','Elgar','Edgar',
 	'Carl','Markus','Hector','Wyatt','Ryan','Dilbert','Gilbert',
 	'Ronald','Charlie','Donald','Jacob','Jake','Jonathon','John',
-	'kelvin','Corey','Matthew',"Draco","Zach","Henry"
+	'Kelvin','Corey','Matthew',"Draco","Zach","Henry"
 
 	];
 
@@ -133,10 +134,10 @@ function random_name(){
 	];
 
 
-	var random_male_name = Math.floor((Math.random()*male_name.length)+1);
+	var random_male_name = Math.floor((Math.random()*male_name.length));
 	random_male_name = male_name[random_male_name];
 
-	var random_last_name = Math.floor((Math.random()*last_name.length)+1);
+	var random_last_name = Math.floor((Math.random()*last_name.length));
 	random_last_name = last_name[random_last_name];
 
 
@@ -172,41 +173,47 @@ function random_feature(feature){
 var is_student = false;
 var student_months = 0;
 var total_student_loans = 0;
+var total_years = 0;
 function age_events(){
+	console.log(salary);
 	if (user.age/12 > 30){
 		$("#study-btn").remove();
 	}; 
 
 	if (is_student==true){
-		if (student_months >= 48){
-			student_pass();
-		};
-		if (student_months!=48){
-			student_months = student_months + 1;
-		};
+
+		student_months = student_months + 1;
+
+
 		if (student_has_loan == false){
 			// for future
 		};
 
 		if (student_months%12==0){
-			var years = student_months/12;
-			if (years != 1){
-				message(`You have completed ${years} years in college`)
+			var total_years = student_months/12;
+			if (total_years == 1){
+				message(`You've completed your first year in college`);
 			}
 			else {
-				message(`You completed your first year in college`);
-			}
-		}
+				message(`You've completed ${total_years} years in college`);
+			};
+
+		};
+
+		if (student_months == 48){
+			student_pass();
+		};
+	
 
 		if (student_has_loan == true){
-			student_loan_months += 1;
+			student_loan_months = student_loan_months + 1;
 			if (student_loan_months%12==0){
 				var yearly_interest = Math.floor(student_fees*10/100);
 				var yearly_student_fees = Math.floor(student_fees/4)+yearly_interest;
-				total_student_loans += yearly_student_fees;
+				total_student_loans = total_student_loans + yearly_student_fees;
 				message(`You were charged ${yearly_student_fees}$ as yearly student loan at 10% interest rate`);
 				money = money - yearly_student_fees;
-				display("#money",money);
+
 			};
 			if (student_loan_months == 48){
 				student_has_loan = false;
@@ -214,12 +221,41 @@ function age_events(){
 				message(`You paid ${total_student_loans}$ in total as student loans`)
 			};
 		};
-		
+	
+
+
+
+
 	};
+		
+
+
 	if (has_job == false){
 
 
 	};
+	//console.log(salary);
+	if (has_job == true){
+		console.log(salary);
+		money = money + salary;
+		var rand = Math.floor((Math.random()*15) + 1);
+		message(`You were paid ${salary}$ as your salary`);
+		if (rand == 1){
+			var inc = Math.floor(Math.random()*(12-5))+5;
+			var raise = Math.floor(salary*inc/100);
+			message(`You got a raise of ${raise}$`);
+			salary = salary + raise;
+
+		};
+	};
+
+
+
+	display("#money",money);
+	display("#health",health);
+	display("#looks",looks);
+	display("#intellect",intellect);
+	display("#morale",morale);
 
 };
 
@@ -230,6 +266,8 @@ function age_events(){
 
 
 function update(){
+	console.log(salary);
+	count = 0;
 	$(".console").text("");
 	user.age = user.age + 1;
 	if (user.age % 12 != 0){
@@ -242,6 +280,7 @@ function update(){
 		$("#age").text(`Age : ${years} years`);
 
 	};
+	console.log(salary);
 	age_events();
 	random_event();
 
@@ -303,7 +342,7 @@ function student_loan(type){
 		user.job = "Engineering College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in an Engineering College`);
-	}
+	};
 	if (type=="grad"){
 		student_fees = 20000;
 		Swal.fire({
@@ -314,7 +353,7 @@ function student_loan(type){
 		user.job = "Graduate College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Graduate College`);
-	}
+	};
 	if (type=="com"){
 		student_fees = 33000;
 		Swal.fire({
@@ -325,7 +364,7 @@ function student_loan(type){
 		user.job = "Commerce College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Commerce College`);
-	}
+	};
 	if (type=="arts"){
 		student_fees = 28000;
 		Swal.fire({
@@ -336,7 +375,7 @@ function student_loan(type){
 		user.job = "Arts College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in an Arts College`);
-	}
+	};
 	if (type=="law"){
 		student_fees = 35000;
 		Swal.fire({
@@ -346,7 +385,7 @@ function student_loan(type){
 		});
 		user.job = "Law College Student";
 		message(`You got a student loan worth ${student_fees}$`);
-	}
+	};
 	if (type=="med"){
 		student_fees = 45000;
 		Swal.fire({
@@ -357,7 +396,7 @@ function student_loan(type){
 		user.job = "Medical College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Medical College`);
-	}
+	};
 	if (type=="community"){
 		student_fees = 5000;
 		Swal.fire({
@@ -371,8 +410,7 @@ function student_loan(type){
 	};
 	
 	student_has_loan = true;
-	student();
-};
+	student(); };
 
 
 
@@ -502,7 +540,6 @@ function scholarship(type) {
 
 
 function student(){
-	student_months = 0;
 	is_student = true;
 	// add more //:)
 	btn = `<button id="student" class="btn-lg btn-info student-overlay_open">Student</button>`;
@@ -532,21 +569,45 @@ function student_menu(){
 var degree = [];
 function student_pass(){
 	deg = user.job;
-	if ("Engineer" in deg){
+
+	if (deg.includes("Engineer") == true){
 		var course = "ENG";
 	}
-	if ("Graduate" in deg){
+	else if (deg.includes("Graduate") == true){
 		var course = "GRAD";
 	}
-	else{
-		document.write("ERROR in function student_pass()")
-	};
+	else if (deg.includes("Commerce") == true){
+		var course = "COM";
+	}
+	else if (deg.includes("Art") == true){
+		var course = "ARTS";
+	}
+	else if (deg.includes("Law") == true){
+		var course = "LAW";
+	}
+	else if (deg.includes("Medical") == true){
+		var course = "MED";
+	}
+	else if (deg.includes("Community") == true){
+		var course = "COMMUNITY";
+	}
+	else {
+		document.write("Error in student_pass()");
+	}
+
 
 
 	message(`You passed out as a ${deg}`);
 	user.job = "Unemployed";
 	is_student = false;
+	student_loan_months = 0;
+	student_months = 0;
+	student_has_loan = false;
+	total_student_loans = 0;
 	degree.push(course);
+	$("#student").attr("class","btn-lg btn-danger actions-overlay_open");
+	$("#student").removeAttr("onclick");
+	$("#student").attr("id","actions");
 };
 
 
@@ -555,19 +616,24 @@ function student_pass(){
 
 
 var has_job = false;
+var salary = 0;
 function jobs(){
 	$("#jobs-overlay").html("");
 	$("#jobs-overlay").html(`<h1 class="text-info">Available Jobs</h1>`);
-	var list = [{"Jr. Software Developer":[4000,5000]},
+	var list = [{"Sr. Engineer":[4000,5000]},
 	{"Teacher":[2000,3000]},{"Firefighter":[2000,3000]},
 	{"Jr. Engineer":[3500,4500]},{"Gardener":[1000,2000]},
 	{"Police Officer":[3000,4000]},{"Soldier":[1500,2500]},
 	{"Army Officer":[2500,3500]},{"Marine Biologist":[2000,4000]},
 	{"Data Scientist":[4000,5000]},{"Garbage Collector":[500,1200]},
 	{"Jr. Pilot":[6000,8000]},{"Sr. Pilot":[10000,14000]},
-	{"Chef":[2000,2500]}
+	{"Chef":[2000,2500]},{"Lawyer":[4000,5000]},{"Banker":[4000,5000]},
+	{"Artist":[2000,4000]},{"Sweeper":[500,1200]},
+	{"Doctor":[6000,7000]},{"Judge":[6000,7500]},
+	{"Property Dealer":[3000,4000]}
 
 	];
+
 	var jobs = {};
 	for (x=0;x<5;x++){
 		random = Math.floor((Math.random()*list.length));
@@ -580,10 +646,9 @@ function jobs(){
 		var min = sel[job_name][0];
 		var max = sel[job_name][1];
 
-		var salary = Math.floor(Math.random()*(max-min+1))+min;
-
+		salary = Math.floor(Math.random()*(max-min+1))+min;
 		jobs[job_name] = salary;
-		var btn = `<br><button class="btn-lg btn-warning">${job_name} : ${salary}$ / month</button><br>`;
+		var btn = `<br><button onclick="check_job('${job_name}',${salary})" class="btn-lg btn-primary">${job_name} : ${salary}$ / month</button><br>`;
 		$("#jobs-overlay").append(btn);
 		};
 	};
@@ -591,6 +656,156 @@ function jobs(){
 };
 
 
+var job_qualified = false;
+function check_job(job_name,salary){
+	$("#job-btn").attr("class","btn-lg btn-info actions-overlay_close jobs-overlay_close");
+	$("#jobs-overlay").attr("class","jobs-overlay_close");
+
+	var req = [];
+	console.log(salary);
+	if (job_name == "Teacher"){
+		req = ["ART","GRAD","ENG"];
+	}
+	else if (job_name == "Firefighter"){
+		req = ["COMMUNITY","GRAD","ENG"];
+	}
+	else if (job_name == "Gardener"){
+		job_qualified = true;
+	}
+	else if (job_name == "Jr. Engineer"){
+		req = ["ENG"];
+	}
+	else if (job_name == "Sr. Engineer"){
+		req = ["ENG"];
+	}
+	else if (job_name == "Police Officer"){
+		req = ["GRAD","COMMUNITY","ART"];
+	}
+	else if (job_name == "Soldier"){
+		req = ["GRAD","COMMUNITY","ENG"];
+	}
+	else if (job_name == "Army Officer"){
+		req = ["GRAD","COMMUNITY","ENG"];
+	}
+	else if (job_name == "Garbage Collector"){
+		job_qualified = true;
+	}
+	else if (job_name == "Marine Biologist"){
+		req = ["MED"];
+	}
+	else if (job_name == "Data Scientist"){
+		req = ["ENG"];
+	}
+	else if (job_name == "Jr. Pilot"){
+		req = ["ENG"];
+	}
+	else if (job_name == "Sr. Pilot"){
+		req = ["ENG"];
+	}
+	else if (job_name == "Chef"){
+		req = ["COMMUNITY","GRAD","ARTS"];
+	}
+	else if (job_name == "Lawyer"){
+		req = ["LAW"];
+	}
+	else if (job_name == "Banker"){
+		req = ["COM"];
+	}
+	else if (job_name == "Artist"){
+		req = ["ART"];
+	}
+	else if (job_name == "Sweeper"){
+		job_qualified = true;
+	}
+	else if (job_name == "Doctor"){
+		req = ["MED"];
+	}
+	else if (job_name == "Judge"){
+		req = ["LAW"];
+	}
+	else if (job_name == "Property Dealer"){
+		req = ["GRAD","ENG","COM"];
+	}
+	else {
+		document.write("ERROR in check_job()");
+	};
+
+
+	for (x in degree){
+		for (y in req){
+			if (degree[x] == req[y]){
+				job_qualified = true;
+			}
+		}
+	}
+
+
+	Swal.fire({
+		position:"top",
+		icon:"info",
+		title:"Job Information",
+		html:
+		`<hr><br>Job name - ${job_name}<br>`+
+		`Salary - <b>${salary}$/month</b><br>`+
+		`<br><br><hr>`
+
+		
+		,confirmButtonText:'Apply',
+		showCancelButton:true,
+		cancelButtonText:"Leave"
+	}).then((result) => {
+		if (result.value){
+			if (job_qualified == true){
+				job_qualified = false;
+				console.log(salary);
+				start_job(job_name,salary);
+				console.log(salary);
+			}
+			else {
+				Swal.fire({
+					icon:"error",
+					title:"Your job application was declined"
+				});
+			};
+		};
+
+	});
+
+
+	job_allow = false;
+	$("#job-btn").attr("class","btn-lg btn-info actions-overlay_close jobs-overlay_open");
+
+};
+
+
+
+function start_job(job_name,salary){
+	console.log(salary);
+	Swal.fire({
+		icon:"success",
+		title:"You got the job!",
+		text:`You are now working as a ${job_name}`,
+		footer:`You will be earning <b>${salary}$</b> every month`,
+		confirmButtonText:"Cool!"
+	});
+	message(`You started working as a ${job_name} earning ${salary}$/month`);
+	console.log(salary);
+	has_job = true;
+	user.job = job_name;
+
+	$("#actions").attr("class","btn-lg btn-primary");
+	$("#actions").attr("id","job");
+	$("#student").attr("onclick","job_menu()");
+	console.log(salary);
+
+};
+
+
+
+function job_menu(){
+
+
+};
 
 
 
@@ -646,7 +861,7 @@ function main(){
 	$("#update").click(update);
 	$("#actions-overlay").popup({
 		transition: "all 0.5s",
-		vertical:"top"
+		vertical:"top",
 	});
 	$("#profile-overlay").popup({
 		transition: "all 0.5s",
