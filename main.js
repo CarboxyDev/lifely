@@ -3,7 +3,8 @@
 
 var user = {
 	"name":random_name(),"country":random_country(),
-	"age":216,"job":"Unemployed"
+	"age":216,"job":"Unemployed","salary":0,"xp":0,
+	"promos":0
 };
 
 var money = 1000;
@@ -46,10 +47,16 @@ function display(element,content){
 	if (money < 0 ){
 		$("#money-block").css("color","red");
 	};
+	if (money > 0){
+		$("#money-block").css("color","white");
+	};
 	if (health < 20){
 		$("#health-block").css("color","red");
 	};
-}
+	if (health > 20){
+		$("#health-block").css("color","white");
+	};
+};
 
 
 
@@ -175,7 +182,7 @@ var student_months = 0;
 var total_student_loans = 0;
 var total_years = 0;
 function age_events(){
-	console.log(salary);
+	
 	if (user.age/12 > 30){
 		$("#study-btn").remove();
 	}; 
@@ -234,17 +241,17 @@ function age_events(){
 
 
 	};
-	//console.log(salary);
 	if (has_job == true){
-		console.log(salary);
-		money = money + salary;
+		user.xp += 1;
+		money = money + user.salary;
 		var rand = Math.floor((Math.random()*15) + 1);
-		message(`You were paid ${salary}$ as your salary`);
+		message(`You were paid ${user.salary}$ as your salary`);
 		if (rand == 1){
 			var inc = Math.floor(Math.random()*(12-5))+5;
-			var raise = Math.floor(salary*inc/100);
+			var raise = Math.floor(user.salary*inc/100);
 			message(`You got a raise of ${raise}$`);
-			salary = salary + raise;
+			user.salary = user.salary + raise;
+			user.promos += 1;
 
 		};
 	};
@@ -266,7 +273,6 @@ function age_events(){
 
 
 function update(){
-	console.log(salary);
 	count = 0;
 	$(".console").text("");
 	user.age = user.age + 1;
@@ -280,9 +286,8 @@ function update(){
 		$("#age").text(`Age : ${years} years`);
 
 	};
-	console.log(salary);
-	age_events();
 	random_event();
+	age_events();
 
 
 
@@ -635,7 +640,7 @@ function jobs(){
 	];
 
 	var jobs = {};
-	for (x=0;x<5;x++){
+	for (x=0;x<6;x++){
 		random = Math.floor((Math.random()*list.length));
 		var sel = list[random];
 		if (sel in jobs){
@@ -652,7 +657,6 @@ function jobs(){
 		$("#jobs-overlay").append(btn);
 		};
 	};
-
 };
 
 
@@ -662,7 +666,6 @@ function check_job(job_name,salary){
 	$("#jobs-overlay").attr("class","jobs-overlay_close");
 
 	var req = [];
-	console.log(salary);
 	if (job_name == "Teacher"){
 		req = ["ART","GRAD","ENG"];
 	}
@@ -739,7 +742,6 @@ function check_job(job_name,salary){
 		}
 	}
 
-
 	Swal.fire({
 		position:"top",
 		icon:"info",
@@ -757,9 +759,7 @@ function check_job(job_name,salary){
 		if (result.value){
 			if (job_qualified == true){
 				job_qualified = false;
-				console.log(salary);
 				start_job(job_name,salary);
-				console.log(salary);
 			}
 			else {
 				Swal.fire({
@@ -780,7 +780,6 @@ function check_job(job_name,salary){
 
 
 function start_job(job_name,salary){
-	console.log(salary);
 	Swal.fire({
 		icon:"success",
 		title:"You got the job!",
@@ -789,23 +788,112 @@ function start_job(job_name,salary){
 		confirmButtonText:"Cool!"
 	});
 	message(`You started working as a ${job_name} earning ${salary}$/month`);
-	console.log(salary);
+	
 	has_job = true;
+	user.salary = salary;
 	user.job = job_name;
 
 	$("#actions").attr("class","btn-lg btn-primary");
+	$("#actions").attr("onclick","job_menu()");
 	$("#actions").attr("id","job");
-	$("#student").attr("onclick","job_menu()");
-	console.log(salary);
+	
+	
 
 };
 
 
 
 function job_menu(){
+	Swal.fire({
+		position:"top",
+		title:"Job Actions",
+		showConfirmButton:false,
+		html:
+		`<br><hr><br>`+
+		`Monthly Salary - ${user.salary}<br>`+
+		`Occupation - ${user.job}<br>`+
+		`Experience - <b>${user.xp}</b> months<br>`+
+		`Total Promotions - <b>${user.promos}</b>`+
+		`<br><hr><br>`+
+		`<button onclick="ask_raise()" class="btn btn-info">Ask For Raise</button><br><br>`+
+		`<button onclick="leave_job()" class="btn btn-primary">Leave Job</button><br><br>`
 
+		
+	});
 
 };
+
+
+
+function leave_job(){
+	has_job = false;
+	user.salary = 0;
+	user.job = "Unemployed";
+
+	Swal.fire({
+		icon:"warning",
+		title:`You left your job!`,
+		confirmButtonText:"Alright"
+	});
+	
+
+	$("#job").attr("class","btn-lg btn-danger actions-overlay_open");
+	$("#job").removeAttr("onclick");
+	$("#job").attr("id","actions");
+};
+
+
+
+function fire_job(reason){
+	user.job = "Unemployed";
+	user.salary = 0;
+	has_job = false;
+
+	Swal.fire({
+		icon:"error",
+		title:"You were fired from your job",
+		text:reason,
+		confirmButtonText:"Alright",
+		confirmButtonColor:"#aaa"
+	});
+
+	$("#job").attr("class","btn-lg btn-danger actions-overlay_open");
+	$("#job").removeAttr("onclick");
+	$("#job").attr("id","actions");
+
+};
+
+
+
+function ask_raise(){
+	chance = Math.floor((Math.random()*10)+1);
+	if (chance < 5){
+		// raise success
+		var inc = Math.floor(Math.random()*(12-5))+5;
+		var raise = Math.floor(user.salary*inc/100);
+		user.salary += raise;
+		user.promos += 1;
+		message(`You were given a raise of <b>${raise}$</b>`);
+		Swal.fire({
+			icon:"success",
+			title:`You were given a raise of<b> ${raise}$</b>`,
+		});
+	}
+	else if (chance > 8){
+		fire_job("You were fired for asking a raise");
+		message(`You were fired from your job for asking for a raise`);
+	}
+	else {
+		message(`You were denied a raise by your boss`);
+		Swal.fire({
+			icon:"warning",
+			title:"You were denied a raise",
+			confirmButtonText:"Nevermind"
+		});
+	};
+};
+
+
 
 
 
@@ -853,6 +941,10 @@ function profile(){
 		Country : ${user.country}<br>Occupation : ${user.job}<br>`)
 
 };
+
+
+
+
 
 
 
