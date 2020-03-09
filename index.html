@@ -42,39 +42,14 @@
 <div class="main">
 
 	
-<button id="actions" class="btn-lg btn-danger actions-overlay_open">Actions</button>
+<button id="actions" class="btn-lg btn-danger" onclick="actions()">Actions</button>
 
 <button id="update" class="btn-lg btn-danger">Age More</button>
-<button id="profile" class="btn-lg btn-danger profile-overlay_open">Profile</button>
-<button id="activities" class="btn-lg btn-danger activities-overlay_open">Activities</button>
-
+<button id="profile" class="btn-lg btn-danger" onclick="profile()">Profile</button>
+<button id="activities" class="btn-lg btn-danger" onclick="activities()">Activities</button>
+<button id="assets" class="btn-lg btn-danger" onclick="assets()">Assets</button>
 
 </div>
-<!-- HIDDEN -->
-<div id="actions-overlay">
-<h1>Actions</h1><br>
-<button id="study-btn" class="btn-lg btn-info actions-overlay_close study-overlay_open">Study</button><br><br>
-<button id="job-btn" class="btn-lg btn-info actions-overlay_close jobs-overlay_open">Jobs</button>
-</div>
-
-<div id="jobs-overlay">
-</div>
-<div id="study-overlay">
-</div>
-
-<div id="profile-overlay">
-</div>
-
-
-<div id="activities-overlay">
-<h1 class="text-danger">Activities</h1><br>
-<button id="crime-btn" class="btn btn-danger">Commit Crime</button>
-<br><br>
-<button id="gym-btn" onclick="gym()" class="btn btn-danger">Go To Gym</button><br><br>
-<button id="lib-btn" onclick="library()" class="btn btn-danger">Go To Library</button>
-<br><br>
-</div>
-
 
 
 </div>
@@ -90,117 +65,6 @@
 
 
 
-
-
-
-
-
-
-
-<div id="study-eng-overlay">
-<h1 class="text-success"> Engineering College </h1><br><hr>
-<span>REQUIREMENT : 70%+ INTELLECT</span><br>
-<span>FEES : 40000$</span><br><br>
-<span>Study for better job opportunities in Engineering fields</span>
-<br><br>
-<button id="scholarship-eng" onclick="scholarship('eng')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan-eng" onclick="student_loan('eng')" class="btn btn-outline-primary">Take a student loan</button><br><br>
-<span></span>
-</div>
-
-
-
-<div id="study-grad-overlay">
-<h1 class="text-success"> Graduate College </h1><br><hr>
-<span>REQUIREMENT : 60%+ INTELLECT</span><br>
-<span>FEES : 20000$</span><br><br>
-<span>Study for better job opportunities in related job fields</span>
-<br><br>
-<button id="scholarship-grad" onclick="scholarship('grad')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan-grad" onclick="student_loan('grad')" class="btn btn-outline-primary">Take a student loan</button><br><br>
-<span></span>
-</div>
-
-
-
-
-
-<div id="study-com-overlay">
-<h1 class="text-success"> Commerce College </h1><br><hr>
-<span>REQUIREMENT : 65%+ INTELLECT</span><br>
-<span>FEES : 33000$</span><br><br>
-<span>Study for better job opportunities in commerce / business fields</span>
-<br><br>
-<button id="scholarship-com" onclick="scholarship('com')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan-com" onclick="student_loan('com')" class="btn btn-outline-primary">Take a student loan</button><br><br>
-<span></span>
-</div>
-
-
-
-
-<div id="study-arts-overlay">
-<h1 class="text-success"> Arts College </h1><br><hr>
-<span>REQUIREMENT : 60%+ INTELLECT</span><br>
-<span>FEES : 28000$</span><br><br>
-<span>Study for better job opportunities in related job fields</span>
-<br><br>
-<button id="scholarship-arts" onclick="scholarship('arts')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan-arts" onclick="student_loan('arts')" class="btn btn-outline-primary">Take a student loan</button><br><br>
-<span></span>
-</div>
-
-
-
-
-<div id="study-law-overlay">
-<h1 class="text-success"> Law College </h1><br><hr>
-<span>REQUIREMENT : 70%+ INTELLECT</span><br>
-<span>FEES : 35000$</span><br><br>
-<span>Study for better job opportunities in law fields</span>
-<br><br>
-<button id="scholarship-law" onclick="scholarship('law')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan-law" onclick="student_loan('law')" class="btn btn-outline-primary">Take a student loan</button><br><br>
-<span></span>
-</div>
-
-
-
-
-<div id="study-med-overlay">
-<h1 class="text-success"> Medical College </h1><br><hr>
-<span>REQUIREMENT : 75%+ INTELLECT</span><br>
-<span>FEES : 45000$</span><br><br>
-<span>Study for better job opportunities in medical fields</span>
-<br><br>
-<button id="scholarship-med" onclick="scholarship('med')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan-med" onclick="student_loan('med')" class="btn btn-outline-primary">Take a student loan</button><br><br>
-<span></span>
-</div>
-
-
-
-<div id="study-community-overlay">
-<h1 class="text-success"> Community College </h1><br><hr>
-<span>REQUIREMENT : 50%+ INTELLECT</span><br>
-<span>FEES : 5000$</span><br><br>
-<span>Study for better job opportunities in basic job fields</span>
-<br><br>
-<button id="scholarship-community" onclick="scholarship('community')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-<button id="student-loan-community" onclick="student_loan('community')" class="btn btn-outline-primary">Take a student loan</button><br><br>
-<span></span>
-</div>
-
-
-
-
-<div id="scholarship-overlay">
-</div>
-
-
-
-<div id="student-load-overlay">
-</div>
 
 
 

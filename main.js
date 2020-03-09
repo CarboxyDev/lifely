@@ -31,11 +31,7 @@ function message(message){
 
 
 function start(){
-	$("#money").text(`${money}`);
-	$("#looks").text(`${looks}`);
-	$("#health").text(`${health}`);
-	$("#morale").text(`${morale}`);
-	$("#intellect").text(`${intellect}`);
+	display();
 	message(`You've started your journey as ${user.name}`);
 	message(`You've got ${money}$ with you`);
 	message(`You're currently living in <u>${user.country}</u>`);
@@ -131,7 +127,7 @@ function increase(type,increment){
 		display();
 	}
 	else {
-		alert("Error in decrease() function");
+		alert("Error in increase() function");
 	};
 
 };
@@ -140,7 +136,7 @@ function increase(type,increment){
 
 
 function random_country(){
-	var list = [
+	var country_list = [
 	"United States","Canada","United Kingdom","India","Pakistan",
 	"China","Saudi Arabia","Sri Lanka","Mexico","Sweden","Norway",
 	"Denmark","Finland","Russia","Japan","Taiwan","South Korea",
@@ -157,8 +153,8 @@ function random_country(){
 	"Russia"
 	]; // Increasing chance of getting United States
 
-	random = Math.floor((Math.random()*list.length));
-	return list[random];
+	random = Math.floor((Math.random()*country_list.length));
+	return country_list[random];
 };
 
 
@@ -329,8 +325,7 @@ function age_events(){
 			is_jailed = false;
 			user.job = "Unemployed";
 
-			$("#jail").attr("class","btn-lg btn-danger actions-overlay_open");
-			$("#jail").removeAttr("onclick");
+			$("#jail").attr("onclick","actions()");
 			$("#jail").attr("id","actions");
 			$("#activities").show();
 
@@ -389,26 +384,156 @@ function random_event(){
 
 
 function study(){
-	var heading = `<h1 class="text-info">Study</h1><br>`;
-	var subheading = `<h5 class="">Studying makes it easier to get certain jobs</h5>`;
-	$("#study-overlay").html(heading+subheading);
-	var btn = `<br><button id="study-eng" class="btn btn-outline-success study-overlay_close study-eng-overlay_open">Engineering College</button><br>`;
-	$("#study-overlay").append(btn);
-	btn = `<br><button id="study-grad" class="btn btn-outline-success study-overlay_close study-grad-overlay_open">Graduate College</button><br>`;
-	$("#study-overlay").append(btn);
-	btn = `<br><button id="study-com" class="btn btn-outline-success study-overlay_close study-com-overlay_open">Commerce College</button><br>`;
-	$("#study-overlay").append(btn);
-	btn = `<br><button id="study-law" class="btn btn-outline-success study-overlay_close study-law-overlay_open">Law College</button><br>`;
-	$("#study-overlay").append(btn);
-	btn = `<br><button id="study-arts" class="btn btn-success study-overlay_close study-arts-overlay_open">Arts College</button><br>`;
-	$("#study-overlay").append(btn);
-	btn = `<br><button id="study-med" class="btn btn-outline-success study-overlay_close study-med-overlay_open">Medical College</button><br>`;	
-	$("#study-overlay").append(btn);
-	btn = `<br><button id="study-community" class="btn btn-outline-success study-overlay_close study-community-overlay_open">Community College</button><br>`;
-	$("#study-overlay").append(btn+"<hr>");
+	var html = `
+	<br>
+	<br><button id="study-eng" class="btn btn-success" onclick="study_course('eng')">Engineering College</button><br>
+
+	<br><button id="study-grad" class="btn btn-success" onclick="study_course('grad')">Graduate College</button><br>
+	<br><button id="study-com" class="btn btn-success" onclick="study_course('com')">Commerce College</button><br>
+
+	<br><button id="study-law" class="btn btn-success" onclick="study_course('law')">Law College</button><br>
+	<br><button id="study-arts" class="btn btn-success" onclick="study_course('arts')">Arts College</button><br>
+	<br><button id="study-med" class="btn btn-success" onclick="study_course('med')">Medical College</button><br>	
+	<br><button id="study-community" class="btn btn-success" onclick="study_course('community')">Community College</button><br>
+
+
+	`;
+	Swal.fire({
+		position:"top",
+		title:"Colleges",
+		showConfirmButton:false,
+		html:html
+
+	});
+};
+
+
+function study_course(course){
+
+	if (course == "eng"){
+		var title = "Engineering College";
+		var html = 
+		`
+		<span>REQUIREMENT : 70%+ INTELLECT</span><br>
+		<span>FEES : 40000$</span><br><br>
+		<span>Study for better job opportunities in Engineering fields</span>
+		<br><br>
+		<button id="scholarship-eng" onclick="scholarship('eng')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+		<button id="student-loan-eng" onclick="student_loan('eng')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+
+		`;
+
+	};
+	if (course == "grad"){
+		var title = "Graduate College";
+		var html = 
+		`
+		<span>REQUIREMENT : 60%+ INTELLECT</span><br>
+		<span>FEES : 20000$</span><br><br>
+		<span>Study for better job opportunities in related job fields</span>
+		<br><br>
+		<button id="scholarship-grad" onclick="scholarship('grad')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+		<button id="student-loan-grad" onclick="student_loan('grad')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+
+
+		`;
+
+	};
+	if (course == "com"){
+		var title = "Commerce College";
+		var html = 
+		`
+		<span>REQUIREMENT : 65%+ INTELLECT</span><br>
+		<span>FEES : 33000$</span><br><br>
+		<span>Study for better job opportunities in commerce / business fields</span>
+		<br><br>
+		<button id="scholarship-com" onclick="scholarship('com')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+		<button id="student-loan-com" onclick="student_loan('com')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+
+
+		`;
+
+	};
+	if (course == "law"){
+		var title = "Law College";
+		var html = 
+		`
+		<span>REQUIREMENT : 70%+ INTELLECT</span><br>
+		<span>FEES : 35000$</span><br><br>
+		<span>Study for better job opportunities in law fields</span>
+		<br><br>
+		<button id="scholarship-law" onclick="scholarship('law')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+		<button id="student-loan-law" onclick="student_loan('law')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+
+		`;
+
+	};
+	if (course == "arts"){
+		var title = "Arts College";
+		var html = 
+		`
+		<span>REQUIREMENT : 60%+ INTELLECT</span><br>
+		<span>FEES : 28000$</span><br><br>
+		<span>Study for better job opportunities in related job fields</span>
+		<br><br>
+		<button id="scholarship-arts" onclick="scholarship('arts')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+		<button id="student-loan-arts" onclick="student_loan('arts')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+
+
+		`;
+
+	};
+	if (course == "med"){
+		var title = "Medical College";
+		var html = 
+		`
+		<span>REQUIREMENT : 75%+ INTELLECT</span><br>
+		<span>FEES : 45000$</span><br><br>
+		<span>Study for better job opportunities in medical fields</span>
+		<br><br>
+		<button id="scholarship-med" onclick="scholarship('med')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+		<button id="student-loan-med" onclick="student_loan('med')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+
+		`;
+
+	};
+	if (course == "community"){
+		var title = "Community College";
+		var html = 
+		`
+		<span>REQUIREMENT : 50%+ INTELLECT</span><br>
+		<span>FEES : 5000$</span><br><br>
+		<span>Study for better job opportunities in basic job fields</span>
+		<br><br>
+		<button id="scholarship-community" onclick="scholarship('community')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+		<button id="student-loan-community" onclick="student_loan('community')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+
+
+		`;
+
+	};
+
+	Swal.fire({
+		position:top,
+		title:title,
+		showConfirmButton:false,
+		icon:"info",
+		html:html
+	})
 
 
 };
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -627,9 +752,7 @@ function scholarship(type) {
 
 function student(){
 	is_student = true;
-	// add more //:)
-	btn = `<button id="student" class="btn-lg btn-info student-overlay_open">Student</button>`;
-	$("#actions").attr("class","btn-lg btn-success student-overlay_open");
+	$("#actions").attr("class","btn-lg btn-success")
 	$("#actions").attr("id","student");
 	$("#student").attr("onclick","student_menu()");
 	
@@ -691,8 +814,7 @@ function student_pass(){
 	student_has_loan = false;
 	total_student_loans = 0;
 	degree.push(course);
-	$("#student").attr("class","btn-lg btn-danger actions-overlay_open");
-	$("#student").removeAttr("onclick");
+	$("#student").attr("onclick","actions()");
 	$("#student").attr("id","actions");
 };
 
@@ -704,8 +826,6 @@ function student_pass(){
 var has_job = false;
 var salary = 0;
 function jobs(){
-	$("#jobs-overlay").html("");
-	$("#jobs-overlay").html(`<h1 class="text-info">Available Jobs</h1>`);
 	var list = [{"Sr. Engineer":[4000,5000]},
 	{"Teacher":[2000,3000]},{"Firefighter":[2000,3000]},
 	{"Jr. Engineer":[3500,4500]},{"Gardener":[500,800]},
@@ -719,7 +839,7 @@ function jobs(){
 	{"Property Dealer":[3000,4000]}
 
 	];
-
+	var btns = [];
 	var jobs = {};
 	for (x=0;x<6;x++){
 		random = Math.floor((Math.random()*list.length));
@@ -735,16 +855,23 @@ function jobs(){
 		salary = Math.floor(Math.random()*(max-min+1))+min;
 		jobs[job_name] = salary;
 		var btn = `<br><button onclick="check_job('${job_name}',${salary})" class="btn-lg btn-primary">${job_name} : ${salary}$ / month</button><br>`;
-		$("#jobs-overlay").append(btn);
+		btns.push(btn);
 		};
 	};
+	var html = btns[0]+btns[1]+btns[2]+btns[3]+btns[4]+btns[5];
+	Swal.fire({
+		title:"Jobs",
+		showConfirmButton:false,
+		position:"top",
+		html:html
+	});
+
 };
 
 
 var job_qualified = false;
 function check_job(job_name,salary){
 	// example of removing the overlay display
-	$("#job-btn").attr("class","btn-lg btn-info actions-overlay_close jobs-overlay_close");
 	$("#jobs-overlay").attr("class","jobs-overlay_close");
 
 	var req = [];
@@ -855,7 +982,6 @@ function check_job(job_name,salary){
 
 
 	job_allow = false;
-	$("#job-btn").attr("class","btn-lg btn-info actions-overlay_close jobs-overlay_open");
 
 };
 
@@ -919,8 +1045,7 @@ function leave_job(){
 	});
 	
 
-	$("#job").attr("class","btn-lg btn-danger actions-overlay_open");
-	$("#job").removeAttr("onclick");
+	$("#job").attr("onclick","actions()");
 	$("#job").attr("id","actions");
 };
 
@@ -939,8 +1064,7 @@ function fire_job(reason){
 		confirmButtonColor:"#aaa"
 	});
 
-	$("#job").attr("class","btn-lg btn-danger actions-overlay_open");
-	$("#job").removeAttr("onclick");
+	$("#job").attr("onclick","actions()");
 	$("#job").attr("id","actions");
 
 };
@@ -980,8 +1104,6 @@ function ask_raise(){
 var total_gym_count = 0;
 function gym(){
 	// TAG - removing overlay display example (TIP)
-	$("#gym-btn").attr("class","btn btn-danger activities-overlay_close");
-
 	var max = 250;
 	var min = 50;
 	var gym_cost = Math.floor(Math.random()*(max-min))+min;
@@ -994,6 +1116,9 @@ function gym(){
 		cancelButtonText:"Nope",
 		confirmButtonText:`Pay ${gym_cost}$`
 	}).then((result)=>{
+		if (has_money(gym_cost) == false){
+			return;
+		};
 		if (result.value){
 			money = money - gym_cost;
 			total_gym_count += 1;
@@ -1009,7 +1134,7 @@ function gym(){
 			title:"You worked out at the gym!",
 			confirmButtonText:"Phew!"
 		});
-		message(`You payed ${gym_cost}$ for working out in a gym`);
+		message(`You paid ${gym_cost}$ for working out in a gym`);
 		display();
 		};
 
@@ -1023,7 +1148,6 @@ function gym(){
 var total_lib_count = 0;
 function library(){
 	// TAG - removing overlay display example (TIP)
-	$("#lib-btn").attr("class","btn btn-danger activities-overlay_close");
 	var max = 200;
 	var min = 30;
 	var lib_cost = Math.floor(Math.random()*(max-min))+min;
@@ -1036,6 +1160,9 @@ function library(){
 		cancelButtonText:"No studyin'",
 		confirmButtonText:`Pay ${lib_cost}$`
 	}).then((result)=>{
+		if (has_money(lib_cost) == false){
+			return;
+		};
 		if (result.value){
 			money = money - lib_cost;
 			total_lib_count += 1;
@@ -1051,7 +1178,7 @@ function library(){
 			title:"You studied at the library!",
 			confirmButtonText:"Nice!"
 		});
-		message(`You payed ${lib_cost}$ for studing in a library`);
+		message(`You paid ${lib_cost}$ for studing in a library`);
 		display();
 		};
 
@@ -1068,7 +1195,6 @@ function library(){
 
 
 function crime(){
-	//$("#crime-btn").attr("class","btn btn-danger activities-overlay_close");
 	var chance = Math.floor((Math.random()*6)+ 1);
 	if (chance == 1){
 		let stole = Math.floor((Math.random()*1000)+1);
@@ -1099,12 +1225,14 @@ var jail_months_spent = 0;
 function jail(months){
 
 	if (is_student == true){
+		message("You were rusticated from your college");
 		$("#student").attr("class","btn-lg btn-warning");
 		$("#student").attr("id","jail");
 		$("#jail").attr("onclick","jail_menu()");
 	
 	}
 	else if (has_job == true){
+		message("You were fired from your job");
 		$("#job").attr("class","btn-lg btn-warning");
 		$("#job").attr("id","jail");
 		$("#jail").attr("onclick","jail_menu()");
@@ -1234,8 +1362,7 @@ function appeal_result(was_saved,defender){
 		is_jailed = false;
 		user.job = "Unemployed";
 
-		$("#jail").attr("class","btn-lg btn-danger actions-overlay_open");
-		$("#jail").removeAttr("onclick");
+		$("#jail").attr("onclick","actions()");
 		$("#jail").attr("id","actions");
 		$("#activities").show();
 
@@ -1252,37 +1379,291 @@ function appeal_result(was_saved,defender){
 	};
 };
 
+/*
+function disease(name,decrease){
+
+	decrement("health",decrease);
+
+};
+*/
 
 
+function actions(){
+	var html = 
+	`<br>
+	<button id="study-btn" class="btn-lg btn-info" onclick="study()">Study</button><br><br>
+	<button id="job-btn" class="btn-lg btn-info" onclick="jobs()">Jobs</button>
 
+	`;
+	Swal.fire({
+		position:"top",
+		title:"Actions",
+		showConfirmButton:false,
+		html:html
+	});
 
-
-function profile(){
-	$("#profile-overlay").html(`
-		<h1 class="text-warning">Profile</h1><br>Name : ${user.name}<br>
-		Country : ${user.country}<br>Occupation : ${user.job}<br>`)
 
 };
 
 
 
 
-function main(){
-	$("#update").click(update);
-	$("#actions-overlay").popup({
-		transition: "all 0.5s",
-		vertical:"top",
+
+
+
+
+
+
+
+
+
+function activities(){
+	var html = 
+	`<br>
+<button id="crime-btn" onclick="crime()" class="btn btn-danger">Commit Crime</button>
+<br><br>
+<button id="gym-btn" onclick="gym()" class="btn btn-danger">Go To Gym</button><br><br>
+<button id="lib-btn" onclick="library()" class="btn btn-danger">Go To Library</button>
+<br><br>
+<button id="exercise-btn" onclick="exercise()" class="btn btn-danger">Do Exercise</button><br><br>
+<button id="vacation-btn" onclick="vacation()" class="btn btn-success">Go On Vacation</button><br><br>
+
+	`;
+
+	Swal.fire({
+		position:"top",
+		title:"Activities",
+		showConfirmButton:false,
+		html:html
 	});
-	$("#profile-overlay").popup({
-		transition: "all 0.5s",
-		vertical:"top",
-		onopen:profile
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+function profile(){
+	Swal.fire({
+		position:"top",
+		title:"Profile",
+		showConfirmButton:false,
+		html:
+		`Name - <b>${user.name}</b><br>`+
+		`Country - <b>${user.country}</b><br>`+
+		`Occupation - <b>${user.job}</b><br>`
 	});
-	$("#activities-overlay").popup({
-		transition: "all 0.5s",
-		vertical:"top"
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+function exercise(){
+	message(`You exercised a bit`);
+	Swal.fire({
+		icon:"success",
+		title:"You did some exercise!",
+		confirmButtonText:"Hoorah!"
+	});
+	var chance = Math.floor(Math.random()*(5-1))+1;
+	if (chance == 1){
+		increase("morale",1);
+		increase("health",1);
+	};
+};
+
+
+
+
+function vacation(){
+	var country_list = [
+	"United States","Canada","United Kingdom","India",
+	"China","Sri Lanka","Mexico","Sweden","Norway",
+	"Denmark","Finland","Russia","Japan","Taiwan","South Korea",
+	"Indonesia","Singapore","Italy","Hungary","Switzerland",
+	"Poland","Germany","France","Portugal","Spain","Ireland",
+	"Iceland","Argentina","Brazil","Cuba","Albania",
+	"Australia","Austria","Belgium","Belarus","Estonia","Bulgaria",
+	"Chile","Turkey","Greece","Cyprus","Croatia","Costa Rica",
+	"Egypt","Israel","Kuwait","Latvia","Slovenia","Lithuania",
+	"Malaysia","UAE","Morocco","Luxembourg","New Zealand","Qatar",
+	"South Africa","Mongolia","Thailand","Serbia",
+	"Vietnam","Ukraine","United States","Sweden","Denmark",
+	"Canada","Canada","Greece","UAE","India","France",
+	"Russia"
+	];
+	var countries = [];
+	
+	for (x=0;x<5;x++){
+		random = Math.floor((Math.random()*country_list.length));
+		var sel = country_list[random];
+		if (sel in countries){
+			x = x - 1;
+		}
+		else if (sel == user.country){
+			x = x - 1;
+		}
+		else {
+			countries.push(sel);	
+		};
+	};
+
+	var country_object = {
+		country0:countries[0],
+		country1:countries[1],
+		country2:countries[2],
+		country3:countries[3],
+		country4:countries[4]
+	};
+	Swal.fire({
+		icon:"question",
+		title:"Where would you like to go for vacation?",
+		showCancelButton:true,
+		confirmButtonText:"Vacation Time!",
+		cancelButtonText:"Nevermind",
+		input:"select",
+		inputOptions:country_object,
+		inputPlaceholder:"Select Country",
+		position:"top",
+		
+	}).then((result) => {
+		if (result.value){
+			var country = country_object[result.value];
+			var cost = Math.floor(Math.random()*(50000-15000))+15000;
+			Swal.fire({
+				icon:"info",
+				title:`Vacation in ${country}`,
+				showCancelButton:true,
+				confirmButtonText:`Pay ${cost}$`,
+				cancelButtonText:"Not For Me!",
+				footer:"Note : Going on a vacation significantly boosts your morale",
+				html:
+				`<br><hr><br>Cost Of Trip - <b>${cost}$</b><br>`+
+				`<br><hr><br>`
+			}).then((result) => {
+				if (result.value){
+					if (has_money(cost) == true){
+						money = money - cost;
+						rand = Math.floor(Math.random()*(35-20))+20;
+						increase("morale",rand);
+						message(`You went on a vacation to ${country}`);
+						Swal.fire({
+							icon:"success",
+							title:`You went on a vacation to ${country}`,
+							confirmButtonText:"Enjoyed it!"
+						});
+					};
+				};
+			});
+		};
+
+	});
+};
+
+
+
+
+
+
+
+
+
+
+function has_money(amount=null,message=null){
+	if (message == null){
+		message = "You don't have enough money!";
+	};
+
+	if (amount==null){
+		if (money >= 0){
+			return true;
+		}
+		else {
+			Swal.fire({
+				title:"You are already in debt!",
+				icon:"error"
+			});
+			return false;
+		};
+	}
+	else{
+		if (money >= amount){
+			return true;
+		}
+		else {
+			Swal.fire({
+				title:message,
+				icon:"error",
+				html:`You need <b>${amount}$</b>`
+			});
+			return false;
+		};
+	};
+
+};
+
+
+
+
+function assets(){
+
+	var btn1 = `<br><button id="purchase-assets" class="btn btn-info" onclick="purchase_assets()">Purchase Assets</button><br>`;
+	var btn2 = ``;
+
+	Swal.fire({
+		position:"top",
+		title:"Assets",
+		showConfirmButton:false,
+		html:
+		`${btn1}`
+	});
+};
+
+
+
+function purchase_assets(){
+	var btn1 = `<br><button id="purchase-house" class="btn btn-success" onclick="purchase('house')">Purchase House</button><br>`;
+	var btn2 = `<br><button id="purchase-vehicle" class="btn btn-success" onclick="purchase('vehicle')">Purchase Vehicle</button><br>`;
+	Swal.fire({
+		position:"top",
+		icon:"info",
+		title:"Purchase Assets",
+		showConfirmButton:false,
+		html:
+		`<br><hr>`+
+		`${btn1} ${btn2}`
 	});
 
+};
+
+
+
+
+
+
+
+
+
+
+
+function main(){
+	$("#update").click(update);
 	$("#jobs-overlay").popup({
 		transition: "all 0.5s",
 		vertical:"top",
@@ -1331,7 +1712,6 @@ function main(){
 
 
 	$.fn.popup.defaults.pagecontainer = '#page';
-	$("#crime-btn").click(crime);
 };
 
 
