@@ -42,8 +42,7 @@ function start(){
 };
 
 
-function display(element,content){
-	$(element).text(content);
+function display(){
 	if (money < 0 ){
 		$("#money-block").css("color","red");
 	};
@@ -56,6 +55,25 @@ function display(element,content){
 	if (health > 20){
 		$("#health-block").css("color","white");
 	};
+	if (intellect > 100){
+		intellect = 100;
+	};
+	if (health > 100){
+		health = 100;
+	};
+	if (morale > 100){
+		morale = 100;
+	}
+	if (looks > 100){
+		looks = 100;
+	}
+
+
+	$("#money").text(money);
+	$("#health").text(health);
+	$("#intellect").text(intellect);
+	$("#morale").text(morale);
+	$("#looks").text(looks);
 };
 
 
@@ -63,25 +81,50 @@ function display(element,content){
 function decrease(type,decrement){
 	if (type=="health"){
 		health = health - decrement;
-		display("#health",health);
+		display();
 	}
 	else if (type=="morale"){
 		morale = morale - decrement;
-		display("#morale",morale);
+		display();
 	}
 	else if (type=="looks"){
 		looks = looks - decrement;
-		display("#looks",looks);
+		display();
 	}
 	else if (type=="intellect"){
 		intellect = intellect - decrement;
-		display("#intellect",intellect);
+		display();
+	}
+	else {
+		alert("Error in decrease() function");
+	};
+};
+
+
+function increase(type,increment){
+	if (type=="health"){
+		health = health + increment;
+		display();
+	}
+	else if (type=="morale"){
+		morale = morale + increment;
+		display();
+	}
+	else if (type=="looks"){
+		looks = looks + increment;
+		display();
+	}
+	else if (type=="intellect"){
+		intellect = intellect + increment;
+		display();
 	}
 	else {
 		alert("Error in decrease() function");
 	};
 
 };
+
+
 
 
 function random_country(){
@@ -197,6 +240,8 @@ function age_events(){
 		};
 
 		if (student_months%12==0){
+			var rand = Math.floor(Math.random()*(4-1))+1;
+			increase("intellect",rand);
 			var total_years = student_months/12;
 			if (total_years == 1){
 				message(`You've completed your first year in college`);
@@ -244,10 +289,10 @@ function age_events(){
 	if (has_job == true){
 		user.xp += 1;
 		money = money + user.salary;
-		var rand = Math.floor((Math.random()*15) + 1);
+		var rand = Math.floor((Math.random()*20) + 1);
 		message(`You were paid ${user.salary}$ as your salary`);
 		if (rand == 1){
-			var inc = Math.floor(Math.random()*(12-5))+5;
+			var inc = Math.floor(Math.random()*(8-5))+5;
 			var raise = Math.floor(user.salary*inc/100);
 			message(`You got a raise of ${raise}$`);
 			user.salary = user.salary + raise;
@@ -258,11 +303,7 @@ function age_events(){
 
 
 
-	display("#money",money);
-	display("#health",health);
-	display("#looks",looks);
-	display("#intellect",intellect);
-	display("#morale",morale);
+	display();
 
 };
 
@@ -274,6 +315,8 @@ function age_events(){
 
 function update(){
 	count = 0;
+	total_gym_count = 0;
+	total_lib_count = 0;
 	$(".console").text("");
 	user.age = user.age + 1;
 	if (user.age % 12 != 0){
@@ -434,7 +477,7 @@ function scholarship(type) {
 	$("#scholarship-"+type).attr("class",`study-${type}-overlay_close`);
 	$("#scholarship-"+type).remove();
 	if (type=="eng"){
-		if (intellect > 80){
+		if (intellect >= 80){
 		Swal.fire({title:"You got the scholarship!",
 		icon:"success"});
 		user.job = "Engineering Student";
@@ -449,7 +492,7 @@ function scholarship(type) {
 		};
 	};
 	if (type=="grad"){
-		if (intellect > 75){
+		if (intellect >= 75){
 		Swal.fire({title:"You got the scholarship!",
 		icon:"success"});
 		user.job = "Graduate Student";
@@ -464,7 +507,7 @@ function scholarship(type) {
 		};
 	};
 	if (type=="com"){
-		if (intellect > 80){
+		if (intellect >= 80){
 		Swal.fire({title:"You got the scholarship!",
 		icon:"success"});
 		user.job = "Commerce Student";
@@ -479,7 +522,7 @@ function scholarship(type) {
 		};
 	};
 	if (type=="arts"){
-		if (intellect > 75){
+		if (intellect >= 75){
 		Swal.fire({title:"You got the scholarship!",
 		icon:"success"});
 		user.job = "Arts Student";
@@ -494,7 +537,7 @@ function scholarship(type) {
 		};
 	};
 	if (type=="law"){
-		if (intellect > 80){
+		if (intellect >= 80){
 		Swal.fire({title:"You got the scholarship!",
 		icon:"success"});
 		user.job = "Law Student";
@@ -509,7 +552,7 @@ function scholarship(type) {
 		};
 	};
 	if (type=="med"){
-		if (intellect > 80){
+		if (intellect >= 80){
 		Swal.fire({title:"You got the scholarship!",
 		icon:"success"});
 		user.job = "Medical Student";
@@ -524,7 +567,7 @@ function scholarship(type) {
 		};
 	}
 	if (type=="community"){
-		if (intellect > 70){
+		if (intellect >= 70){
 		Swal.fire({title:"You got the scholarship!",
 		icon:"success"});
 		user.job = "Community College Student";
@@ -627,13 +670,13 @@ function jobs(){
 	$("#jobs-overlay").html(`<h1 class="text-info">Available Jobs</h1>`);
 	var list = [{"Sr. Engineer":[4000,5000]},
 	{"Teacher":[2000,3000]},{"Firefighter":[2000,3000]},
-	{"Jr. Engineer":[3500,4500]},{"Gardener":[1000,2000]},
+	{"Jr. Engineer":[3500,4500]},{"Gardener":[500,800]},
 	{"Police Officer":[3000,4000]},{"Soldier":[1500,2500]},
 	{"Army Officer":[2500,3500]},{"Marine Biologist":[2000,4000]},
-	{"Data Scientist":[4000,5000]},{"Garbage Collector":[500,1200]},
+	{"Data Scientist":[4000,5000]},{"Garbage Collector":[400,700]},
 	{"Jr. Pilot":[6000,8000]},{"Sr. Pilot":[10000,14000]},
 	{"Chef":[2000,2500]},{"Lawyer":[4000,5000]},{"Banker":[4000,5000]},
-	{"Artist":[2000,4000]},{"Sweeper":[500,1200]},
+	{"Artist":[2000,4000]},{"Sweeper":[400,700]},
 	{"Doctor":[6000,7000]},{"Judge":[6000,7500]},
 	{"Property Dealer":[3000,4000]}
 
@@ -662,6 +705,7 @@ function jobs(){
 
 var job_qualified = false;
 function check_job(job_name,salary){
+	// example of removing the overlay display
 	$("#job-btn").attr("class","btn-lg btn-info actions-overlay_close jobs-overlay_close");
 	$("#jobs-overlay").attr("class","jobs-overlay_close");
 
@@ -810,7 +854,7 @@ function job_menu(){
 		showConfirmButton:false,
 		html:
 		`<br><hr><br>`+
-		`Monthly Salary - ${user.salary}<br>`+
+		`Monthly Salary - ${user.salary}$<br>`+
 		`Occupation - ${user.job}<br>`+
 		`Experience - <b>${user.xp}</b> months<br>`+
 		`Total Promotions - <b>${user.promos}</b>`+
@@ -869,7 +913,7 @@ function ask_raise(){
 	chance = Math.floor((Math.random()*10)+1);
 	if (chance < 5){
 		// raise success
-		var inc = Math.floor(Math.random()*(12-5))+5;
+		var inc = Math.floor(Math.random()*(8-5))+5;
 		var raise = Math.floor(user.salary*inc/100);
 		user.salary += raise;
 		user.promos += 1;
@@ -891,6 +935,91 @@ function ask_raise(){
 			confirmButtonText:"Nevermind"
 		});
 	};
+};
+
+
+
+var total_gym_count = 0;
+function gym(){
+	// TAG - removing overlay display example (TIP)
+	$("#gym-btn").attr("class","btn btn-danger activities-overlay_close");
+
+	var max = 250;
+	var min = 50;
+	var gym_cost = Math.floor(Math.random()*(max-min))+min;
+	Swal.fire({
+		icon:"info",
+		title:"Do you want to go to a gym ?",
+		html:`Cost - <b>${gym_cost}$</b>/ session<br><hr><br>`,
+		footer:`Note : Working out in gym sometimes boosts your looks`,
+		showCancelButton:true,
+		cancelButtonText:"Nope",
+		confirmButtonText:`Pay ${gym_cost}$`
+	}).then((result)=>{
+		if (result.value){
+			money = money - gym_cost;
+			total_gym_count += 1;
+			if (total_gym_count >= 3){
+
+			}
+			else{
+				var rand_looks = Math.floor(Math.random()*2);
+				increase("looks",rand_looks);
+			};
+		Swal.fire({
+			icon:"success",
+			title:"You worked out at gym!",
+			confirmButtonText:"Phew!"
+		});
+		message(`You payed ${gym_cost}$ for working out in a gym`);
+		display();
+		};
+
+	});
+
+
+};
+
+
+
+var total_lib_count = 0;
+function library(){
+	// TAG - removing overlay display example (TIP)
+	$("#lib-btn").attr("class","btn btn-danger activities-overlay_close");
+	var max = 200;
+	var min = 30;
+	var lib_cost = Math.floor(Math.random()*(max-min))+min;
+	Swal.fire({
+		icon:"info",
+		title:"Do you want to go to a library?",
+		html:`Cost - <b>${lib_cost}$</b>/ session<br><hr><br>`,
+		footer:`Note : Studying in a library sometimes boosts your intellect`,
+		showCancelButton:true,
+		cancelButtonText:"No studyin'",
+		confirmButtonText:`Pay ${lib_cost}$`
+	}).then((result)=>{
+		if (result.value){
+			money = money - lib_cost;
+			total_lib_count += 1;
+			if (total_lib_count >= 3){
+
+			}
+			else{
+				var rand_intellect = Math.floor(Math.random()*2);
+				increase("intellect",rand_intellect);
+			};
+		Swal.fire({
+			icon:"success",
+			title:"You studied at the library!",
+			confirmButtonText:"Nice!"
+		});
+		message(`You payed ${lib_cost}$ for studing in a library`);
+		display();
+		};
+
+	});
+
+
 };
 
 
@@ -922,7 +1051,7 @@ function crime(){
 	else {
 		message(`You chickened out before commiting the crime`)
 	};
-	display("#money",money);
+	display();
 };
 
 
