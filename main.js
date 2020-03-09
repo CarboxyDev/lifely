@@ -63,10 +63,22 @@ function display(){
 	};
 	if (morale > 100){
 		morale = 100;
-	}
+	};
 	if (looks > 100){
 		looks = 100;
-	}
+	};
+	if (intellect < 10){
+		intellect = 10;
+	};
+	if (health < 0){
+		health = 0;
+	};
+	if (morale < 5){
+		morale = 5;
+	};
+	if (looks < 5){
+		looks = 5;
+	};
 
 
 	$("#money").text(money);
@@ -224,6 +236,7 @@ var is_student = false;
 var student_months = 0;
 var total_student_loans = 0;
 var total_years = 0;
+var is_jailed = false;
 function age_events(){
 	
 	if (user.age/12 > 30){
@@ -299,6 +312,31 @@ function age_events(){
 			user.promos += 1;
 
 		};
+	};
+
+	if (is_jailed == true){
+		decrease("morale",1);
+		decrease("looks",1);
+		jail_months_spent += 1;
+		if (jail_months_spent == jail_months){
+			message(`You were released from jail after serving ${jail_months} months`);
+			Swal.fire({
+				icon:"success",
+				title:"Released from jail!",
+				confirmButtonText:"Finally!",
+				html:`<br><hr><br>Time Served - <b>${jail_months} months</b>`
+				});
+			is_jailed = false;
+			user.job = "Unemployed";
+
+			$("#jail").attr("class","btn-lg btn-danger actions-overlay_open");
+			$("#jail").removeAttr("onclick");
+			$("#jail").attr("id","actions");
+			$("#activities").show();
+
+		};
+
+
 	};
 
 
@@ -948,7 +986,7 @@ function gym(){
 	var min = 50;
 	var gym_cost = Math.floor(Math.random()*(max-min))+min;
 	Swal.fire({
-		icon:"info",
+		icon:"question",
 		title:"Do you want to go to a gym ?",
 		html:`Cost - <b>${gym_cost}$</b>/ session<br><hr><br>`,
 		footer:`Note : Working out in gym sometimes boosts your looks`,
@@ -968,7 +1006,7 @@ function gym(){
 			};
 		Swal.fire({
 			icon:"success",
-			title:"You worked out at gym!",
+			title:"You worked out at the gym!",
 			confirmButtonText:"Phew!"
 		});
 		message(`You payed ${gym_cost}$ for working out in a gym`);
@@ -990,7 +1028,7 @@ function library(){
 	var min = 30;
 	var lib_cost = Math.floor(Math.random()*(max-min))+min;
 	Swal.fire({
-		icon:"info",
+		icon:"question",
 		title:"Do you want to go to a library?",
 		html:`Cost - <b>${lib_cost}$</b>/ session<br><hr><br>`,
 		footer:`Note : Studying in a library sometimes boosts your intellect`,
@@ -1030,6 +1068,7 @@ function library(){
 
 
 function crime(){
+	//$("#crime-btn").attr("class","btn btn-danger activities-overlay_close");
 	var chance = Math.floor((Math.random()*6)+ 1);
 	if (chance == 1){
 		let stole = Math.floor((Math.random()*1000)+1);
@@ -1043,10 +1082,9 @@ function crime(){
 		${fine}$`);
 	}
 	else if (chance == 3){
-		// develop jail later
 		message(`You were caught commiting a heinous crime and were\
 		<u>jailed</u>`);
-		jail();
+		jail(36);
 	}
 	else {
 		message(`You chickened out before commiting the crime`)
@@ -1055,11 +1093,166 @@ function crime(){
 };
 
 
-// work on , later!
-function jail(){
-	message("will work on jail() later.")
+
+var jail_months = 0;
+var jail_months_spent = 0;
+function jail(months){
+
+	if (is_student == true){
+		$("#student").attr("class","btn-lg btn-warning");
+		$("#student").attr("id","jail");
+		$("#jail").attr("onclick","jail_menu()");
+	
+	}
+	else if (has_job == true){
+		$("#job").attr("class","btn-lg btn-warning");
+		$("#job").attr("id","jail");
+		$("#jail").attr("onclick","jail_menu()");
+	
+	}
+	else {
+		$("#actions").attr("class","btn-lg btn-warning");
+		$("#actions").attr("id","jail");
+		$("#jail").attr("onclick","jail_menu()");
+	
+	};
+	$("#activities").hide();
+
+	is_jailed = true;
+	is_student = false;
+	has_job = false;
+	user.job = "Jailed";
+	jail_months = months;
+
+
+	Swal.fire({
+		title:`You have been jailed for ${months} months`,
+		icon:"warning",
+		html:`You can either accept the prison time or appeal in court<br>`+
+		``,
+		showCancelButton:true,
+		cancelButtonText:"Accept Prison",
+		confirmButtonText:"Appeal In Court"
+
+	}).then((result)=>{
+		if (result.value){
+			appeal_jail(jail_months);
+		};
+	});
 
 };
+
+
+
+function jail_menu(){
+
+	Swal.fire({
+		title:"Jail Actions",
+		showConfirmButton:false,
+		html:`<br><hr><br>Time Spent - <b>${jail_months_spent}</b>/${jail_months} months`
+
+	});
+
+};
+
+
+
+function appeal_jail(months){
+
+	var def_cost = Math.floor(Math.random()*(100000-10000))+10000;
+	Swal.fire({
+		icon:"info",
+		title:`How would you like to appeal`,
+		html:`<br><hr><br><br>Public Defender is free<br>`+
+		`Private Defender will cost <b>${def_cost}$</b>`,
+
+		showCancelButton:true,
+		cancelButtonText:`Public Defender`,
+		confirmButtonText:`Private Defender`,
+	}).then((result) => {
+		if (result.value){
+			// private defender
+			if (money > def_cost){
+				money = money - def_cost;
+				display();
+				message(`You hired a private defender for ${def_cost}$`);
+				var chance = Math.floor(Math.random()*2);
+				if (chance == 0){
+					// saved
+					appeal_result(true,"private");
+				}
+				else {
+					// RIP
+					appeal_result(false,"private");
+				};
+			}
+			else {
+				Swal.fire({
+					icon:"warning",
+					title:"You don't have enough money to hire a Private Defender"
+				});
+			};
+		}
+		else if (result.dismiss == Swal.DismissReason.cancel){
+			// public defender
+			message(`You were given a public defender for free`);
+			var chance = Math.floor(Math.random()*5);
+			if (chance == 4){
+				appeal_result(true,"public");
+			}
+			else {
+				appeal_result(false,"public");
+			};
+		};
+	});
+
+};
+
+
+
+
+
+function appeal_result(was_saved,defender){
+	if (was_saved == true){
+		if (defender == "private"){
+			Swal.fire({
+				icon:"success",
+				title:"You won the court case!",
+				html:`Your private defender saved you from prison<br>`,
+				confirmButtonText:"Amazing!"
+			});
+		}
+		else {
+			Swal.fire({
+				icon:"success",
+				title:"You won the court case!",
+				html:`Your free public defender saved you from prison<br>`,
+				confirmButtonText:"Very Nice!"
+			});
+		};
+		message(`You won the court case. You will not serve prison time`);
+		is_jailed = false;
+		user.job = "Unemployed";
+
+		$("#jail").attr("class","btn-lg btn-danger actions-overlay_open");
+		$("#jail").removeAttr("onclick");
+		$("#jail").attr("id","actions");
+		$("#activities").show();
+
+
+	}
+	else {
+		// wasnt saved
+		Swal.fire({
+			icon:"error",
+			title:"You lost the court case...",
+			text:"You will have to serve the prison time",
+			confirmButtonText:"Take me"
+		});
+	};
+};
+
+
 
 
 
@@ -1070,10 +1263,6 @@ function profile(){
 		Country : ${user.country}<br>Occupation : ${user.job}<br>`)
 
 };
-
-
-
-
 
 
 
