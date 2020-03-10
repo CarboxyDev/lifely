@@ -230,13 +230,24 @@ function random_feature(feature){
 
 var is_student = false;
 var student_months = 0;
-var total_student_loans = 0;
+var total_student_loan = 0;
 var total_years = 0;
 var is_jailed = false;
 function age_events(){
-	
-	if (user.age/12 > 30){
-		$("#study-btn").remove();
+	if (user.age/12 == 35){
+		$("#study-btn").hide();
+	};
+
+	if (user.age/12 > 40){
+
+		var rand = Math.floor(Math.random()*2);
+		if (rand == 1){
+			decrease("health",1);
+			decrease("looks",1);
+			if (user.age/12 > 50){
+				decrease("intellect",1);
+			};
+		};
 	}; 
 
 	if (is_student==true){
@@ -252,6 +263,7 @@ function age_events(){
 			var rand = Math.floor(Math.random()*(4-1))+1;
 			increase("intellect",rand);
 			var total_years = student_months/12;
+
 			if (total_years == 1){
 				message(`You've completed your first year in college`);
 			}
@@ -261,29 +273,28 @@ function age_events(){
 
 		};
 
+
+
+		if (student_has_loan == true){
+
+			if (student_months%12==0){
+				var yearly_interest = Math.floor(student_fees*10/100);
+				var yearly_student_fees = Math.floor(student_fees/4)+yearly_interest;
+				total_student_loan = total_student_loan + yearly_student_fees;
+				message(`Your student loan increased by ${yearly_student_fees}$ as yearly student loans at 10% interest rate`);
+
+			};
+			if (student_months >= 48){
+				message(`You have ${total_student_loan}$ as total student loans`);
+				message(`Your student loan will be paid when you start earning`)
+				message(`You are no longer entitled to more student loans`);
+			};
+		};
+	
 		if (student_months == 48){
 			student_pass();
 		};
 	
-
-		if (student_has_loan == true){
-			student_loan_months = student_loan_months + 1;
-			if (student_loan_months%12==0){
-				var yearly_interest = Math.floor(student_fees*10/100);
-				var yearly_student_fees = Math.floor(student_fees/4)+yearly_interest;
-				total_student_loans = total_student_loans + yearly_student_fees;
-				message(`You were charged ${yearly_student_fees}$ as yearly student loan at 10% interest rate`);
-				money = money - yearly_student_fees;
-
-			};
-			if (student_loan_months == 48){
-				student_has_loan = false;
-				message(`Your student loans are over`);
-				message(`You paid ${total_student_loans}$ in total as student loans`)
-			};
-		};
-	
-
 
 
 
@@ -292,8 +303,16 @@ function age_events(){
 
 
 	if (has_job == false){
-
-
+		if (is_student == false){
+			if (student_has_loan == true){
+				if (user.age/12 >= 30){
+					money = money - total_student_loan;
+					student_has_loan = false;
+					message(`Student loans repayment deadline has been reached`);
+					message(`You had to pay all your pending loans`);
+				};
+			};
+		};
 	};
 	if (has_job == true){
 		user.xp += 1;
@@ -307,7 +326,34 @@ function age_events(){
 			user.salary = user.salary + raise;
 			user.promos += 1;
 
-		};
+		}
+		if (student_has_loan == true){
+			var loan_paid = Math.floor(user.salary*25/100);
+			if (total_student_loan <= loan_paid ){
+				money = money - total_student_loan;
+				student_has_loan = false;
+				message(`You paid all your pending student loans`);
+				Swal.fire({
+					title:"All Student loans paid!",
+					icon:"success",
+					confirmButtonText:"Good Riddance!"
+				});
+			}
+			// make the max student loan deadline flexible
+			// cause a person can become student at 29,29 
+			else if (user.age/12 == 30){
+				money = money - total_student_loan;
+				student_has_loan = false;
+				message(`Student loans repayment deadline has been reached`);
+				message(`You had to pay all your pending loans`);
+			}
+			else {
+				money = money - loan_paid;
+				total_student_loan = total_student_loan - loan_paid;
+				message(`You paid ${loan_paid}$ as student loan repayment this month`);
+			};
+		}
+
 	};
 
 	if (is_jailed == true){
@@ -374,6 +420,7 @@ function update(){
 
 
 function random_event(){
+	
 	var num = Math.floor((Math.random()*5) + 1);
 	event = "";
 	message(event);
@@ -537,11 +584,10 @@ function study_course(course){
 
 
 
-var student_loan_months = 0;
+var student_months = 0;
 var student_has_loan = false;
 var student_fees = 0;
 function student_loan(type){
-	$(`#student-loan-${type}`).attr("class",`study-${type}-overlay_close`);
 	$(`#student-loan-${type}`).remove();
 	if (type=="eng"){
 		student_fees = 40000;
@@ -637,8 +683,7 @@ function student_loan(type){
 
 function scholarship(type) {
 
-	$("#scholarship-"+type).attr("class",`study-${type}-overlay_close`);
-	$("#scholarship-"+type).remove();
+	$("#scholarship-"+type).hide();
 	if (type=="eng"){
 		if (intellect >= 80){
 		Swal.fire({title:"You got the scholarship!",
@@ -765,7 +810,7 @@ function student_menu(){
 		position:"top",
 		html:
 			`Months Completed - <b>${student_months}</b>/48<br>`+
-			`Current Student Debt - ${total_student_loans}$<br>`+
+			`Current Student Debt - ${total_student_loan}$<br>`+
 			`<br>`,
 		showConfirmButton:false
 
@@ -809,12 +854,11 @@ function student_pass(){
 	message(`You passed out as a ${deg}`);
 	user.job = "Unemployed";
 	is_student = false;
-	student_loan_months = 0;
 	student_months = 0;
-	student_has_loan = false;
-	total_student_loans = 0;
+	student_months = 0;
 	degree.push(course);
 	$("#student").attr("onclick","actions()");
+	$("#student").attr("class","btn-lg btn-danger");
 	$("#student").attr("id","actions");
 };
 
@@ -854,11 +898,12 @@ function jobs(){
 
 		salary = Math.floor(Math.random()*(max-min+1))+min;
 		jobs[job_name] = salary;
-		var btn = `<br><button onclick="check_job('${job_name}',${salary})" class="btn-lg btn-primary">${job_name} : ${salary}$ / month</button><br>`;
+		var btn = `<br><button onclick="check_job('${job_name}',${salary})" class="w3-round w3-ripple w3-btn w3-indigo w3-hover-red">${job_name} : ${salary}$ / month</button><br>`;
 		btns.push(btn);
 		};
 	};
-	var html = btns[0]+btns[1]+btns[2]+btns[3]+btns[4]+btns[5];
+	var reload_btn = `<br><br><button onclick="jobs()" class="btn-lg btn-secondary">View More Jobs</button>`;
+	var html = btns[0]+btns[1]+btns[2]+btns[3]+btns[4]+btns[5]+reload_btn;
 	Swal.fire({
 		title:"Jobs",
 		showConfirmButton:false,
@@ -869,10 +914,10 @@ function jobs(){
 };
 
 
+
 var job_qualified = false;
 function check_job(job_name,salary){
-	// example of removing the overlay display
-	$("#jobs-overlay").attr("class","jobs-overlay_close");
+
 
 	var req = [];
 	if (job_name == "Teacher"){
@@ -976,6 +1021,9 @@ function check_job(job_name,salary){
 					title:"Your job application was declined"
 				});
 			};
+		}
+		else if (result.dismiss == Swal.DismissReason.cancel){
+			jobs();
 		};
 
 	});
@@ -1046,6 +1094,7 @@ function leave_job(){
 	
 
 	$("#job").attr("onclick","actions()");
+	$("#job").attr("class","btn-lg btn-danger");
 	$("#job").attr("id","actions");
 };
 
@@ -1065,6 +1114,7 @@ function fire_job(reason){
 	});
 
 	$("#job").attr("onclick","actions()");
+	$("#job").attr("class","btn-lg btn-danger");
 	$("#job").attr("id","actions");
 
 };
@@ -1103,7 +1153,6 @@ function ask_raise(){
 
 var total_gym_count = 0;
 function gym(){
-	// TAG - removing overlay display example (TIP)
 	var max = 250;
 	var min = 50;
 	var gym_cost = Math.floor(Math.random()*(max-min))+min;
@@ -1147,7 +1196,6 @@ function gym(){
 
 var total_lib_count = 0;
 function library(){
-	// TAG - removing overlay display example (TIP)
 	var max = 200;
 	var min = 30;
 	var lib_cost = Math.floor(Math.random()*(max-min))+min;
@@ -1186,6 +1234,15 @@ function library(){
 
 
 };
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1451,14 +1508,21 @@ function activities(){
 
 
 function profile(){
+	var html = 
+	`
+	Name - <b>${user.name}</b><br>
+	Country - <b>${user.country}</b><br>
+	Occupation - <b>${user.job}</b><br>
+	`;
+	if (student_has_loan == true){
+		html = html+`Student Loan - <b>${total_student_loan}$</b><br>`;
+	};
+
 	Swal.fire({
 		position:"top",
 		title:"Profile",
 		showConfirmButton:false,
-		html:
-		`Name - <b>${user.name}</b><br>`+
-		`Country - <b>${user.country}</b><br>`+
-		`Occupation - <b>${user.job}</b><br>`
+		html:html
 	});
 };
 
@@ -1531,6 +1595,7 @@ function vacation(){
 		country3:countries[3],
 		country4:countries[4]
 	};
+	var html = `<br><br><button onclick="vacation()" class="btn btn-success">View More Locations</button><br><br>`;
 	Swal.fire({
 		icon:"question",
 		title:"Where would you like to go for vacation?",
@@ -1540,6 +1605,7 @@ function vacation(){
 		input:"select",
 		inputOptions:country_object,
 		inputPlaceholder:"Select Country",
+		html:html,
 		position:"top",
 		
 	}).then((result) => {
@@ -1569,6 +1635,9 @@ function vacation(){
 							confirmButtonText:"Enjoyed it!"
 						});
 					};
+				}
+				else if (result.dismiss == Swal.DismissReason.cancel){
+					vacation();
 				};
 			});
 		};
@@ -1664,58 +1733,8 @@ function purchase_assets(){
 
 function main(){
 	$("#update").click(update);
-	$("#jobs-overlay").popup({
-		transition: "all 0.5s",
-		vertical:"top",
-		onopen:jobs
-	});
-	
-	$("#study-overlay").popup({
-		transition:"all 0.5s",
-		vertical:"top",
-		onopen:study
-	});
-	$("#study-eng-overlay").popup({
-		transition:"all 0.5s",
-		vertical:"top"
-	});
-
-	$("#study-grad-overlay").popup({
-		transition:"all 0.5s",
-		vertical:"top"
-	});
-
-	$("#study-com-overlay").popup({
-		transition:"all 0.5s",
-		vertical:"top"
-	});
-
-	$("#study-arts-overlay").popup({
-		transition:"all 0.5s",
-		vertical:"top"
-	});
-
-	$("#study-law-overlay").popup({
-		transition:"all 0.5s",
-		vertical:"top"
-	});
-
-	$("#study-med-overlay").popup({
-		transition:"all 0.5s",
-		vertical:"top"
-	});
-
-	$("#study-community-overlay").popup({
-		transition:"all 0.5s",
-		vertical:"top"
-	});
-
-
-	$.fn.popup.defaults.pagecontainer = '#page';
+		
 };
-
-
-
 
 
 
