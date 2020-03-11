@@ -234,7 +234,45 @@ var total_student_loan = 0;
 var total_years = 0;
 var is_jailed = false;
 function age_events(){
+	if (user.age/12 > 60){
+		if (user.age/12 > 95){
+			let die_chance = Math.floor(Math.random()*10);
+			if (die_chance == 5){
+				death();
+			}
+		}
+		if (health < 70){
+			let die_chance = Math.floor(Math.random()*50);
+				if (die_chance == 35){
+					death();
+				}
+			}
+		if (health < 50 && health > 20){
+			let die_chance = Math.floor(Math.random()*25);
+			if (die_chance == 20){
+				death();
+			}
+		}
+	};
+	if (health <= 20){
+		if (health <= 10){
+			let die_chance = Math.floor(Math.random()*5);
+			if (die_chance == 2){
+				death();
+			}
+		}
+		else{
+			let die_chance = Math.floor(Math.random()*10);
+			if (die_chance == 5){
+				death();
+			}
+		};
+	};
+
+
+
 	if (user.age/12 == 35){
+		message("You can no longer study in any college now");
 		$("#study-btn").hide();
 	};
 
@@ -1723,17 +1761,43 @@ function purchase_assets(){
 
 
 
+function death(){
+	var age = (user.age-user.age%12)/12;
 
+	var html = `
+	<br><hr><br>
+	Name : ${user.name}<br>
+	Net-worth : ${money}$<br>
+	Age : ${age}<br>
 
+	<br><hr><br>You were cremated in ${user.country}
+	<br><hr><br>
+	`
+	;
+	Swal.fire({
+		title:`You died at ${age}`,
+		imageUrl:"images/death.png",
+		imageHeight:100,
+		imageWidth:100,
+		imageAlt:"Death",
+		html:html,
+		confirmButtonText:"RIP"
+	});
+	if (has_job == true){
+		$("#job").hide();
+	}
+	else if (is_jailed == true){
+		$("#jail").hide();
+	}
+	else{
+		$("#actions").hide();
+	};
+	$("#update").hide();
+	$("#profile").hide();
+	$("#assets").hide();
+	$("#activities").hide();
+	message(`<h2>You died</h2>`);
 
-
-
-
-
-
-function main(){
-	$("#update").click(update);
-		
 };
 
 
@@ -1754,6 +1818,17 @@ function main(){
 
 
 
+
+
+
+
+
+
+
+function main(){
+	$("#update").click(update);
+		
+};
 $(document).ready(main());
 
 
