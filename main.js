@@ -2244,7 +2244,51 @@ function update(){
 };
 
 
+
+var intro_disabled = false;
+function intro(){
+	if (intro_disabled == false){
+		var html = 
+		`
+		<br><hr><br>
+		You start off as a random person with random features in
+		a random country. You can live your life in any way you want.
+		All this with simple button clicks.
+		Lifely helps you visualize different situations in life.<br>		
+		<br><hr><br>
+		`;
+		Swal.fire({
+			icon:"info",
+			position:"top",
+			allowOutsideClick:false,
+			title:"Welcome To Lifely",
+			text:"Lifely is a life based online simulator",
+			html:html,
+			footer:`Lifely has been created by wraithM17`,
+			confirmButtonText:"Start Lifely"
+		}).then((result) => {
+			if (result.value){
+				Swal.fire({
+					title:"<h1>Starting Lifely...</h1>",
+					showConfirmButton:false,
+					allowOutsideClick:false,
+					timer:5000,
+					timerProgressBar:true,
+					toast:true
+				});
+
+			}
+
+		});
+
+	};
+
+};
+
+
+
 function main(){
+	intro();
 	$("#update").click(update);
 		
 };
