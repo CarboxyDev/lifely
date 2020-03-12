@@ -2,7 +2,7 @@
 var user = {
 	"name":random_name(),"country":random_country(),
 	"age":216,"job":"Unemployed","salary":0,"xp":0,
-	"promos":0
+	"promos":0,"assets":[]
 };
 
 var money = 1000;
@@ -2004,33 +2004,161 @@ function has_money(amount=null,message=null){
 function assets(){
 
 	var btn1 = `<br><button id="purchase-assets" class="btn btn-info" onclick="purchase_assets()">Purchase Assets</button><br>`;
-	var btn2 = ``;
+	var btn2 = `<br><button class="btn btn-danger" onclick="sell_assets()">Sell Assets</button><br>`;
 
+	let html = btn1+btn2;
+	for (x in user.assets){
+		html = html+`<br>${user.assets[x][0]}`;
+	}
 	Swal.fire({
 		position:"top",
 		title:"Assets",
 		showConfirmButton:false,
-		html:
-		`${btn1}`
+		html:html
 	});
 };
 
 
 
+
+
+
 function purchase_assets(){
-	var btn1 = `<br><button id="purchase-house" class="btn btn-success" onclick="purchase('house')">Purchase House</button><br>`;
-	var btn2 = `<br><button id="purchase-vehicle" class="btn btn-success" onclick="purchase('vehicle')">Purchase Vehicle</button><br>`;
+	var btn1 = `<br><button class="btn btn-success" onclick="purchase('house')">Purchase House</button><br>`;
+	var btn2 = `<br><button class="btn btn-success" onclick="purchase('vehicle')">Purchase Vehicle</button><br>`;
+	
+	let html =`<br><hr>${btn1}${btn2}`;
 	Swal.fire({
 		position:"top",
 		icon:"info",
 		title:"Purchase Assets",
 		showConfirmButton:false,
-		html:
-		`<br><hr>`+
-		`${btn1} ${btn2}`
+		html:html
 	});
 
 };
+
+
+
+function purchase_house(name,cost){
+	let chance = randint(0,1);
+	let l = [
+	10,15,20,25,30,35,40,45,50,55,60,65,70
+	];
+	var discount = false;
+	r = l[randint(0,12)];
+	let change = 500*r;
+	if (chance == 0){
+		var price = cost + change;
+	}
+	else {
+		var price = cost - change;
+		var discount = true;
+	};
+
+
+	if (discount == true){
+		var html = `
+		Price - <del>${cost}$</del> <b>${price}$</b><br>
+		Discount - <b>${cost-price}$</b><br>
+		Condition - <b>${randint(40,100)}%</b>`;
+	}
+	else {
+		let html = `Price - <b>${price}$</b><br>
+		Condition - <b>${randint(40,100)}%</b>`;
+	}
+	Swal.fire({
+		title:name,
+		html:html,
+		icon:"info",
+		showCancelButton:true,
+		confirmButtonText:`Pay ${price}$`,
+		cancelButtonText:"I'll pass"
+	}).then((result) => {
+		if (result.value){
+			if (has_money(price) == true){
+				money = money - price;
+				Swal.fire({
+					icon:"success",
+					title:"You bought a house!",
+					html:`You are now a proud owner of a <b>${name}</b><br>`+
+					`You bought it for <b>${price}$</b>`,
+					confirmButtonText:"Amazing!"
+				});
+				user.assets.push([name,price]);
+				message(`You bought a ${name} for ${price}$`)
+				increase("morale",5,10);
+				display();
+			};
+
+		}
+		else if (result.dismiss == Swal.DismissReason.cancel){
+			purchase("house");
+		};
+
+	});
+};
+
+
+
+function purchase(item){
+
+	if (item == "house"){
+
+		let list = [
+		{"2 BHK Apartment":80000},{"3 BHK Apartment":100000},
+		{"4 BHK Apartment":140000},{"1 Room Apartment":50000},
+		{"2 BHK Cottage":70000},{"3 BHK Cottage":90000},
+		{"4 BHK Cottage":120000},{"1 Room Cottage":40000},
+		{"2 BHK Modern House":120000},{"3 BHK Modern House":150000},
+		{"4 BHK Modern House":200000},{"1 Room Modern House":90000}
+		];
+		let all = [];
+		for (x=0;x<4;x++){
+			let rand = randint(0,list.length-1);
+			if (rand in all){
+				x = x -1;	
+			}
+			else {
+				all.push(list[rand]);
+			};
+		};
+		let btns = [];
+		for (x in all){
+			let house = Object.keys(all[x])[0];
+			let cost = Object.values(all[x])[0];
+			let btn = `<br><button onclick="purchase_house('${house}',${cost})"
+			class="btn btn-primary">${house}</button><br>`;
+			btns.push(btn);
+
+		};
+		let reload_btn = `<br><br><button onclick="purchase('house')" 
+		class="btn-lg btn-secondary">View More Houses</button>`;
+		let html = "<br><hr><br>"+btns[0]+btns[1]+btns[2]+btns[3]+reload_btn;
+		Swal.fire({
+			title:"Available Houses",
+			icon:"info",
+			position:"top",
+			html:html,
+			showConfirmButton:false
+		});
+
+	};
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
