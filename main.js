@@ -2041,19 +2041,17 @@ function purchase_assets(){
 
 
 function purchase_house(name,cost){
-	let chance = randint(0,1);
-	let l = [
-	10,15,20,25,30,35,40,45,50,55,60,65,70
-	];
+	let chance = randint(0,2);
+	let l = [10,15,20,25,30,35,40,45,50,55,60,65,70];
 	var discount = false;
 	r = l[randint(0,12)];
-	let change = 500*r;
+	let change = 200*r;
 	if (chance == 0){
-		var price = cost + change;
-	}
-	else {
 		var price = cost - change;
 		var discount = true;
+	}
+	else {
+		var price = cost + change;
 	};
 
 
@@ -2064,7 +2062,7 @@ function purchase_house(name,cost){
 		Condition - <b>${randint(40,100)}%</b>`;
 	}
 	else {
-		let html = `Price - <b>${price}$</b><br>
+		var html = `Price - <b>${price}$</b><br>
 		Condition - <b>${randint(40,100)}%</b>`;
 	}
 	Swal.fire({
@@ -2116,13 +2114,14 @@ function purchase(item){
 		let all = [];
 		for (x=0;x<4;x++){
 			let rand = randint(0,list.length-1);
-			if (rand in all){
+			if (list[rand] in all){
 				x = x -1;	
 			}
 			else {
 				all.push(list[rand]);
 			};
 		};
+		console.log(all);
 		let btns = [];
 		for (x in all){
 			let house = Object.keys(all[x])[0];
