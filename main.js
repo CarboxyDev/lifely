@@ -1,6 +1,4 @@
 
-
-
 var user = {
 	"name":random_name(),"country":random_country(),
 	"age":216,"job":"Unemployed","salary":0,"xp":0,
@@ -86,51 +84,50 @@ function display(){
 
 
 
-function decrease(type,decrement){
+function decrease(type,min,max){
+	let decrement = randint(min,max);
 	if (type=="health"){
 		health = health - decrement;
-		display();
 	}
 	else if (type=="morale"){
 		morale = morale - decrement;
-		display();
 	}
 	else if (type=="looks"){
 		looks = looks - decrement;
-		display();
+
 	}
 	else if (type=="intellect"){
 		intellect = intellect - decrement;
-		display();
 	}
 	else {
 		alert("Error in decrease() function");
 	};
+	display();
 };
 
 
-function increase(type,increment){
+function increase(type,min,max){
+	let increment = randint(min,max);
 	if (type=="health"){
 		health = health + increment;
-		display();
 	}
 	else if (type=="morale"){
 		morale = morale + increment;
-		display();
 	}
 	else if (type=="looks"){
 		looks = looks + increment;
-		display();
 	}
 	else if (type=="intellect"){
 		intellect = intellect + increment;
-		display();
 	}
 	else {
 		alert("Error in increase() function");
 	};
+	display();
 
 };
+
+
 
 
 
@@ -153,7 +150,7 @@ function random_country(){
 	"Russia"
 	]; // Increasing chance of getting United States
 
-	random = Math.floor((Math.random()*country_list.length));
+	random = randint(0,country_list.length-1);
 	return country_list[random];
 };
 
@@ -192,10 +189,10 @@ function random_name(){
 	];
 
 
-	var random_male_name = Math.floor((Math.random()*male_name.length));
+	var random_male_name = randint(0,male_name.length-1);
 	random_male_name = male_name[random_male_name];
 
-	var random_last_name = Math.floor((Math.random()*last_name.length));
+	var random_last_name = randint(0,last_name.length-1);
 	random_last_name = last_name[random_last_name];
 
 
@@ -208,17 +205,17 @@ function random_name(){
 
 function random_feature(feature){
 	if (feature=="looks"){
-		var random = Math.floor(Math.random()*(95-30+1))+30;
+		var random = randint(30,95);
 
 	}
 	else if (feature=="intellect"){
-		var random = Math.floor(Math.random()*(85-40+1))+40;
+		var random = randint(45,85);
 	}
 	else if (feature=="morale"){
-		var random = Math.floor(Math.random()*(100-75+1))+75;
+		var random = randint(75,95);
 	}
 	else if (feature=="health"){
-		var random = Math.floor(Math.random()*(100-85+1))+85;
+		var random = randint(85,100);
 	};
 
 	return random;
@@ -236,19 +233,19 @@ var is_jailed = false;
 function age_events(){
 	if (user.age/12 > 60){
 		if (user.age/12 > 95){
-			var die_chance = Math.floor(Math.random()*10);
+			var die_chance = randint(1,10);
 			if (die_chance == 5){
 				death();
 			}
 		}
 		if (health < 70){
-			var die_chance = Math.floor(Math.random()*50);
+			var die_chance = randint(1,50);
 				if (die_chance == 35){
 					death();
 				}
 			}
 		if (health < 50 && health > 20){
-			var die_chance = Math.floor(Math.random()*25);
+			var die_chance = randint(1,25);
 			if (die_chance == 20){
 				death();
 			}
@@ -256,13 +253,13 @@ function age_events(){
 	};
 	if (health <= 20){
 		if (health <= 10){
-			var die_chance = Math.floor(Math.random()*5);
+			var die_chance = randint(1,5);
 			if (die_chance == 2){
 				death();
 			}
 		}
 		else{
-			var die_chance = Math.floor(Math.random()*10);
+			var die_chance = randint(1,10);
 			if (die_chance == 5){
 				death();
 			}
@@ -278,12 +275,12 @@ function age_events(){
 
 	if (user.age/12 > 40){
 
-		var rand = Math.floor(Math.random()*2);
+		var rand = randint(1,2);
 		if (rand == 1){
-			decrease("health",1);
-			decrease("looks",1);
+			health -= 1;
+			looks -= 1;
 			if (user.age/12 > 50){
-				decrease("intellect",1);
+				intellect -= 1;
 			};
 		};
 	}; 
@@ -298,15 +295,15 @@ function age_events(){
 		};
 
 		if (student_months%12==0){
-			var rand = Math.floor(Math.random()*(4-1))+1;
-			increase("intellect",rand);
+
+			increase("intellect",1,4);
 			var total_years = student_months/12;
 
 			if (total_years == 1){
-				message(`You've compvared your first year in college`);
+				message(`You've completed your first year in college`);
 			}
 			else {
-				message(`You've compvared ${total_years} years in college`);
+				message(`You've completed ${total_years} years in college`);
 			};
 
 		};
@@ -355,10 +352,10 @@ function age_events(){
 	if (has_job == true){
 		user.xp += 1;
 		money = money + user.salary;
-		var rand = Math.floor((Math.random()*20) + 1);
+		var rand = randint(1,20);
 		message(`You were paid ${user.salary}$ as your salary`);
 		if (rand == 1){
-			var inc = Math.floor(Math.random()*(8-5))+5;
+			var inc = randint(5,8);
 			var raise = Math.floor(user.salary*inc/100);
 			message(`You got a raise of ${raise}$`);
 			user.salary = user.salary + raise;
@@ -395,8 +392,8 @@ function age_events(){
 	};
 
 	if (is_jailed == true){
-		decrease("morale",1);
-		decrease("looks",1);
+		morale -= 1;
+		looks -= 1;
 		jail_months_spent += 1;
 		if (jail_months_spent == jail_months){
 			message(`You were released from jail after serving ${jail_months} months`);
@@ -410,6 +407,7 @@ function age_events(){
 			user.job = "Unemployed";
 
 			$("#jail").attr("onclick","actions()");
+			$("#jail").attr("class","btn-lg btn-danger");
 			$("#jail").attr("id","actions");
 			$("#activities").show();
 
@@ -421,6 +419,14 @@ function age_events(){
 
 
 	display();
+
+};
+
+
+
+function randint(min,max){
+	let int = Math.floor(Math.random()*(max-min+1))+min;
+	return int;
 
 };
 
@@ -452,7 +458,7 @@ function generate(object,amount){
 
 		var countries = [];
 		for (x=0;x!=amount;x++){
-			var random = Math.floor((Math.random()*list.length));
+			var random = randint(0,list.length-1);
 			var c = list[random];
 			if (c in countries){
 				x = x - 1;
@@ -465,7 +471,7 @@ function generate(object,amount){
 
 	};
 
-	
+
 
 
 
@@ -477,7 +483,7 @@ function generate(object,amount){
 
 var event_chance = 0;
 function random_event(){
-	var chance = Math.floor((Math.random()*20));
+	var chance = randint(0,20);
 	if (event_chance==chance){
 		random_event();
 	}
@@ -516,7 +522,7 @@ function random_event(){
 
 
 function found_event(){
-	var random = Math.floor(Math.random()*5);
+	var random = randint(0,5);
 	var item = "";
 	if (random == 0){
 		item = "wallet";
@@ -552,9 +558,9 @@ function found_event(){
 
 		}
 		else if (result.dismiss == Swal.DismissReason.cancel){
-			
+			karma = karma - 10;
 			message(`You decided to keep the lost ${item}`);
-			var inc = Math.floor(Math.random()*(500-5));
+			var inc = randint(5,500);
 			money = money + inc;
 			message(`The ${item} is worth ${inc}$`);
 			display();
@@ -942,7 +948,7 @@ function student_menu(){
 		title:"Student Actions",
 		position:"top",
 		html:
-			`Months Compvared - <b>${student_months}</b>/48<br>`+
+			`Months Completed - <b>${student_months}</b>/48<br>`+
 			`Current Student Debt - ${total_student_loan}$<br>`+
 			`<br>`,
 		showConfirmButton:false
@@ -1019,7 +1025,7 @@ function jobs(){
 	var btns = [];
 	var jobs = {};
 	for (x=0;x<6;x++){
-		random = Math.floor((Math.random()*list.length));
+		random = randint(0,list.length-1);
 		var sel = list[random];
 		if (sel in jobs){
 			x = x - 1;
@@ -1029,9 +1035,11 @@ function jobs(){
 		var min = sel[job_name][0];
 		var max = sel[job_name][1];
 
-		salary = Math.floor(Math.random()*(max-min+1))+min;
+		salary = randint(min,max);
 		jobs[job_name] = salary;
-		var btn = `<br><button onclick="check_job('${job_name}',${salary})" class="w3-round w3-ripple w3-btn w3-indigo w3-hover-red">${job_name} : ${salary}$ / month</button><br>`;
+		var btn = `<br><button onclick="check_job('${job_name}',${salary})" 
+		class="w3-round w3-ripple w3-btn w3-indigo w3-hover-red">
+		${job_name} : ${salary}$ / month</button><br>`;
 		btns.push(btn);
 		};
 	};
@@ -1255,10 +1263,10 @@ function fire_job(reason){
 
 
 function ask_raise(){
-	chance = Math.floor((Math.random()*10)+1);
+	chance = randint(0,10);
 	if (chance < 5){
 		// raise success
-		var inc = Math.floor(Math.random()*(8-5))+5;
+		var inc = randint(5,8);
 		var raise = Math.floor(user.salary*inc/100);
 		user.salary += raise;
 		user.promos += 1;
@@ -1288,7 +1296,7 @@ var total_gym_count = 0;
 function gym(){
 	var max = 250;
 	var min = 50;
-	var gym_cost = Math.floor(Math.random()*(max-min))+min;
+	var gym_cost = randint(min,max);
 	Swal.fire({
 		icon:"question",
 		title:"Do you want to go to a gym ?",
@@ -1308,8 +1316,7 @@ function gym(){
 
 			}
 			else{
-				var rand_looks = Math.floor(Math.random()*2);
-				increase("looks",rand_looks);
+				increase("looks",0,2);
 			};
 		Swal.fire({
 			icon:"success",
@@ -1331,7 +1338,7 @@ var total_lib_count = 0;
 function library(){
 	var max = 200;
 	var min = 30;
-	var lib_cost = Math.floor(Math.random()*(max-min))+min;
+	var lib_cost = randint(min,max);
 	Swal.fire({
 		icon:"question",
 		title:"Do you want to go to a library?",
@@ -1351,8 +1358,7 @@ function library(){
 
 			}
 			else{
-				var rand_intellect = Math.floor(Math.random()*2);
-				increase("intellect",rand_intellect);
+				increase("intellect",0,2);
 			};
 		Swal.fire({
 			icon:"success",
@@ -1367,6 +1373,66 @@ function library(){
 
 
 };
+
+
+
+function restaurant(){
+	let cost = randint(30,300);
+	let rating = randint(30,100);
+	html = 
+	`
+	Cost of food - <b>${cost}$</b><br>
+	Restaurant rating - <b>${rating}%</b><br>
+	<br><hr><br>
+	`;
+	Swal.fire({
+		title:"Restaurant",
+		icon:"info",
+		html:html,
+		confirmButtonText:`Pay ${cost}$`,
+		showCancelButton:true,
+		cancelButtonText:`Not hungry!`
+	}).then((result) => {
+		if (result.value){
+			money = money - cost;
+			let rand = randint(0,1);
+			let poison = randint(1,3);
+			let satisfaction = randint(10,100);
+			let btn_text = (satisfaction > 60) ? "Good food!":"Not the best food"; 
+			message(`You ate at a restaurant`);
+			Swal.fire({
+				icon:"success",
+				title:"You ate at a restaurant!",
+				text:`Your satisfaction - ${satisfaction}%`,
+				confirmButtonText:btn_text
+			});
+			if (satisfaction >= 60){
+				morale = morale + 2;
+			};
+			if (satisfaction <= 40){
+				if (poision == 1){
+					message(`You got food poisoning`);
+					Swal.fire("You got food poisoning!",
+					"Due to this , you lost some health","error");
+					health = health - randint(3,10);
+				};
+			};
+		display();
+		};
+	});
+
+
+
+};
+
+
+
+
+
+
+
+
+
 
 function checkup(){
 	Swal.fire({
@@ -1398,7 +1464,56 @@ function dentist(){
 function plastic_surgery(){
 	let max = 20000;
 	let min = 5000;
-	cost = Math.floor(Math.random()*(max-min))+min;
+	let cost = randint(min,max);
+	let html = 
+	`
+	<br><hr><br>
+	Cost of surgery - <b>${cost}$</b><br>
+	Success Chance - <b>80%</b><br>
+	<br><hr><br>
+	`;
+	Swal.fire({
+		icon:"info",
+		title:"Plastic Surgery",
+		footer:"Note : Getting a plastic surgery increases Looks",
+		html:html,
+		showCancelButton:true,
+		confirmButtonText:`Pay ${cost}$`,
+		cancelButtonText:"Not for me"
+	}).then((result) =>{
+		if (result.value){
+			if (has_money(cost) == true){
+				money = money - cost;
+				let fail = randint(0,4);
+				let rand = randint(5,25);
+				if (fail != 4){
+					looks = looks + rand;
+					morale += 2;
+					Swal.fire({
+						icon:"success",
+						title:"Plastic Surgery Successful!",
+						text:`You paid ${cost}$`,
+						confirmButtonText:"Awesome!"
+					});
+					message(`You got a successful plastic surgery`)
+				}
+				else {
+					looks = looks - rand;
+					morale -= 5;
+					Swal.fire({
+						icon:"error",
+						title:"Plastic Surgery botched!",
+						text:`You paid ${cost}$ and got a botched up surgery`,
+						confirmButtonText:"Crap!"
+					});
+					message(`You got a botched up plastic surgery`);
+				};
+			display();
+			};
+		};
+	});
+
+
 };
 
 
@@ -1442,14 +1557,14 @@ function hospital(){
 
 
 function crime(){
-	var chance = Math.floor((Math.random()*6)+ 1);
+	var chance = randint(0,6);
 	if (chance == 1){
-		var stole = Math.floor((Math.random()*1000)+1);
+		let stole = randint(10,1000);
 		money = money + stole;
 		message(`You commited a crime and stole ${stole}$`);
 	}
 	else if (chance == 2){
-		var fine = Math.floor((Math.random()*500)+1);
+		let fine = randint(10,500);
 		money = money - fine;
 		message(`You were caught commiting a minor crime and fined\ 
 		${fine}$`);
@@ -1460,7 +1575,7 @@ function crime(){
 		jail(36);
 	}
 	else {
-		message(`You chickened out before commiting the crime`)
+		message(`You did not commit any crime out of fear`);
 	};
 	display();
 };
@@ -1470,7 +1585,7 @@ function crime(){
 var jail_months = 0;
 var jail_months_spent = 0;
 function jail(months){
-
+	karma = karma - months;
 	if (is_student == true){
 		message("You were rusticated from your college");
 		$("#student").attr("class","btn-lg btn-warning");
@@ -1534,7 +1649,7 @@ function jail_menu(){
 
 function appeal_jail(months){
 
-	var def_cost = Math.floor(Math.random()*(100000-10000))+10000;
+	var def_cost = randint(10000,100000);
 	Swal.fire({
 		icon:"info",
 		title:`How would you like to appeal`,
@@ -1551,7 +1666,7 @@ function appeal_jail(months){
 				money = money - def_cost;
 				display();
 				message(`You hired a private defender for ${def_cost}$`);
-				var chance = Math.floor(Math.random()*2);
+				var chance = randint(0,1);
 				if (chance == 0){
 					// saved
 					appeal_result(true,"private");
@@ -1571,7 +1686,7 @@ function appeal_jail(months){
 		else if (result.dismiss == Swal.DismissReason.cancel){
 			// public defender
 			message(`You were given a public defender for free`);
-			var chance = Math.floor(Math.random()*5);
+			var chance = randint(0,4);
 			if (chance == 4){
 				appeal_result(true,"public");
 			}
@@ -1675,6 +1790,8 @@ function activities(){
 <br><br>
 <button id="hosp-btn" onclick="hospital()" class="btn btn-danger">Go To Hospital</button>
 <br><br>
+<button id="restaurant-btn" onclick="restaurant()" class="btn btn-danger">Go To Restaurant</button>
+<br><br>
 <button id="exercise-btn" onclick="exercise()" class="btn btn-danger">Do Exercise</button>
 <br><br>
 <button id="vacation-btn" onclick="vacation()" class="btn btn-success">Go On Vacation</button>
@@ -1740,10 +1857,10 @@ function exercise(){
 		title:"You did some exercise!",
 		confirmButtonText:"Hoorah!"
 	});
-	var chance = Math.floor(Math.random()*(5-1))+1;
+	var chance = randint(1,5);
 	if (chance == 1){
-		increase("morale",1);
-		increase("health",1);
+		morale += 1;
+		health += 1;
 	};
 };
 
@@ -1770,7 +1887,7 @@ function vacation(){
 	var countries = [];
 	
 	for (x=0;x<5;x++){
-		random = Math.floor((Math.random()*country_list.length));
+		random = randint(0,country_list.length);
 		var sel = country_list[random];
 		if (sel in countries){
 			x = x - 1;
@@ -1806,7 +1923,7 @@ function vacation(){
 	}).then((result) => {
 		if (result.value){
 			var country = country_object[result.value];
-			var cost = Math.floor(Math.random()*(50000-15000))+15000;
+			var cost = randint(15000,50000);
 			Swal.fire({
 				icon:"info",
 				title:`Vacation in ${country}`,
@@ -1821,8 +1938,7 @@ function vacation(){
 				if (result.value){
 					if (has_money(cost) == true){
 						money = money - cost;
-						rand = Math.floor(Math.random()*(35-20))+20;
-						increase("morale",rand);
+						increase("morale",20,35);
 						message(`You went on a vacation to ${country}`);
 						Swal.fire({
 							icon:"success",
