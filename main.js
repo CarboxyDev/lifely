@@ -12,7 +12,7 @@ var health = random_feature("health");
 var morale = random_feature("morale");
 var intellect = random_feature("intellect");
 var looks = random_feature("looks");
-
+var karma = 0;
 
 
 start();
@@ -236,19 +236,19 @@ var is_jailed = false;
 function age_events(){
 	if (user.age/12 > 60){
 		if (user.age/12 > 95){
-			let die_chance = Math.floor(Math.random()*10);
+			var die_chance = Math.floor(Math.random()*10);
 			if (die_chance == 5){
 				death();
 			}
 		}
 		if (health < 70){
-			let die_chance = Math.floor(Math.random()*50);
+			var die_chance = Math.floor(Math.random()*50);
 				if (die_chance == 35){
 					death();
 				}
 			}
 		if (health < 50 && health > 20){
-			let die_chance = Math.floor(Math.random()*25);
+			var die_chance = Math.floor(Math.random()*25);
 			if (die_chance == 20){
 				death();
 			}
@@ -256,13 +256,13 @@ function age_events(){
 	};
 	if (health <= 20){
 		if (health <= 10){
-			let die_chance = Math.floor(Math.random()*5);
+			var die_chance = Math.floor(Math.random()*5);
 			if (die_chance == 2){
 				death();
 			}
 		}
 		else{
-			let die_chance = Math.floor(Math.random()*10);
+			var die_chance = Math.floor(Math.random()*10);
 			if (die_chance == 5){
 				death();
 			}
@@ -303,10 +303,10 @@ function age_events(){
 			var total_years = student_months/12;
 
 			if (total_years == 1){
-				message(`You've completed your first year in college`);
+				message(`You've compvared your first year in college`);
 			}
 			else {
-				message(`You've completed ${total_years} years in college`);
+				message(`You've compvared ${total_years} years in college`);
 			};
 
 		};
@@ -430,42 +430,137 @@ function age_events(){
 
 
 
-function update(){
-	count = 0;
-	total_gym_count = 0;
-	total_lib_count = 0;
-	$(".console").text("");
-	user.age = user.age + 1;
-	if (user.age % 12 != 0){
-		var months = user.age%12;
-		var years = (user.age-months)/12;
-		$("#age").text(`Age : ${years} years ${months} months`);
-	}
-	else{
-		var years = user.age/12;
-		$("#age").text(`Age : ${years} years`);
+
+function generate(object,amount){
+
+	if (object == "country"){
+		var list = [
+		"United States","Canada","United Kingdom","India","Pakistan",
+		"China","Saudi Arabia","Sri Lanka","Mexico","Sweden","Norway",
+		"Denmark","Finland","Russia","Japan","Taiwan","South Korea",
+		"Indonesia","Singapore","Italy","Hungary","Switzerland",
+		"Poland","Germany","France","Portugal","Spain","Ireland",
+		"Iceland","Argentina","Brazil","Urugay","Cuba","Albania",
+		"Australia","Austria","Belgium","Belarus","Estonia","Bulgaria",
+		"Chile","Turkey","Greece","Cyprus","Croatia","Costa Rica",
+		"Egypt","Israel","Kuwait","Latvia","Iran","Slovenia","Lithuania",
+		"Malaysia","UAE","Morocco","Luxembourg","New Zealand","Qatar",
+		"South Africa","Bangladesh","Mongolia","Thailand","Serbia",
+		"Vietnam","Ukraine","Zimbawe","United States","United States",
+		"Canada"
+		]; 
+
+		var countries = [];
+		for (x=0;x!=amount;x++){
+			var random = Math.floor((Math.random()*list.length));
+			var c = list[random];
+			if (c in countries){
+				x = x - 1;
+			}
+			else {
+				countries.push(c);
+			}
+		};
+		return countries;
 
 	};
-	random_event();
-	age_events();
 
-
-
-
-
-};
-
-
-
-function random_event(){
 	
-	var num = Math.floor((Math.random()*5) + 1);
-	event = "";
-	message(event);
+
+
+
+
 };
 
 
 
+
+var event_chance = 0;
+function random_event(){
+	var chance = Math.floor((Math.random()*20));
+	if (event_chance==chance){
+		random_event();
+	}
+	else {
+		event_chance = chance;
+		switch (event_chance){
+			default:
+				break;
+			case 0:
+				var country = generate("country",1);
+				message(`Stock prices in ${country[0]} fluctuated`);
+				break;
+			case 1:
+				var country = generate("country",2);
+				message(`${country[0]} signed a trade deal with ${country[1]}`);
+				break;
+			case 2:
+				var country = generate("country",1);
+				message(`Riots broke out in parts of ${country[0]}`);
+				break;
+			case 3:
+				var country = generate("country",1);
+				message(`Explosions were heard in ${country[0]}`);
+				break;
+			case 4:
+				var country = generate("country",1);
+				message(`${country[0]} was the victim of major terrorist attacks`)
+				break;
+			case 5:
+				found_event();
+		};
+	};
+
+
+};
+
+
+function found_event(){
+	var random = Math.floor(Math.random()*5);
+	var item = "";
+	if (random == 0){
+		item = "wallet";
+	};
+	if (random == 1){
+		item = "phone";
+	};
+	if (random == 2){
+		item = "purse";
+	};
+	if (random == 3){
+		item = "necklace";
+	};
+	if (random == 4){
+		item = "ring";
+	};
+	if (random == 5){
+		item = "hat";
+	};
+
+	Swal.fire({
+		icon:"question",
+		title:`Lost And Found`,
+		html:`You found a lost <b>${item}</b><br><hr><br>`,
+		confirmButtonText:"Give it to Authorities",
+		showCancelButton:true,
+		cancelButtonText:"Keep it",
+		allowOutsideClick:false
+	}).then((result) => {
+		if (result.value) {
+			karma = karma + 5;
+			message(`You turned in the lost ${item} to authorities`);
+
+		}
+		else if (result.dismiss == Swal.DismissReason.cancel){
+			
+			message(`You decided to keep the lost ${item}`);
+			var inc = Math.floor(Math.random()*(500-5));
+			money = money + inc;
+			message(`The ${item} is worth ${inc}$`);
+			display();
+		};
+	});
+};
 
 
 function study(){
@@ -847,7 +942,7 @@ function student_menu(){
 		title:"Student Actions",
 		position:"top",
 		html:
-			`Months Completed - <b>${student_months}</b>/48<br>`+
+			`Months Compvared - <b>${student_months}</b>/48<br>`+
 			`Current Student Debt - ${total_student_loan}$<br>`+
 			`<br>`,
 		showConfirmButton:false
@@ -1273,10 +1368,67 @@ function library(){
 
 };
 
+function checkup(){
+	Swal.fire({
+		icon:"info",
+		title:"Checkup",
+		text:"Coming Soon!"
+	});
+};
+
+
+function therapy(){
+	Swal.fire({
+		icon:"info",
+		title:"Therapy",
+		text:"Coming Soon!"
+	});
+};
+
+
+function dentist(){
+	Swal.fire({
+		icon:"info",
+		title:"Dentist",
+		text:"Coming Soon!"
+	});
+};
+
+
+function plastic_surgery(){
+	let max = 20000;
+	let min = 5000;
+	cost = Math.floor(Math.random()*(max-min))+min;
+};
 
 
 
 
+
+var has_disease = false;
+function hospital(){
+	var html = 
+	`<br><hr><br>
+	<button onclick="checkup()" class="btn btn-success">Get a Checkup</button>
+	<br><br>
+	<button onclick="therapy()" class="btn btn-success">Go to Therapy</button>
+	<br><br>
+	<button onclick="dentist()" class="btn btn-success">Visit the Dentist</button>
+	<br><br>
+	<button onclick="plastic_surgery()" class="btn btn-success">Get Plastic Surgery</button>
+	<br><br>
+	`;
+
+	Swal.fire({
+		position:"top",
+		title:"Hospital",
+		html:html,
+		showConfirmButton:false,
+
+	});
+
+
+};
 
 
 
@@ -1292,12 +1444,12 @@ function library(){
 function crime(){
 	var chance = Math.floor((Math.random()*6)+ 1);
 	if (chance == 1){
-		let stole = Math.floor((Math.random()*1000)+1);
+		var stole = Math.floor((Math.random()*1000)+1);
 		money = money + stole;
 		message(`You commited a crime and stole ${stole}$`);
 	}
 	else if (chance == 2){
-		let fine = Math.floor((Math.random()*500)+1);
+		var fine = Math.floor((Math.random()*500)+1);
 		money = money - fine;
 		message(`You were caught commiting a minor crime and fined\ 
 		${fine}$`);
@@ -1517,11 +1669,16 @@ function activities(){
 	`<br>
 <button id="crime-btn" onclick="crime()" class="btn btn-danger">Commit Crime</button>
 <br><br>
-<button id="gym-btn" onclick="gym()" class="btn btn-danger">Go To Gym</button><br><br>
+<button id="gym-btn" onclick="gym()" class="btn btn-danger">Go To Gym</button>
+<br><br>
 <button id="lib-btn" onclick="library()" class="btn btn-danger">Go To Library</button>
 <br><br>
-<button id="exercise-btn" onclick="exercise()" class="btn btn-danger">Do Exercise</button><br><br>
-<button id="vacation-btn" onclick="vacation()" class="btn btn-success">Go On Vacation</button><br><br>
+<button id="hosp-btn" onclick="hospital()" class="btn btn-danger">Go To Hospital</button>
+<br><br>
+<button id="exercise-btn" onclick="exercise()" class="btn btn-danger">Do Exercise</button>
+<br><br>
+<button id="vacation-btn" onclick="vacation()" class="btn btn-success">Go On Vacation</button>
+<br><br>
 
 	`;
 
@@ -1822,7 +1979,26 @@ function death(){
 
 
 
+function update(){
+	count = 0;
+	total_gym_count = 0;
+	total_lib_count = 0;
+	$(".console").text("");
+	user.age = user.age + 1;
+	if (user.age % 12 != 0){
+		var months = user.age%12;
+		var years = (user.age-months)/12;
+		$("#age").text(`Age : ${years} years ${months} months`);
+	}
+	else{
+		var years = user.age/12;
+		$("#age").text(`Age : ${years} years`);
 
+	};
+	random_event();
+	age_events();
+
+};
 
 
 function main(){
