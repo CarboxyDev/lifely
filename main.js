@@ -1410,7 +1410,7 @@ function restaurant(){
 				morale = morale + 2;
 			};
 			if (satisfaction <= 40){
-				if (poision == 1){
+				if (poison == 1){
 					message(`You got food poisoning`);
 					Swal.fire("You got food poisoning!",
 					"Due to this , you lost some health","error");
@@ -2007,6 +2007,7 @@ function assets(){
 	var btn2 = `<br><button class="btn btn-danger" onclick="sell_assets()">Sell Assets</button><br>`;
 
 	let html = btn1+btn2;
+	html = html+`<br><hr><br><h1><u>Your Assets</u></h1>`;
 	for (x in user.assets){
 		html = html+`<br>${user.assets[x][0]}`;
 	}
@@ -2014,7 +2015,8 @@ function assets(){
 		position:"top",
 		title:"Assets",
 		showConfirmButton:false,
-		html:html
+		html:html,
+		footer:`NOTE : Assets are currently in BETA`
 	});
 };
 
@@ -2037,6 +2039,21 @@ function purchase_assets(){
 	});
 
 };
+
+
+
+
+
+function sell_assets(){
+	Swal.fire({
+		icon:"info",
+		title:"Coming Soon!",
+		text:"Currently , Assets are currently in BETA"
+	})
+
+};
+
+
 
 
 
@@ -2099,6 +2116,67 @@ function purchase_house(name,cost){
 
 
 
+function purchase_vehicle(name,cost){
+	let chance = randint(0,2);
+	let l = [10,15,20,25,30,35,40,45,50,55,60,65,70];
+	var discount = false;
+	r = l[randint(0,12)];
+	let change = 100*r;
+	if (chance == 0){
+		var price = cost - change;
+		var discount = true;
+	}
+	else {
+		var price = cost + change;
+	};
+
+
+	if (discount == true){
+		var html = `
+		Price - <del>${cost}$</del> <b>${price}$</b><br>
+		Discount - <b>${cost-price}$</b><br>
+		Condition - <b>${randint(40,100)}%</b>`;
+	}
+	else {
+		var html = `Price - <b>${price}$</b><br>
+		Condition - <b>${randint(40,100)}%</b>`;
+	}
+	Swal.fire({
+		title:name,
+		html:html,
+		icon:"info",
+		showCancelButton:true,
+		confirmButtonText:`Pay ${price}$`,
+		cancelButtonText:"Not Interested"
+	}).then((result) => {
+		if (result.value){
+			if (has_money(price) == true){
+				money = money - price;
+				Swal.fire({
+					icon:"success",
+					title:"You bought a vehicle!",
+					html:`You are now a proud owner of a <b>${name}</b><br>`+
+					`You bought it for <b>${price}$</b>`,
+					confirmButtonText:"Amazing!"
+				});
+				user.assets.push([name,price]);
+				message(`You bought a ${name} for ${price}$`)
+				increase("morale",3,7);
+				display();
+			};
+
+		}
+		else if (result.dismiss == Swal.DismissReason.cancel){
+			purchase("vehicle");
+		};
+
+	});
+};
+
+
+
+
+
 function purchase(item){
 
 	if (item == "house"){
@@ -2144,6 +2222,50 @@ function purchase(item){
 
 	};
 
+
+
+	if (item == "vehicle"){
+
+		let list = [
+		{"Toyota Car (Used)":10000},{"Toyota Car":30000},
+		{"Chevrolet Car (Used)":8000},{"Chevroler Car":25000},
+		{"Volkswagen Car (Used)":12000},{"Volkswagen Car":35000},
+		{"BMW Car (Used)":22000},{"BMW Car":50000},
+		{"Audi Car (Used)":21000},{"Audi Car":45000},
+		{"Lambhorgini":120000},{"Harley Davidson Bike":30000}
+		];
+		let all = [];
+		for (x=0;x<4;x++){
+			let rand = randint(0,list.length-1);
+			if (list[rand] in all){
+				x = x -1;	
+			}
+			else {
+				all.push(list[rand]);
+			};
+		};
+		console.log(all);
+		let btns = [];
+		for (x in all){
+			let vehicle = Object.keys(all[x])[0];
+			let cost = Object.values(all[x])[0];
+			let btn = `<br><button onclick="purchase_vehicle('${vehicle}',${cost})"
+			class="btn btn-primary">${vehicle}</button><br>`;
+			btns.push(btn);
+
+		};
+		let reload_btn = `<br><br><button onclick="purchase('vehicle')" 
+		class="btn-lg btn-secondary">View More Vehicles</button>`;
+		let html = "<br><hr><br>"+btns[0]+btns[1]+btns[2]+btns[3]+reload_btn;
+		Swal.fire({
+			title:"Available Vehicles",
+			icon:"info",
+			position:"top",
+			html:html,
+			showConfirmButton:false
+		});
+
+	};
 
 };
 
@@ -2245,7 +2367,7 @@ function update(){
 
 
 
-var intro_disabled = false;
+var intro_disabled = true;
 function intro(){
 	if (intro_disabled == false){
 		var html = 
