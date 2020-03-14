@@ -323,6 +323,7 @@ function age_events(){
 				message(`You have ${total_student_loan}$ as total student loans`);
 				message(`Your student loan will be paid when you start earning`)
 				message(`You are no longer entitled to more student loans`);
+
 			};
 		};
 	
@@ -379,6 +380,11 @@ function age_events(){
 			else if (user.age/12 == 30){
 				money = money - total_student_loan;
 				student_has_loan = false;
+				Swal.fire({
+					icon:"warning",
+					title:"Student Loan Deadline is here!",
+					text:`You had to pay ${total_student_loan}$`
+				});
 				message(`Student loans repayment deadline has been reached`);
 				message(`You had to pay all your pending loans`);
 			}
@@ -673,7 +679,7 @@ function study_course(course){
 		var title = "Medical College";
 		var html = 
 		`
-		<span>REQUIREMENT : 75%+ INTELLECT</span><br>
+		<span>REQUIREMENT : 70%+ INTELLECT</span><br>
 		<span>FEES : 45000$</span><br><br>
 		<span>Study for better job opportunities in medical fields</span>
 		<br><br>
@@ -727,8 +733,7 @@ var student_months = 0;
 var student_has_loan = false;
 var student_fees = 0;
 function student_loan(type){
-	$(`#student-loan-${type}`).remove();
-	if (type=="eng"){
+	if (type=="eng" && intellect >= 70){
 		student_fees = 40000;
 		Swal.fire({
 			title:"You were alloted a student loan!",
@@ -738,8 +743,11 @@ function student_loan(type){
 		user.job = "Engineering College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in an Engineering College`);
-	};
-	if (type=="grad"){
+		student_has_loan = true;
+		student();
+
+	}
+	else if (type=="grad" && intellect >= 60){
 		student_fees = 20000;
 		Swal.fire({
 			title:"You were alloted a student loan!",
@@ -749,8 +757,11 @@ function student_loan(type){
 		user.job = "Graduate College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Graduate College`);
-	};
-	if (type=="com"){
+		student_has_loan = true;
+		student();
+
+	}
+	else if (type=="com" && intellect >= 65){
 		student_fees = 33000;
 		Swal.fire({
 			title:"You were alloted a student loan!",
@@ -760,8 +771,11 @@ function student_loan(type){
 		user.job = "Commerce College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Commerce College`);
-	};
-	if (type=="arts"){
+		student_has_loan = true;
+		student();
+
+	}
+	else if (type=="arts" && intellect >= 60){
 		student_fees = 28000;
 		Swal.fire({
 			title:"You were alloted a student loan!",
@@ -771,8 +785,11 @@ function student_loan(type){
 		user.job = "Arts College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in an Arts College`);
-	};
-	if (type=="law"){
+		student_has_loan = true;
+		student();
+
+	}
+	else if (type=="law" && intellect >= 70){
 		student_fees = 35000;
 		Swal.fire({
 			title:"You were alloted a student loan!",
@@ -781,8 +798,11 @@ function student_loan(type){
 		});
 		user.job = "Law College Student";
 		message(`You got a student loan worth ${student_fees}$`);
-	};
-	if (type=="med"){
+		student_has_loan = true;
+		student();
+
+	}
+	else if (type=="med" && intellect >= 70){
 		student_fees = 45000;
 		Swal.fire({
 			title:"You were alloted a student loan!",
@@ -792,9 +812,12 @@ function student_loan(type){
 		user.job = "Medical College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Medical College`);
-	};
-	if (type=="community"){
-		student_fees = 5000;
+		student_has_loan = true;
+		student();
+
+	}
+	else if (type=="community" && intellect >= 50){
+		student_fees = 10000;
 		Swal.fire({
 			title:"You were alloted a student loan!",
 			text:`You are liable to pay ${student_fees}$ in future loans`,
@@ -803,13 +826,26 @@ function student_loan(type){
 		user.job = "Community College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Community College`);
-	};
+		student_has_loan = true;
+		student();
+
+	}
+	else{
+		Swal.fire({
+			icon:"error",
+			title:"Your student loan was rejected",
+			html:`<br><hr><br><b>Reason :</b> Your intelligence level
+			is not on par with the college requirements`,
+			footer:`NOTE : Don't worry, you can increase your intellect!`,
+			confirmButtonText:"Rats!"
+		})
+
+	}
+
 	
-	student_has_loan = true;
-	student(); };
+	
 
-
-
+};
 
 
 
@@ -950,12 +986,35 @@ function student_menu(){
 		html:
 			`Months Completed - <b>${student_months}</b>/48<br>`+
 			`Current Student Debt - ${total_student_loan}$<br>`+
-			`<br>`,
+			`<br><br><br>`+
+			`<button onclick="leave_study()" class='btn btn-danger'>Leave College</button>`,
 		showConfirmButton:false
 
 	});
 
 };
+
+
+function leave_study(){
+
+	$("#student").attr("onclick","actions()");
+	$("#student").attr("class","btn-lg btn-danger");
+	$("#student").attr("id","actions");
+	if (student_has_loan == true){
+		total_student_loan = Math.floor(student_fees/48*student_months);
+		message(`Despite leaving school , you're liable to pay ${total_student_loan}$ in student loans`);
+	}
+
+	Swal.fire({
+		icon:"warning",
+		title:"You left your college!"
+	});
+
+	is_student = false;
+	user.job = "Unemployed";
+	student_months = 0;
+};
+
 
 
 
@@ -993,7 +1052,6 @@ function student_pass(){
 	message(`You passed out as a ${deg}`);
 	user.job = "Unemployed";
 	is_student = false;
-	student_months = 0;
 	student_months = 0;
 	degree.push(course);
 	$("#student").attr("onclick","actions()");
@@ -2392,8 +2450,26 @@ function update(){
 };
 
 
+function confirm(title,text=null){
+	if (text == null){
+		text = "";
+	}
+	Swal.fire({
+		icon:"warning",
+		title:title,
+		text:text,
+		showCancelButton:true,
+		confirmButtonText:"Yes",
+		cancelButtonText:"No"
+	})
+};
 
-var intro_disabled = true;
+
+
+
+
+
+var intro_disabled = false;
 function intro(){
 	if (intro_disabled == false){
 		var html = 
