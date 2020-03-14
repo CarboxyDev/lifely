@@ -1061,29 +1061,39 @@ function check_job(job_name,salary){
 
 
 	var req = [];
+	var xp = 0;
+	var need_xp = false;
 	if (job_name == "Teacher"){
 		req = ["ART","GRAD","ENG"];
+
 	}
 	else if (job_name == "Firefighter"){
 		req = ["COMMUNITY","GRAD","ENG"];
 	}
 	else if (job_name == "Gardener"){
 		job_qualified = true;
+
 	}
 	else if (job_name == "Jr. Engineer"){
 		req = ["ENG"];
 	}
 	else if (job_name == "Sr. Engineer"){
 		req = ["ENG"];
+		xp = 60;
+		need_xp = true;
 	}
 	else if (job_name == "Police Officer"){
 		req = ["GRAD","COMMUNITY","ART"];
+		xp = 60;
+		need_xp = true;
 	}
 	else if (job_name == "Soldier"){
 		req = ["GRAD","COMMUNITY","ENG"];
 	}
 	else if (job_name == "Army Officer"){
 		req = ["GRAD","COMMUNITY","ENG"];
+		xp = 60;
+		need_xp = true;
 	}
 	else if (job_name == "Garbage Collector"){
 		job_qualified = true;
@@ -1099,6 +1109,8 @@ function check_job(job_name,salary){
 	}
 	else if (job_name == "Sr. Pilot"){
 		req = ["ENG"];
+		xp = 60;
+		need_xp = true;
 	}
 	else if (job_name == "Chef"){
 		req = ["COMMUNITY","GRAD","ARTS"];
@@ -1120,6 +1132,8 @@ function check_job(job_name,salary){
 	}
 	else if (job_name == "Judge"){
 		req = ["LAW"];
+		xp = 120;
+		need_xp = true;
 	}
 	else if (job_name == "Property Dealer"){
 		req = ["GRAD","ENG","COM"];
@@ -1132,20 +1146,34 @@ function check_job(job_name,salary){
 	for (x in degree){
 		for (y in req){
 			if (degree[x] == req[y]){
-				job_qualified = true;
+				if (need_xp != true){
+					job_qualified = true;
+				}
+				else{
+					if (user.xp >= xp){
+						job_qualified = true;
+					}
+				}
 			}
 		}
+	}
+	let html = 
+	`<hr><br>Job name - ${job_name}<br>
+	Salary - <b>${salary}$/month</b><br>`;
+
+	if (need_xp == true){
+		html = html+`Experience Needed - <b>${xp/12} years</b><br><br><hr>`;
+	}
+	else {
+		html = html + "<br><br><hr>";
 	}
 
 	Swal.fire({
 		position:"top",
 		icon:"info",
 		title:"Job Information",
-		html:
-		`<hr><br>Job name - ${job_name}<br>`+
-		`Salary - <b>${salary}$/month</b><br>`+
-		`<br><br><hr>`
-
+		html:html
+		
 		
 		,confirmButtonText:'Apply',
 		showCancelButton:true,
@@ -1782,8 +1810,6 @@ function actions(){
 function activities(){
 	var html = 
 	`<br>
-<button id="crime-btn" onclick="crime()" class="btn btn-danger">Commit Crime</button>
-<br><br>
 <button id="gym-btn" onclick="gym()" class="btn btn-danger">Go To Gym</button>
 <br><br>
 <button id="lib-btn" onclick="library()" class="btn btn-danger">Go To Library</button>
@@ -1793,6 +1819,8 @@ function activities(){
 <button id="restaurant-btn" onclick="restaurant()" class="btn btn-danger">Go To Restaurant</button>
 <br><br>
 <button id="exercise-btn" onclick="exercise()" class="btn btn-danger">Do Exercise</button>
+<br><br>
+<button id="crime-btn" onclick="crime()" class="btn btn-danger">Commit Crime</button>
 <br><br>
 <button id="vacation-btn" onclick="vacation()" class="btn btn-success">Go On Vacation</button>
 <br><br>
@@ -2199,7 +2227,6 @@ function purchase(item){
 				all.push(list[rand]);
 			};
 		};
-		console.log(all);
 		let btns = [];
 		for (x in all){
 			let house = Object.keys(all[x])[0];
@@ -2244,7 +2271,6 @@ function purchase(item){
 				all.push(list[rand]);
 			};
 		};
-		console.log(all);
 		let btns = [];
 		for (x in all){
 			let vehicle = Object.keys(all[x])[0];
