@@ -64,14 +64,14 @@ function display(){
 	if (intellect < 10){
 		intellect = 10;
 	};
-	if (health < 0){
-		health = 0;
+	if (health <= 0){
+		health = 1;
 	};
 	if (morale < 5){
-		morale = 5;
+		morale = 1;
 	};
 	if (looks < 5){
-		looks = 5;
+		looks = 1;
 	};
 
 
@@ -275,7 +275,7 @@ function age_events(){
 
 	if (user.age/12 > 40){
 
-		var rand = randint(1,2);
+		var rand = randint(1,4);
 		if (rand == 1){
 			health -= 1;
 			looks -= 1;
@@ -416,6 +416,7 @@ function age_events(){
 			$("#jail").attr("class","btn-lg btn-danger");
 			$("#jail").attr("id","actions");
 			$("#activities").show();
+			$("#assets").show();
 
 		};
 
@@ -1648,20 +1649,49 @@ function crime(){
 		let stole = randint(10,1000);
 		money = money + stole;
 		message(`You commited a crime and stole ${stole}$`);
+		Swal.fire({
+			icon:"success",
+			title:`You stole ${stole}$`,
+			html:`<br><hr><br>You successfully commited a crime!`,
+			footer:"NOTE : Please do not commit any crime in  real life",
+			confirmButtonText:"Money!"
+		});
 	}
 	else if (chance == 2){
 		let fine = randint(10,500);
 		money = money - fine;
 		message(`You were caught commiting a minor crime and fined\ 
 		${fine}$`);
+		Swal.fire({
+			icon:"error",
+			title:`You were caught and fined ${fine}$`,
+			html:`<br><hr><br>You failed in commiting
+			a crime and were fined`,
+			confirmButtonText:"Shit!"
+		});	
 	}
 	else if (chance == 3){
 		message(`You were caught commiting a heinous crime and were\
 		<u>jailed</u>`);
-		jail(36);
+		Swal.fire({
+			icon:"warning",
+			title:"Caught and charged!",
+			html:`<br><hr><br>You were caught commiting a heinous crime.<br>
+			You have been sentenced to <b>36</b> months in jail.`,
+			confirmButtonText:"Okay.."
+		}).then((result) => {
+			jail(36);
+		});
+		
 	}
 	else {
 		message(`You did not commit any crime out of fear`);
+		Swal.fire({
+			title:"No crime commited!",
+			html:"You didn't commit any crime out of fear.",
+			icon:"info",
+			confirmButtonText:"Oh"
+		});
 	};
 	display();
 };
@@ -1693,7 +1723,7 @@ function jail(months){
 	
 	};
 	$("#activities").hide();
-
+	$("#assets").hide()
 	is_jailed = true;
 	is_student = false;
 	has_job = false;
@@ -1811,8 +1841,10 @@ function appeal_result(was_saved,defender){
 		user.job = "Unemployed";
 
 		$("#jail").attr("onclick","actions()");
+		$("#jail").attr("class","btn-lg btn-danger");
 		$("#jail").attr("id","actions");
 		$("#activities").show();
+		$("#assets").show();
 
 
 	}
@@ -2444,7 +2476,9 @@ function update(){
 		$("#age").text(`Age : ${years} years`);
 
 	};
-	random_event();
+	if (is_jailed != true){
+		random_event();
+	};
 	age_events();
 
 };
@@ -2481,6 +2515,7 @@ function intro(){
 		Lifely helps you visualize different situations in life.<br>		
 		<br><hr><br>
 		`;
+
 		Swal.fire({
 			icon:"info",
 			position:"top",
