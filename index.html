@@ -1,70 +1,70 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Lifely</title>
+	<head>
+		<title>Lifely</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="w3.css" type="text/css">
+		<link rel="stylesheet" href="bootstrap.min.css" type="text/css">
+		<link rel="stylesheet" href="sweetalert2.css" type="text/css">
+		<link rel="stylesheet" href="style.css" type="text/css">
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="w3.css" type="text/css">
-<link rel="stylesheet" href="bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="style.css" type="text/css">
+		<script src="jquery-min.js"></script>
+		<script src="bootstrap.min.js"></script>
+		<script src="sweetalert2.js"></script>
+		<script src="https://kit.fontawesome.com/1279dac364.js" crossorigin="anonymous"></script>
+	</head>
+	<body>
+			<main class="flex-center container page">
+						<div class="row main-bg-color  w3-margin">
+							<div class="col">
+								<div class="row info-cards w3-margin-bottom">
+									<div class="col left-info-card w3-padding">
+										<ul class="w3-ul">
+											<li>
+												<i class="fas fa-money-bill-alt w-5"></i>
+												<span id="money-block">MONEY  <span id="money"></span>$</span>
+											</li>
 
-<link rel="stylesheet" href="sweetalert2.css" type="text/css">
+											<li>
+												<i class="fas fa-heartbeat"></i>
+												<span id="health-block">HEALTH  <span id="health"></span>%</span>
+											</li>
 
+											<li>
+												<i class="fas fa-fist-raised"></i>
+												<span id="morale-block">MORALE  <span id="morale"></span>%</span>
+											</li>
 
-</head>
-<body>
-<div class="container page">
-	
-	<span id="money-block">MONEY : <span id="money"></span>$</span>
-<br>
-<span id="health-block">HEALTH : <span id="health"></span>%</span>
-<br>
-<span id="morale-block">MORALE : <span id="morale"></span>%</span>
-<br>
-<span id="intellect-block">INTELLECT : <span id="intellect"></span>%</span>
-<br>
-<span id="looks-block">LOOKS : <span id="looks"></span>%</span>
-<br>
-<hr>
-
-<h3 id="age">Age : 18 years</h3>
-<hr>
-<div class="console">
-
-
-
-</div>
-<br><br><hr>
-
-
-<div class="main">
-
-	
-<button id="actions" class="btn-lg btn-danger" onclick="actions()">Actions</button>
-
-<button id="update" class="btn-lg btn-danger">Age More</button>
-<button id="profile" class="btn-lg btn-danger" onclick="profile()">Profile</button>
-<button id="assets" class="btn-lg btn-danger" onclick="assets()">Assets</button>
-<button id="activities" class="btn-lg btn-danger" onclick="activities()">Activities</button>
-
-
-</div>
-
-
-</div>
+											<li>
+												<i class="fas fa-brain"></i>
+												<span id="intellect-block">INTELLECT  <span id="intellect"></span>%</span>
+											</li>
+											<li>
+												<i class="fas fa-fire"></i>
+												<span id="looks-block">LOOKS <span id="looks"></span>%</span>
+											</li>
+										</ul>
+									</div>
+									<div class="col right-info-card w3-padding">
+										<h3 id="age">Age : 18 years</h3>
+										<div class="console"></div>
+									</div>
+								</div>
 
 
+							<div class="main play-buttons w3-margin">
+								<button id="actions" class="btn-lg btn-danger" onclick="actions()">Actions</button>
+								<button id="update" class="btn-lg btn-outline-success" onclick="update()">Age More</button>
+								<button id="profile" class="btn-lg btn-info" onclick="profile()">Profile</button>
+								<button id="assets" class="btn-lg btn-outline-danger" onclick="assets()">Assets</button>
+								<button id="activities" class="btn-lg btn-danger" onclick="activities()">Activities</button>
+							</div>
+						</div>
+						</div>
+			</main>
 
-
-
-
-
-<script src="jquery-min.js"></script>
-<script src="bootstrap.min.js"></script>
-<script src="sweetalert2.js"></script>
-<script src="main.js"></script>
-
-<noscript>Please Enable Javascript To Load this Page Successfully.</noscript>
-</body>
+			<script src="main.js"></script>
+		 <noscript>Please Enable Javascript To Load this Page Successfully.</noscript>
+	</body>
 </html>
