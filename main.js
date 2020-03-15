@@ -139,7 +139,7 @@ function random_country(){
 	"Denmark","Finland","Russia","Japan","Taiwan","South Korea",
 	"Indonesia","Singapore","Italy","Hungary","Switzerland",
 	"Poland","Germany","France","Portugal","Spain","Ireland",
-	"Iceland","Argentina","Brazil","Urugay","Cuba","Albania",
+	"Iceland","Argentina","Brazil","Uruguay","Cuba","Albania",
 	"Australia","Austria","Belgium","Belarus","Estonia","Bulgaria",
 	"Chile","Turkey","Greece","Cyprus","Croatia","Costa Rica",
 	"Egypt","Israel","Kuwait","Latvia","Iran","Slovenia","Lithuania",
