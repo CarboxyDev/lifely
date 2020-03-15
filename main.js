@@ -1715,7 +1715,7 @@ function hospital(){
 
 function crime(){
 	var chance = randint(0,6);
-	if (chance == 1){
+	if (chance == 0){
 		let stole = randint(10,1000);
 		money = money + stole;
 		message(`You commited a crime and stole ${stole}$`);
@@ -1727,7 +1727,7 @@ function crime(){
 			confirmButtonText:"Money!"
 		});
 	}
-	else if (chance == 2){
+	else if (chance == 1){
 		let fine = randint(10,500);
 		money = money - fine;
 		message(`You were caught commiting a minor crime and fined\ 
@@ -1740,7 +1740,7 @@ function crime(){
 			confirmButtonText:"Shit!"
 		});	
 	}
-	else if (chance == 3){
+	else if (chance == 2){
 		message(`You were caught commiting a heinous crime and were\
 		<u>jailed</u>`);
 		Swal.fire({
@@ -1754,7 +1754,7 @@ function crime(){
 		});
 		
 	}
-	else {
+	else if (chance == 3 || chance == 4){
 		message(`You did not commit any crime out of fear`);
 		Swal.fire({
 			title:"No crime commited!",
@@ -1762,6 +1762,16 @@ function crime(){
 			icon:"info",
 			confirmButtonText:"Oh"
 		});
+	}
+	else {
+		message(`You failed to commit a crime`);
+		Swal.fire({
+			title:`You failed to commit a crime`,
+			text:"You didn't play your crime well and messed up",
+			icon:"info",
+			confirmButtonText:"Silly me"
+		});
+
 	};
 	display();
 };
@@ -1956,10 +1966,148 @@ function actions(){
 };
 
 
+function shuffle(array) {
+   	for (let i = array.length - 1; i > 0; i--) {
+      	const j = Math.floor(Math.random() * (i + 1));
+      	[array[i], array[j]] = [array[j], array[i]];
+   	}
+};
 
 
 
 
+function gamble_result(option,amount){
+	
+	if (option == 1){
+		// win
+		let prize = amount*2;
+		money = money + prize;
+		morale += randint(0,2);
+		display()
+		message(`You won ${prize}$ in a gamble`);
+		let html = `
+		<b>YOU WON THE GAMBLE!</b><br><br>
+		You gambled <b>${amount}$</b><br>
+		You won <b>${prize}$</b><br><br>
+		`;
+		Swal.fire({
+			icon:"success",
+			title:"Congratulations!!",
+			html:html,
+			confirmButtonText:"Amazing!"
+		});
+	}
+	else {
+		// lose
+		message(`You lost ${amount}$ in a gamble`);
+		let html = `
+		You lost <b>${amount}$ in the gamble</b><br><br>
+		`;
+		Swal.fire({
+			icon:"error",
+			title:"You lost the gamble!",
+			html:html,
+			confirmButtonText:"Harsh Luck"
+		});
+
+	};
+
+};
+
+
+
+function gamble_start(amount){
+	if (has_money(amount) == true){
+		money -= amount;
+		display();
+		let html = `
+		<h5>You've spent <b>${amount}$</b> to gamble</h5><br><br>
+		<h6>Click one button below.<br>
+		One of the buttons will win you the gamble!</h6>
+		<br><br>
+		`;
+
+		let opts = [1,2,3,4];
+		shuffle(opts);
+
+		let btns = 
+		`
+		<button onclick="gamble_result(${opts[0]},${amount})" class="btn btn-success">Choice 1</button>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button onclick="gamble_result(${opts[1]},${amount})" class="btn btn-success">Choice 2</button><br><br>
+		<button onclick="gamble_result(${opts[2]},${amount})" class="btn btn-success">Choice 3</button>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button onclick="gamble_result(${opts[3]},${amount})" class="btn btn-success">Choice 4</button><br>
+
+		`
+
+		html = html+btns;
+
+		Swal.fire({
+			icon:"question",
+			title:"Gambling",
+			html:html,
+			showConfirmButton:false
+		});
+
+
+
+		
+	}
+
+};
+
+
+
+
+
+
+
+
+
+
+
+function gamble(){
+	let placeholder = 100;
+	let html = `
+	<br>
+	Minimum gamble amount - <b>100$</b><br>
+	Maximum gamble amount - <b>10000$</b><br><br>
+	On winning the gamble , your gamble amount is doubled!<br>
+	On losing the gamble , your gamble amount is lost!<br><br>
+	`;
+	Swal.fire({
+		icon:"info",
+		title:"Gambling Time",
+		input:"text",
+		inputValue:placeholder,
+		html:html,
+		footer:"NOTE : Please refrain from gambling in real life",
+		confirmButtonText:"Gamble!",
+		showCancelButton:true,
+		cancelButtonText:"Nevermind",
+		inputValidator: (cost) => {
+			let isnum = /^\d+$/.test(cost);
+			if (isnum == true){
+				gamble_start(cost);
+			}
+			else if (!cost){
+				return 'You need to bet some money!'
+			}
+			else if (isnum != true){
+				return 'Enter only a number!'
+			}
+			else if (cost < 100){
+				return 'You have to bet a minimum of 100$'
+			}
+			else if (cost > 10000){
+				return 'You can bet a maximum of 10000$'
+			}
+		}
+	})
+
+
+};
 
 
 
@@ -1979,6 +2127,8 @@ function activities(){
 <button id="restaurant-btn" onclick="restaurant()" class="btn btn-danger">Go To Restaurant</button>
 <br><br>
 <button id="exercise-btn" onclick="exercise()" class="btn btn-danger">Do Exercise</button>
+<br><br>
+<button onclick="gamble()" class="btn btn-danger">Do Gambling</button>
 <br><br>
 <button id="crime-btn" onclick="crime()" class="btn btn-danger">Commit Crime</button>
 <br><br>
@@ -2019,6 +2169,10 @@ function profile(){
 	};
 
 	Swal.fire({
+		imageUrl:"images/profile.png",
+		imageHeight:125,
+		imageWidth:125,
+		imageAlt:"Profile",
 		position:"top",
 		title:"Profile",
 		showConfirmButton:false,
@@ -2195,7 +2349,7 @@ function assets(){
 	var btn2 = `<br><button class="btn btn-danger" onclick="sell_assets()">Sell Assets</button><br>`;
 
 	let html = btn1+btn2;
-	html = html+`<br><hr><br><h1><u>Your Assets</u></h1>`;
+	html = html+`<br><hr><br><h3><u>Your Assets</u></h3>`;
 	for (x in user.assets){
 		html = html+`<br>${user.assets[x][0]}`;
 	}
@@ -2415,7 +2569,7 @@ function purchase(item){
 
 		let list = [
 		{"Toyota Car (Used)":10000},{"Toyota Car":30000},
-		{"Chevrolet Car (Used)":8000},{"Chevroler Car":25000},
+		{"Chevrolet Car (Used)":8000},{"Chevrolet Car":25000},
 		{"Volkswagen Car (Used)":12000},{"Volkswagen Car":35000},
 		{"BMW Car (Used)":22000},{"BMW Car":50000},
 		{"Audi Car (Used)":21000},{"Audi Car":45000},
