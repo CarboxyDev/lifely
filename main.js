@@ -2578,10 +2578,12 @@ function intro(){
 	if (intro_disabled == false){
 		var html = 
 		`
+		<br><hr><br>
 		You start off as a random person with random features in
 		a random country. You can live your life in any way you want.
 		All this with simple button clicks.
-		Lifely helps you visualize different situations in life.
+		Lifely helps you visualize different situations in life.<br>		
+		<br><hr><br>
 		`;
 
 		Swal.fire({
