@@ -1530,6 +1530,74 @@ function checkup(){
 };
 
 
+function medicine(){
+	// cost partially dependent on person's salary
+	if (has_job == true && user.salary <= 4000 ){
+		var cost = Math.floor(user.salary*30/100);
+		let real_cost = randint(2000,6000);
+		var html = `<br>You are getting cheap medicine due to government
+		<br>benefits for not so well-off people<br><br>
+		Real Cost of Medicine - <b>${real_cost}$</b><br>
+		Cost of Medicine for you - <b>${cost}$</b><br>
+		Quality of the Medicine - <b>${randint(45,100)}%</b>
+		<br><br>`;
+	}
+	else if (has_job == false){
+		var cost = randint(250,1000);
+		let real_cost = randint(2000,6000);
+		var html = `<br>You are getting cheap medicine due to government
+		<br>benefits for unemployed citizens<br><br>
+		Real Cost of Medicine - <b>${real_cost}$</b><br>
+		Cost of Medicine for you - <b>${cost}$</b><br>
+		Quality of the Medicine - <b>${randint(45,100)}%</b>
+		<br><br>`;
+
+	}
+	else {
+		var cost = randint(2000,6000);
+		var html = 
+		`
+		Cost of the Medicine - <b>${cost}$</b><br>
+		Quality of the Medicine - <b>${randint(45,100)}%</b><br>
+		<br>
+		`;
+	}
+	
+	Swal.fire({
+		icon:"info",
+		title:"Western Medicine",
+		html:html,
+		showCancelButton:true,
+		confirmButtonText:`Pay ${cost}$`,
+		cancelButtonText:"Nevermind",
+		footer:"NOTE : Taking medicine improves your health"
+	}).then((result) => {
+
+		if (result.value){
+			if (has_money(cost) == true){
+				increase("health",3,8);
+				message(`You bought western medicine for ${cost}$`);
+				let html = `
+				<br>You paid <b>${cost}$</b> to buy the western medicine<br>
+				`;
+				Swal.fire({
+					icon:"success",
+					title:"Medicine Taken!",
+					html:html,
+					confirmButtonText:"Anything For Health!"
+				});
+
+			}
+		}
+	});
+
+
+};
+
+
+
+
+
 function therapy(){
 	Swal.fire({
 		icon:"info",
@@ -1612,6 +1680,8 @@ function hospital(){
 	var html = 
 	`<br><hr><br>
 	<button onclick="checkup()" class="btn btn-success">Get a Checkup</button>
+	<br><br>
+	<button onclick="medicine()" class="btn btn-success">Get Western Medicine</button>
 	<br><br>
 	<button onclick="therapy()" class="btn btn-success">Go to Therapy</button>
 	<br><br>
