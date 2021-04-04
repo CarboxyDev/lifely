@@ -1,0 +1,52 @@
+.btn-main {
+	font-size:3.5vh;
+	background-color: #e92236;
+	border:none;
+	padding:7.5px;
+	font-family: Helvetica;
+	color:white;
+	margin-right: 1vw;
+	outline: none;
+	border-radius: 5px;
+
+}
+.btn-main:hover {
+	background-color: #dc3545;
+}
+
+.btn-age {
+	font-size:3.2vh;
+	border:none;
+	padding:7.5px;
+	font-family: Helvetica;
+	color:white;
+	margin-right: 1vw;
+	outline: none;
+}
+
+.btn-settings {
+	font-size:4vh;
+	color:white;
+	background-color: #6c757d;
+	border:none;
+	padding:10px;
+	outline:none;
+	border-radius: 10px;
+	position: relative;
+	left:90%;
+	top:50%;
+	transform:translate(-50%,-50%);
+
+}
+
+.btn1 {
+
+}
+
+.btn2 {
+
+}
+
+button:active,button:focus{
+	outline:none
+}

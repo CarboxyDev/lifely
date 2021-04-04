@@ -1,0 +1,103 @@
+* {
+	margin:0;
+	padding:0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #201f1f;
+	height:100vh;
+	width:100vw;
+}
+#container {
+	height:100%;
+	width:100%;
+}
+
+
+
+#top-panel {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	height:10%;
+	border-bottom: 1px solid #1d1c1c;
+	display: grid;
+	grid-template-columns: 70% 30%;
+
+}
+
+#console-container {
+	color:#e2dede;
+	border-right: 1px solid #1d1c1c;
+	font-size:112%;
+	font-family: sans-serif;
+	line-height:125%;
+
+}
+
+#console {
+	
+	margin-top:3%;
+	margin-left:1%;
+}
+
+#root {
+	height:75%;
+	border-bottom: 1px solid #1d1c1c;
+	display: grid;
+	grid-template-columns: 70% 30%;
+}
+
+
+#money-panel {
+
+}
+
+#money {
+	color:#01f179;
+	font-size:6.5vh;
+}
+#age {
+	color:white;
+	font-size: 5vh;
+	float: right;
+	
+
+}
+
+#age-btn {
+	background-color: #44abd4;
+	border-radius: 5px;
+}
+
+#age-btn:hover {
+	background-color: #3f90b1;
+}
+
+
+
+
+
+@media only screen and (max-width:840px){
+	#container {
+		display: none;
+	}
+	#warning {
+		display:block;
+		color:white;
+	}
+}
+
+@media only screen and (min-width:841px){
+	#container {
+		display:block;
+	}
+	#warning {
+		display:none;
+	}
+}
+
+
+
+
+
+
