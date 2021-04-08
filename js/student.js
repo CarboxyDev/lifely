@@ -6,11 +6,11 @@ function study(){
 	<br>
 	<br><button id="study-eng" class="btn btn-success" onclick="study_course('eng')">Engineering College</button><br>
 
-	<br><button id="study-grad" class="btn btn-success" onclick="study_course('grad')">Graduate College</button><br>
+	<br><button id="study-lib" class="btn btn-success" onclick="study_course('lib')">Liberal Arts College</button><br>
 	<br><button id="study-com" class="btn btn-success" onclick="study_course('com')">Commerce College</button><br>
 
 	<br><button id="study-law" class="btn btn-success" onclick="study_course('law')">Law College</button><br>
-	<br><button id="study-arts" class="btn btn-success" onclick="study_course('arts')">Arts College</button><br>
+	<br><button id="study-art" class="btn btn-success" onclick="study_course('art')">Arts College</button><br>
 	<br><button id="study-med" class="btn btn-success" onclick="study_course('med')">Medical College</button><br>	
 	<br><button id="study-community" class="btn btn-success" onclick="study_course('community')">Community College</button><br>
 
@@ -44,16 +44,16 @@ function study_course(course){
 		`;
 
 	};
-	if (course == "grad"){
-		var title = "Graduate College";
+	if (course == "lib"){
+		var title = "Liberal Arts College";
 		var html = 
 		`
-		<span>REQUIREMENT : 60%+ INTELLECT</span><br>
-		<span>FEES : 20000$</span><br><br>
+		<span>REQUIREMENT : 55%+ INTELLECT</span><br>
+		<span>FEES : 25000$</span><br><br>
 		<span>Study for better job opportunities in related job fields</span>
 		<br><br>
-		<button id="scholarship-grad" onclick="scholarship('grad')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-		<button id="student-loan-grad" onclick="student_loan('grad')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+		<button id="scholarship-lib" onclick="scholarship('lib')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
+		<button id="student-loan-lib" onclick="student_loan('lib')" class="btn btn-outline-primary">Take a student loan</button><br><br>
 
 
 		`;
@@ -173,17 +173,17 @@ function student_loan(type){
 		student();
 
 	}
-	else if (type=="grad" && intellect >= 60){
-		student_fees = 20000;
+	else if (type=="lib" && intellect >= 55){
+		student_fees = 25000;
 		Swal.fire({
 			heightAuto:false,
 			title:"You were alloted a student loan!",
 			text:`You are liable to pay ${student_fees}$ in future loans`,
 			icon:"success"
 		});
-		USER.job = "Graduate College Student";
+		USER.job = "Liberal Arts Student";
 		message(`You got a student loan worth ${student_fees}$`);
-		message(`You are now enrolled in a Graduate College`);
+		message(`You are now enrolled in a Liberal Arts College`);
 		student_has_loan = true;
 		student();
 
@@ -313,16 +313,16 @@ function scholarship(type) {
 			message("You were denied a scholarship in an Engineering College");
 			};
 	};
-	if (type=="grad"){
+	if (type=="lib"){
 		if (intellect >= 75){
 			Swal.fire({
 				heightAuto:false,
 				title:"You got the scholarship!",
 				icon:"success"
 			});
-		USER.job = "Graduate College Student";
-		message("You were awarded a scholarship	at a Graduate College");
-		message(`You are now enrolled in a Graduate College`);
+		USER.job = "Liberal Arts Student";
+		message("You were awarded a scholarship	at a Liberal Arts College");
+		message(`You are now enrolled in a Liberal Arts College`);
 		student();
 		}
 		else{
@@ -331,7 +331,7 @@ function scholarship(type) {
 				title:"You were denied a scholarship.",
 				icon:'error'
 			});
-		message("You were denied a scholarship in a Graduate College");
+		message("You were denied a scholarship in a Liberal Arts College");
 		};
 	};
 	if (type=="com"){
@@ -525,14 +525,14 @@ function student_pass(){
 	if (deg.includes("Engineer")){
 		var course = "ENG";
 	}
-	else if (deg.includes("Graduate")){
-		var course = "GRAD";
+	else if (deg.includes("Liberal")){
+		var course = "LIB";
 	}
 	else if (deg.includes("Commerce")){
 		var course = "COM";
 	}
 	else if (deg.includes("Arts")){
-		var course = "ARTS";
+		var course = "ART";
 	}
 	else if (deg.includes("Law")){
 		var course = "LAW";

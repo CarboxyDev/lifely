@@ -53,7 +53,7 @@ body {
 }
 
 #money {
-	color:#01f179;
+	color:#19dd7b;
 	font-size:6.5vh;
 }
 #age {
@@ -62,15 +62,6 @@ body {
 	float: right;
 	
 
-}
-
-#age-btn {
-	background-color: #44abd4;
-	border-radius: 5px;
-}
-
-#age-btn:hover {
-	background-color: #3f90b1;
 }
 
 

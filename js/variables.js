@@ -66,4 +66,5 @@ var oldStats = {
 	intellect:0,
 	looks:0
 }
+var swalBackground = "#333"
 

@@ -16,18 +16,29 @@
 
 .btn-age {
 	font-size:3.2vh;
+	background-color: #44abd4;
 	border:none;
-	padding:7.5px;
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:8px;
+	padding-bottom: 8px;
 	font-family: Helvetica;
 	color:white;
-	margin-right: 1vw;
+	margin-right: 15px;
 	outline: none;
+	border-radius: 5px;
 }
 
+
+.btn-age:hover {
+	background-color: #3f90b1;
+}
+
+
 .btn-settings {
-	font-size:4vh;
-	color:white;
-	background-color: #6c757d;
+	font-size:4.5vh;
+	color:rgb(204, 194, 194);
+	background-color: transparent;
 	border:none;
 	padding:10px;
 	outline:none;
@@ -38,6 +49,11 @@
 	transform:translate(-50%,-50%);
 
 }
+.btn-settings:hover {
+	font-size:4.75vh;
+	color:rgb(240, 211, 211);
+}
+
 
 .btn1 {
 

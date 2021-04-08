@@ -5,7 +5,17 @@ function randint(min,max){
 
 };
 
-
+function approx(num){
+	if (num%10==0){
+		return num;
+	}
+	else {
+		for (x=0;num%10!=0;x++){
+			num += 1;
+		}
+		return num;
+	}
+}
 
 
 function shuffle(array) {
@@ -99,3 +109,31 @@ function generate(object,amount){
 	};
 
 };
+
+
+function degreeNames(degree){
+	if (degree.includes('ENG')){
+		return degree.replace('ENG','Engineering');
+	}
+	// because COMMUNITY has COM in it. yes im stupid.
+	if (degree.includes('COM') && !degree.includes('COMMUNITY')){
+		return degree.replace('COM','Commerce');
+	}
+	if (degree.includes('LIB')){
+		return degree.replace('LIB','Liberal Arts');
+	}
+	if (degree.includes('LAW')){
+		return degree.replace('LAW','Law');
+	}
+	if (degree.includes('ART')){
+		return degree.replace('ART','Vocational Arts');
+	}
+	if (degree.includes('MED')){
+		return degree.replace('MED','Medicine');
+	}
+	if (degree.includes('COMMUNITY')){
+		return degree.replace('COMMUNITY','Community College');
+	}
+	
+
+}

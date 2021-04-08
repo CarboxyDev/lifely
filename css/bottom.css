@@ -1,7 +1,7 @@
 #bottom-panel {
 	display: grid;
 	height: 15%;
-	grid-template-columns: 60% 10% 30%;
+	grid-template-columns: 50% 20% 30%;
 
 }
 
