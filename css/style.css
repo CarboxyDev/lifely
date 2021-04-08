@@ -65,7 +65,13 @@ body {
 }
 
 
+#swal2-content {
+	color:#e3e3e3;
+}
 
+#swal2-footer {
+	color:#e3e3e3;
+}
 
 
 @media only screen and (max-width:840px){

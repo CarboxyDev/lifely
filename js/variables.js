@@ -2,9 +2,52 @@ var intro_disabled = true;
 var country = random_country();
 var USER = {
 	"name":random_name(),"country":country,
-	"age":216,"job":"Unemployed","salary":0,"xp":0,
-	"promos":0,"assets":[]
+	"age":216,'job':"Unemployed","salary":0,
+	"assets":[],'degrees':[]
 };
+
+var USER  = {
+	'name':random_name(),
+	'country':country,
+	'age':216,
+	'status':'None',
+	'assets':[],//temp assets | will be much more complex in future
+	'education':{
+		'degrees':{
+			'SAMPLE':{
+				cgpa:10,
+				grade:'A+',
+				remark:'',
+			}
+		}	
+	},
+
+	'job':{
+		'name':'Unemployed',
+		'salary':0,
+		'promotions':0,
+		'duration':0,
+		'previousJobs':{
+
+		}
+
+	}
+}
+
+
+
+var BANK = {
+	"balance":0,
+	"id":randint(10000000,99999999),
+	"loan":0,
+	"hasLoan":false,
+	"transactions":0
+}
+
+
+
+
+
 
 var money = 1000;
 var health;
@@ -68,3 +111,6 @@ var oldStats = {
 }
 var swalBackground = "#333"
 
+var Swal = Swal.mixin({
+	background:swalBackground
+})

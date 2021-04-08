@@ -1,13 +1,4 @@
 
-var BANK = {"balance":0,
-	"id":randint(10000000,99999999),
-	"loan":0,"hasLoan":false,
-	"transactions":0
-}
-
-
-
-
 
 function bank(){
 

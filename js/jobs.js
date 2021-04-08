@@ -1,4 +1,5 @@
-
+// maybe add promotion frequency later on
+// totally didn't forget to add it rn.
 allJobs = {
 
 	//Engineers
@@ -713,8 +714,8 @@ allJobs = {
 
 
 	"Restaurant Waiter":{
-		minSalary:1500,
-		maxSalary:2500,
+		minSalary:1250,
+		maxSalary:2250,
 		minIncrement:60,
 		maxIncrement:100,
 		successRate:null,
@@ -892,7 +893,7 @@ function findJob(jobName){
 		html:html
 	}).then((result) => {
 		if (result.value){
-			
+			checkJob(jobName,randSalary);
 		}
 		else if (result.dismiss == Swal.DismissReason.cancel){
 			jobs();
@@ -905,7 +906,195 @@ function findJob(jobName){
 
 
 
+function checkJob(jobName,jobSalary){
+
+	let jobDetails = allJobs[jobName];
+	let jobRequirements = jobDetails.requires;
+	let hasRequiredDegree = false;
+	for (degree in USER.degrees){
+		if (jobRequirements.includes(degree)){
+			hasRequiredDegree = true;
+			USER.job.name = jobName;
+			USER.job.salary = jobSalary;
+			USER.job.promotions = 0;
+			jobSuccess();
+		}
+	};
+	if (jobRequirements.length == 0){
+		hasRequiredDegree = true;
+		USER.job.name = jobName;
+		USER.job.salary = jobSalary;
+		USER.job.promotions = 0;
+		jobSuccess();
+	}
+	if (!hasRequiredDegree){
+		jobReject();
+	}
 
 
+
+}
+
+
+function jobSuccess(){
+
+	let html = `<br>
+	<p>
+	You've been accepted for the requested job!<br>
+	You will be earning $${USER.job.salary} per month.<br>
+	</p><br>
+	`
+	message(`You're now working as a ${USER.job.name}`);
+	Swal.fire({
+		heightAuto:false,
+		title:'Job Request Accepted!',
+		icon:'success',
+		html:html,
+		background:swalBackground,
+		showCancelButton:false,
+		showConfirmButton:true,
+		confirmButtonText:'Cool Beans!'
+	});
+
+	jobAllow = false;
+	hasJob = true;
+	let actionsBtn = document.querySelector('#actions-btn');
+	actionsBtn.setAttribute('onclick','jobMenu()')
+	actionsBtn.classList = [];
+	actionsBtn.classList.add('btn-main','btn-purple');
+
+}
+
+
+function jobReject(){
+
+	let html = `<br>
+	You didn't have the necessary skills for the required job.
+	<br>`
+
+	Swal.fire({
+		heightAuto:false,
+		title:'Rejected For Job',
+		icon:'error',
+		html:html,
+		background:swalBackground,
+		showConfirmButton:true,
+		showCancelButton:false,
+		confirmButtonText:'Alright'
+	})
+}
+
+
+
+
+function jobMenu(){
+	console.log('JobMenu()');
+
+	let html = `
+		<br><button id="budget" class="btn-lg btn-info" onclick="budget()">Budget</button><br>
+		<br><button id="bank" class="btn-lg btn-info" onclick="bank()">Bank</button><br>
+		<br><button id="job" class="btn-lg btn-success" onclick="myJob()">My Job</button><br>
+		<br><br><br>
+		<button id="profile" class="btn-lg main-btn btn-secondary" onclick="profile()"> <i class="fas fa-user-alt"></i>&nbsp;Profile</button>
+		<button id="assets" class="btn-lg main-btn btn-danger" onclick="assets()">Assets <i class="fas fa-home"></i></button>
+	`
+
+	Swal.fire({
+		heightAuto:false,
+		title:'Actions',
+		html:html,
+		showCloseButton:true,
+		showConfirmButton:false
+	})
+
+
+}
+
+
+
+
+
+
+function myJob(){
+
+	let html = `<br>
+	Job Name : ${USER.job.name}<br>
+	Monthly Salary : $${USER.job.salary}<br>
+	Yearly Salary : $${USER.job.salary*12}<br><br>
+	Current Promotions : ${USER.job.promotions}<br>
+	Current Job Duration : ${USER.job.duration} months<br><br>
+
+
+	`;
+
+
+
+	Swal.fire({
+		heightAuto:false,
+		title:'My Job',
+		html:html,
+		confirmButtonText:'Go Back',
+		showCloseButton:true
+	})
+
+
+}
+
+
+
+
+
+
+
+function monthlyJobEvent(){
+	USER.job.duration += 1;
+	money += USER.job.salary;
+
+	message(`You were paid ${USER.job.salary}$ as your salary`);
+
+
+	randPromotionEvent();
+	display();
+
+}
+
+
+function randPromotionEvent(){
+	let randNum = randint(0,22);
+	if (randNum == 22){
+		console.log('Congrats on job promotion :D');
+		let minIncrement = allJobs[USER.job.name]['minIncrement'];
+		let maxIncrement = allJobs[USER.job.name]['maxIncrement'];
+		let randInc1 = approx(randint(minIncrement,maxIncrement));
+		let randInc2 = approx(randint(minIncrement,maxIncrement));
+		let inc;
+		if (randInc1 <= randInc2){
+			inc = randInc1;
+		}
+		else {
+			inc = randInc2
+		}
+
+		USER.job.promotions += 1;
+		USER.job.salary += inc;	
+		message(`You've been given a raise of $${inc}`);
+
+		let html = `<br>
+		Raise Given : $${inc}<br>
+		New Salary : $${USER.job.salary}<br><br>
+
+		`;
+
+		Swal.fire({
+			heightAuto:false,
+			title:'Job Promotion',
+			html:html,
+			icon:'success',
+			confirmButtonText:'Nice'
+		});
+
+
+	}
+}
 
 

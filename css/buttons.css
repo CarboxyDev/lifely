@@ -1,6 +1,5 @@
 .btn-main {
 	font-size:3.5vh;
-	background-color: #e92236;
 	border:none;
 	padding:7.5px;
 	font-family: Helvetica;
@@ -10,9 +9,20 @@
 	border-radius: 5px;
 
 }
-.btn-main:hover {
+
+.btn-red {
+	background-color: #e92236;
+}
+.btn-red:hover {
 	background-color: #dc3545;
 }
+.btn-purple {
+	background-color: #9513bf;
+}
+.btn-purple:hover {
+	background-color: #af2dd9;
+}
+
 
 .btn-age {
 	font-size:3.2vh;

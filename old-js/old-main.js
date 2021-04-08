@@ -1974,7 +1974,6 @@ function depression_effect(){
 			if (result.dismiss == Swal.DismissReason.cancel){
 				death();
 				message(`You took the extreme step of ending your life.`);
-				
 
 			}
 		});
@@ -1988,6 +1987,58 @@ function depression_effect(){
 
 
 
+
+function death(){
+	var age = (USER.age-USER.age%12)/12;
+	var html = `
+	<br><hr><br>
+	Name : ${USER.name}<br>
+	Net-worth : ${money}$<br>
+	Age : ${age}<br>
+
+	<br><hr><br>You were cremated in ${USER.country}
+	<br><hr><br>
+	`
+	;
+	Swal.fire({
+		heightAuto:false,
+		title:`You died at ${age}`,
+		imageUrl:"images/death.png",
+		imageHeight:100,
+		imageWidth:100,
+		imageAlt:"Death",
+		html:html,
+		confirmButtonText:"RIP"
+	});
+	if (hasJob){
+		$("#job").hide();
+	}
+	else if (is_jailed){
+		$("#jail").hide();
+	}
+	else{
+		$("#actions").hide();
+	};
+	let content = `
+	<h2 class="text-danger"><b>RIP</b> ${USER.name}</h2><br>
+	`;
+
+	$("#console").html("");
+	$("#console").html(content);
+	$("#update").hide();
+	$("#profile").hide();
+	$("#assets").hide();
+	$("#activities").hide();
+	$("#money-block").html(`Died with <b>${money}$</b>`);
+	$("#health-block").html("<b>DEAD</b>");
+	$("#morale-block").hide();
+	$("#morale-icon").hide();
+	$("#intellect-icon").hide();
+	$("#intellect-block").hide();
+	$("#looks-block").hide();
+	$("#looks-icon").hide();
+	display();
+};
 
 
 

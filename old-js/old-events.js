@@ -1,16 +1,22 @@
+// was named checks.js previously
+
 function age_events(){
-	health_check();
+	if (hasJob){
+		monthlyJobEvent();
+	}
+	
 	disease_check();
 	special_event_check();
 	monthly_budget();
 	attribute_check();
 	student_check();
-	job_check();
 	loan_check();
 	money_in_bank_check();
 	jail_check();
 	need_house_check();
 	depression_check();
+
+	healthEvent();
 
 	display();
 
@@ -275,67 +281,6 @@ function student_check(){
 
 };
 
-
-function job_check(){
-
-
-	if (hasJob){
-		USER.xp += 1;
-		money = money + USER.salary;
-		var rand = randint(0,20);
-		message(`You were paid ${USER.salary}$ as your salary`);
-		if (rand == 1){
-			var inc = randint(3,5);
-			var raise = Math.floor(USER.salary*inc/100);
-			message(`You got a raise of ${raise}$`);
-			USER.salary = USER.salary + raise;
-			USER.promos += 1;
-			Swal.fire({
-				heightAuto:false,
-				title:`You were given a raise of <b>${raise}$</b>`,
-				icon:"success",
-				confirmButtonText:"Sweet!"
-			});
-
-		}
-		if (student_has_loan){
-			var loan_paid = Math.floor(USER.salary*25/100);
-			if (total_student_loan <= loan_paid ){
-				money = money - total_student_loan;
-				student_has_loan = false;
-				message(`You paid all your pending student loans`);
-				Swal.fire({
-					heightAuto:false,
-					title:"All Student loans paid!",
-					icon:"success",
-					confirmButtonText:"Good Riddance!"
-				});
-			}
-			// make the max student loan deadline flexible
-			// cause a person can become student at 29,29 
-			else if (USER.age/12 == 30){
-				money = money - total_student_loan;
-				student_has_loan = false;
-				Swal.fire({
-					heightAuto:false,
-					icon:"warning",
-					title:"Student Loan Deadline is here!",
-					text:`You had to pay ${total_student_loan}$`
-				});
-				message(`Student loans repayment deadline has been reached`);
-				message(`You had to pay all your pending loans`);
-			}
-			else {
-				money = money - loan_paid;
-				total_student_loan = total_student_loan - loan_paid;
-				message(`You paid ${loan_paid}$ as student loan repayment this month`);
-			};
-		}
-
-	};
-
-
-};
 
 
 

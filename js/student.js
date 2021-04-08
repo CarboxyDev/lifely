@@ -518,7 +518,7 @@ function leave_study(){
 
 
 
-var degree = [];
+
 function student_pass(){
 	deg = USER.job;
 
@@ -549,10 +549,14 @@ function student_pass(){
 	
 
 	message(`You passed out as a ${deg}`);
-	USER.job = "Unemployed";
+	USER.job.name = "Unemployed";
 	isStudent = false;
 	student_months = 0;
-	degree.push(course);
+	USER.education.degrees[course] = {
+		'cgpa':null,
+		'grade':null,
+		'remark':"Passed successfully"
+	}
 	$("#student").attr("onclick","actions()");
 	$("#student").attr("class","btn-lg btn-danger");
 	$("#student").attr("id","actions");
