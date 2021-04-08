@@ -54,120 +54,9 @@ function display(){
 
 
 
-function human_event(){
-	let rand = randint(0,1);
-	if (rand == 0){
-		message(`You encounter a thief`);
-		let html = `<br>
-		The thief hasn't noticed you yet but looks like
-		he is fleeing with some valuables.<br>
-		What do you want to do ?<br>
-		`;
-
-		Swal.fire({
-			heightAuto:false,
-			allowOutsideClick:false,
-			icon:"warning",
-			title:"You encounter a thief!",
-			html:html,
-			confirmButtonText:"Run Away",
-			showCancelButton:true,
-			cancelButtonText:"Call the Police"
-		}).then((result)=>{
-			if (result.value){
-				message(`You ran away from the thief`);
-				Swal.fire({
-					heightAuto:false,
-					icon:"success",
-					title:"You ran away from the thief!"
-				});
-			}
-			else if (result.dismiss == Swal.DismissReason.cancel){
-				thief_encounter();
-			}
-		});
-	}
-	else if (rand == 1){
-		message(`You met an unknown person`);
-		var country = generate("country",1)[0];
-		var amt = randint(20000,50000);
-		let html = `
-		<br>The unknown person wants you to deliver a secret 
-		package of some drugs to <b>${country}</b>.<br><br>
-		He's willing to give you <b>${amt}$</b> for the trouble.
-		He'll be arranging the plane tickets too!
-		<br>
-		`;
-		Swal.fire({
-			heightAuto:false,
-			icon:"question",
-			title:"An unknown person seeks your attention",
-			html:html,
-			showCancelButton:true,
-			confirmButtonText:"Too Risky!",
-			cancelButtonText:"I'll Deliver"
-		}).then((result) => {
-			if (result.value){
-				Swal.fire({
-					heightAuto:false,
-					icon:"info",
-					title:"You declined the offer!",
-					confirmButtonText:"Creepy Dude!"
-				});
-			}
-			else if (result.dismiss == Swal.DismissReason.cancel){
-				karma -= 25;
-				let chance = randint(0,1);
-				if (chance == 1){
-					// success
-					message(`You delivered the drug package successfully`);
-					money += amt;
-					morale += randint(3,6);
-					display();
-					let html=`<br>You successfully delivered the package
-					containing drugs to <b>${country}</b> for
-					<b>${amt}$</b>.<br>`;
-					Swal.fire({
-						heightAuto:false,
-						icon:"success",
-						title:"You delivered the package!",
-						html:html,
-						confirmButtonText:"Easy Money!"
-					});
-				}
-				else {
-					// rip
-					morale -= randint(5,10);
-					message(`You were caught smuggling the drugs`);
-					display();
-					let html = `
-					<br>You are in legal trouble and the person who
-					asked you to deliver the package has gone missing.
-					`;
-					Swal.fire({
-						heightAuto:false,
-						icon:"error",
-						title:"You were caught smuggling the drugs!",
-						html:html,
-						confirmButtonText:"Shit"
-					}).then((result) => {
-						jail(60);
-					});
-
-				}
-			}
-		});
-	}
-};
-
-
-
-
-
-
 
 function monthly_budget(){
-	if (is_jailed == false){
+	if (isJailed == false){
 		if (hasJob){
 			var amt = Math.floor(USER.salary*28/100);
 			money -= total_budget;
@@ -436,202 +325,10 @@ function accident_survive(){
 
 
 
-function random_event(){
-	var chance = randint(0,20);
-	if (event_chance==chance){
-		random_event();
-	}
-	else {
-		event_chance = chance;
-		switch (event_chance){
-			default:
-				break;
-			case 0:
-				var country = generate("country",1);
-				message(`Stock prices in ${country[0]} fluctuated`);
-				break;
-			case 1:
-				var country = generate("country",2);
-				message(`${country[0]} signed a trade deal with ${country[1]}`);
-				break;
-			case 2:
-				var country = generate("country",1);
-				message(`Riots broke out in parts of ${country[0]}`);
-				break;
-			case 3:
-				var country = generate("country",1);
-				message(`Explosions were heard in ${country[0]}`);
-				break;
-			case 4:
-				var country = generate("country",1);
-				message(`${country[0]} was the victim of major terrorist attacks`)
-				break;
-			case 5:
-				found_event();
-		};
-	};
-
-
-};
-
-
-function found_event(){
-	var random = randint(0,5);
-	var item = "";
-	if (random == 0){
-		item = "wallet";
-	};
-	if (random == 1){
-		item = "phone";
-	};
-	if (random == 2){
-		item = "purse";
-	};
-	if (random == 3){
-		item = "necklace";
-	};
-	if (random == 4){
-		item = "ring";
-	};
-	if (random == 5){
-		item = "hat";
-	};
-
-	Swal.fire({
-		heightAuto:false,
-		icon:"question",
-		title:`Lost And Found`,
-		html:`You found a lost <b>${item}</b><br><hr><br>`,
-		confirmButtonText:"Give it to Authorities",
-		showCancelButton:true,
-		cancelButtonText:"Keep it",
-		allowOutsideClick:false
-	}).then((result) => {
-		if (result.value) {
-			karma = karma + 5;
-			message(`You turned in the lost ${item} to authorities`);
-
-		}
-		else if (result.dismiss == Swal.DismissReason.cancel){
-			karma = karma - 10;
-			message(`You decided to keep the lost ${item}`);
-			var inc = randint(5,500);
-			money = money + inc;
-			message(`The ${item} is worth ${inc}$`);
-			display();
-		};
-	});
-};
 
 
 
 
-
-
-
-function gym(){
-	var max = 250;
-	var min = 50;
-	var gym_cost = randint(min,max);
-	Swal.fire({
-		heightAuto:false,
-		icon:"question",
-		title:"Do you want to go to a gym ?",
-		html:`Cost - <b>${gym_cost}$</b>/ session<br><hr><br>`,
-		footer:`Note : Working out in gym sometimes boosts your looks`,
-		showCancelButton:true,
-		cancelButtonText:"Nope",
-		confirmButtonText:`Pay $${gym_cost}`
-	}).then((result)=>{
-		if (hasMoney(gym_cost) == false){
-			return;
-		};
-		if (result.value){
-			money = money - gym_cost;
-			total_gym_count += 1;
-			if (total_gym_count >= 3){
-
-			}
-			else{
-				looks += randint(0,2);
-				display();
-			};
-		Swal.fire({
-			heightAuto:false,
-			icon:"success",
-			title:"You worked out at the gym!",
-			confirmButtonText:"Phew!"
-		});
-		message(`You paid ${gym_cost}$ for working out in a gym`);
-		display();
-		};
-
-	});
-
-
-};
-
-
-
-
-
-
-
-function restaurant(){
-	let cost = randint(30,300);
-	let rating = randint(30,100);
-	html = 
-	`
-	Cost of food - <b>${cost}$</b><br>
-	Restaurant rating - <b>${rating}%</b><br>
-	<br><hr><br>
-	`;
-	Swal.fire({
-		heightAuto:false,
-		title:"Restaurant",
-		icon:"info",
-		html:html,
-		confirmButtonText:`Pay $${cost}`,
-		showCancelButton:true,
-		cancelButtonText:`Not hungry!`
-	}).then((result) => {
-		if (result.value){
-			money = money - cost;
-			let rand = randint(0,1);
-			let poison = randint(1,3);
-			let satisfaction = randint(10,100);
-			let btn_text = (satisfaction > 60) ? "Good food!":"Not the best food"; 
-			message(`You ate at a restaurant`);
-			Swal.fire({
-				heightAuto:false,
-				icon:"success",
-				title:"You ate at a restaurant!",
-				text:`Your satisfaction - ${satisfaction}%`,
-				confirmButtonText:btn_text
-			});
-			if (satisfaction >= 60){
-				morale = morale + 2;
-			};
-			if (satisfaction <= 40){
-				if (poison == 1){
-
-					message(`You got food poisoning`);
-					Swal.fire({
-						heightAuto:false,
-						title:"You got food poisioning!",
-						text:"You lost some health due to the poisoning",
-						icon:'error'
-					})
-					health = health - randint(3,10);
-				};
-			};
-		display();
-		};
-	});
-
-
-
-};
 
 
 
@@ -1081,7 +778,7 @@ function jail(months){
 	};
 	$("#activities").hide();
 	$("#assets").hide()
-	is_jailed = true;
+	isJailed = true;
 	isStudent = false;
 	hasJob = false;
 	USER.job = "Jailed";
@@ -1291,7 +988,7 @@ function appeal_result(was_saved,defender){
 			});
 		};
 		message(`You won the court case. You will not serve prison time`);
-		is_jailed = false;
+		isJailed = false;
 		USER.job = "Unemployed";
 
 		$("#jail").attr("onclick","actions()");
@@ -1713,21 +1410,6 @@ function emigration_success(){
 
 
 
-function exercise(){
-	message(`You exercised a bit`);
-	Swal.fire({
-		heightAuto:false,
-		icon:"success",
-		title:"You did some exercise!",
-		confirmButtonText:"Hoorah!"
-	});
-	var chance = randint(1,5);
-	if (chance == 1){
-		morale += 1;
-		health += 1;
-	};
-};
-
 
 
 
@@ -2073,8 +1755,7 @@ function update(){
 	count = 0;
 	totalGymVisits = 0;
 	totalLibVisits = 0;
-	$("#console").text("");
-	
+	document.querySelector('#console').innerText = "";
 	USER.age = USER.age + 1;
 
 	var months = USER.age%12;
@@ -2083,29 +1764,7 @@ function update(){
 	let ageElem = document.querySelector('#age');
 	ageElem.innerText = `${years}y ${months}m`
 
-
-	if (money <= 100){
-		morale -= 1;
-		let rand = randint(1,4)
-		if (rand == 1){
-			health -= 1;
-			looks -= 1;
-		}
-		else if (rand == 2){
-			intellect -= 1;
-		}
-	};
-
-	if (!is_jailed){
-		random_event();
-	};
-	if (is_jailed){
-		jail_events();
-	}
-	if (isStudent){
-		student_events();
-	}
-	age_events();
+	ageEvents();
 	display();
 };
 

@@ -25,7 +25,15 @@ function shuffle(array) {
    	}
 };
 
+function generateRange(floor,ceil){
+	// includes floor and ceil
+	let result = [];
+	for (x=floor;x<ceil+1;x++){
+		result.push(x);
+	}
+	return result;
 
+}
 
 
 

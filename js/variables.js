@@ -60,7 +60,7 @@ var isStudent = false;
 var student_months = 0;
 var total_student_loan = 0;
 var total_years = 0;
-var is_jailed = false;
+var isJailed = false;
 
 var totalLibVisits = 0;
 var totalGymVisits = 0;
@@ -72,7 +72,6 @@ var student_months = 0;
 var student_has_loan = false;
 var student_fees = 0;
 var total_budget = 100;
-var event_chance = 0;
 var has_disease = false;
 var disease_count = 0;
 var disease_severity = false;

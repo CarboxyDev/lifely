@@ -1,20 +1,32 @@
-function age_events(){
+function ageEvents(){
+	newsEvents();
 	if (hasJob){
 		monthlyJobEvent();
 	}
 	
-	disease_check();
+	diseaseEvents();
 	special_event_check();
 	monthly_budget();
 	
 	student_check();
 	loan_check();
 	money_in_bank_check();
-	jail_check();
 	need_house_check();
 	depression_check();
 	if (USER.age/12 > 65){
 		oldAgeEvent();
+	}
+	if (!isJailed){
+		randomEvents();
+	}
+	if (isJailed){
+		jailEvents();
+	}
+	if (isStudent){
+		studentEvents();
+	}
+	if (!isJailed){
+		extremeEvents();
 	}
 	
 
@@ -54,7 +66,7 @@ function healthEvents(){
 
 
 
-function disease_check(){
+function diseaseEvents(){
 	if (has_disease){
 		if (disease_severity == "Low To Medium"){
 			health -= randint(1,2);
@@ -84,20 +96,6 @@ function disease_check(){
 
 };
 
-
-function special_event_check(){
-	if (!isStudent && !is_jailed){
-		// 1 to 700
-		let special = randint(1,700);
-		if (special == 1){
-			accident();
-		}
-		else if (special > 50 && special < 75){
-			human_event();
-		}
-	}
-
-};
 
 
 function oldAgeEvent(){
@@ -229,9 +227,9 @@ function student_check(){
 
 
 
-function jail_check(){
+function jailEvents(){
 
-	if (is_jailed){
+	if (isJailed){
 		morale -= 1;
 		looks -= 1;
 		jail_months_spent += 1;
@@ -244,7 +242,7 @@ function jail_check(){
 				confirmButtonText:"Finally!",
 				html:`<br><hr><br>Time Served - <b>${jail_months} months</b>`
 				});
-			is_jailed = false;
+			isJailed = false;
 			USER.job = "Unemployed";
 			jail_months_spent = 0;
 			$("#jail").attr("onclick","actions()");
@@ -398,6 +396,61 @@ function death(){
 
 
 
+
+
+
+function randomEvents(){
+	var chance = randint(0,60);
+	if (chance == 0){
+		lostAndFoundEvent();
+	}
+
+
+};
+
+
+
+function lostAndFoundEvent(){
+	
+	let items = [
+	'wallet','watch','necklace','jewellery','ring','handbag','briefcase'
+	];
+	let item = items[randint(0,items.length-1)];
+	let html = `<br>You found a lost <b>${item}</b><br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		icon:"question",
+		title:`Lost And Found`,
+		html:html,
+		confirmButtonText:"Give it to Authorities",
+		showCancelButton:true,
+		cancelButtonText:"Keep it",
+		allowOutsideClick:false
+	}).then((result) => {
+		if (result.value) {
+			karma = karma + 5;
+			message(`You turned in the lost ${item} to authorities`);
+
+		}
+		else if (result.dismiss == Swal.DismissReason.cancel){
+			karma = karma - 10;
+			message(`You decided to keep the lost ${item}`);
+			var inc = randint(5,125);
+			money = money + inc;
+			message(`The ${item} is worth ${inc}$`);
+			display();
+		};
+	});
+};
+
+
+
+
+
+
+
+
 function thiefEncounter(){
 	let chance = randint(0,1);
 	if (chance == 0){
@@ -481,6 +534,140 @@ function thiefEncounter(){
 		});
 	}
 }
+
+
+
+function newsEvents(){
+	let randNum = randint(0,40);
+	if (randNum == 0){
+		let msg = `Breaking News! There is no news today!`;
+		message(msg);
+	}
+	//develop later on after fixing bugs ok
+}
+
+
+
+function extremeEvents(){
+	let randNum = randint(0,600);
+	if (randNum == 0){
+		accident();
+	}
+	else if (generateRange(1,10).includes(randNum)){
+		humanEvents();
+	}
+
+};
+
+
+function humanEvents(){
+	let rand = randint(0,1);
+	if (rand == 0){
+		message(`You encounter a thief`);
+		let html = `<br>
+		The thief hasn't noticed you yet but looks like
+		he is fleeing with some valuables.<br>
+		What do you want to do ?<br>
+		`;
+
+		Swal.fire({
+			heightAuto:false,
+			allowOutsideClick:false,
+			icon:"warning",
+			title:"You encounter a thief!",
+			html:html,
+			confirmButtonText:"Run Away",
+			showCancelButton:true,
+			cancelButtonText:"Call the Police"
+		}).then((result)=>{
+			if (result.value){
+				message(`You ran away from the thief`);
+				Swal.fire({
+					heightAuto:false,
+					icon:"success",
+					title:"You ran away from the thief!"
+				});
+			}
+			else if (result.dismiss == Swal.DismissReason.cancel){
+				thief_encounter();
+			}
+		});
+	}
+	else if (rand == 1){
+		message(`You met an unknown person`);
+		var country = generate("country",1)[0];
+		var amt = randint(20000,50000);
+		let html = `
+		<br>The unknown person wants you to deliver a secret 
+		package of some drugs to <b>${country}</b>.<br><br>
+		He's willing to give you <b>${amt}$</b> for the trouble.
+		He'll be arranging the plane tickets too!
+		<br>
+		`;
+		Swal.fire({
+			heightAuto:false,
+			icon:"question",
+			title:"An unknown person seeks your attention",
+			html:html,
+			showCancelButton:true,
+			confirmButtonText:"Too Risky!",
+			cancelButtonText:"I'll Deliver"
+		}).then((result) => {
+			if (result.value){
+				Swal.fire({
+					heightAuto:false,
+					icon:"info",
+					title:"You declined the offer!",
+					confirmButtonText:"Creepy Dude!"
+				});
+			}
+			else if (result.dismiss == Swal.DismissReason.cancel){
+				karma -= 25;
+				let chance = randint(0,1);
+				if (chance == 1){
+					// success
+					message(`You delivered the drug package successfully`);
+					money += amt;
+					morale += randint(3,6);
+					display();
+					let html=`<br>You successfully delivered the package
+					containing drugs to <b>${country}</b> for
+					<b>${amt}$</b>.<br>`;
+					Swal.fire({
+						heightAuto:false,
+						icon:"success",
+						title:"You delivered the package!",
+						html:html,
+						confirmButtonText:"Easy Money!"
+					});
+				}
+				else {
+					// rip
+					morale -= randint(5,10);
+					message(`You were caught smuggling the drugs`);
+					display();
+					let html = `
+					<br>You are in legal trouble and the person who
+					asked you to deliver the package has gone missing.
+					`;
+					Swal.fire({
+						heightAuto:false,
+						icon:"error",
+						title:"You were caught smuggling the drugs!",
+						html:html,
+						confirmButtonText:"Shit"
+					}).then((result) => {
+						jail(60);
+					});
+
+				}
+			}
+		});
+	}
+};
+
+
+
 
 
 
