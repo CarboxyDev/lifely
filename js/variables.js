@@ -41,7 +41,8 @@ var BANK = {
 	"id":randint(10000000,99999999),
 	"loan":0,
 	"hasLoan":false,
-	"transactions":0
+	"transactions":0,
+	'transactionsList':[]
 }
 
 
@@ -61,8 +62,8 @@ var total_student_loan = 0;
 var total_years = 0;
 var is_jailed = false;
 
-var total_lib_count = 0;
-var total_gym_count = 0;
+var totalLibVisits = 0;
+var totalGymVisits = 0;
 var jobQualified = false;
 var hasJob = false;
 var hasLoan = false;
@@ -112,5 +113,6 @@ var oldStats = {
 var swalBackground = "#333"
 
 var Swal = Swal.mixin({
-	background:swalBackground
+	background:swalBackground,
+	heightAuto:false
 })

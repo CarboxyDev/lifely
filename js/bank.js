@@ -4,8 +4,8 @@ function bank(){
 
 	let html = `
 	<br><br>
-	<button onclick="bank_details()" class="w3-btn w3-large w3-green w3-hover-indigo">Bank Details</button><br><br>
-	<button onclick="loan_services()" class="w3-btn w3-large w3-green w3-hover-indigo">Loan Services</button><br><br>
+	<button onclick="bankDetails()" class="w3-btn w3-large w3-green w3-hover-indigo">Bank Details</button><br><br>
+	<button onclick="loanServices()" class="w3-btn w3-large w3-green w3-hover-indigo">Loan Services</button><br><br>
 	<button onclick="deposit()" class="w3-btn w3-large w3-green w3-hover-indigo">Deposit Money</button><br><br>
 	<button onclick="withdraw()" class="w3-btn w3-large w3-green w3-hover-indigo">Withdraw Money</button><br><br>
 	<hr>
@@ -20,15 +20,13 @@ function bank(){
 		showConfirmButton:false
 	})
 
-
-
 }
 
 
 
 
 
-function bank_details(){
+function bankDetails(){
 
 	if (hasLoan){
 
@@ -77,7 +75,7 @@ function bank_details(){
 }
 
 
-function loan_services(){
+function loanServices(){
 
 	let html = `<br>
 	<h4> Current Debt : <b>${BANK.loan}$</b>
@@ -504,4 +502,30 @@ function withdraw_money(amount){
 
 
 }
+
+
+
+function bankTransaction(amount){
+	BANK.transactions += 1;
+	BANK.balance += amount;
+	BANK.transactionsList.push(amount);
+	if (amount > 0){
+		message(`$${amount} was added to your bank balance`);
+	}
+	if (amount < 0){
+		let msg = `$${amount} was deducted from your bank balance`.replace('-','');
+		message(msg);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
 

@@ -29,4 +29,34 @@ function profile(){
 	});
 };
 
+// maybe use in future?
+/* 
+function pay(amount){
+	let bankBalance = fetchBankBalance();
+	if (bankBalance > amount && money > amount){
+		let html = `<br><br>
+		<h3>Pay $${amount}</h3><br><br>
+		<button id='' class='w3-btn w3-indigo' onclick=''>From Wallet</button>&nbsp;&nbsp;
+		<button id='' class='w3-btn w3-indigo' onclick=''>From Bank</button> 
+		<br><br>
+		`
+		Swal.fire({
+			heightAuto:false,
+			title:'Payment Gateway',
+			html:html,
+			showCloseButton:true,
+			showConfirmButton:false
+		});
+	}
 
+}*/
+
+
+
+const swalNoMoney = Swal.mixin({
+	heightAuto:false,
+	background:swalBackground,
+	title:'You lack the funds!',
+	icon:'error',
+	text:`You don't have that much money in your wallet or as bank balance`
+})

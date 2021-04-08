@@ -543,7 +543,7 @@ function gym(){
 		cancelButtonText:"Nope",
 		confirmButtonText:`Pay $${gym_cost}`
 	}).then((result)=>{
-		if (has_money(gym_cost) == false){
+		if (hasMoney(gym_cost) == false){
 			return;
 		};
 		if (result.value){
@@ -573,47 +573,7 @@ function gym(){
 
 
 
-function library(){
-	var max = 200;
-	var min = 30;
-	var lib_cost = randint(min,max);
-	Swal.fire({
-		heightAuto:false,
-		icon:"question",
-		title:"Do you want to go to a library?",
-		html:`Cost - <b>${lib_cost}$</b>/ session<br><hr><br>`,
-		footer:`Note : Studying in a library sometimes boosts your intellect`,
-		showCancelButton:true,
-		cancelButtonText:"Nope",
-		confirmButtonText:`Pay $${lib_cost}`
-	}).then((result)=>{
-		if (has_money(lib_cost) == false){
-			return;
-		};
-		if (result.value){
-			money = money - lib_cost;
-			total_lib_count += 1;
-			if (total_lib_count >= 3){
 
-			}
-			else{
-				intellect += randint(0,2);
-				display();
-			};
-		Swal.fire({
-			heightAuto:false,
-			icon:"success",
-			title:"You studied at the library!",
-			confirmButtonText:"Nice!"
-		});
-		message(`You paid ${lib_cost}$ for studing in a library`);
-		display();
-		};
-
-	});
-
-
-};
 
 
 
@@ -701,7 +661,7 @@ function disease_checkup() {
 		cancelButtonText:"I'd rather suffer"
 	}).then((result) => {
 		if (result.value){
-			if (has_money(cost)){
+			if (hasMoney(cost)){
 				money -= cost;
 				display();
 				let chance = randint(1,3);
@@ -765,7 +725,7 @@ function checkup(){
 		cancelButtonText:"Nevermind"
 	}).then((result) => {
 		if (result.value){
-			if (has_money(cost)){
+			if (hasMoney(cost)){
 				money -= cost;
 				display();
 				if (has_disease){
@@ -833,7 +793,7 @@ function medicine(){
 	}).then((result) => {
 
 		if (result.value){
-			if (has_money(cost)){
+			if (hasMoney(cost)){
 				health += randint(3,8);
 				display();
 				message(`You bought western medicine for ${cost}$`);
@@ -878,7 +838,7 @@ function therapy(){
 			cancelButtonText:"I'd Rather Not"
 		}).then((result)=> {
 			if (result.value){
-				if (has_money(cost)){
+				if (hasMoney(cost)){
 					money -= cost;
 					morale += randint(1,4);
 					message(`You had a therapy session`);
@@ -946,7 +906,7 @@ function plastic_surgery(){
 		cancelButtonText:"Not for me"
 	}).then((result) =>{
 		if (result.value){
-			if (has_money(cost)){
+			if (hasMoney(cost)){
 				money = money - cost;
 				let fail = randint(0,4);
 				let rand = randint(5,25);
@@ -1267,7 +1227,7 @@ function appeal_jail(months){
 	}).then((result) => {
 		if (result.value){
 			// private defender
-			if (has_money(def_cost)){
+			if (hasMoney(def_cost)){
 				money = money - def_cost;
 				display();
 				message(`You hired a private defender for ${def_cost}$`);
@@ -1477,7 +1437,7 @@ function gamble_result(option,amount){
 
 
 function gamble_start(amount){
-	if (has_money(amount)){
+	if (hasMoney(amount)){
 		money -= amount;
 		display();
 		let html = `
@@ -1703,7 +1663,7 @@ function emigrate(){
 				}
 			};
 			if (country_found){
-				if (has_money(cost)){
+				if (hasMoney(cost)){
 					USER.country = value;
 					money -= cost;
 					message(`You paid ${cost}$ for emigration to ${value}`);
@@ -1843,7 +1803,7 @@ function vacation(){
 				`<br><hr><br>`
 			}).then((result) => {
 				if (result.value){
-					if (has_money(cost)){
+					if (hasMoney(cost)){
 						money = money - cost;
 						morale += randint(20,30);
 						display();
@@ -1869,40 +1829,6 @@ function vacation(){
 
 
 
-function has_money(amount=null,message=null){
-	if (message == null){
-		message = "You don't have enough money!";
-	};
-
-	if (amount==null){
-		if (money >= 0){
-			return true;
-		}
-		else {
-			Swal.fire({
-				heightAuto:false,
-				title:"You are already in debt!",
-				icon:"error"
-			});
-			return false;
-		};
-	}
-	else{
-		if (money >= amount){
-			return true;
-		}
-		else {
-			Swal.fire({
-				heightAuto:false,
-				title:message,
-				icon:"error",
-				html:`You need <b>${amount}$</b>`
-			});
-			return false;
-		};
-	};
-
-};
 
 
 
@@ -2145,8 +2071,8 @@ function help(){
 
 function update(){
 	count = 0;
-	total_gym_count = 0;
-	total_lib_count = 0;
+	totalGymVisits = 0;
+	totalLibVisits = 0;
 	$("#console").text("");
 	
 	USER.age = USER.age + 1;
