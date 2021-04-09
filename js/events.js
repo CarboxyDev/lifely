@@ -5,7 +5,7 @@ function ageEvents(){
 	}
 	
 	diseaseEvents();
-	special_event_check();
+	extremeEvents();
 	monthly_budget();
 	
 	student_check();
@@ -67,7 +67,7 @@ function healthEvents(){
 
 
 function diseaseEvents(){
-	if (has_disease){
+	if (hasDisease){
 		if (disease_severity == "Low To Medium"){
 			health -= randint(1,2);
 			morale -= randint(0,2);
@@ -80,7 +80,7 @@ function diseaseEvents(){
 		}		
 		display();
 	}
-	else if (!has_disease){
+	else if (!hasDisease){
 		let chance = randint(1,50);
 		if (chance == 1){
 			let chance = randint(1,3)

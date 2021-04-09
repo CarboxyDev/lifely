@@ -333,7 +333,7 @@ function accident_survive(){
 
 
 
-function disease_checkup() {
+function diseaseCheckup() {
 	// upgrade this simple system
 	message(`You have been diagnosed with <b>${DISEASE}</b>`);
 	if (disease_severity == "High"){
@@ -377,7 +377,7 @@ function disease_checkup() {
 					});
 					morale += randint(3,5);
 					display();
-					has_disease = false;
+					hasDisease = false;
 				}
 				else {
 					let html= `<br>
@@ -400,117 +400,6 @@ function disease_checkup() {
 	});
 };
 
-
-
-
-
-function checkup(){
-	var cost = randint(100,500);
-	let html = `<br>
-	You will need to pay some money before a doctor checks your
-	health and looks for any illnesses<br><br>
-	Cost of Checkup - <b>$${cost}</b><br>
-	`;
-	Swal.fire({
-		heightAuto:false,
-		background:swalBackground,
-		icon:"info",
-		title:"Checkup",
-		html:html,
-		confirmButtonText:`Pay $${cost}`,
-		showCancelButton:true,
-		cancelButtonText:"Nevermind"
-	}).then((result) => {
-		if (result.value){
-			if (hasMoney(cost)){
-				money -= cost;
-				display();
-				if (has_disease){
-					disease_checkup();
-				}
-				else {
-					morale += randint(0,1);
-					display();
-					Swal.fire({
-						heightAuto:false,
-						icon:"success",
-						title:"You're healthy as a fruit!",
-						confirmButtonText:"Good News!"
-					});
-				}
-			}
-		}
-
-	});
-};
-
-
-function medicine(){
-	// cost partially dependent on person's salary
-	if (hasJob && USER.salary <= 4000 ){
-		var cost = Math.floor(USER.salary*30/100);
-		let real_cost = randint(2000,6000);
-		var html = `<br>You are getting cheap medicine due to government
-		<br>benefits for not so well-off people<br><br>
-		Real Cost of Medicine - <b>${real_cost}$</b><br>
-		Cost of Medicine for you - <b>${cost}$</b><br>
-		Quality of the Medicine - <b>${randint(45,100)}%</b>
-		<br><br>`;
-	}
-	else if (hasJob == false){
-		var cost = randint(250,1000);
-		let real_cost = randint(2000,6000);
-		var html = `<br>You are getting cheap medicine due to government
-		<br>benefits for unemployed citizens<br><br>
-		Real Cost of Medicine - <b>${real_cost}$</b><br>
-		Cost of Medicine for you - <b>${cost}$</b><br>
-		Quality of the Medicine - <b>${randint(45,100)}%</b>
-		<br><br>`;
-
-	}
-	else {
-		var cost = randint(2000,6000);
-		var html = 
-		`
-		Cost of the Medicine - <b>${cost}$</b><br>
-		Quality of the Medicine - <b>${randint(45,100)}%</b><br>
-		<br>
-		`;
-	}
-	
-	Swal.fire({
-		heightAuto:false,
-		icon:"info",
-		title:"Western Medicine",
-		html:html,
-		showCancelButton:true,
-		confirmButtonText:`Pay $${cost}`,
-		cancelButtonText:"Nevermind",
-		footer:"NOTE : Taking medicine improves your health"
-	}).then((result) => {
-
-		if (result.value){
-			if (hasMoney(cost)){
-				health += randint(3,8);
-				display();
-				message(`You bought western medicine for ${cost}$`);
-				let html = `
-				<br>You paid <b>${cost}$</b> to buy the western medicine<br>
-				`;
-				Swal.fire({
-					heightAuto:false,
-					icon:"success",
-					title:"Medicine Taken!",
-					html:html,
-					confirmButtonText:"Anything For Health!"
-				});
-
-			}
-		}
-	});
-
-
-};
 
 
 
@@ -569,111 +458,6 @@ function therapy(){
 		});
 	}
 };
-
-
-function dentist(){
-	Swal.fire({
-		heightAuto:false,
-		icon:"info",
-		title:"Dentist",
-		text:"Coming Soon!"
-	});
-};
-
-
-function plastic_surgery(){
-	let max = 20000;
-	let min = 5000;
-	let cost = randint(min,max);
-	let html = 
-	`
-	<br><hr><br>
-	Cost of surgery - <b>${cost}$</b><br>
-	Success Chance - <b>80%</b><br>
-	<br><hr><br>
-	`;
-	Swal.fire({
-		heightAuto:false,
-		icon:"info",
-		title:"Plastic Surgery",
-		footer:"Note : Getting a plastic surgery increases Looks",
-		html:html,
-		showCancelButton:true,
-		confirmButtonText:`Pay $${cost}`,
-		cancelButtonText:"Not for me"
-	}).then((result) =>{
-		if (result.value){
-			if (hasMoney(cost)){
-				money = money - cost;
-				let fail = randint(0,4);
-				let rand = randint(5,25);
-				if (fail != 4){
-					looks = looks + rand;
-					morale += 2;
-					Swal.fire({
-						heightAuto:false,
-						icon:"success",
-						title:"Plastic Surgery Successful!",
-						text:`You paid ${cost}$`,
-						confirmButtonText:"Awesome!"
-					});
-					message(`You got a successful plastic surgery`)
-				}
-				else {
-					looks = looks - rand;
-					morale -= 5;
-					Swal.fire({
-						heightAuto:false,
-						icon:"error",
-						title:"Plastic Surgery botched!",
-						text:`You paid ${cost}$ and got a botched up surgery`,
-						confirmButtonText:"Crap!"
-					});
-					message(`You got a botched up plastic surgery`);
-				};
-			display();
-			};
-		};
-	});
-
-
-};
-
-
-
-
-
-
-
-function hospital(){
-	var html = 
-	`<br><hr><br>
-	<button onclick="checkup()" class="btn btn-success">Get a Checkup</button>
-	<br><br>
-	<button onclick="medicine()" class="btn btn-success">Get Western Medicine</button>
-	<br><br>
-	<button onclick="therapy()" class="btn btn-success">Go to Therapy</button>
-	<br><br>
-	<button onclick="dentist()" class="btn btn-success">Visit the Dentist</button>
-	<br><br>
-	<button onclick="plastic_surgery()" class="btn btn-success">Get Plastic Surgery</button>
-	<br><br>
-	`;
-
-	Swal.fire({
-		heightAuto:false,
-		position:"top",
-		title:"Hospital",
-		html:html,
-		showCloseButton:true,
-		showConfirmButton:false,
-
-	});
-
-
-};
-
-
 
 
 
@@ -1016,7 +800,7 @@ function appeal_result(was_saved,defender){
 
 function disease(level=null){
 	disease_count += 1;
-	has_disease = true;
+	hasDisease = true;
 
 	if (level==null){
 		// normal disease

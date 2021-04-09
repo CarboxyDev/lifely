@@ -149,7 +149,7 @@ function restaurant(){
 	let rating = randint(30,100);
 	let html = 
 	`<br><br>
-	Cost of food - <b>${cost}$</b><br>
+	Cost of food - <b>$${cost}</b><br>
 	Restaurant rating - <b>${rating}%</b><br>
 	<br><br>
 	`;
@@ -196,6 +196,37 @@ function restaurant(){
 	});
 
 };
+
+
+
+
+function hospital(){
+	var html = 
+	`<br><br>
+	<button onclick="checkup()" class="btn btn-success">&nbspGet a Checkup&nbsp</button>
+	<br><br>
+	<button onclick="westernMedicine()" class="btn btn-success">Get Western Medicine</button>
+	<br><br>
+	<button onclick="therapy()" class="btn btn-success">Go to Therapy</button>
+	<br><br>
+	<button onclick="dentist()" class="btn btn-success">Visit the Dentist</button>
+	<br><br>
+	<button onclick="plasticSurgery()" class="btn btn-success">Get Plastic Surgery</button>
+	<br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		title:"Hospital",
+		html:html,
+		showCloseButton:true,
+		showConfirmButton:false,
+
+	});
+
+
+};
+
+
 
 
 

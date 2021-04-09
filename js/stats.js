@@ -22,7 +22,7 @@ function barChange(barType,percent){
 			statPercent += 1;
 
 
-		},25)
+		},20)
 	}
 	else if (percent < statPercent){
 		
@@ -34,7 +34,7 @@ function barChange(barType,percent){
 			statPercent -= 1;
 
 
-		},25)
+		},20)
 	}
 	else {
 		document.write('Game crashed due to error in function barChange()')

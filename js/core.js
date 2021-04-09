@@ -10,10 +10,10 @@ function profile(){
 	Country - <b>${USER.country}</b><br>
 	Occupation - <b>${USER.job.name}</b><br>
 	Total Assets - <b>${USER.assets.length}</b><br><br>
-	Net Worth - <b class="w3-text-green">${netWorth}$</b><br>
+	Net Worth - <b class="w3-text-green">$${netWorth}</b><br>
 	`;
 	if (student_has_loan){
-		html = html+`Student Loan - <b>${total_student_loan}$</b><br>`;
+		html = html+`Student Loan - <b>$${total_student_loan}</b><br>`;
 	};
 
 	Swal.fire({
