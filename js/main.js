@@ -1,17 +1,4 @@
-//
-// last code cleanup / improvement - None yet
-
-/*
- mind the variable naming,
- the code is pretty old and was written when i was new to programming
- so please mind the everything bad in this code. thanks.
-*/
-
-
-
 start();
-
-
 var messagesOnConsole = 0;
 function message(msg){
 	messagesOnConsole += 1;
@@ -55,141 +42,7 @@ function display(){
 
 
 
-function monthly_budget(){
-	if (isJailed == false){
-		if (hasJob){
-			var amt = Math.floor(USER.salary*28/100);
-			money -= total_budget;
-			message(`You paid <b>${total_budget}$</b> as monthly budget`);
-			if (amt > total_budget){
-				message(`You should consider increasing your budget`);
-				budget_less();
-			}
 
-		}
-		else if (USER.job == "Unemployed"){
-			if (USER.age > 50 && USER.salary){
-				var amt = Math.floor(USER.salary*28/100);
-			}
-			else {
-				var amt = randint(300,320);
-			}
-			money -= total_budget;
-			message(`You paid <b>${total_budget}$</b> as monthly budget`);
-			if (amt > total_budget){
-				message(`You should consider increasing your budget`);
-				budget_less();
-			}
-		}
-
-	}
-
-};
-
-
-
-function budget_less(){
-	let rand = randint(1,3);
-	if (rand == 1){
-		health -= 1;
-	}
-	if (rand == 2){
-		morale -= 1;
-	}
-	display();
-};
-
-
-
-function budget(){
-
-	let html = `
-	<br><h4>Current Budget : <b>${total_budget}$</b></h4><hr><br>
-	<button onclick="modify_budget()" class="btn btn-success">Modify Budget</button><br><br>
-	
-	`;
-
-	Swal.fire({
-		heightAuto:false,
-		title:"Budget",
-		position:"top",
-		html:html,
-		showConfirmButton:false,
-		footer:"NOTE : Budget is essential for living a sustained life."
-	});
-
-
-};
-
-
-
-function modify_budget(){
-	var assets_costs = 0;
-	for (x in USER.assets){
-
-	};
-
-	if (hasJob){
-		var recom = Math.floor(USER.salary*randint(28,33)/100+assets_costs);
-
-	}
-	else {
-		if (USER.job == "Unemployed"){
-			var range = randint(300,320);
-			var recom = Math.floor(range+assets_costs);
-			if (recom < 100){
-				recom = 100;
-			}
-		}
-		else if (isStudent){
-			total_budget = 0;
-		}
-	};
-	let html = `
-	<h4>Current Budget : <b>${total_budget}$</b></h4>
-	<h4>Recommended Budget : <b>${recom}$</b></h4><br><br>
-	`;
-
-	Swal.fire({
-		heightAuto:false,
-		title:"Modifying Budget",
-		html:html,
-		icon:"info",
-		showCancelButton:true,
-		confirmButtonText:"Modify",
-		cancelButtonText:"Leave",
-		input:"text",
-		inputValue:recom,
-		inputValidator: (val) => {
-			let isnum = /^\d+$/.test(val);
-			if (isnum && val > money/2 && val != recom){
-				return "Too big of a budget for you!"
-			}
-			else if (isnum && val >= 100){
-				message(`You changed your monthly budget to <b>${val}$</b>`);
-				Swal.fire({
-					heightAuto:false,
-					icon:"success",
-					title:`Monthly budget changed to ${val}$`,
-					confirmButtonText:"Nice"
-				});
-				total_budget = val;
-			}
-			else if (!val){
-				return `Please specify a budget`
-			}
-			else if (!isnum){
-				return `Please specify a number`
-			}
-			else if (val < 100){
-				return `Budget can't be lesser than 100$`
-			}
-			else {
-				return `Only put a number!`
-			};
-		}
-	});
-};
 
 
 
@@ -1812,5 +1665,8 @@ $(document).ready(main());
 
 
 
-
+// update stats every 10 seconds just in case i miss to update them in a function
+setInterval(() => {
+	display();
+},10000)
 

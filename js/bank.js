@@ -105,7 +105,7 @@ function loan(){
 
 	if (hasJob){
 
-		var max_loan_amt = Math.floor(USER.salary*12)*4 - BANK.loan;
+		var max_loan_amt = Math.floor(USER.job.salary*12)*4 - BANK.loan;
 	}
 	else {
 		var max_loan_amt = 20000 - BANK.loan;
@@ -113,7 +113,7 @@ function loan(){
 	let html = ` <br>
 	Bank Balance : <b>${BANK.balance}$</b><br>
 	Current Debt : <b>${BANK.loan}$</b><br>
-	Annual Salary : <b>${Math.floor(USER.salary*12)}$</b><br><br>
+	Annual Salary : <b>${Math.floor(USER.job.salary*12)}$</b><br><br>
 
 	Maximum Loanable Amount : <b>${max_loan_amt}$</b><br>
 	`;
@@ -529,3 +529,19 @@ function bankTransaction(amount){
 
 
 
+
+
+
+
+function forceLoan(amt,msg=null){
+	BANK.transactions += 1;
+	BANK.loan += Number(amt);
+	BANK.hasLoan = true;
+
+	if (msg == null){
+		 message(`You had to take an immediate loan of $${amt}`);
+	}
+	if (msg != null){
+		message(msg);
+	}
+}

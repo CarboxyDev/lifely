@@ -6,7 +6,7 @@ function ageEvents(){
 	
 	diseaseEvents();
 	extremeEvents();
-	monthly_budget();
+	monthlyBudgetEvents();
 	
 	student_check();
 	loan_check();
@@ -589,7 +589,7 @@ function humanEvents(){
 				});
 			}
 			else if (result.dismiss == Swal.DismissReason.cancel){
-				thief_encounter();
+				thiefEncounter();
 			}
 		});
 	}

@@ -850,7 +850,6 @@ function findJob(jobName){
 		`;
 		for (x=0;x<jobRequirements.length;x++){
 			let degreeName = degreeNames(`${jobRequirements[x]}<br>`);
-			console.log(degreeName)
 			jobReq += degreeName;
  		}
 		
@@ -911,8 +910,11 @@ function checkJob(jobName,jobSalary){
 	let jobDetails = allJobs[jobName];
 	let jobRequirements = jobDetails.requires;
 	let hasRequiredDegree = false;
-	for (degree in USER.degrees){
-		if (jobRequirements.includes(degree)){
+	let userDegreeList = Object.keys(USER.education.degrees);
+
+	for (degree in userDegreeList){
+		console.log(degree);
+		if (jobRequirements.includes(userDegreeList[degree])){
 			hasRequiredDegree = true;
 			USER.job.name = jobName;
 			USER.job.salary = jobSalary;

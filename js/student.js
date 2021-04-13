@@ -166,7 +166,7 @@ function student_loan(type){
 			text:`You are liable to pay ${student_fees}$ in future loans`,
 			icon:"success"
 		});
-		USER.job = "Engineering College Student";
+		USER.job.name = "Engineering College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in an Engineering College`);
 		student_has_loan = true;
@@ -181,7 +181,7 @@ function student_loan(type){
 			text:`You are liable to pay ${student_fees}$ in future loans`,
 			icon:"success"
 		});
-		USER.job = "Liberal Arts Student";
+		USER.job.name = "Liberal Arts Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Liberal Arts College`);
 		student_has_loan = true;
@@ -196,7 +196,7 @@ function student_loan(type){
 			text:`You are liable to pay ${student_fees}$ in future loans`,
 			icon:"success"
 		});
-		USER.job = "Commerce College Student";
+		USER.job.name = "Commerce College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Commerce College`);
 		student_has_loan = true;
@@ -211,7 +211,7 @@ function student_loan(type){
 			text:`You are liable to pay ${student_fees}$ in future loans`,
 			icon:"success"
 		});
-		USER.job = "Arts College Student";
+		USER.job.name = "Arts College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in an Arts College`);
 		student_has_loan = true;
@@ -226,7 +226,7 @@ function student_loan(type){
 			text:`You are liable to pay ${student_fees}$ in future loans`,
 			icon:"success"
 		});
-		USER.job = "Law College Student";
+		USER.job.name = "Law College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		student_has_loan = true;
 		student();
@@ -240,7 +240,7 @@ function student_loan(type){
 			text:`You are liable to pay ${student_fees}$ in future loans`,
 			icon:"success"
 		});
-		USER.job = "Medical College Student";
+		USER.job.name = "Medical College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Medical College`);
 		student_has_loan = true;
@@ -255,7 +255,7 @@ function student_loan(type){
 			text:`You are liable to pay ${student_fees}$ in future loans`,
 			icon:"success"
 		});
-		USER.job = "Community College Student";
+		USER.job.name = "Community College Student";
 		message(`You got a student loan worth ${student_fees}$`);
 		message(`You are now enrolled in a Community College`);
 		student_has_loan = true;
@@ -299,7 +299,7 @@ function scholarship(type) {
 				title:"You got the scholarship!",
 				icon:"success"
 			});
-			USER.job = "Engineering College Student";
+			USER.job.name = "Engineering College Student";
 			message("You were awarded a scholarship	at an Engineering College");
 			message(`You are now enrolled in an Engineering College`);
 			student();
@@ -320,7 +320,7 @@ function scholarship(type) {
 				title:"You got the scholarship!",
 				icon:"success"
 			});
-		USER.job = "Liberal Arts Student";
+		USER.job.name = "Liberal Arts Student";
 		message("You were awarded a scholarship	at a Liberal Arts College");
 		message(`You are now enrolled in a Liberal Arts College`);
 		student();
@@ -341,7 +341,7 @@ function scholarship(type) {
 				title:"You got the scholarship!",
 				icon:"success"
 			});
-			USER.job = "Commerce College Student";
+			USER.job.name = "Commerce College Student";
 			message("You were awarded a scholarship	at a Commerce College");
 			message(`You are now enrolled in a Commerce College`);
 			student();
@@ -363,7 +363,7 @@ function scholarship(type) {
 				icon:"success"
 				
 			});
-			USER.job = "Arts College Student";
+			USER.job.name = "Arts College Student";
 			message("You were awarded a scholarship	at an Arts College");
 			message(`You are now enrolled in an Arts College`);
 			student();
@@ -383,7 +383,7 @@ function scholarship(type) {
 				title:"You got the scholarship!",
 				icon:"success"
 			});
-			USER.job = "Law College Student";
+			USER.job.name = "Law College Student";
 			message("You were awarded a scholarship	at a Law College");
 			message(`You are now enrolled in a Law College`);
 			student();
@@ -404,7 +404,7 @@ function scholarship(type) {
 				title:"You got the scholarship!",
 				icon:"success"
 			});
-			USER.job = "Medical College Student";
+			USER.job.name = "Medical College Student";
 			message("You were awarded a scholarship	at a Medical College");
 			message(`You are now enrolled in an Medical College`);
 			student();
@@ -425,7 +425,7 @@ function scholarship(type) {
 				title:"You got the scholarship!",
 				icon:"success"
 			});
-			USER.job = "Community College Student";
+			USER.job.name = "Community College Student";
 			message("You were awarded a scholarship	at a Community College");
 			message(`You are now enrolled in a Community College`);
 			student();
@@ -498,7 +498,7 @@ function leave_study(){
 				html:html
 			});	
 			isStudent = false;
-			USER.job = "Unemployed";
+			USER.job.name = "Unemployed";
 			student_months = 0;
 			$("#student").attr("onclick","actions()");
 			$("#student").attr("class","btn-lg btn-danger");
@@ -520,7 +520,7 @@ function leave_study(){
 
 
 function student_pass(){
-	deg = USER.job;
+	deg = USER.job.name;
 
 	if (deg.includes("Engineer")){
 		var course = "ENG";
@@ -734,7 +734,7 @@ function student_loan_notice(){
 
 
 
-function student_events(){
+function studentEvents(){
 	//placeholder
 
 }

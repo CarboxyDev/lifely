@@ -1,10 +1,6 @@
 var intro_disabled = true;
 var country = random_country();
-var USER = {
-	"name":random_name(),"country":country,
-	"age":216,'job':"Unemployed","salary":0,
-	"assets":[],'degrees':[]
-};
+
 
 var USER  = {
 	'name':random_name(),
@@ -71,7 +67,6 @@ var salary = 0;
 var student_months = 0;
 var student_has_loan = false;
 var student_fees = 0;
-var total_budget = 100;
 var hasDisease = false;
 var disease_count = 0;
 var disease_severity = false;
@@ -83,9 +78,10 @@ var jail_months_spent = 0;
 
 
 
-
-
-
+// BUDGET RELATED
+var setBudgetAmount = 250;
+var budgetAmount = 250;
+var monthsSinceLastBudgetUpdate = 0;
 
 
 
