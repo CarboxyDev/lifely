@@ -671,3 +671,149 @@ function humanEvents(){
 
 
 
+
+
+function accident(){
+	message(`You were in an accident`);
+	let list = ["hit by a car","hit by a truck","hit by a bike",
+	"ruthlessly beaten by some criminals",
+	"shot by an unknown man","stabbed by a thief",
+	"crushed by a street pole","electrocuted by hanging wires",
+	"the victim of a serious stroke"];
+
+	var cause = `You were <span class='w3-text-red'>${list[randint(0,list.length-1)]}</span>`;
+	message(cause);
+	var survive = randint(0,100);
+	var mortality = 100-survive;
+	let html = `
+	${cause}<br><br>
+	Survival Chance - <b>${survive}%</b><br>
+	Mortality Chance - <b>${mortality}%</b><br>
+	`
+	health = health - randint(30,60);
+	display();
+	Swal.fire({
+		heightAuto:false,
+		allowOutsideClick:false,
+		icon:"warning",
+		title:"You were in an accident!",
+		html:html,
+		confirmButtonText:"Continue",
+		confirmButtonColor:"#d31747"
+	}).then((result) => {
+		if (result.value){
+			let chance = randint(0,100);
+			if (chance > survive){
+				death();
+			}
+			else {
+				surviveAccident();
+			}
+
+		}
+
+	});
+
+};
+
+
+
+
+
+
+function surviveAccident(){
+	message(`You survived your recent fatal accident`);
+	health = health + randint(10,30);
+	let yearlySalary = USER.job.salary*12;
+
+	if (hasJob && yearlySalary > 30000 && yearlySalary <= 65000){
+		var realBill = randint(50000,75000);
+		var bill = randint(20000,30000);
+
+		var notice = `
+		Hospital Bill : <del>$${realBill}</del>&nbsp;<b>$${bill}</b><br>
+		Savings : <b>$${realBill-bill}</b><br><br>
+		You got medical benefits for employed middle class citizens.<br>
+		`;
+	}
+	else if (hasJob && yearlySalary <= 30000){
+		var realBill = randint(50000,75000);
+		var bill = randint(12500,17500);
+
+		var notice = `
+		Hospital Bill : <del>$${realBill}</del>&nbsp;<b>$${bill}</b><br>
+		Savings : <b>$${realBill-bill}</b><br><br>
+		You got medical benefits for employed low salary citizens.<br>
+		`;
+	}
+	else if (hasJob && yearlySalary > 65000){
+		var bill = randint(50000,75000);
+
+		var notice = `
+		Hospital Bill : <b>$${bill}</b><br><br>
+		You did not get any medical benefits from the government.<br>
+		`;
+	}
+	else if (!hasJob){
+		var realBill = randint(50000,75000);
+		var bill = randint(7500,12500);
+		var notice = `
+		Hospital Bill : <del>$${realBill}</del>&nbsp;<b>$${bill}</b><br>
+		Savings : <b>$${realBill-bill}</b><br><br>
+		You got medical benefits for unemployed citizens.
+		`;
+	};
+	let html = `
+	The doctors successfully saved you from dying!<br>
+	Now you'll need to pay the hospital bills.<br><br>
+	${notice}
+	`;
+
+	Swal.fire({
+		heightAuto:false,
+		allowOutsideClick:false,
+		icon:"success",
+		title:"You survived the accident!",
+		html:html,
+		confirmButtonText:"I'm glad"
+
+	}).then((result) => {
+		if (result.value){
+			let html = `<br>
+			You , <b>${USER.name}</b> are entitled to pay <b>$${bill}</b>
+			as hospital fees to the respective hospital. All
+			benefits provided by <b>Goverment Of ${USER.country}</b> have
+			already been availed. The competent authority shall
+			receive the said amount and release you as soon as possible.
+			<br><br>
+			The said amount shall be deducted from your bank account<br>
+			`;
+			Swal.fire({
+				heightAuto:false,
+				icon:"info",
+				allowOutsideClick:false,
+				title:"Hospital Fees Notice",
+				html:html,
+				confirmButtonText:`Pay $${bill}`
+			}).then((result) => {
+				if (result.value){
+					forceLoan(bill);
+					display();
+					message(`You paid <b>$${bill}</b> as hospital bills`);
+				}
+			});
+
+		}
+	});
+};
+
+
+
+
+
+
+
+
+
+
+

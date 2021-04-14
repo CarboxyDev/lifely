@@ -53,9 +53,9 @@ function bankDetails(){
 	Account Holder Name : <b>${USER.name}</b><br>
 	Bank Account ID : <b>${BANK.id}</b><br>
 	Total Transactions : <b>${BANK.transactions}</b><br><br><br>
-	<h4>BANK BALANCE  : <b>${bal}$</b></h4><br><br>
+	<h4>BANK BALANCE  : <b>$${bal}</b></h4><br><br>
 
-	Current Debt : <b>${BANK.loan}$</b><br>
+	Current Debt : <b>$${BANK.loan}</b><br>
 
 	${loan_status}<br><br>
 	<button onclick="withdraw()" class="w3-btn w3-green w3-hover-blue">Withdraw</button>
@@ -78,7 +78,7 @@ function bankDetails(){
 function loanServices(){
 
 	let html = `<br>
-	<h4> Current Debt : <b>${BANK.loan}$</b>
+	<h4> Current Debt : <b>$${BANK.loan}</b>
 	<br><br><hr>
 	<button onclick="loan()" class="w3-btn w3-red w3-large">Take Loan</button>
 	<button onclick="repay_loan()" class="w3-btn w3-green w3-large">Repay Loan</button>
@@ -111,11 +111,11 @@ function loan(){
 		var max_loan_amt = 20000 - BANK.loan;
 	}
 	let html = ` <br>
-	Bank Balance : <b>${BANK.balance}$</b><br>
-	Current Debt : <b>${BANK.loan}$</b><br>
-	Annual Salary : <b>${Math.floor(USER.job.salary*12)}$</b><br><br>
+	Bank Balance : <b>$${BANK.balance}</b><br>
+	Current Debt : <b>$${BANK.loan}</b><br>
+	Annual Salary : <b>$${Math.floor(USER.job.salary*12)}</b><br><br>
 
-	Maximum Loanable Amount : <b>${max_loan_amt}$</b><br>
+	Maximum Loanable Amount : <b>$${max_loan_amt}</b><br>
 	`;
 	
 	Swal.fire({
@@ -175,7 +175,7 @@ function loan_money(max_loan_amt){
 				return "Please input an amount";
 			}
 			else if (isnum && val > max_loan_amt){
-				return `Maximum allotable loan is ${max_loan_amt}$`;
+				return `Maximum allotable loan is $${max_loan_amt}`;
 			}
 			else if (isnum && val >= 2500){
 				process_loan(val);
@@ -195,11 +195,11 @@ function process_loan(amount){
 	BANK.balance += amount;
 	BANK.loan += amount;
 	hasLoan = true;
-	message(`Your loan of ${amount}$ has been processed`);
+	message(`Your loan of $${amount} has been processed`);
 	message(`You've recieved the said amount in your bank account`);
 
 	let html = `
-	Amount Loaned : <b>${amount}$</b><br>
+	Amount Loaned : <b>$${amount}</b><br>
 	The loaned amount has been added to your bank balance.<br>
 
 	`
@@ -231,7 +231,7 @@ function loan_certificate(amount){
 
 	This certifcate is to certify that <b>${USER.name}</b> ,
 	a client of ${USER.country} National Bank has taken a loan
-	of amount - <b>${amount}$</b> at an interest rate of
+	of amount - <b>$${amount}</b> at an interest rate of
 	<b>2%</b> of the total amount / month.<br><br>
 	<hr>
 	<u>It must be understood that the client will need to repay the
@@ -266,7 +266,7 @@ function repay_loan(){
 		<br>
 		You are in the process repaying your outstanding debt.<br>
 		The repayment amount shall be deducted from your bank balance.<br>
-		<br>Current Debt : <b>${BANK.loan}$</b><br>	
+		<br>Current Debt : <b>$${BANK.loan}</b><br>	
 
 		`
 		Swal.fire({
@@ -335,12 +335,12 @@ function repay_amount(amount){
 		hasLoan = false;
 	}
 
-	message(`You repaid ${amount}$ in due loans`);
+	message(`You repaid $${amount} in due loans`);
 
 	let html = `
 	<br>
-	Debt Paid : <b>${amount}$</b><br>
-	Remaining Debt : <b>${BANK.loan}$</b><br>
+	Debt Paid : <b>$${amount}</b><br>
+	Remaining Debt : <b>$${BANK.loan}</b><br>
 	`;
 
 	Swal.fire({
@@ -357,7 +357,7 @@ function repay_amount(amount){
 
 function deposit(){
 	let html = `<br>
-	<h4>BANK BALANCE : <b>${BANK.balance}$</b></h4><br><br><br>
+	<h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br><br>
 	The amount in bank is increased at <b>1%</b> /month<br>
 	<h5> Depositing money </h5>
 	`
@@ -407,13 +407,13 @@ function deposit_money(amount){
 	BANK.transactions += 1;
 
 	display()
-	message(`You deposited ${amount}$ to your bank acount`);
+	message(`You deposited $${amount} to your bank acount`);
 
 
 	let html = `<br>
 	You deposited money to your ${USER.country} National Bank account.<br><br>
-	Amount Deposited : <b>${amount}$</b><br><br><br>
-	<h4>BANK BALANCE : <b>${BANK.balance}$</b></h4><br><br>
+	Amount Deposited : <b>$${amount}</b><br><br><br>
+	<h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br>
 	`
 	Swal.fire({
 		heightAuto:false,
@@ -431,7 +431,7 @@ function deposit_money(amount){
 function withdraw(){
 
 	let html = `<br>
-	<h4>BANK BALANCE : <b>${BANK.balance}$</b></h4><br><br>
+	<h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br>
 
 	<h5> Withdrawing money </h5>
 	`
@@ -484,13 +484,13 @@ function withdraw_money(amount){
 	BANK.transactions += 1;
 
 	display()
-	message(`You withdrew ${amount}$ from your bank acount`);
+	message(`You withdrew $${amount} from your bank acount`);
 
 
 	let html = `<br>
 	You withdrew money from your ${USER.country} National Bank account.<br><br>
-	Amount Withdrawn : <b>${amount}$</b><br><br><br>
-	<h4>BANK BALANCE : <b>${BANK.balance}$</b></h4><br><br>
+	Amount Withdrawn : <b>$${amount}</b><br><br><br>
+	<h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br>
 	`
 	Swal.fire({
 		heightAuto:false,
@@ -536,7 +536,7 @@ function bankTransaction(amount){
 function forceLoan(amt,msg=null){
 	BANK.transactions += 1;
 	BANK.loan += Number(amt);
-	BANK.hasLoan = true;
+	hasLoan = true;
 
 	if (msg == null){
 		 message(`You had to take an immediate loan of $${amt}`);

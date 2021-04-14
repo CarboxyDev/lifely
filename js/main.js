@@ -51,133 +51,6 @@ function display(){
 
 
 
-function accident(){
-	message(`You met an accident`);
-	let list = ["hit by a car","hit by a truck","hit by a bike",
-	"ruthlessly beaten by some criminals","shot by an unknown man",
-	"stabbed by a thief","crushed by a pole","electrocuted by hanging wires"];
-
-	var cause = `<h4>You were ${list[randint(0,list.length-1)]}.</h4>`;
-	message(cause);
-	var surv = randint(0,100);
-	var mort = 100-surv;
-	let html = `
-	${cause}<br><br>
-	Survival Chance - <b>${surv}%</b><br>
-	Mortality Chance - <b>${mort}%</b><br>
-	`
-	health = health - randint(50,70);
-	display();
-	Swal.fire({
-		heightAuto:false,
-		allowOutsideClick:false,
-		icon:"warning",
-		title:"You were in an accident!",
-		html:html,
-		confirmButtonText:"Continue",
-		confirmButtonColor:"#d31747"
-	}).then((result) => {
-		if (result.value){
-			let chance = randint(0,100);
-			if (chance > surv){
-				death();
-			}
-			else {
-				accident_survive();
-			}
-
-		}
-
-	});
-
-};
-
-function accident_survive(){
-	message(`You survived the fatal accident`);
-	health = health + randint(30,40);
-	display();
-	if (hasJob && USER.salary > 3000 && USER.salary <= 8000){
-		var real_bill = randint(75000,120000);
-		var bill = randint(25000,50000);
-		var notice = `
-		Hospital Bill - <del>${real_bill}$</del>&nbsp;<b>${bill}$</b><br>
-		Savings - <b>${real_bill-bill}$</b><br><br>
-		You got medical benefits for employed middle class citizens.<br>
-		`;
-	}
-	else if (hasJob && USER.salary <= 3000){
-		var real_bill = randint(75000,120000);
-		var bill = randint(20000,30000);
-		var notice = `
-		Hospital Bill - <del>${real_bill}$</del>&nbsp;<b>${bill}$</b><br>
-		Savings - <b>${real_bill-bill}$</b><br><br>
-		You got medical benefits for employed low salary citizens.<br>
-		`;
-	}
-	else if (hasJob && USER.salary > 8000){
-		var bill = randint(75000,120000);
-		var notice = `
-		Hospital Bill - <b>${bill}$</b><br><br>
-		You did not get any medical benefits.<br>
-		`;
-	}
-	else if (!hasJob){
-		var real_bill = randint(75000,120000);
-		var bill = randint(10000,20000);
-		var notice = `
-		Hospital Bill - <del>${real_bill}$</del>&nbsp;<b>${bill}$</b><br>
-		Savings - <b>${real_bill-bill}$</b><br><br>
-		You got medical benefits for unemployed citizens.
-		`;
-	};
-	let html = `
-	The doctors successfully saved you from dying!<br>
-	Now you'll need to pay the hospital bills.<br><br>
-	${notice}
-	`;
-
-	Swal.fire({
-		heightAuto:false,
-		allowOutsideClick:false,
-		icon:"success",
-		title:"You survived the accident!",
-		html:html,
-		confirmButtonText:"I'm glad"
-
-	}).then((result) => {
-		if (result.value){
-			let html = `<br>
-			You , <b>${USER.name}</b> are entitled to pay <b>$${bill}</b>
-			as hospital fees to the respective hospital. All
-			benefits provided by <b>Goverment Of ${USER.country}</b> have
-			already been availed. The competent authority shall
-			receive the said amount and release you as soon as possible.
-			<br><br>
-			The said amount shall be deducted from your bank account<br>
-			`;
-			Swal.fire({
-				heightAuto:false,
-				icon:"info",
-				allowOutsideClick:false,
-				title:"Hospital Fees Notice",
-				html:html,
-				confirmButtonText:`Pay $${bill}`
-			}).then((result) => {
-				if (result.value){
-					BANK.balance -= bill;
-					display();
-					message(`You paid <b>${bill}$</b> as hospital bills`);
-				}
-			});
-
-		}
-	});
-};
-
-
-
-
-
 
 
 
@@ -1389,6 +1262,7 @@ function help(){
 
 
 function update(){
+	ageUpAnimation();
 	count = 0;
 	totalGymVisits = 0;
 	totalLibVisits = 0;
