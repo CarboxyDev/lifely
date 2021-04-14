@@ -73,7 +73,7 @@ var disease_severity = false;
 var DISEASE = false;
 var jail_months = 0;
 var jail_months_spent = 0;
-
+var alertsCount = 0;
 
 
 

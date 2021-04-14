@@ -5,9 +5,6 @@
 	grid-template-rows:25% 25% 25% 25%; 
 }
 
-#stats div {
-	border-bottom: 1px solid #272626;
-}
 
 
 
@@ -45,7 +42,7 @@
 }
 #health {
 	color:#d31747;
-	font-size: 4.5vh;
+	font-size: 26px;
 }
 
 
@@ -87,7 +84,7 @@
 }
 #morale {
 	color:#f9a94f;
-	font-size: 4.5vh;
+	font-size: 26px;
 }
 
 
@@ -129,7 +126,7 @@
 }
 #intellect {
 	color:#0865c7;
-	font-size: 4.5vh;
+	font-size: 26px;
 }
 
 
@@ -170,6 +167,6 @@
 }
 #looks {
 	color:#e25822;
-	font-size: 4.5vh;
+	font-size: 26px;
 }
 

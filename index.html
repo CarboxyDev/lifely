@@ -116,17 +116,20 @@
 		<div id="bottom-panel">
 			<div id="bottom-left">
 				<div id="buttons-panel">
-					<button id="actions-btn" onclick="actions()" class="btn-main btn-red"><i class="fas fa-rocket"></i> Actions</button>
-					<button id="activities-btn" onclick="activities()" class="btn-main btn-red">Activities <i class="fas fa-bolt"></i></button>
+					<button id="actions-btn" onclick="actions()" class="btn-main btn-dark"><i class="fas fa-rocket"></i> Actions</button>
+					<button id="activities-btn" onclick="activities()" class="btn-main btn-dark">Activities <i class="fas fa-bolt"></i></button>
 				</div>
 			</div>
 			<div id="bottom-middle">
 				<div id="buttons-panel-2">
-					<button id="age-btn" onclick="update()" class="btn-age">Age Up <i class="fas fa-arrow-up"></i></button>
+					<button id="age-btn" onclick="update()" class="btn-age btn-blue">Age 1m</button>
 				</div>
 				
 			</div>
 			<div id="bottom-right">
+				<button id="alert" onclick="alerts()" class="btn-alert btn-red">
+				<i class="fas fa-exclamation-triangle"></i>&nbsp;<span id="alert-count">0</span></button>
+
 				<button id="settings-btn" onclick="settings()" class="btn-settings"><i class="fas fa-cog"></i></button>
 			</div>
 		</div>

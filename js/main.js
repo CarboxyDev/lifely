@@ -1313,12 +1313,12 @@ function contributions(){
 
 function ultraDarkTheme(){
 
-		$("body").css("background-color","black");
+		$("body").css("background-color","#111010");
 		$("body").css("color","white");
 }
 	
 function darkTheme(){
-		$("body").css("background-color","#201f1f");
+		$("body").css("background-color","#1b1b1b");
 		$("body").css("color","white");
 }
 
@@ -1627,23 +1627,19 @@ function custom_character(attr){
 
 
 function main(){
-	intro();
-	$("#update").click(update);
-	$("#settings").hover(function (){
-		$("#settings-icon").attr("class","fa fa-lg fa-cog fa-rotate-270");
-	});
-	$("#settings").mouseleave(function (){
-		$("#settings-icon").attr("class","fa fa-lg fa-cog");
-	})
 	
-	$("#money-icon").hover(function (){
-		let html = `BANK BALANCE : ${BANK.balance}$`;
-			$("#money-block").html(html);},
-		function(){
-			let html = `MONEY : <span id="money">${money}</span>$`;
-			$("#money-block").html(html);
 
-	})
+	$("#alert").hover(() => {
+		let html = `Alerts : <span id="alert-count">${alertsCount}</span>`;
+		$("#alert").html(html);
+	
+	},() => {
+		let html = `<i class="fas fa-exclamation-triangle"></i>&nbsp;<span id="alert-count">${alertsCount}</span>`;
+		$("#alert").html(html);
+	});
+
+
+
 
 	$("#looks-icon").hover(
 		function(){
