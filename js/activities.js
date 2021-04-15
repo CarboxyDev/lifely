@@ -232,6 +232,94 @@ function hospital(){
 
 
 
+function crime(){
+	let chance = randint(1,100);
+
+	if (chance < 65){ //65% chance
+		crimeSuccess();
+	}
+	else if (chance >= 65 && chance <= 90){ // 25% chance
+		crimeFine();
+	}
+	else {	//10% chance
+		crimeJail();
+	}
+
+	display();
+};
+
+
+
+function crimeSuccess(){
+	let amt = approx(randint(100,1500));
+	money += amt;
+	message(`You commited a crime and stole $${amt}`);
+
+	let html = `<br><br>
+	You commited a crime and stole <b>$${amt}</b>
+	<br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		icon:"success",
+		title:`Successful Crime`,
+		html:html,
+		confirmButtonText:"Okay"
+	});
+
+
+
+}
+
+
+
+function crimeFine(){
+	let fine = randint(500,2500);
+	money -= fine;
+	message(`You were caught commiting a minor crime and were fined $${fine}`);
+	
+	let html = `<br><br>
+	You were caught while trying to commit a minor crime.<br>
+	You have been fined <b>$${fine}</b>
+	<br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		icon:"error",
+		title:`Caught!`,
+		html:html,
+		allowOutsideClick:false,
+		confirmButtonText:`Pay $${fine}`
+	});	
+
+}
+
+
+
+function crimeJail(){
+	message(`You were caught committing a serious crime`);
+	let jailTime = randchoice([3,6,8,12]);
+	message(`You might have to serve ${jailTime} months in Jail`);
+	
+	let html = `<br><br>
+	You were caught whilst commiting a serious crime.<br>
+	You have been sentenced to <b>${jailTime}</b> months in jail.
+	<br><br>
+	`
+	Swal.fire({
+		heightAuto:false,
+		icon:"warning",
+		title:"Caught and charged!",
+		allowOutsideClick:false,
+		html:html,
+		confirmButtonText:"Oh No"
+	}).then((result) => {
+		jail(jailTime);
+	});
+}
+
+
+
 
 
 

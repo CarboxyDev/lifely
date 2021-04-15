@@ -1,9 +1,14 @@
 
 function randint(min,max){
-	let int = Math.floor(Math.random()*(max-min+1))+min;
-	return int;
+	let rnum = Math.floor(Math.random()*(max-min+1))+min;
+	return rnum;
 
 };
+
+function randchoice(array){
+	let randNum = randint(0,array.length-1);
+	return array[randNum];
+}
 
 function approx(num){
 	if (num%10==0){
@@ -34,6 +39,22 @@ function generateRange(floor,ceil){
 	return result;
 
 }
+
+function position(obj){
+   let curleft = 0;
+   let curtop = 0;
+
+   if (obj.offsetParent) {
+      do {
+         curleft += obj.offsetLeft;
+         curtop += obj.offsetTop;
+      } while (obj = obj.offsetParent);
+
+      return {x:curleft,y:curtop};
+      //returns coords
+   }
+}
+
 
 
 

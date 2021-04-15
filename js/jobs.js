@@ -960,10 +960,10 @@ function jobSuccess(){
 
 	jobAllow = false;
 	hasJob = true;
-	let actionsBtn = document.querySelector('#actions-btn');
-	actionsBtn.setAttribute('onclick','jobMenu()')
-	actionsBtn.classList = [];
-	actionsBtn.classList.add('btn-main','btn-purple');
+	
+	HTML.actions.setAttribute('onclick','jobMenu()');
+	HTML.actions.classList = [];
+	HTML.actions.classList.add('btn-main','btn-purple');
 
 }
 

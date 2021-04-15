@@ -10,30 +10,47 @@
 
 }
 
+
 .btn-red {
 	background-color: #e92236;
 }
+
 .btn-red:hover {
 	background-color: #dc3545;
 }
+
 .btn-blue {
 	background-color: #1e7fe1;
 }
+
 .btn-blue:hover {
 	background-color: transparent;
 }
+
 .btn-purple {
 	background-color: #9513bf;
 }
+
 .btn-purple:hover {
 	background-color: #af2dd9;
 }
+
 .btn-dark {
 	background-color: #3a3636;
 }
+
 .btn-dark:hover{
 	background-color: transparent;
 }
+
+.btn-black {
+	background-color:#131111; 
+}
+
+.btn-black:hover {
+	background-color: transparent;
+}
+
 
 
 .btn-age {

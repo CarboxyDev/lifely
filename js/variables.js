@@ -68,11 +68,12 @@ var student_months = 0;
 var student_has_loan = false;
 var student_fees = 0;
 var hasDisease = false;
+var hasDepression = false;
 var disease_count = 0;
 var disease_severity = false;
 var DISEASE = false;
-var jail_months = 0;
-var jail_months_spent = 0;
+var jailDuration = 0;
+var jailDurationSpent = 0;
 var alertsCount = 0;
 
 
@@ -88,26 +89,29 @@ var monthsSinceLastBudgetUpdate = 0;
 
 
 
-
-
-
-
-
-
-
-
-
-// might come into use some day maybe? idk
-// - dev , 30 March 2021
-var oldStats = {
-	health:0,
-	morale:0,
-	intellect:0,
-	looks:0
-}
 var swalBackground = "#333"
-
 var Swal = Swal.mixin({
 	background:swalBackground,
 	heightAuto:false
 })
+
+
+
+
+
+const buttons = {
+
+	profile:`<button id="profile" class="btn-lg main-btn btn-secondary" onclick="profile()"> <i class="fas fa-user-alt"></i>&nbsp;Profile</button>`,
+
+}
+
+const HTML = {
+
+	actions:document.querySelector('#actions-btn'),
+	activities:document.querySelector('#activities-btn'),
+}
+
+
+
+
+

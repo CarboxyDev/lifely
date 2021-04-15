@@ -2,20 +2,19 @@
 // - Developer , 20 Nov 2020
 
 function study(){
-	var html = `
-	<br>
-	<br><button id="study-eng" class="btn btn-success" onclick="study_course('eng')">Engineering College</button><br>
-
-	<br><button id="study-lib" class="btn btn-success" onclick="study_course('lib')">Liberal Arts College</button><br>
-	<br><button id="study-com" class="btn btn-success" onclick="study_course('com')">Commerce College</button><br>
-
-	<br><button id="study-law" class="btn btn-success" onclick="study_course('law')">Law College</button><br>
-	<br><button id="study-art" class="btn btn-success" onclick="study_course('art')">Arts College</button><br>
-	<br><button id="study-med" class="btn btn-success" onclick="study_course('med')">Medical College</button><br>	
-	<br><button id="study-community" class="btn btn-success" onclick="study_course('community')">Community College</button><br>
-
-
-	`;
+	var html = `<br><br>
+	<button id="study-eng" class="btn btn-success" onclick="study_course('eng')">Engineering College</button>
+	<br><br>
+	<button id="study-lib" class="btn btn-success" onclick="study_course('lib')">Liberal Arts College</button>
+	<br><br>
+	<button id="study-com" class="btn btn-success" onclick="study_course('com')">Commerce College</button>
+	<br><br>
+	<button id="study-law" class="btn btn-success" onclick="study_course('law')">Law College</button>
+	<br><br>
+	<button id="study-med" class="btn btn-success" onclick="study_course('med')">Medical College</button>	
+	<br><br>
+	<button id="study-community" class="btn btn-success" onclick="study_course('community')">Community College</button>
+	<br>`;
 	Swal.fire({
 		heightAuto:false,
 		position:"top",

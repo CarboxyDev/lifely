@@ -224,3 +224,157 @@ function plasticSurgery(){
 
 
 
+function therapy(){
+	if (hasDepression){
+		var cost = randint(200,600);
+
+		let html = `<br><br>
+		Cost of therapy session : <b>$${cost}</b><br><br>
+		You are being treated for depression.
+		<br><br>`;
+
+		Swal.fire({
+			heightAuto:false,
+			icon:"question",
+			title:"Therapy Session",
+			html:html,
+			confirmButtonText:`Pay $${cost}`,
+			showCancelButton:true,
+			cancelButtonText:"I'd Rather Not"
+		}).then((result)=> {
+			if (result.value){
+				let hadTherapy = false;
+
+				if (hasMoney(cost)){
+					money -= cost;
+					hadTherapy = true;
+				}
+				else if (hasMoneyInBank(cost)){
+					bankTransaction(-cost);
+					hadTherapy = true;
+
+				}
+				else {
+					swalNoMoney.fire();
+					hadTherapy = false;
+
+				};
+
+
+				if (hadTherapy){
+					message(`You had a depression therapy session`);
+					morale += randint(1,4);
+
+					Swal.fire({
+						heightAuto:false,
+						title:'Depression Therapy',
+						text:'You had a depression therapy session. You feel better now.',
+						icon:'success',
+						confirmButtonText:'Okay'
+					});
+
+				}
+
+
+
+				display();
+			}
+
+		});
+	}
+
+
+	else if (!hasDepression){
+		let html = `<br><br>
+		It doesn't seem like you're suffering from depression.<br>
+		You're all good to go without any therapy sessions!<br><br>
+		`
+		Swal.fire({
+			heightAuto:false,
+			icon:"error",
+			title:"You don't require therapy",
+			html:html,
+			confirmButtonText:"Alright"
+		});
+	}
+};
+
+
+
+
+
+
+
+
+
+
+
+function diseaseCheckup() {
+	// upgrade this simple system
+	message(`You have been diagnosed with <b>${DISEASE}</b>`);
+	if (disease_severity == "High"){
+		var cost = randint(15000,30000);
+	}
+	else {
+		var cost = randint(250,7500);
+	}
+	let html = `<br>
+	Cost of Treatment - <b>${cost}$</b><br>
+	Success Chance - <b>67%</b><br>
+	`;
+
+	Swal.fire({
+		heightAuto:false,
+		background:swalBackground,
+		title:`Diagnosed with ${DISEASE}`,
+		html:html,
+		icon:"warning",
+		confirmButtonText:"Get Treatment",
+		showCancelButton:true,
+		cancelButtonText:"I'd rather suffer"
+	}).then((result) => {
+		if (result.value){
+			if (hasMoney(cost)){
+				money -= cost;
+				display();
+				let chance = randint(1,3);
+				
+				if (chance != 1){
+					message(`The treatment for ${DISEASE} was successful`);
+					let html = `<br>You are no longer suffering from
+					<b>${DISEASE}</b>!`
+					Swal.fire({
+						heightAuto:false,
+						background:swalBackground,
+						title:"Your disease has been cured!",
+						html:html,
+						icon:"success",
+						confirmButtonText:"Awesome!"
+					});
+					morale += randint(3,5);
+					display();
+					hasDisease = false;
+				}
+				else {
+					let html= `<br>
+
+					`;
+					message(`The treatment for ${DISEASE} was unsuccessful`);
+					morale -= randint(5,10);
+					display();
+					Swal.fire({
+						heightAuto:false,
+						background:swalBackground,
+						title:"No Luck",
+						icon:"error",
+						html:html,
+						confirmButtonText:"Crap!"
+					});
+				}
+			}
+		}
+	});
+};
+
+
+
