@@ -85,19 +85,15 @@ function disease(level=null){
 
 function actions(){
 	var html = `<br><br>
-	<button id="bank" class="btn-lg btn-success" onclick="bank()">Bank &nbsp;<i class="fa fa-dollar-sign"></i></button>
+	${buttons.bank}<br><br>
+	${buttons.budget}<br><br><br>
+	${buttons.jobs}<br><br>
+	${buttons.study}<br><br>
 	<br><br>
-	<button id="budget" class="btn-lg btn-info" onclick="budget()">Budget &nbsp;<i class="fa fa-wallet"></i></button>
-	<br><br>
-	<button id="job-btn" class="btn-lg btn-info" onclick="jobs()">Jobs &nbsp;<i class="fa fa-briefcase"></i></button>
-	<br><br>
-	<button id="study-btn" class="btn-lg btn-info" onclick="study()">Study &nbsp;<i class="fa fa-graduation-cap"></i></button>
-	<br><br>
-		
-	<br>
 	${buttons.profile}&nbsp;
-	<button id="assets" class="btn-lg main-btn btn-danger" onclick="assets()">Assets <i class="fas fa-home"></i></button>
-	`;
+	${buttons.assets}`;
+
+
 	Swal.fire({
 		heightAuto:false,
 		position:"top",
@@ -113,165 +109,19 @@ function actions(){
 
 
 
-
-function gamble_result(option,amount){
-	
-	if (option == 1){
-		// win
-		let prize = amount*2;
-		money = money + prize;
-		morale += randint(0,2);
-		display()
-		message(`You won ${prize}$ in a gamble`);
-		let html = `
-		<b>YOU WON THE GAMBLE!</b><br><br>
-		You gambled <b>${amount}$</b><br>
-		You won <b>${prize}$</b><br><br>
-		`;
-		Swal.fire({
-			heightAuto:false,
-			icon:"success",
-			title:"Congratulations!!",
-			html:html,
-			confirmButtonText:"Amazing!"
-		});
-	}
-	else {
-		// lose
-		message(`You lost ${amount}$ in a gamble`);
-		let html = `
-		You lost <b>${amount}$ in the gamble</b><br><br>
-		`;
-		Swal.fire({
-			heightAuto:false,
-			icon:"error",
-			title:"You lost the gamble!",
-			html:html,
-			confirmButtonText:"Harsh Luck"
-		});
-
-	};
-
-};
-
-
-
-function gamble_start(amount){
-	if (hasMoney(amount)){
-		money -= amount;
-		display();
-		let html = `
-		<h5>You've spent <b>${amount}$</b> to gamble</h5><br><br>
-		<h6>Click one button below.<br>
-		One of the buttons will win you the gamble!</h6>
-		<br><br>
-		`;
-
-		let opts = [1,2,3,4];
-		shuffle(opts);
-
-		let btns = 
-		`
-		<button onclick="gamble_result(${opts[0]},${amount})" class="btn btn-success">Choice 1</button>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<button onclick="gamble_result(${opts[1]},${amount})" class="btn btn-success">Choice 2</button><br><br>
-		<button onclick="gamble_result(${opts[2]},${amount})" class="btn btn-success">Choice 3</button>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<button onclick="gamble_result(${opts[3]},${amount})" class="btn btn-success">Choice 4</button><br>
-
-		`
-
-		html = html+btns;
-
-		Swal.fire({
-			heightAuto:false,
-			icon:"question",
-			title:"Gambling",
-			html:html,
-			showConfirmButton:false
-		});
-
-
-
-		
-	}
-
-};
-
-
-
-
-
-
-
-
-
-
-
-function gamble(){
-	let placeholder = 100;
-	let html = `
-	<br>
-	Minimum gamble amount - <b>100$</b><br>
-	Maximum gamble amount - <b>10000$</b><br><br>
-	On winning the gamble , your gamble amount is doubled!<br>
-	On losing the gamble , your gamble amount is lost!<br><br>
-	`;
-	Swal.fire({
-		heightAuto:false,
-		icon:"info",
-		title:"Gambling Time",
-		input:"text",
-		inputValue:placeholder,
-		html:html,
-		footer:"NOTE : Please refrain from gambling in real life",
-		confirmButtonText:"Gamble!",
-		showCancelButton:true,
-		cancelButtonText:"Nevermind",
-		inputValidator: (cost) => {
-			let isnum = /^\d+$/.test(cost);
-			if (isnum){
-				gamble_start(cost);
-			}
-			else if (!cost){
-				return 'You need to bet some money!'
-			}
-			else if (!isnum){
-				return 'Enter only a number!'
-			}
-			else if (cost < 100){
-				return 'You have to bet a minimum of 100$'
-			}
-			else if (cost > 10000){
-				return 'You can bet a maximum of 10000$'
-			}
-		}
-	})
-
-
-};
-
-
-
-
-
-
-
 function activities(){
-	var html = 
-	`<br>
-<button id="hosp-btn" onclick="hospital()" class="btn btn-success">Go To Hospital &nbsp;<i class="fa fa-hospital"></i></button>
-<br><br>
-<button id="gym-btn" onclick="gym()" class="btn btn-danger">Go To Gym &nbsp;<i class="fa fa-dumbbell"></i></button>
-<br><br>
-<button id="lib-btn" onclick="library()" class="btn btn-danger">Go To Library &nbsp;<i class="fa fa-book"></i></button>
-<br><br>
-<button id="restaurant-btn" onclick="restaurant()" class="btn btn-danger">Go To Restaurant &nbsp;<i class="fa fa-utensils"></i></button>
-<br><br>
-<button id="exercise-btn" onclick="exercise()" class="btn btn-danger">Do Exercise &nbsp;<i class="fa fa-running"></i></button>
-<br><br>
-<hr>
-	`;
+	
+	let html = `<br><br>
+	<button id="hosp-btn" onclick="hospital()" class="btn btn-success">Go To Hospital &nbsp;<i class="fa fa-hospital"></i></button>
+	<br><br>
+	<button id="gym-btn" onclick="gym()" class="btn btn-danger">Go To Gym &nbsp;<i class="fa fa-dumbbell"></i></button>
+	<br><br>
+	<button id="lib-btn" onclick="library()" class="btn btn-danger">Go To Library &nbsp;<i class="fa fa-book"></i></button>
+	<br><br>
+	<button id="restaurant-btn" onclick="restaurant()" class="btn btn-danger">Go To Restaurant &nbsp;<i class="fa fa-utensils"></i></button>
+	<br><br>
+	<button id="exercise-btn" onclick="exercise()" class="btn btn-danger">Do Exercise &nbsp;<i class="fa fa-running"></i></button>
+	<br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
@@ -290,9 +140,10 @@ function activities(){
 };
 
 
+
 function activities2(){
 
-	var html = `<br>
+	let html = `<br><br>
 	<button onclick="gamble()" class="btn btn-danger">Do Gambling &nbsp;<i class="fa fa-dice-six"></i></button>
 	<br><br>
 	<button id="crime-btn" onclick="crime()" class="btn btn-danger">Commit Crime &nbsp;<i class="fa fa-exclamation"></i></button>
@@ -300,9 +151,7 @@ function activities2(){
 	<button id="vacation-btn" onclick="vacation()" class="btn btn-danger">Go On Vacation &nbsp;<i class="fa fa-compass"></i></button>
 	<br><br>
 	<button onclick="emigrate()" class="btn btn-danger">Emigrate <i class="fas fa-plane"></i></button>
-	<br><br>
-	<hr>
-	`;
+	<br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
@@ -325,6 +174,13 @@ function activities2(){
 
 	});
 
+}
+
+
+function activities3(){
+	Swal.fire({
+		title:`Coming Later!`}
+	);
 }
 
 
@@ -1021,7 +877,7 @@ function main(){
 		$("#alert").html(html);
 	
 	},() => {
-		let html = `<i class="fas fa-exclamation-triangle"></i>&nbsp;<span id="alert-count">${alertsCount}</span>`;
+		let html = `<i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;<span id="alert-count">${alertsCount}</span>`;
 		$("#alert").html(html);
 	});
 

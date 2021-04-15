@@ -1,7 +1,7 @@
 .btn-main {
 	font-size:22px;
 	border:none;
-	padding:7.5px;
+	padding:8px;
 	font-family: Helvetica;
 	color:white;
 	margin-right: 1vw;
@@ -25,6 +25,7 @@
 
 .btn-blue:hover {
 	background-color: transparent;
+	border:1px solid #1e7fe1;
 }
 
 .btn-purple {
@@ -41,6 +42,7 @@
 
 .btn-dark:hover{
 	background-color: transparent;
+	border:1px solid #3a3636;
 }
 
 .btn-black {

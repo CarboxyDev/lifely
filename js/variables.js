@@ -102,6 +102,13 @@ var Swal = Swal.mixin({
 const buttons = {
 
 	profile:`<button id="profile" class="btn-lg main-btn btn-secondary" onclick="profile()"> <i class="fas fa-user-alt"></i>&nbsp;Profile</button>`,
+	bank:`<button id="bank" class="btn-lg btn-danger" onclick="bank()">Bank &nbsp;<i class="fa fa-dollar-sign"></i></button>`,
+	budget:`<button id="budget" class="btn-lg btn-info" onclick="budget()">Budget &nbsp;<i class="fa fa-wallet"></i></button>`,
+	jobs:`<button id="job-btn" class="btn-lg btn-info" onclick="jobs()">Jobs &nbsp;<i class="fa fa-briefcase"></i></button>`,
+	study:`<button id="study-btn" class="btn-lg btn-info" onclick="study()">Study &nbsp;<i class="fa fa-graduation-cap"></i></button>`,
+	assets:`<button id="assets" class="btn-lg main-btn btn-secondary" onclick="assets()">Assets <i class="fas fa-home"></i></button>`,
+
+
 
 }
 
@@ -111,7 +118,7 @@ const HTML = {
 	activities:document.querySelector('#activities-btn'),
 }
 
-
+const space = "nbsp;"
 
 
 
