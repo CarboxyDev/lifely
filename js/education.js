@@ -728,7 +728,16 @@ function student_loan_notice(){
 
 
 
+function leaveEducation(){
+	isStudent = false;
+	USER.job.name = "Unemployed";
 
+	message(`You left your college`);
+
+	HTML.actions.setAttribute('onclick','actions()');
+	HTML.actions.classList = [];
+	HTML.actions.classList.add('btn-main','btn-dark');
+}
 
 
 

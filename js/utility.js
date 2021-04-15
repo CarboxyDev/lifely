@@ -58,33 +58,6 @@ function position(obj){
 
 
 
-function random_country(){
-
-	var countryList = [
-		"United States","Canada","United Kingdom","India","Pakistan",
-		"China","Saudi Arabia","Sri Lanka","Mexico","Sweden","Norway",
-		"Denmark","Finland","Russia","Japan","Taiwan","South Korea",
-		"Indonesia","Singapore","Italy","Hungary","Switzerland",
-		"Poland","Germany","France","Portugal","Spain","Ireland",
-		"Iceland","Argentina","Brazil","Uruguay","Cuba","Albania",
-		"Australia","Austria","Belgium","Belarus","Estonia","Bulgaria",
-		"Chile","Turkey","Greece","Cyprus","Croatia","Costa Rica",
-		"Egypt","Israel","Kuwait","Latvia","Iran","Slovenia","Lithuania",
-		"Malaysia","UAE","Morocco","Luxembourg","New Zealand","Qatar",
-		"South Africa","Bangladesh","Mongolia","Thailand","Serbia",
-		"Vietnam","Ukraine","Zimbawe","United States","United States",
-		"United States","United States","United States","Canada","Canada",
-		"Russia","Burundi","Belize","Bolivia","Slovakia","Laos",
-		"Lebanon","Mauritius","Netherlands","Macedonia","Philippines",
-		"United States","United States","United States","Canada",
-		"United States"
-	]; // Increasing chance of getting United States
-		
-	random = randint(0,countryList.length-1);
-	return countryList[random];
-};
-
-
 
 
 /*

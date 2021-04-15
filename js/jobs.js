@@ -1100,3 +1100,20 @@ function randPromotionEvent(){
 }
 
 
+
+
+
+function leaveJob(){
+	hasJob = false;
+	USER.job.name = "Unemployed";
+	
+	message(`You left your job`);
+
+	HTML.actions.setAttribute('onclick','actions()');
+	HTML.actions.classList = [];
+	HTML.actions.classList.add('btn-main','btn-dark');
+}
+
+
+
+

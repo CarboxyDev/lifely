@@ -1,10 +1,8 @@
-var intro_disabled = true;
-var country = random_country();
 
 
 var USER  = {
 	'name':random_name(),
-	'country':country,
+	'country':randomCountry(),
 	'age':216,
 	'status':'None',
 	'assets':[],//temp assets | will be much more complex in future
@@ -107,13 +105,16 @@ const buttons = {
 	jobs:`<button id="job-btn" class="btn-lg btn-info" onclick="jobs()">Jobs &nbsp;<i class="fa fa-briefcase"></i></button>`,
 	study:`<button id="study-btn" class="btn-lg btn-info" onclick="study()">Study &nbsp;<i class="fa fa-graduation-cap"></i></button>`,
 	assets:`<button id="assets" class="btn-lg main-btn btn-secondary" onclick="assets()">Assets <i class="fas fa-home"></i></button>`,
-
-
+	credits:`<button onclick="credits()" class="btn btn-success">Credits</button>`,
+	help:`<button onclick="help()" class="btn btn-success">Help</button>`,
+	contributions:`<button onclick="contributions()" class="btn btn-success">Contributions</button>`,
+	displayThemes:`<button onclick="displayThemes()" class="w3-btn w3-blue">Display Themes</button>`,
 
 }
 
 const HTML = {
-
+	console:document.querySelector("#console"),
+	ageDisplay:document.querySelector('#age'),
 	actions:document.querySelector('#actions-btn'),
 	activities:document.querySelector('#activities-btn'),
 }

@@ -463,3 +463,214 @@ function resultGamble(option,amount){
 };
 
 
+
+
+
+
+
+
+
+
+function emigrate(){
+	let cost = randint(15000,35000);
+
+	let html = `<br><br>
+	<h2 class="w3-center"> Emigration Process <i class="fa fa-plane-departure"></h2><br><br>
+	<br>
+	Total Cost : <b>$${cost}</b><br><br>
+	Choose the desired country : 
+	<br><br>
+	`
+
+	Swal.fire({
+		heightAuto:false,
+		title:"Emigration",
+		position:"top",
+		html:html,
+		confirmButtonText:"Emigrate",
+		showCancelButton:true,
+		cancelButtonText:"Nevermind",
+		input:"text",
+		inputValidator: (value) => {
+			value = value.charAt(0).toUpperCase() + value.slice(1);
+			
+
+			// allCountries is global variable declared in countries.js
+			let countryFound = allCountries.includes(value);
+			
+			
+			if (countryFound){
+				willEmigrate = false;
+				if (hasMoney(cost)){
+					money -= cost;
+					willEmigrate = true;
+				}
+				else if (hasMoneyInBank(cost)){
+					bankTransaction(-cost);
+					willEmigrate = true;
+				}
+				else {
+					swalNoMoney.fire();
+					willEmigrate = false;
+				};
+
+
+				if (willEmigrate){
+					message(`You spent $${cost} on Emigration Services`);
+					USER.country = value;
+					successEmigrate();
+				};
+
+			}
+			else {
+				return "Country not found"
+			}
+
+		}
+	})
+
+}
+
+
+
+
+
+function successEmigrate(){
+	message(`You emigrated to <b>${USER.country}</b>`);
+	message(`All your bank details have been transferred to ${USER.country} National Bank`);
+	if (isStudent){
+		leaveEducation();
+	}
+	if (hasJob){
+		leaveJob();
+	}
+
+	Swal.fire({
+		heightAuto:false,
+		icon:"success",
+		title:"Emigration Successful!",
+		text:`You emigrated to ${USER.country}!`,
+		confirmButtonText:"New Life!",
+		allowOutsideClick:false
+	});
+	display();
+}
+
+
+
+
+
+
+
+function vacation(){
+	
+	let countries = [];
+	
+	for (x=0;x<5;x++){
+		let randCountry = allCountries[randint(0,allCountries.length-1)];
+		if (countries.includes(randCountry)){
+			x -= 1;
+		}
+		else if (randCountry == USER.country){
+			x -= 1;
+		}
+		else {
+			countries.push(randCountry);	
+		};
+	};
+
+	var countryObject = {
+		country0:countries[0],
+		country1:countries[1],
+		country2:countries[2],
+		country3:countries[3],
+		country4:countries[4]
+	};
+
+	let html = `<br><br>
+	<button onclick="vacation()" class="btn btn-success">View More Locations</button>
+	<br><br>`;
+	
+	Swal.fire({
+		heightAuto:false,
+		icon:"question",
+		title:"Vacation",
+		showCancelButton:true,
+		confirmButtonText:"Lets go!",
+		cancelButtonText:"Nevermind",
+		input:"select",
+		inputOptions:countryObject,
+		inputPlaceholder:"Select Country",
+		html:html,
+		position:"top",
+		
+	}).then((result) => {
+		if (result.value){
+			let country = countryObject[result.value];
+			let cost = randint(10000,25000);
+
+			let html2 = `<br><br>
+			Cost of vacation : <b>$${cost}</b>
+			<br><br>`;
+
+			Swal.fire({
+				heightAuto:false,
+				icon:"info",
+				title:`Vacation in ${country}`,
+				showCancelButton:true,
+				confirmButtonText:`Pay $${cost}`,
+				cancelButtonText:"Not For Me!",
+				footer:"Note : Going on a vacation significantly boosts your morale",
+				html:html2
+
+			}).then((result) => {
+				if (result.value){
+					let wentForVacation = false;
+
+					if (hasMoney(cost)){
+						money -= cost;
+						wentForVacation = true;
+					}
+					else if (hasMoneyInBank(cost)){
+						bankTransaction(-cost);
+						wentForVacation = true;
+					}
+					else {
+						swalNoMoney.fire();
+						wentForVacation = false;
+					};
+
+
+					if (wentForVacation){
+						message(`You went for a vacation to ${country}`);
+						morale += randint(15,20);
+						intellect += randint(-1,1);
+
+						Swal.fire({
+							heightAuto:false,
+							title:'Vacation Time!',
+							text:`You went for a vacation to ${country}!`,
+							confirmButtonText:'Nice',
+							icon:'success'
+						});
+
+					}
+				}
+				else if (result.dismiss == Swal.DismissReason.cancel){
+					vacation();
+				};
+			});
+			display();
+		};
+
+	});
+};
+
+
+
+
+
+
+
+
+
