@@ -37,6 +37,11 @@
 	width:0%;
 	height:100%;
 }
+
+#health-fill:hover {
+	background-color: #f72d2d;
+}
+
 #health-count-panel {
 	text-align: center; 
 }
@@ -79,6 +84,12 @@
 	width:0%;
 	height:100%;
 }
+#morale-fill:hover {
+	background-color: #f2d027;
+}
+
+
+
 #morale-count-panel {
 	text-align: center; 
 }
@@ -117,10 +128,15 @@
 	top:40%;
 }
 #intellect-fill {
-	background-color: #047eff;
+	background-color: #0578f2;
 	width:0%;
 	height:100%;
 }
+#intellect-fill:hover {
+	background-color: #1b8aff;
+}
+
+
 #intellect-count-panel {
 	text-align: center; 
 }
@@ -158,15 +174,19 @@
 	top:40%;
 }
 #looks-fill {
-	background-color: #e74709;
+	background-color: #f41bc3;
 	width:0%;
 	height:100%;
 }
+#looks-fill:hover {
+	background-color: #fc30ce;
+}
+
 #looks-count-panel {
 	text-align: center; 
 }
 #looks {
-	color:#e25822;
+	color:#fc30ce;
 	font-size: 26px;
 }
 

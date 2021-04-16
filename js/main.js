@@ -32,57 +32,6 @@ function display(){
 
 
 
-
-function disease(level=null){
-	disease_count += 1;
-	hasDisease = true;
-
-	if (level==null){
-		// normal disease
-		var diseases = ["Common Cold","Hepatitis","Obesity",
-		"Flu","Chronic Fatigue","Typhoid","Acne",
-		"Anxiety","Cough",];
-		disease_severity = "Low To Medium";
-	}
-	else {
-		// serious disease
-		var diseases = ["Cancer","Diabetes","Dementia","Hearing Loss",
-		"Heart Disease","High Blood Pressure","Tuberculosis"
-		];
-		disease_severity = "High";
-	};
-
-	DISEASE = diseases[randint(0,diseases.length-1)];
-
-	let html = `
-	<br> You are advised to get the required treatment for 
-	<b>${DISEASE}</b> as soon as possible.<br><br>
-	Disease Severity - <b>${disease_severity}</b>
-	`;
-	message(`You were diagnosed with <b>${DISEASE}</b>`);
-	Swal.fire({
-		heightAuto:false,
-		title:`You've been diagnosed with ${DISEASE}`,
-		icon:"warning",
-		html:html,
-		confirmButtonText:"Oh No"
-	})
-
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function actions(){
 	var html = `<br><br>
 	${buttons.bank}<br><br>
@@ -203,66 +152,6 @@ function activities3(){
 
 
 
-
-
-
-
-
-function depression(){
-
-	hasDepression = true;
-	message(`You have depression`);
-	let html = `
-	<br> Depression has struck another human and this time,
-	it's you.<br>
-	Your low morale is the reason behind your depression.<br>
-	`;
-	Swal.fire({
-		heightAuto:false,
-		icon:"warning",
-		title:"You Have Depression.",
-		html:html,
-		confirmButtonText:"Okay"
-	});
-
-}
-
-
-
-function cureDepression(){
-	has_depression = false;
-	message(`You came out strong and defeated depression`);
-
-	let html = `<br><br>
-	You did it.<br>
-	You defeated depression.<br>		
-
-	<br><br>`;
-
-	Swal.fire({
-		heightAuto:false,
-		icon:"success",
-		title:"You Defeated Depression!",
-		confirmButtonText:"Awesome!",
-		html:html,
-		allowOutsideClick:false
-	});
-
-}
-
-
-
-function EffectOfdepression(){
-
-	let chance = randint(1,100);
-	if (chance >= 5){
-		message(`You can't take it anymore. You are too despressed to survive`);
-		message(`You took the extreme step of ending your life`);
-		death();
-	};
-
-
-}
 
 
 

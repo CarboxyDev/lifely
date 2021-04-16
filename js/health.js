@@ -220,10 +220,6 @@ function plasticSurgery(){
 
 
 
-
-
-
-
 function therapy(){
 	if (hasDepression){
 		var cost = randint(200,600);
@@ -302,7 +298,60 @@ function therapy(){
 
 
 
+function depression(){
 
+	hasDepression = true;
+	message(`You have depression`);
+	let html = `
+	<br> Depression has struck another human and this time,
+	it's you.<br>
+	Your low morale is the reason behind your depression.<br>
+	`;
+	Swal.fire({
+		heightAuto:false,
+		icon:"warning",
+		title:"You Have Depression.",
+		html:html,
+		confirmButtonText:"Okay"
+	});
+
+}
+
+
+
+function cureDepression(){
+	has_depression = false;
+	message(`You came out strong and defeated depression`);
+
+	let html = `<br><br>
+	You did it.<br>
+	You defeated depression.<br>		
+
+	<br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		icon:"success",
+		title:"You Defeated Depression!",
+		confirmButtonText:"Awesome!",
+		html:html,
+		allowOutsideClick:false
+	});
+
+}
+
+
+function EffectOfdepression(){
+
+	let chance = randint(1,100);
+	if (chance >= 5){
+		message(`You can't take it anymore. You are too despressed to survive`);
+		message(`You took the extreme step of ending your life`);
+		death();
+	};
+
+
+}
 
 
 
@@ -310,71 +359,240 @@ function therapy(){
 
 
 function diseaseCheckup() {
-	// upgrade this simple system
-	message(`You have been diagnosed with <b>${DISEASE}</b>`);
-	if (disease_severity == "High"){
-		var cost = randint(15000,30000);
+	
+	let allDiseases = Object.keys(diseases);
+	let diseaseName = allDiseases[0];
+	let diseaseObj = diseases[allDiseases];
+	let diseaseLevel = diseaseObj.level;
+	diseaseObj.detected = true;
+	let cost;
+	let successChance;
+
+	if (diseaseLevel == 1){
+		cost = randint(500,1500);
+		successChance = randint(90,100);
+	}
+	else if (diseaseLevel == 2){
+		cost = randint(1000,4500);
+		successChance = randint(70,95);
 	}
 	else {
-		var cost = randint(250,7500);
-	}
-	let html = `<br>
-	Cost of Treatment - <b>${cost}$</b><br>
-	Success Chance - <b>67%</b><br>
-	`;
+		cost = randint(2000,5000);
+		successChance = randint(35,60);
+	};
+	
+
+	let html = `<br><br>
+	You have been diagnosed with <b>${diseaseName}</b><br><br>
+	Disease Severity : <b class='w3-text-red'>${diseaseObj.severity}</b><br>
+	Treatment Cost : <b>$${cost}</b><br>
+	Success Chance : ${successChance}%
+
+	<br><br>`;
+
 
 	Swal.fire({
 		heightAuto:false,
-		background:swalBackground,
-		title:`Diagnosed with ${DISEASE}`,
+		icon:'info',
+		title:'Disease Detected',
 		html:html,
-		icon:"warning",
-		confirmButtonText:"Get Treatment",
 		showCancelButton:true,
-		cancelButtonText:"I'd rather suffer"
+		confirmButtonText:`Pay $${cost}`,
+		cancelButtonText:`I'll survive`
 	}).then((result) => {
 		if (result.value){
+			let gotTreatment = false;
+
 			if (hasMoney(cost)){
 				money -= cost;
-				display();
-				let chance = randint(1,3);
-				
-				if (chance != 1){
-					message(`The treatment for ${DISEASE} was successful`);
-					let html = `<br>You are no longer suffering from
-					<b>${DISEASE}</b>!`
+				gotTreatment = true;
+			}
+			else if (hasMoneyInBank(cost)){
+				bankTransaction(-cost);
+				gotTreatment = true;
+			}
+			else {
+				swalNoMoney.fire();
+				gotTreatment = false;
+			};
+
+			if (gotTreatment){
+				let chance = randint(1,100);
+				if (successChance > chance){
+					diseaseOver(diseaseName);
+					message(`You were successfully treated for ${diseaseName}`);
+					morale += randint(2,4);
+
 					Swal.fire({
 						heightAuto:false,
-						background:swalBackground,
-						title:"Your disease has been cured!",
-						html:html,
-						icon:"success",
-						confirmButtonText:"Awesome!"
-					});
-					morale += randint(3,5);
-					display();
-					hasDisease = false;
+						icon:'success',
+						title:'Bye Bye Disease!',
+						text:`You were successfully treated for ${diseaseName}`,
+						confirmButtonText:'Amazing!'
+					})
 				}
 				else {
-					let html= `<br>
+					message(`The treatment for ${diseaseName} was unsuccessful`);
+					morale -= randint(1,3);
 
-					`;
-					message(`The treatment for ${DISEASE} was unsuccessful`);
-					morale -= randint(5,10);
-					display();
 					Swal.fire({
 						heightAuto:false,
-						background:swalBackground,
-						title:"No Luck",
-						icon:"error",
-						html:html,
-						confirmButtonText:"Crap!"
+						icon:'error',
+						title:'No luck',
+						text:`Your treatment for ${diseaseName} was unsuccessful`,
+						confirmButtonText:'Oh No'
 					});
+
 				}
 			}
+		display();
+
 		}
 	});
+
+
 };
+
+
+
+function disease(){
+	diseaseCount += 1;
+	hasDisease = true;
+
+	let randChance = randint(1,100);
+	let diseaseLevel = 1; // 1 : lowest & 3 : hardest
+	let diseaseSeverity;
+	let randDisease;
+	let persistTime;
+
+	if (randChance <= 65){
+		diseaseLevel = 1;
+		diseaseSeverity = "Low";
+		persistTime = randint(1,3);
+		message(`You're not feeling very well`);
+	
+	}
+	else if (randChance > 65 && randChance <= 90){
+		diseaseLevel = 2;
+		diseaseSeverity = "Medium";
+		persistTime = randint(2,8);
+		message(`You feel like you're sick`);
+	
+	}
+	else {
+		diseaseLevel = 3;
+		diseaseSeverity = "High";
+		persistTime = randint(6,36);
+		message(`You're having trouble doing tasks. You might not be healthy`);
+
+	};
+
+	randDisease = randomDisease(diseaseLevel);
+
+	let alreadyHasDiseases = Object.keys(diseases);
+	if (alreadyHasDiseases.includes(randDisease)){
+		disease();
+	};
+
+
+	diseases[randDisease] = {
+		severity:diseaseSeverity,
+		level:diseaseLevel,
+		persistsFor:persistTime,
+		monthsSince:0,
+		detected:false
+	}
+
+
+}
+
+
+
+
+function randomDisease(diseaseLevel){
+
+	const allDiseases = {
+
+		1:['Common Cold','Mild Flu','Pink Eye',
+		'Stomach Ache','Allergies','Fatigue',
+		'Insomnia','Migraine','Nausea','Diarrhea','Food Poisoning',
+		'Salmonella','Anxiety'],
+
+		2:['Mild Covid-19','Meningitis','Chlymadia','Herpes',
+		'Tuberculosis','Hearing Loss','Mononucleosis',
+		'Influenza A','Influenza B','Syphilis',
+		'Pneumonia','Hepatitis','Typhoid','Arthritis',
+		'High Cholesterol','Dengue','Malaria'],
+
+		3:['Cancer','Dementia','HIV/AIDS','High Blood Pressure',
+		'Diabetes','Alzheimers','Lung Disease','Kidney Failure',
+		'Stroke','Heart Disease','Severe Covid-19']
+	}
+
+	let listLength = allDiseases[diseaseLevel].length;
+	let randDisease = allDiseases[diseaseLevel][randint(0,listLength-1)];
+	
+	return randDisease; 
+	
+
+}
+
+
+
+function diseaseEvents(){
+	let allDiseases = Object.keys(diseases);
+
+	allDiseases.forEach(diseasePersistence);
+	allDiseases.forEach(diseaseEffect);
+
+	function diseasePersistence(diseaseName,index){
+
+		let diseaseObj = diseases[diseaseName];
+		diseaseObj.monthsSince += 1;
+		if (diseaseObj.monthsSince >= diseaseObj.persistsFor){
+			diseaseOver(diseaseName);
+			allDiseases.splice(index);
+		}		
+	};
+
+
+	function diseaseEffect(diseaseName){
+
+		let diseaseLevel = diseases[diseaseName]['level'];
+		if (diseaseLevel == 1){ //low
+			health -= randint(1,2);
+		}
+		else if (diseaseLevel == 2){ //moderate
+			health -= randint(1,3);
+			morale -= randint(1,2);
+			looks -= randint(0,1);
+		}
+		else if (diseaseLevel == 3){ //high
+			health -= randint(2,3);
+			morale -= randint(1,2);
+			looks -= randint(1,2);
+			intellect -= randint(0,1);
+
+		}
+	}
+
+}
+
+
+function diseaseOver(diseaseName){
+	
+	let diseaseDetected = diseases[diseaseName]['detected'];
+	if (diseaseDetected){
+		message(`You are no longer affected by <b>${diseaseName}</b>`);
+	}
+	diseaseCount -= 1;
+
+
+	delete diseases[diseaseName];
+
+}
+
+
 
 
 

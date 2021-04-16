@@ -3,8 +3,13 @@ function ageEvents(){
 	if (hasJob){
 		monthlyJobEvent();
 	}
+	if (hasDisease){
+		diseaseEvents();
+	}
+	if (!hasDisease){
+		randomDiseaseEvents();
+	}
 	
-	diseaseEvents();
 	extremeEvents();
 	monthlyBudgetEvents();
 	
@@ -65,36 +70,6 @@ function healthEvents(){
 
 
 
-
-function diseaseEvents(){
-	if (hasDisease){
-		if (disease_severity == "Low To Medium"){
-			health -= randint(1,2);
-			morale -= randint(0,2);
-			looks -= randint(0,1);
-		}
-		else if (disease_severity == "High"){
-			health -= randint(2,4);
-			morale -= randint(1,4);
-			looks -= randint(1,2);
-		}		
-		display();
-	}
-	else if (!hasDisease){
-		let chance = randint(1,50);
-		if (chance == 1){
-			let chance = randint(1,3)
-			if (chance == 1){
-				disease("High");
-			}
-			else {
-				disease();
-			}
-		}
-	}
-
-
-};
 
 
 
@@ -333,7 +308,7 @@ function depression_check(){
 		}
 	}
 
-	if (has_depression){
+	if (hasDepression){
 		if (morale > 40){
 			cure_depression();
 		}
@@ -361,7 +336,7 @@ function death(){
 	var html = `
 	<br><hr><br>
 	Name : ${USER.name}<br>
-	Net-worth : ${money}$<br>
+	Net Worth : $${money}<br>
 	Age : ${age}<br>
 
 	<br><hr><br>You were cremated in ${USER.country}
@@ -392,6 +367,8 @@ function death(){
 	let console = document.querySelector('#console');
 	console.innerHTML = content;
 
+	health = 0;
+	display();
 };
 
 
@@ -812,6 +789,14 @@ function surviveAccident(){
 
 
 
+function randomDiseaseEvents(){
+
+	let chance = randint(1,100);
+	if (chance > 94){
+		disease();
+	}
+
+}
 
 
 

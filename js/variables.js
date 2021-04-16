@@ -67,8 +67,7 @@ var student_has_loan = false;
 var student_fees = 0;
 var hasDisease = false;
 var hasDepression = false;
-var disease_count = 0;
-var disease_severity = false;
+
 var DISEASE = false;
 var jailDuration = 0;
 var jailDurationSpent = 0;
@@ -76,6 +75,10 @@ var alertsCount = 0;
 
 
 
+// DISEASE RELATED
+
+var diseases = {}
+var diseaseCount = 0;
 
 // BUDGET RELATED
 var setBudgetAmount = 250;
