@@ -160,7 +160,7 @@ function student_check(){
 				
 			};
 			if (student_months >= 48){
-				message(`You have ${total_student_loan}$ as total student loans`);
+				message(`You have $${total_student_loan} as total student loans`);
 				message(`Your student loan will be paid when you start earning`)
 				message(`You are no longer entitled to more student loans`);
 
@@ -180,7 +180,7 @@ function student_check(){
 					money = money - total_student_loan;
 					let html = `
 					You reached the student loan repayment deadline<br>
-					and had to pay <b>${total_student_loan}$</b><br>
+					and had to pay <b>$${total_student_loan}</b><br>
 					`;
 					Swal.fire({
 						heightAuto:false,
@@ -415,7 +415,7 @@ function lostAndFoundEvent(){
 			message(`You decided to keep the lost ${item}`);
 			var inc = randint(5,125);
 			money = money + inc;
-			message(`The ${item} is worth ${inc}$`);
+			message(`The ${item} is worth $${inc}`);
 			display();
 		};
 	});
@@ -437,7 +437,7 @@ function thiefEncounter(){
 		money += prize;
 		morale += randint(3,6);
 		display();
-		let html = `You were given <b>${prize}$</b> as prize money
+		let html = `You were given <b>$${prize}</b> as prize money
 		for catching the thief. The police appreciate your response.`;
 		Swal.fire({
 			heightAuto:false,
@@ -480,7 +480,7 @@ function thiefEncounter(){
 					let html = `
 					You handed the thief over to the police after
 					they came to the spot. You've been awarded
-					<b>${prize}$</b> for your valor!
+					<b>$${prize}</b> for your valor!
 					`;
 					Swal.fire({
 						heightAuto:false,
@@ -577,7 +577,7 @@ function humanEvents(){
 		let html = `
 		<br>The unknown person wants you to deliver a secret 
 		package of some drugs to <b>${country}</b>.<br><br>
-		He's willing to give you <b>${amt}$</b> for the trouble.
+		He's willing to give you <b>$${amt}</b> for the trouble.
 		He'll be arranging the plane tickets too!
 		<br>
 		`;
@@ -609,7 +609,7 @@ function humanEvents(){
 					display();
 					let html=`<br>You successfully delivered the package
 					containing drugs to <b>${country}</b> for
-					<b>${amt}$</b>.<br>`;
+					<b>$${amt}</b>.<br>`;
 					Swal.fire({
 						heightAuto:false,
 						icon:"success",

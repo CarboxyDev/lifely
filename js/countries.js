@@ -41,7 +41,7 @@ function randomCountry(){
 
 	'United States','United States','United States','United States',
 	'United States','United States','United States','United States',
-	'Canada','Canada','India','India','India','India','Thailand'
+	'Canada','Canada','India','India','India','India','Thailand',
 	'England','England','England','Vietnam','Vietnam',
 	'Germany','Brazil','Brazil','Finland','Denmark',
 	'Singapore','Australia','Japan','Japan','Japan','France','France',

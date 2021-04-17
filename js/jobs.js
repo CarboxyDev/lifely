@@ -993,13 +993,13 @@ function jobMenu(){
 	console.log('JobMenu()');
 
 	let html = `
-		<br><button id="budget" class="btn-lg btn-info" onclick="budget()">Budget</button><br>
-		<br><button id="bank" class="btn-lg btn-info" onclick="bank()">Bank</button><br>
-		<br><button id="job" class="btn-lg btn-success" onclick="myJob()">My Job</button><br>
-		<br><br><br>
-		<button id="profile" class="btn-lg main-btn btn-secondary" onclick="profile()"> <i class="fas fa-user-alt"></i>&nbsp;Profile</button>
-		<button id="assets" class="btn-lg main-btn btn-danger" onclick="assets()">Assets <i class="fas fa-home"></i></button>
-	`
+		<br>${buttons.bank}<br><br>
+		${buttons.budget}<br><br>
+		${buttons.myJob}	
+		<br><br><br><br>
+		${buttons.profile}
+		${buttons.assets}
+		<br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
@@ -1052,7 +1052,7 @@ function monthlyJobEvent(){
 	USER.job.duration += 1;
 	money += USER.job.salary;
 
-	message(`You were paid ${USER.job.salary}$ as your salary`);
+	message(`You were paid $${USER.job.salary} as your salary`);
 
 
 	randPromotionEvent();

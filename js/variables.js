@@ -114,7 +114,9 @@ const buttons = {
 	help:`<button onclick="help()" class="btn btn-success">Help</button>`,
 	contributions:`<button onclick="contributions()" class="btn btn-success">Contributions</button>`,
 	displayThemes:`<button onclick="displayThemes()" class="w3-btn w3-blue">Display Themes</button>`,
+	myJob:`<button id="job" class="btn-lg btn-success" onclick="myJob()">My Job</button>`,
 
+		
 }
 
 const HTML = {

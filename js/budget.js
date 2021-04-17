@@ -96,7 +96,7 @@ function modifyBudget(){
 				return "Too big of a budget for you!"
 			}
 			else if (isnum && val >= 100){
-				message(`You changed your monthly budget to <b>${val}$</b>`);
+				message(`You changed your monthly budget to <b>$${val}</b>`);
 				Swal.fire({
 					heightAuto:false,
 					icon:"success",
