@@ -115,8 +115,12 @@ const buttons = {
 	contributions:`<button onclick="contributions()" class="btn btn-success">Contributions</button>`,
 	displayThemes:`<button onclick="displayThemes()" class="w3-btn w3-blue">Display Themes</button>`,
 	myJob:`<button id="job" class="btn-lg btn-success" onclick="myJob()">My Job</button>`,
+	bankAccount:`<button onclick="bankAccount()" class="btn-lg btn-info">Bank Details</button>`,
+	loanServices:`<button onclick="loanServices()" class="btn-lg btn-secondary">Loan Services</button>`,
+	deposit:`<button onclick="deposit()" class="btn-md btn-blue">DEPOSIT&nbsp;</button>`,
+	withdraw:`<button onclick="withdraw()" class="btn-md btn-blue">WITHDRAW</button>`,
 
-		
+
 }
 
 const HTML = {
@@ -126,7 +130,6 @@ const HTML = {
 	activities:document.querySelector('#activities-btn'),
 }
 
-const space = "nbsp;"
 
 
 

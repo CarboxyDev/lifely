@@ -10,6 +10,25 @@
 
 }
 
+.btn-sm {
+
+}
+
+.btn-md {
+	font-size:18px;
+	font-weight: lighter;
+	border:none;
+	padding:10px 6px 10px 6px;
+	color:#fff;
+	outline: none;
+	font-family: 'Open Sans';
+
+}
+
+
+
+
+
 
 .btn-red {
 	background-color: #e92236;
@@ -20,7 +39,7 @@
 }
 
 .btn-blue {
-	background-color: #1e7fe1;
+	background-color: #007CF7;
 }
 
 .btn-blue:hover {
@@ -69,6 +88,31 @@
 .btn-black:hover {
 	background-color: transparent;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -127,14 +171,6 @@
 	color:rgb(240, 211, 211);
 }
 
-
-.btn1 {
-
-}
-
-.btn2 {
-
-}
 
 button:active,button:focus{
 	outline:none

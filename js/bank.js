@@ -2,21 +2,19 @@
 
 function bank(){
 
-	let html = `
+	let html = `<br><br>
+	${buttons.bankAccount}
 	<br><br>
-	<button onclick="bankDetails()" class="w3-btn w3-large w3-green w3-hover-indigo">Bank Details</button><br><br>
-	<button onclick="loanServices()" class="w3-btn w3-large w3-green w3-hover-indigo">Loan Services</button><br><br>
-	<button onclick="deposit()" class="w3-btn w3-large w3-green w3-hover-indigo">Deposit Money</button><br><br>
-	<button onclick="withdraw()" class="w3-btn w3-large w3-green w3-hover-indigo">Withdraw Money</button><br><br>
-	<hr>
-	`;
+	${buttons.loanServices}
+	
+	<br><br>`;
+
+
 
 	Swal.fire({
 		heightAuto:false,
-		position:"top",
 		title:"Bank",
 		html:html,
-		background:"#333",
 		showConfirmButton:false
 	})
 
@@ -26,50 +24,45 @@ function bank(){
 
 
 
-function bankDetails(){
+function bankAccount(){
+
+	let loanStatus;
+	let bal = BANK.balance;
 
 	if (hasLoan){
-
-		var loan_status = `
-		Loan Status : <b><i class="w3-text-red">HAS LOAN</i></b><br>
-		`
+		loanStatus = `Loan Status : <i class="t-red">HAS LOAN</i>`
+	
 	}
 	else {
-		var loan_status = `
-		Loan Status : <b><i class="w3-text-green">NO LOAN</i></b><br>
-		`
+		loanStatus = `Loan Status : <i class="t-green">NO LOAN</i>`
+	
 	};
-	var bal;
+	
 	if (BANK.balance < 0){
-		bal = `<span class="w3-text-red">${BANK.balance}</span>`;
+		bal = `<span class="t-red">$${BANK.balance}</span>`;
 	}
-	else {
-		bal = BANK.balance;
-	};
 
 
-	let html = `
-	<br><br>
-	Account Holder Name : <b>${USER.name}</b><br>
-	Bank Account ID : <b>${BANK.id}</b><br>
-	Total Transactions : <b>${BANK.transactions}</b><br><br><br>
-	<h4>BANK BALANCE  : <b>$${bal}</b></h4><br><br>
+	let html = `<br><br>
+	Account Holder : ${USER.name}<br>
+	Bank Account ID : ${BANK.id}<br>
+	Transactions : ${BANK.transactions}<br>
+	Current Debt : <b>$${BANK.loan}</b><br><br><br>
 
-	Current Debt : <b>$${BANK.loan}</b><br>
-
-	${loan_status}<br><br>
-	<button onclick="withdraw()" class="w3-btn w3-green w3-hover-blue">Withdraw</button>
-	&nbsp;&nbsp;
-	<button onclick="deposit()" class="w3-btn w3-green w3-hover-red">Deposit</button>	
-	<br><hr><br><br>
-	<button onclick="bank()" class="w3-btn w3-blue w3-hover-red">Return To Bank</button>
-	`;
+	<h5>BANK BALANCE  : <b>$${bal}</b></h5><br><br>
+	
+	${loanStatus}<br><br><br>
+	${buttons.deposit}&nbsp;&nbsp;&nbsp;
+	${buttons.withdraw}
+	<br><br><br>`;
+	
 	Swal.fire({
 		heightAuto:false,
-		title:`${USER.country} National Bank`,
+		title:`Bank Account`,
 		html:html,
 		position:top,
-		showConfirmButton:false
+		showConfirmButton:false,
+		showCloseButton:true
 	})
 
 }
