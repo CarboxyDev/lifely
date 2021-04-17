@@ -15,6 +15,7 @@ function start(){
 	display();
 	message(`You are ${USER.name}`);
 	message(`You live in ${USER.country}`);
+	message(`You inherited $${money} from your parents`);
 };
 
 

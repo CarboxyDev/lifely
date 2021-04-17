@@ -46,7 +46,7 @@ var BANK = {
 
 
 
-var money = 1000;
+var money = approx(randint(750,5000));
 var health;
 var morale;
 var intellect;
