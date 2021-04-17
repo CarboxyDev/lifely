@@ -184,13 +184,9 @@ function settings(){
 function displayThemes(){
 
 	let html = `<br><br>
-	<button onclick="darkTheme()" class="w3-btn w3-dark-grey">Dark Theme</button>
+	<button onclick="darkTheme()" class="w3-btn btn-dark">Dark Theme</button>
 	<br><br>
 	<button onclick="ultraDarkTheme()" class="w3-btn w3-black">Ultra Dark Theme</button>
-	<br><br>
-	<button onclick="cobaltTheme()" class="w3-btn w3-blue">Cobalt Theme</button>
-	<br><br>
-	<button onclick="wizardTheme()" class="w3-btn w3-purple">Wizard Theme</button>
 
 	<br><br>`;
 
@@ -239,21 +235,6 @@ function darkTheme(){
 
 		$("body").css("background-color","#1b1b1b");
 		$("body").css("color","white");
-}
-
-
-function cobaltTheme(){
-
-	$("body").css("background-color","#0047ab");
-	$("body").css("color","white");
-}
-
-
-
-function wizardTheme(){
-
-	$("body").css("background-color","#581845");
-	$("body").css("color","white");
 }
 
 
@@ -345,7 +326,6 @@ function confirm(title,text=null){
 
 function main(){
 	
-
 	$("#alert").hover(() => {
 		let html = `Alerts : <span id="alert-count">${alertsCount}</span>`;
 		$("#alert").html(html);
@@ -365,7 +345,7 @@ $(document).ready(main());
 
 
 
-// update stats every 10 seconds just in case i miss to
+// update stats every 10 seconds just in case I miss to
 // update them after stats related changes in a function
 
 setInterval(() => {

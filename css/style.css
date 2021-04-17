@@ -28,8 +28,8 @@ body {
 #console-container {
 	color:#e2dede;
 	border-right: 1px solid #1d1c1c;
-	font-size:112%;
-	font-family: sans-serif;
+	font-size:18px;
+	font-family: 'Open Sans';
 	line-height:125%;
 
 }
@@ -53,13 +53,16 @@ body {
 }
 
 #money {
-	color:#19dd7b;
-	font-size:6.5vh;
+	color:#36e28b;
+	font-size:42px;
+	font-family: "Open Sans";
 }
 #age {
 	color:white;
-	font-size: 5vh;
+	font-size: 35px;
+	font-family: Nunito;
 	float: right;
+
 	
 
 }
@@ -92,9 +95,6 @@ body {
 		display:none;
 	}
 }
-
-
-
 
 
 

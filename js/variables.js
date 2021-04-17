@@ -1,7 +1,7 @@
 
 
 var USER  = {
-	'name':random_name(),
+	'name':null,
 	'country':randomCountry(),
 	'age':216,
 	'status':'None',
@@ -28,11 +28,13 @@ var USER  = {
 	}
 }
 
+USER.name = randomName();
+
 
 
 var BANK = {
 	"balance":0,
-	"id":randint(10000000,99999999),
+	"id":randint(100000,999999),
 	"loan":0,
 	"hasLoan":false,
 	"transactions":0,

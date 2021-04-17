@@ -24,7 +24,8 @@ const essentialCountries = [
 	'Spain','Ireland','Philippines','Netherlands','Sweden','Norway',
 	'Finland','Denmark','UAE','Israel','South Africa','Malaysia',
 	'Thailand','Scotland','Mexico','Belgium','France','Italy',
-	'Singapore','Germany','Australia','Greece','Austria'
+	'Singapore','Germany','Australia','Greece','Scotland',
+	'Vietnam','Argentina','Mexico','Ukraine','Belarus','Poland'
 
 ]
 
@@ -37,12 +38,14 @@ function randomCountry(){
 	// adding bias for most essential countries
 
 	let biasedCountries = [
+
 	'United States','United States','United States','United States',
 	'United States','United States','United States','United States',
-	'Canada','Canada','Canada','Canada','India','India',
-	'England','England','England','England','Ireland','Ireland',
-	'Scotland','Germany','Germany','Brazil','Brazil',
-	'Singapore','Australia','Japan','France','France'
+	'Canada','Canada','India','India','India','India','Thailand'
+	'England','England','England','Vietnam','Vietnam',
+	'Germany','Brazil','Brazil','Finland','Denmark',
+	'Singapore','Australia','Japan','Japan','Japan','France','France',
+	'France','Sweden','Sweden','Norway','China','China','China','China'
 
 	]
 
