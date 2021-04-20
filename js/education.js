@@ -177,17 +177,17 @@ function studentLoanConfirm(course,fees){
 function studentLoanAccept(course,fees){
 
 	
-	studentLoanMonths = 0;
-	studentLoanAmount = approx(fees/48);
+	student.loanMonths = 0;
+	student.loanAmount = approx(fees/48);
 	hasStudentLoan = true;
 
 	message(`Your student loan of <b>$${fees}</b> was accepted and alloted`);
-	message(`An amount of $${studentLoanAmount} will be added to your bank debt every month`);
+	message(`An amount of $${student.loanAmount} will be added to your bank debt every month`);
 	
 
 	let html = `<br>
 	Net Student Debt : $${fees}<br>
-	Monthly Student Debt : $${studentLoanAmount}<br>
+	Monthly Student Debt : $${student.loanAmount}<br>
 
 	<br><br>`;
 
@@ -263,11 +263,10 @@ function startCollege(course){
 
 
 function studentMenu(){
-	let monthsRemain = student.collegeDuration - student.months;
+	
 
 	let html = `<br><br>
-	Months in College : ${student.months}<br>
-	Months remaining : ${monthsRemain}<br><br><br>
+	<br><br>
 	${buttons.myCollege}
 	<br><br><br>
 	${buttons.bank}<br><br><br>
@@ -289,14 +288,30 @@ function studentMenu(){
 
 
 function myCollege(){
-	
 
-	
+	let monthsRemain = student.collegeDuration - student.months;
+
+	let html = `<br>
+	Months in College : ${student.months}<br>
+	Months remaining : ${monthsRemain}<br>
+	<br><br>
+	${buttons.leaveCollege}
+
+	<br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		title:'My College',
+		html:html,
+		showConfirmButton:false,
+		showCloseButton:true
+	})
+
 }
 
 
 
-function leaveStudy(){
+function leaveCollege(){
 
 
 	Swal.fire({
@@ -305,29 +320,34 @@ function leaveStudy(){
 		title:"Do you really want to leave college?",
 		confirmButtonText:"Yes",
 		showCancelButton:true,
-		cancelButtonText:"No",
-		footer:"Note : You will still need to repay student loans"
+		cancelButtonText:"No"
 	}).then((result) => {
 		if (result.value){
-			let html = `
-			Months Studied - <b>${student_months}</b> Months<br>
-			`;
+
+			let html = `<br>
+			Months studied : <b>${student.months}</b> months<br>
+			Degree : <b>${student.course}</b><br>
+			<br><br>`;
+
 			Swal.fire({
 				heightAuto:false,
-				icon:"success",
-				title:"You left your college!",
+				icon:"info",
+				title:"Dropped out of college",
 				html:html
 			});	
+
 			isStudent = false;
+			student.months = 0;
+			student.course = null;
+			student.collegeDuration = 0;
+			
+
 			USER.job.name = "Unemployed";
-			student_months = 0;
-			$("#student").attr("onclick","actions()");
-			$("#student").attr("class","btn-lg btn-danger");
-			$("#student").attr("id","actions");
-			if (student_has_loan){
-				total_student_loan = Math.floor(student_fees/48*student_months);
-				message(`Despite leaving school , you're liable to pay ${total_student_loan}$ in student loans`);
-			}
+			message(`You dropped out of college`);
+
+			HTML.actions.setAttribute('onclick','actions()');
+			HTML.actions.classList = [];
+			HTML.actions.classList.add('btn-main','btn-dark');
 
 		}
 
@@ -340,29 +360,30 @@ function leaveStudy(){
 
 
 
-function student_pass(){
+function graduateCollege(){
 	deg = USER.job.name;
+	let course;
 
 	if (deg.includes("Engineer")){
-		var course = "ENG";
+		course = "ENG";
 	}
 	else if (deg.includes("Liberal")){
-		var course = "LIB";
+		course = "LIB";
 	}
 	else if (deg.includes("Commerce")){
-		var course = "COM";
+		course = "COM";
 	}
 	else if (deg.includes("Arts")){
-		var course = "ART";
+		course = "ART";
 	}
 	else if (deg.includes("Law")){
-		var course = "LAW";
+		course = "LAW";
 	}
 	else if (deg.includes("Medical")){
-		var course = "MED";
+		course = "MED";
 	}
 	else if (deg.includes("Community")){
-		var course = "COMMUNITY";
+		course = "COMMUNITY";
 	}
 	else {
 		document.write("Error in student_pass()");
@@ -372,15 +393,17 @@ function student_pass(){
 	message(`You passed out as a ${deg}`);
 	USER.job.name = "Unemployed";
 	isStudent = false;
-	student_months = 0;
+	student.months = 0;
+
 	USER.education.degrees[course] = {
 		'cgpa':null,
 		'grade':null,
 		'remark':"Passed successfully"
 	}
-	$("#student").attr("onclick","actions()");
-	$("#student").attr("class","btn-lg btn-danger");
-	$("#student").attr("id","actions");
+	
+	HTML.actions.setAttribute('onclick','actions()');
+	HTML.actions.classList = [];
+	HTML.actions.classList.add('btn-main','btn-dark');
 };
 
 
@@ -549,17 +572,6 @@ function student_loan_notice(){
 };
 
 
-
-function leaveEducation(){
-	isStudent = false;
-	USER.job.name = "Unemployed";
-
-	message(`You left your college`);
-
-	HTML.actions.setAttribute('onclick','actions()');
-	HTML.actions.classList = [];
-	HTML.actions.classList.add('btn-main','btn-dark');
-}
 
 
 

@@ -21,9 +21,9 @@ var USER  = {
 		'salary':0,
 		'promotions':0,
 		'duration':0,
-		'previousJobs':{
+		'previousJobs':[]
 
-		}
+		
 
 	}
 }
@@ -84,9 +84,7 @@ var hasJob = false;
 var jobAllow = true;
 var hasLoan = false;
 var salary = 0;
-var student_months = 0;
-var student_has_loan = false;
-var student_fees = 0;
+
 var hasDisease = false;
 var hasDepression = false;
 
@@ -134,12 +132,15 @@ const buttons = {
 	help:`<button onclick="help()" class="btn btn-success">Help</button>`,
 	contributions:`<button onclick="contributions()" class="btn btn-success">Contributions</button>`,
 	displayThemes:`<button onclick="displayThemes()" class="w3-btn w3-blue">Display Themes</button>`,
-	myJob:`<button id="job" class="btn-lg btn-success" onclick="myJob()">My Job</button>`,
+	myJob:`<button class="btn-lg btn-success" onclick="myJob()">My Job</button>`,
+	leaveJob:`<button class="btn-md btn-red btn-radius" onclick="leaveJob()">Leave Job</button>`,
 	bankAccount:`<button onclick="bankAccount()" class="btn-lg btn-info">Bank Details</button>`,
 	loanServices:`<button onclick="loanServices()" class="btn-lg btn-secondary">Loan Services</button>`,
 	deposit:`<button onclick="deposit()" class="btn-md btn-blue">DEPOSIT&nbsp;</button>`,
 	withdraw:`<button onclick="withdraw()" class="btn-md btn-blue">WITHDRAW</button>`,
 	myCollege:`<button class="btn-lg btn-success" onclick="myCollege()">My College</button>`,
+	leaveCollege:`<button class="btn-md btn-red btn-radius" onclick="leaveCollege()">Drop out</button>`,
+
 }
 
 const HTML = {

@@ -131,12 +131,11 @@ function activities2(){
 
 function activities3(){
 	Swal.fire({
-		title:`Coming Later!`}
-	);
+		heightAuto:false,
+		icon:'info',
+		title:'Coming Soon!'
+	});
 }
-
-
-
 
 
 

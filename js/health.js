@@ -358,7 +358,7 @@ function EffectOfdepression(){
 
 
 
-function diseaseCheckup() {
+function diseaseCheckup(){
 	
 	let allDiseases = Object.keys(diseases);
 	let diseaseName = allDiseases[0];

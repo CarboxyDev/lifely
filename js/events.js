@@ -3,6 +3,9 @@ function ageEvents(){
 	if (hasJob){
 		monthlyJobEvent();
 	}
+	if (isStudent){
+		studentEvents();
+	}
 	if (hasDisease){
 		diseaseEvents();
 	}
@@ -13,7 +16,6 @@ function ageEvents(){
 	extremeEvents();
 	monthlyBudgetEvents();
 	
-	student_check();
 	loan_check();
 	money_in_bank_check();
 	need_house_check();
@@ -27,9 +29,7 @@ function ageEvents(){
 	if (isJailed){
 		jailEvents();
 	}
-	if (isStudent){
-		studentEvents();
-	}
+
 	if (!isJailed){
 		extremeEvents();
 	}
@@ -82,9 +82,53 @@ function oldAgeEvent(){
 
 
 
+function studentEvents(){
+	student.months += 1;
+
+	if (student.months != 1){
+		message(`You've spent ${student.months} months in your current college`);
+	}
+	else if (student.months == 1){
+		message(`You've spent ${student.months} month in your current college`);
+	};
+	
 
 
-function student_check(){
+
+
+	if (hasStudentLoan){
+		message(`Your monthly student debt of $${student.loanAmount} was added to your bank`);
+	};
+
+	if (student.months == 48){
+		message(`You passed out of college`);
+
+		let html = `<br>
+		You've successfully graduated as a ${student.course} student!<br>
+		You will now receive your respective degree.<br>
+
+		<br><br>`;
+
+		Swal.fire({
+			heightAuto:false,
+			icon:'success',
+			title:'College Completed!',
+			html:html,
+			confirmButtonText:"Great!",
+			allowOutsideClick:false
+		}).then((result) => {
+			if (result.value){
+				graduateCollege();
+			}
+
+		});
+	};
+
+}
+
+
+/*
+function studentEvents(){
 
 
 	if (isStudent){
@@ -198,6 +242,10 @@ function student_check(){
 	};
 
 };
+
+
+*/
+
 
 
 

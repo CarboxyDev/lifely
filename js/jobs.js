@@ -913,7 +913,7 @@ function checkJob(jobName,jobSalary){
 	let userDegreeList = Object.keys(USER.education.degrees);
 
 	for (degree in userDegreeList){
-		console.log(degree);
+
 		if (jobRequirements.includes(userDegreeList[degree])){
 			hasRequiredDegree = true;
 			USER.job.name = jobName;
@@ -990,7 +990,6 @@ function jobReject(){
 
 
 function jobMenu(){
-	console.log('JobMenu()');
 
 	let html = `
 		<br>${buttons.bank}<br><br>
@@ -1024,10 +1023,10 @@ function myJob(){
 	Monthly Salary : $${USER.job.salary}<br>
 	Yearly Salary : $${USER.job.salary*12}<br><br>
 	Current Promotions : ${USER.job.promotions}<br>
-	Current Job Duration : ${USER.job.duration} months<br><br>
+	Current Job Duration : ${USER.job.duration} months<br><br><br>
+	${buttons.leaveJob}
 
-
-	`;
+	<br><br>`;
 
 
 
@@ -1035,7 +1034,8 @@ function myJob(){
 		heightAuto:false,
 		title:'My Job',
 		html:html,
-		confirmButtonText:'Go Back',
+		showCloseButton:false,
+		showConfirmButton:false,
 		showCloseButton:true
 	})
 
@@ -1064,7 +1064,7 @@ function monthlyJobEvent(){
 function randPromotionEvent(){
 	let randNum = randint(0,22);
 	if (randNum == 22){
-		console.log('Congrats on job promotion :D');
+
 		let minIncrement = allJobs[USER.job.name]['minIncrement'];
 		let maxIncrement = allJobs[USER.job.name]['maxIncrement'];
 		let randInc1 = approx(randint(minIncrement,maxIncrement));
@@ -1104,14 +1104,53 @@ function randPromotionEvent(){
 
 
 function leaveJob(){
-	hasJob = false;
-	USER.job.name = "Unemployed";
-	
-	message(`You left your job`);
 
-	HTML.actions.setAttribute('onclick','actions()');
-	HTML.actions.classList = [];
-	HTML.actions.classList.add('btn-main','btn-dark');
+	Swal.fire({
+		heightAuto:false,
+		icon:'warning',
+		title:'Are you sure?',
+		text:`You are about to leave your job as a ${USER.job.name}`,
+		confirmButtonText:`I'm sure`,
+		showCancelButton:true,
+		cancelButtonText:'Nevermind'
+	
+	}).then((result) => {
+
+		if (result.value){
+			let oldJob = {
+				name:USER.job.name,
+				salary:USER.job.salary,
+				promotions:USER.job.promotions,
+				duration:USER.job.duration
+			}
+
+
+
+			hasJob = false;
+			USER.job.name = "Unemployed";
+			USER.job.salary = 0;
+			USER.job.promotions = 0;
+			USER.job.duration = 0;
+			USER.job.previousJobs.push(oldJob);
+	
+			message(`You left your job`);
+
+			HTML.actions.setAttribute('onclick','actions()');
+			HTML.actions.classList = [];
+			HTML.actions.classList.add('btn-main','btn-dark');
+
+			Swal.fire({
+				heightAuto:false,
+				icon:'success',
+				title:'You left your job!',
+				confirmButtonText:'Alright'
+			})
+
+		}
+
+	});
+
+
 }
 
 
