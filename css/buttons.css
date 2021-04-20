@@ -11,6 +11,13 @@
 }
 
 .btn-sm {
+	font-size:16px;
+	font-weight: lighter;
+	border:none;
+	padding: 8px 6px 8px 6px;
+	outline: none;
+	font-family: 'Open Sans';
+	color:#fff;
 
 }
 
@@ -19,12 +26,17 @@
 	font-weight: lighter;
 	border:none;
 	padding:10px 6px 10px 6px;
-	color:#fff;
 	outline: none;
 	font-family: 'Open Sans';
+	color:#fff;
 
 }
 
+
+
+.btn-radius {
+	border-radius: 5px;
+}
 
 
 
@@ -39,12 +51,12 @@
 }
 
 .btn-blue {
-	background-color: #007CF7;
+	background-color: #2778c4;
 }
 
 .btn-blue:hover {
 	background-color: transparent;
-	border:1px solid #1e7fe1;
+	border:1px solid #2778c4;
 }
 
 .btn-green {

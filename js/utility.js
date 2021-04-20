@@ -11,6 +11,7 @@ function randchoice(array){
 }
 
 function approx(num){
+	num = Math.round(num);
 	if (num%10==0){
 		return num;
 	}
@@ -21,6 +22,14 @@ function approx(num){
 		return num;
 	}
 }
+
+
+function capitalize(str){
+	str = str.charAt(0).toUpperCase() + str.substring(1);
+
+	return str;
+}
+
 
 
 function shuffle(array) {

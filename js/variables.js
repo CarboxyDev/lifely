@@ -46,22 +46,42 @@ var BANK = {
 
 
 
-var money = approx(randint(750,5000));
+var money = 0;
 var health;
 var morale;
 var intellect;
 var looks;
 var karma = 0;
+
+
+
+//student variables 
+
+
+
 var isStudent = false;
-var student_months = 0;
-var total_student_loan = 0;
-var total_years = 0;
+var student = {
+	hasStudentLoan:false,
+	loanMonths:0,
+	loanAmount:0,
+	loanAmountPaid:0,
+	months:0,
+	course:null,
+	collegeDuration:0,
+}
+
+
+
+
+
+
 var isJailed = false;
 
 var totalLibVisits = 0;
 var totalGymVisits = 0;
 var jobQualified = false;
 var hasJob = false;
+var jobAllow = true;
 var hasLoan = false;
 var salary = 0;
 var student_months = 0;
@@ -119,8 +139,7 @@ const buttons = {
 	loanServices:`<button onclick="loanServices()" class="btn-lg btn-secondary">Loan Services</button>`,
 	deposit:`<button onclick="deposit()" class="btn-md btn-blue">DEPOSIT&nbsp;</button>`,
 	withdraw:`<button onclick="withdraw()" class="btn-md btn-blue">WITHDRAW</button>`,
-
-
+	myCollege:`<button class="btn-lg btn-success" onclick="myCollege()">My College</button>`,
 }
 
 const HTML = {

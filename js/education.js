@@ -1,24 +1,84 @@
-// I'm extremely sorry for the awful code
-// - Developer , 20 Nov 2020
+const educationButtons = {
+
+	engineeringBtn:`<button class="btn btn-info" onclick="college('engineering')">Engineering College</button>`,
+	liberalArtsBtn:`<button class="btn btn-info" onclick="college('liberalArts')">Liberal Arts College</button>`,
+	commerceBtn:`<button class="btn btn-info" onclick="college('commerce')">Commerce College</button>`,
+	lawBtn:`<button class="btn btn-success" onclick="college('law')">Law College</button>`,
+	medicalBtn:`<button class="btn btn-success" onclick="college('medical')">Medical College</button>`,
+	communityBtn:`<button class="btn btn-success" onclick="college('community')">Community College</button>`,
+
+}
+
+const courses = {
+
+	engineering:{
+		title:'Engineering College',
+		req:75,
+		scholarship:85,
+		fees:[35000,37000,38000,40000],
+	
+	},
+
+	medical:{
+		title:'Medical School',
+		req:80,
+		scholarship:90,
+		fees:[40000,42000,44000,45000],
+	
+	},
+
+	commerce:{
+		title:'Commerce College',
+		req:70,
+		scholarship:85,
+		fees:[28000,30000,32000,35000],
+	
+	},
+
+	law:{
+		title:'Law School',
+		req:70,
+		scholarship:85,
+		fees:[30000,32000,35000,40000],
+	
+	},
+
+	liberalArts:{
+		title:'Liberal Arts College',
+		req:60,
+		scholarship:80,
+		fees:[20000,22000,24000,25000],
+	
+	},
+
+	community:{
+		title:'Community College',
+		req:55,
+		scholarship:80,
+		fees:[12000,15000,18000,20000],
+	}
+
+
+}
+
+
+
+
+
 
 function study(){
-	var html = `<br><br>
-	<button id="study-eng" class="btn btn-success" onclick="study_course('eng')">Engineering College</button>
-	<br><br>
-	<button id="study-lib" class="btn btn-success" onclick="study_course('lib')">Liberal Arts College</button>
-	<br><br>
-	<button id="study-com" class="btn btn-success" onclick="study_course('com')">Commerce College</button>
-	<br><br>
-	<button id="study-law" class="btn btn-success" onclick="study_course('law')">Law College</button>
-	<br><br>
-	<button id="study-med" class="btn btn-success" onclick="study_course('med')">Medical College</button>	
-	<br><br>
-	<button id="study-community" class="btn btn-success" onclick="study_course('community')">Community College</button>
-	<br>`;
+	let html = `<br><br>
+		${educationButtons.engineeringBtn}<br><br>	
+		${educationButtons.medicalBtn}<br><br>
+		${educationButtons.commerceBtn}<br><br>
+		${educationButtons.lawBtn}<br><br>
+		${educationButtons.liberalArtsBtn}<br><br>
+		${educationButtons.communityBtn}
+		<br><br>`;
+
 	Swal.fire({
 		heightAuto:false,
-		position:"top",
-		title:"Colleges",
+		title:"College Options",
 		showConfirmButton:false,
 		html:html,
 		showCloseButton:true
@@ -27,445 +87,197 @@ function study(){
 };
 
 
-function study_course(course){
-
-	if (course == "eng"){
-		var title = "Engineering College";
-		var html = 
-		`
-		<span>REQUIREMENT : 70%+ INTELLECT</span><br>
-		<span>FEES : 40000$</span><br><br>
-		<span>Study for better job opportunities in Engineering fields</span>
-		<br><br>
-		<button id="scholarship-eng" onclick="scholarship('eng')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-		<button id="student-loan-eng" onclick="student_loan('eng')" class="btn btn-outline-primary">Take a student loan</button><br><br>
-
-		`;
-
-	};
-	if (course == "lib"){
-		var title = "Liberal Arts College";
-		var html = 
-		`
-		<span>REQUIREMENT : 55%+ INTELLECT</span><br>
-		<span>FEES : 25000$</span><br><br>
-		<span>Study for better job opportunities in related job fields</span>
-		<br><br>
-		<button id="scholarship-lib" onclick="scholarship('lib')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-		<button id="student-loan-lib" onclick="student_loan('lib')" class="btn btn-outline-primary">Take a student loan</button><br><br>
 
 
-		`;
+function college(course){
 
-	};
-	if (course == "com"){
-		var title = "Commerce College";
-		var html = 
-		`
-		<span>REQUIREMENT : 65%+ INTELLECT</span><br>
-		<span>FEES : 33000$</span><br><br>
-		<span>Study for better job opportunities in commerce / business fields</span>
-		<br><br>
-		<button id="scholarship-com" onclick="scholarship('com')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-		<button id="student-loan-com" onclick="student_loan('com')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+	let title = courses[course]['title'];
+	let reqIntellect = courses[course]['req'];
+	let scholarshipIntellect = courses[course]['scholarship'];
+	let fees = randchoice(courses[course]['fees']);
 
 
-		`;
+	let html = `<br>
 
-	};
-	if (course == "law"){
-		var title = "Law College";
-		var html = 
-		`
-		<span>REQUIREMENT : 70%+ INTELLECT</span><br>
-		<span>FEES : 35000$</span><br><br>
-		<span>Study for better job opportunities in law fields</span>
-		<br><br>
-		<button id="scholarship-law" onclick="scholarship('law')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-		<button id="student-loan-law" onclick="student_loan('law')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+		Intelligence Required : ${reqIntellect}%<br>
+		Total Fees (4 years) : $${fees}<br><br> 
 
-		`;
+		Obtain the college degree for working in related fields.
+		<br>
+		You are eligible for a scholarship if you have intellect of more 
+		than ${scholarshipIntellect}%.<br><br><br>
+		<button onclick=studentLoan('${course}',${fees}) class="btn-sm btn-green">Student Loan</button>
+		&nbsp;&nbsp;
+		<button onclick=scholarship('${course}') class="btn-sm btn-green">Scholarship</button>
 
-	};
-	if (course == "arts"){
-		var title = "Arts College";
-		var html = 
-		`
-		<span>REQUIREMENT : 60%+ INTELLECT</span><br>
-		<span>FEES : 28000$</span><br><br>
-		<span>Study for better job opportunities in related job fields</span>
-		<br><br>
-		<button id="scholarship-arts" onclick="scholarship('arts')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-		<button id="student-loan-arts" onclick="student_loan('arts')" class="btn btn-outline-primary">Take a student loan</button><br><br>
+		<br><br>`;
 
-
-		`;
-
-	};
-	if (course == "med"){
-		var title = "Medical College";
-		var html = 
-		`
-		<span>REQUIREMENT : 70%+ INTELLECT</span><br>
-		<span>FEES : 45000$</span><br><br>
-		<span>Study for better job opportunities in medical fields</span>
-		<br><br>
-		<button id="scholarship-med" onclick="scholarship('med')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-		<button id="student-loan-med" onclick="student_loan('med')" class="btn btn-outline-primary">Take a student loan</button><br><br>
-
-		`;
-
-	};
-	if (course == "community"){
-		var title = "Community College";
-		var html = 
-		`
-		<span>REQUIREMENT : 50%+ INTELLECT</span><br>
-		<span>FEES : 5000$</span><br><br>
-		<span>Study for better job opportunities in basic job fields</span>
-		<br><br>
-		<button id="scholarship-community" onclick="scholarship('community')" class="btn btn-outline-primary">Apply for Scholarship</button><br><br>
-		<button id="student-loan-community" onclick="student_loan('community')" class="btn btn-outline-primary">Take a student loan</button><br><br>
-
-
-		`;
-
-	};
 
 	Swal.fire({
 		heightAuto:false,
-		position:top,
+		icon:'info',
 		title:title,
+		html:html,
 		showConfirmButton:false,
-		icon:"info",
-		html:html
-	})
+		showCloseButton:true,
+	}).then(() => {
+
+	});
 
 
-};
+}
 
 
+function studentLoan(course,fees){
+
+	let courseObj = courses[course];
 
 
-
-
-
-
-
-
-
-
-
-function student_loan(type){
-	if (type=="eng" && intellect >= 70){
-		student_fees = 40000;
-		Swal.fire({
-			heightAuto:false,
-			title:"You were alloted a student loan!",
-			text:`You are liable to pay ${student_fees}$ in future loans`,
-			icon:"success"
-		});
-		USER.job.name = "Engineering College Student";
-		message(`You got a student loan worth ${student_fees}$`);
-		message(`You are now enrolled in an Engineering College`);
-		student_has_loan = true;
-		student();
-
-	}
-	else if (type=="lib" && intellect >= 55){
-		student_fees = 25000;
-		Swal.fire({
-			heightAuto:false,
-			title:"You were alloted a student loan!",
-			text:`You are liable to pay ${student_fees}$ in future loans`,
-			icon:"success"
-		});
-		USER.job.name = "Liberal Arts Student";
-		message(`You got a student loan worth ${student_fees}$`);
-		message(`You are now enrolled in a Liberal Arts College`);
-		student_has_loan = true;
-		student();
-
-	}
-	else if (type=="com" && intellect >= 65){
-		student_fees = 33000;
-		Swal.fire({
-			heightAuto:false,
-			title:"You were alloted a student loan!",
-			text:`You are liable to pay ${student_fees}$ in future loans`,
-			icon:"success"
-		});
-		USER.job.name = "Commerce College Student";
-		message(`You got a student loan worth ${student_fees}$`);
-		message(`You are now enrolled in a Commerce College`);
-		student_has_loan = true;
-		student();
-
-	}
-	else if (type=="arts" && intellect >= 60){
-		student_fees = 28000;
-		Swal.fire({
-			heightAuto:false,
-			title:"You were alloted a student loan!",
-			text:`You are liable to pay ${student_fees}$ in future loans`,
-			icon:"success"
-		});
-		USER.job.name = "Arts College Student";
-		message(`You got a student loan worth ${student_fees}$`);
-		message(`You are now enrolled in an Arts College`);
-		student_has_loan = true;
-		student();
-
-	}
-	else if (type=="law" && intellect >= 70){
-		student_fees = 35000;
-		Swal.fire({
-			heightAuto:false,
-			title:"You were alloted a student loan!",
-			text:`You are liable to pay ${student_fees}$ in future loans`,
-			icon:"success"
-		});
-		USER.job.name = "Law College Student";
-		message(`You got a student loan worth ${student_fees}$`);
-		student_has_loan = true;
-		student();
-
-	}
-	else if (type=="med" && intellect >= 70){
-		student_fees = 45000;
-		Swal.fire({
-			heightAuto:false,
-			title:"You were alloted a student loan!",
-			text:`You are liable to pay ${student_fees}$ in future loans`,
-			icon:"success"
-		});
-		USER.job.name = "Medical College Student";
-		message(`You got a student loan worth ${student_fees}$`);
-		message(`You are now enrolled in a Medical College`);
-		student_has_loan = true;
-		student();
-
-	}
-	else if (type=="community" && intellect >= 50){
-		student_fees = 10000;
-		Swal.fire({
-			heightAuto:false,
-			title:"You were alloted a student loan!",
-			text:`You are liable to pay ${student_fees}$ in future loans`,
-			icon:"success"
-		});
-		USER.job.name = "Community College Student";
-		message(`You got a student loan worth ${student_fees}$`);
-		message(`You are now enrolled in a Community College`);
-		student_has_loan = true;
-		student();
-
+	if (intellect >= courseObj.req){
+		studentLoanConfirm(course,fees);
 	}
 	else {
-		Swal.fire({
-			heightAuto:false,
-			icon:"error",
-			title:"Your student loan was rejected",
-			html:`<br><hr><br><b>Reason :</b> Your intelligence level
-			is not on par with the college requirements`,
-			footer:`NOTE : Don't worry, you can increase your intellect!`,
-			confirmButtonText:"Rats!"
-		})
+		studentLoanReject();
+	};
 
-	}
+}
+
+
+function studentLoanConfirm(course,fees){
+	
+	message(`You're eligible for a student loan of $${fees}`);
+	let html = `<br>
+
+	You are eligible for this college course as you fulfil all the criteria.<br>
+	You may now enroll for the course with a student loan of <b>$${fees}</b> 
+	provided to you by the <b>${USER.country} National Bank</b>.<br>
+	The student loan will be payable in installments after you either complete your degree
+	or drop-out prior to obtaining your degree.<br><br>
+	<button onclick=studentLoanAccept('${course}',${fees}) class='btn-sm btn-radius btn-blue'>Continue</button>
+	
+	<br><br>`;
+
+	swal.fire({
+		heightAuto:false,
+		title:'Confirm Enrollment',
+		html:html,
+		icon:'info',
+		showConfirmButton:false,
+		showCloseButton:true,
+		background:swalBackground
+	});
+
+}
+
+
+
+
+
+
+function studentLoanAccept(course,fees){
 
 	
+	studentLoanMonths = 0;
+	studentLoanAmount = approx(fees/48);
+	hasStudentLoan = true;
+
+	message(`Your student loan of <b>$${fees}</b> was accepted and alloted`);
+	message(`An amount of $${studentLoanAmount} will be added to your bank debt every month`);
 	
 
-};
+	let html = `<br>
+	Net Student Debt : $${fees}<br>
+	Monthly Student Debt : $${studentLoanAmount}<br>
 
+	<br><br>`;
 
-
-
-
-
-
-
-
-
-function scholarship(type) {
-
-	$("#scholarship-"+type).hide();
-	if (type=="eng"){
-		if (intellect >= 80){
-			Swal.fire({
-				heightAuto:false,
-				title:"You got the scholarship!",
-				icon:"success"
-			});
-			USER.job.name = "Engineering College Student";
-			message("You were awarded a scholarship	at an Engineering College");
-			message(`You are now enrolled in an Engineering College`);
-			student();
-		}
-		else{
-			Swal.fire({
-				heightAuto:false,
-				title:"You were denied a scholarship.",
-				icon:'error'
-			});
-			message("You were denied a scholarship in an Engineering College");
-			};
-	};
-	if (type=="lib"){
-		if (intellect >= 75){
-			Swal.fire({
-				heightAuto:false,
-				title:"You got the scholarship!",
-				icon:"success"
-			});
-		USER.job.name = "Liberal Arts Student";
-		message("You were awarded a scholarship	at a Liberal Arts College");
-		message(`You are now enrolled in a Liberal Arts College`);
-		student();
-		}
-		else{
-			Swal.fire({
-				heightAuto:false,
-				title:"You were denied a scholarship.",
-				icon:'error'
-			});
-		message("You were denied a scholarship in a Liberal Arts College");
-		};
-	};
-	if (type=="com"){
-		if (intellect >= 80){
-			Swal.fire({
-				heightAuto:false,
-				title:"You got the scholarship!",
-				icon:"success"
-			});
-			USER.job.name = "Commerce College Student";
-			message("You were awarded a scholarship	at a Commerce College");
-			message(`You are now enrolled in a Commerce College`);
-			student();
-		}
-		else {
-			Swal.fire({
-				heightAuto:false,
-				title:"You were denied a scholarship.",
-				icon:'error'
-			});
-			message("You were denied a scholarship in a Commerce College");
-		};
-	};
-	if (type=="arts"){
-		if (intellect >= 75){
-			Swal.fire({
-				heightAuto:false,
-				title:"You got the scholarship!",
-				icon:"success"
-				
-			});
-			USER.job.name = "Arts College Student";
-			message("You were awarded a scholarship	at an Arts College");
-			message(`You are now enrolled in an Arts College`);
-			student();
-		}
-		else{
-			Swal.fire({
-				title:"You were denied a scholarship.",
-				icon:'error'
-			});
-			message("You were denied a scholarship in an Arts College");
-		};
-	};
-	if (type=="law"){
-		if (intellect >= 80){
-			Swal.fire({
-				heightAuto:false,
-				title:"You got the scholarship!",
-				icon:"success"
-			});
-			USER.job.name = "Law College Student";
-			message("You were awarded a scholarship	at a Law College");
-			message(`You are now enrolled in a Law College`);
-			student();
-		}
-		else {
-			Swal.fire({
-				heightAuto:false,
-				title:"You were denied a scholarship.",
-				icon:'error'
-			});
-			message("You were denied a scholarship in a Law College");
-		};
-	};
-	if (type=="med"){
-		if (intellect >= 80){
-			Swal.fire({
-				heightAuto:false,
-				title:"You got the scholarship!",
-				icon:"success"
-			});
-			USER.job.name = "Medical College Student";
-			message("You were awarded a scholarship	at a Medical College");
-			message(`You are now enrolled in an Medical College`);
-			student();
-		}
-		else {
-			Swal.fire({
-				heightAuto:false,
-				title:"You were denied a scholarship.",
-				icon:'error'
-			});
-			message("You were denied a scholarship in a Medical College");
-		};
-	}
-	if (type=="community"){
-		if (intellect >= 70){
-			Swal.fire({
-				heightAuto:false,
-				title:"You got the scholarship!",
-				icon:"success"
-			});
-			USER.job.name = "Community College Student";
-			message("You were awarded a scholarship	at a Community College");
-			message(`You are now enrolled in a Community College`);
-			student();
-		}
-		else {
-			Swal.fire({
-				heightAuto:false,
-				title:"You were denied a scholarship.",
-				icon:'error'
-			});
-			message("You were denied a scholarship in a Community College");
-		};
-	};
-
-};
-
-
-
-
-function student(){
-	isStudent = true;
-	$("#actions").attr("class","btn-lg btn-success")
-	$("#actions").attr("id","student");
-	$("#student").attr("onclick","student_menu()");
-	
-};
-
-
-function student_menu(){
-	let html = `
-		Months Completed - <b>${student_months}</b>/48<br>
-		Current Student Debt - ${total_student_loan}$<br>
-		<br><br><br>
-		<button onclick="leave_study()" class='btn btn-danger'>Leave College</button><br><br>
-		<button id="bank" class="btn-lg btn-info" onclick="bank()">Bank</button><br><br>
-		`
 
 	Swal.fire({
 		heightAuto:false,
-		title:"Student Actions",
-		position:"top",
+		title:'Student Loan Alloted!',
+		icon:'success',
+		background:swalBackground,
+		html:html,
+		confirmButtonText:'Continue',
+		allowOutsideClick:false
+	}).then((result) => {
+		if (result.value){
+			startCollege(course);
+		}
+	});
+
+}
+
+
+
+
+
+
+function studentLoanReject(){
+	
+	let html = `<br>
+	Your college application was denied as you didn't fulfil all the requirements
+	for enrollment.<br>Please make sure you fulfil all the criteria before applying again.
+
+	<br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		title:'College Denied!',
+		icon:'error',
+		html:html,
+		confirmButtonText:'Okay',
+		background:swalBackground
+	})
+}
+
+
+
+
+
+
+
+function startCollege(course){
+
+	isStudent = true;
+	student.course = course;
+	student.months = 0;
+	student.collegeDuration = 48;
+	USER.job.name = `${capitalize(student.course)} Student`;
+
+	message(`You're now enrolled in a college`);
+
+	HTML.actions.setAttribute('onclick','studentMenu()');
+	HTML.actions.classList = [];
+	HTML.actions.classList.add('btn-main','btn-green');
+
+
+}
+
+
+
+
+
+
+
+
+
+function studentMenu(){
+	let monthsRemain = student.collegeDuration - student.months;
+
+	let html = `<br><br>
+	Months in College : ${student.months}<br>
+	Months remaining : ${monthsRemain}<br><br><br>
+	${buttons.myCollege}
+	<br><br><br>
+	${buttons.bank}<br><br><br>
+	${buttons.profile}&nbsp;&nbsp;${buttons.assets}
+
+	<br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		title:"Actions",
 		html:html,
 		showConfirmButton:false
 
@@ -474,7 +286,17 @@ function student_menu(){
 };
 
 
-function leave_study(){
+
+
+function myCollege(){
+	
+
+	
+}
+
+
+
+function leaveStudy(){
 
 
 	Swal.fire({

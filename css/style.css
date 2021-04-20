@@ -59,6 +59,14 @@ body {
 	font-size:42px;
 	font-family: "Open Sans";
 }
+
+#bank-balance {
+
+	font-size:16px;
+	font-family: "Open Sans";
+}
+
+
 #age {
 	color:white;
 	font-size: 35px;
@@ -77,6 +85,12 @@ body {
 #swal2-footer {
 	color:#e3e3e3;
 }
+
+#swal2-title {
+	color:#737171;
+	font-family: Nunito;
+}
+
 
 
 @media only screen and (max-width:840px){

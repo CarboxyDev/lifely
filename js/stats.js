@@ -75,10 +75,10 @@ function updateStats(){
 
 
 function initStats(){
-	health = randint(92,100);
+	health = randint(89,100);
 	morale = randint(88,100);
-	intellect = randint(60,95);
-	looks = randint(50,97);
+	intellect = randint(40,95);
+	looks = randint(40,98);
 
 	barChange('health',health);
 	barChange('morale',morale);

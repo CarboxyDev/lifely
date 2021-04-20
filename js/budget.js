@@ -92,10 +92,8 @@ function modifyBudget(){
 		inputValue:budgetAmount,
 		inputValidator: (val) => {
 			let isnum = /^\d+$/.test(val);
-			if (isnum && val > calculateNetWorth()/2){
-				return "Too big of a budget for you!"
-			}
-			else if (isnum && val >= 100){
+
+			if (isnum && val >= 100){
 				message(`You changed your monthly budget to <b>$${val}</b>`);
 				Swal.fire({
 					heightAuto:false,

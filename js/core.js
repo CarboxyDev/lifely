@@ -155,10 +155,31 @@ function help(){
 
 
 
+function inheritance(){
 
+	let randNum = randint(1,1001);
+	let amt = approx(randint(1500,6500));
 
+	if (randNum == 1001){
+		amt = approx(randint(1000000,10000000));
+		message(`You inherited a fortune from your extremely rich parents`);
+	}
 
+	else if (randNum > 995 && randNum != 1001){
+		amt = approx(randint(100000,1000000));
+		message(`You inherited $${amt} from your rich parents`);
+	}
+	else if (randNum < 5){
+		amt = approx(randint(0,100));
+		message(`You inherited almost nothing from your parents`);
+	}
+	else {
+		message(`You inherited $${amt} from your parents`);
+	};
 
+	money = amt;
+	display();
+}
 
 
 

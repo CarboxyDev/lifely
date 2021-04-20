@@ -12,10 +12,12 @@ function message(msg){
 
 
 function start(){
+
 	display();
 	message(`You are ${USER.name}`);
 	message(`You live in ${USER.country}`);
-	message(`You inherited $${money} from your parents`);
+	inheritance();
+
 };
 
 
@@ -204,12 +206,30 @@ function main(){
 		let html = `Alerts : <span id="alert-count">${alertsCount}</span>`;
 		$("#alert").html(html);
 	
-	},() => {
+	},
+	() => {
 		let html = `<i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;<span id="alert-count">${alertsCount}</span>`;
 		$("#alert").html(html);
 	});
 
 	
+
+	$("#money-panel").hover(() => {
+		
+		let html = `$${BANK.balance} <span id='bank-balance'>In Bank</span>`;
+
+		$("#money").html(html);
+	},
+	() => {
+
+		let html = `$${money}`;
+
+		$("#money").html(html);
+
+	});
+
+
+
 };
 
 
@@ -225,4 +245,6 @@ $(document).ready(main());
 setInterval(() => {
 	display();
 },10000)
+
+
 
