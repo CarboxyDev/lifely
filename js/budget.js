@@ -17,7 +17,7 @@ function monthlyBudgetEvents(){
 		}
 		else if (fetchBankBalance() < setBudgetAmount && money >= setBudgetAmount){
 			money -= setBudgetAmount;
-			budgetMessage = `You paid your monthly budget of $${setBudgetAmount} from your in-hand money`;
+			budgetMessage = `You paid your monthly budget of $${setBudgetAmount} from your in hand money`;
 		}
 		else if (fetchBankBalance() < setBudgetAmount && money < setBudgetAmount){
 			let msg = `Due to shortage of money , you had to take a loan of $${setBudgetAmount} to make ends meet`;

@@ -83,7 +83,9 @@ function oldAgeEvent(){
 
 
 function studentEvents(){
+	studentRandomEvents();
 	student.months += 1;
+
 
 	if (student.months != 1){
 		message(`You've spent ${student.months} months in your current college`);
@@ -93,11 +95,10 @@ function studentEvents(){
 	};
 	
 
-
-
-
 	if (hasStudentLoan){
 		message(`Your monthly student debt of $${student.loanAmount} was added to your bank`);
+		BANK.loan += student.loanAmount;
+
 	};
 
 	if (student.months == 48){
@@ -586,7 +587,9 @@ function extremeEvents(){
 
 
 function humanEvents(){
+
 	let rand = randint(0,1);
+
 	if (rand == 0){
 		message(`You encounter a thief`);
 		let html = `<br>
@@ -619,21 +622,25 @@ function humanEvents(){
 		});
 	}
 	else if (rand == 1){
+
 		message(`You met an unknown person`);
-		var country = generate("country",1)[0];
-		var amt = randint(20000,50000);
+
+		let country = generate('country',1)[0];
+		let amt = randint(10000,25000);
+
 		let html = `
 		<br>The unknown person wants you to deliver a secret 
 		package of some drugs to <b>${country}</b>.<br><br>
 		He's willing to give you <b>$${amt}</b> for the trouble.
 		He'll be arranging the plane tickets too!
-		<br>
-		`;
+		<br><br>`;
+
 		Swal.fire({
 			heightAuto:false,
 			icon:"question",
 			title:"An unknown person seeks your attention",
 			html:html,
+			allowOutsideClick:false,
 			showCancelButton:true,
 			confirmButtonText:"Too Risky!",
 			cancelButtonText:"I'll Deliver"
@@ -643,7 +650,7 @@ function humanEvents(){
 					heightAuto:false,
 					icon:"info",
 					title:"You declined the offer!",
-					confirmButtonText:"Creepy Dude!"
+					confirmButtonText:"No way"
 				});
 			}
 			else if (result.dismiss == Swal.DismissReason.cancel){
@@ -667,12 +674,12 @@ function humanEvents(){
 					});
 				}
 				else {
-					// rip
-					morale -= randint(5,10);
+					// good luck in jail ig
+					morale -= randint(5,15);
 					message(`You were caught smuggling the drugs`);
 					display();
-					let html = `
-					<br>You are in legal trouble and the person who
+					let html = `<br><br>
+					You are in legal trouble and the person who
 					asked you to deliver the package has gone missing.
 					`;
 					Swal.fire({
@@ -682,7 +689,7 @@ function humanEvents(){
 						html:html,
 						confirmButtonText:"Shit"
 					}).then((result) => {
-						jail(60);
+						jail(randchoice([8,12,18,24,30,60]));
 					});
 
 				}
@@ -700,22 +707,25 @@ function humanEvents(){
 
 function accident(){
 	message(`You were in an accident`);
+
 	let list = ["hit by a car","hit by a truck","hit by a bike",
 	"ruthlessly beaten by some criminals",
 	"shot by an unknown man","stabbed by a thief",
 	"crushed by a street pole","electrocuted by hanging wires",
 	"the victim of a serious stroke"];
 
-	var cause = `You were <span class='w3-text-red'>${list[randint(0,list.length-1)]}</span>`;
+	let cause = `You were <span class='w3-text-red'>${list[randint(0,list.length-1)]}</span>`;
 	message(cause);
-	var survive = randint(0,100);
-	var mortality = 100-survive;
-	let html = `
+	let survive = randint(0,100);
+	let mortality = 100-survive;
+	
+	let html = `<br><br>
 	${cause}<br><br>
 	Survival Chance - <b>${survive}%</b><br>
 	Mortality Chance - <b>${mortality}%</b><br>
 	`
-	health = health - randint(30,60);
+	health -= randint(30,60);
+	morale -= randchoice([10,15,20,30])
 	display();
 	Swal.fire({
 		heightAuto:false,

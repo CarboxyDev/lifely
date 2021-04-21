@@ -128,6 +128,79 @@ function college(course){
 }
 
 
+function scholarship(course){
+	let courseObj = courses[course];
+
+	if (intellect > courseObj.scholarship){
+		scholarshipAccept(course);
+	}
+	else {
+		scholarshipReject();
+	}
+
+}
+
+
+
+function scholarshipAccept(course){
+
+	message(`You were granted a college scholarship`);
+
+	let html = `<br><br>
+	You've been accepted for a paid scholarship for the whole college fees.
+	<br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		icon:'success',
+		title:'Accepted!',
+		html:html,
+		confirmButtonText:'Continue',
+		showCancelButton:true,
+		cancelButtonText:`Don't want it`
+	}).then((result) => {
+		if (result.value){
+			message(`You availed the college scholarship and enrolled in college`);
+			
+			let html = `<br><br>
+			You availed the scholarship and are now enrolled in college.
+			<br><br>`;
+
+
+			Swal.fire({
+				heightAuto:false,
+				title:'College Started!',
+				icon:'success',
+				confirmButtonText:'Great',
+				html:html
+			})
+			startCollege(course);
+		}
+
+	});
+
+}
+
+
+
+function scholarshipReject(){
+
+	let html = `<br><br>
+	You do not have the required criteria for a scholarship in this field.
+	<br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		title:'Denied!',
+		html:html,
+		icon:'error',
+		confirmButtonText:'Okay'
+	});
+}
+
+
+
+
 function studentLoan(course,fees){
 
 	let courseObj = courses[course];
@@ -151,8 +224,7 @@ function studentLoanConfirm(course,fees){
 	You are eligible for this college course as you fulfil all the criteria.<br>
 	You may now enroll for the course with a student loan of <b>$${fees}</b> 
 	provided to you by the <b>${USER.country} National Bank</b>.<br>
-	The student loan will be payable in installments after you either complete your degree
-	or drop-out prior to obtaining your degree.<br><br>
+	<br><br>
 	<button onclick=studentLoanAccept('${course}',${fees}) class='btn-sm btn-radius btn-blue'>Continue</button>
 	
 	<br><br>`;
@@ -180,7 +252,7 @@ function studentLoanAccept(course,fees){
 	student.loanMonths = 0;
 	student.loanAmount = approx(fees/48);
 	hasStudentLoan = true;
-
+	hasLoan = true;
 	message(`Your student loan of <b>$${fees}</b> was accepted and alloted`);
 	message(`An amount of $${student.loanAmount} will be added to your bank debt every month`);
 	
@@ -394,6 +466,7 @@ function graduateCollege(){
 	USER.job.name = "Unemployed";
 	isStudent = false;
 	student.months = 0;
+	student.hasLoan = false;
 
 	USER.education.degrees[course] = {
 		'cgpa':null,
@@ -409,7 +482,7 @@ function graduateCollege(){
 
 
 
-function student_test_result(result){
+function studentTestResult(result){
 
 	if (result == "pass"){
 		message(`You passed the college test`);
@@ -419,7 +492,7 @@ function student_test_result(result){
 			icon:"success",
 			confirmButtonText:"Sweet!"
 		});
-		intellect += randint(1,3);
+		intellect += randint(1,2);
 
 	}
 	else {
@@ -430,9 +503,10 @@ function student_test_result(result){
 			icon:"error",
 			confirmButtonText:"Rats!"
 		});
-		intellect -= randint(2,4);
+
+		intellect -= randint(1,3);
 	}
-	display()
+	display();
 };
 
 
@@ -442,13 +516,13 @@ function student_test_result(result){
 
 
 
-function student_test(start=false){
+function studentTest(start=false){
 	if (start==true){
 		let rand = randint(0,1);
 
-		var p1 = randint(1,12);
-		var p2 = randint(1,12);
-		var p3 = randint(1,20);
+		let p1 = randint(1,12);
+		let p2 = randint(1,12);
+		let p3 = randint(1,20);
 
 		if (rand == 0){
 			var ans = p1*p2+p3;
@@ -461,7 +535,7 @@ function student_test(start=false){
 		let question = `${p1} <b>x</b> ${p2} <b>${sign}</b> ${p3}`;
 		let html = `
 		<br>
-		Answer the following question - <br><br>
+		Answer the following question : <br><br>
 		<h3>${question}</h3>
 		<br><br>
 		`;
@@ -473,30 +547,31 @@ function student_test(start=false){
 			confirmButtonText:"Submit",
 			allowOutsideClick:false,
 			input:"text",
-			timer:10000,
+			timer:6000,
 			timerProgressBar:true,
 
 			inputValidator: (answer) => {
 				if (answer == ans){
-					student_test_result("pass");
+					studentTestResult('pass');
 				}
 				else {
-					student_test_result("fail");
+					studentTestResult('fail');
 				}
 			}
 		}).then((result) => {
 			if (result.dismiss == Swal.DismissReason.timer){
-				student_test_result("fail");
+				studentTestResult("fail");
 			};
 		});
 	}
-	else{
-		let html=`
-		<br><br>
-		You will have <b>10</b> seconds to answer the question.<br>
+	else {
+		let html=`<br><br>
+		
+		You will have <b>6</b> seconds to answer the question.<br>
 		You will need to answer the question correctly to pass the test.
-		<br><br>
-		`
+		
+		<br><br>`;
+
 		Swal.fire({
 			heightAuto:false,
 			icon:"info",
@@ -510,12 +585,12 @@ function student_test(start=false){
 		}).then((result)=> {
 			if (result.value){
 				message(`You took the college test`);
-				student_test(true);
+				studentTest(true);
 			}
 			else if (result.dismiss == Swal.DismissReason.cancel){
 				message(`You ignored a college test and failed in it`);
-				intellect -= randint(1,2);
-				student_test_result("fail");
+				intellect -= randint(2,3);
+				studentTestResult("fail");
 
 			}
 		});
@@ -523,60 +598,13 @@ function student_test(start=false){
 };
 
 
+function studentRandomEvents(){
 
-function student_loan_notice(){
-	let int = randint(8,14);
-	var yearly_interest = Math.floor(student_fees*int/100);
-	var yearly_student_fees = Math.floor(student_fees/4)+yearly_interest;
-	total_student_loan = total_student_loan + yearly_student_fees;
-	let html = `<br>
-	Amount added this year - <b>${yearly_student_fees}$</b><br>
-	Total Interest Added - <b>${yearly_interest}$</b><br>
-	Interest Rate / Annum - <b>${int}%</b><br>
-	Total Student Debt - <b>${total_student_loan}$</b><br>
-	`;
-	Swal.fire({
-		heightAuto:false,
-		title:"Student Loan Notice",
-		html:html,
-		confirmButtonText:"Noted",
-		icon:"info"
-	}).then((result) => {
-		if (student_months == 0){
-			let html = `<br>
-			As you've completed your time in college , <br>
-			you're no longer entitled to more college loans<br><br>
-			Total Student Debt - <b>${total_student_loan}$</b>
-			`
-			;
-			Swal.fire({
-				heightAuto:false,
-				title:"No More Student Loans!",
-				html:html,
-				icon:"info",
-				confirmButtonText:"Nice"
-			}).then((result) => {
-				Swal.fire({
-					heightAuto:false,
-					icon:"success",
-					title:"You completed your College!",
-					confirmButtonText:"Great!"
-				});
-			});
-		}
+	let rand = randint(1,100);
 
-	});
-	message(`Your student loan increased by ${yearly_student_fees}$ as yearly student loans at 10% interest rate`);
+	if (rand <= 6){
+		studentTest();
+	}
 
-
-};
-
-
-
-
-
-
-function studentEvents(){
-	//placeholder
 
 }

@@ -241,7 +241,7 @@ allJobs = {
 	},
 
 
-	"Chartered Accountant":{
+	"ChLIBered Accountant":{
 		minSalary:5000,
 		maxSalary:9000,
 		minIncrement:250,
@@ -444,7 +444,7 @@ allJobs = {
 	},
 
 
-	// Lesser jobs or arts related
+	// Lesser jobs or LIBs related
 
 
 
@@ -455,7 +455,7 @@ allJobs = {
 		maxIncrement:375,
 		successRate:null,
 		cgpaNeeded:null,
-		requires:['ART','LIB'],
+		requires:['LIB','LIB'],
 	},
 
 
@@ -466,7 +466,7 @@ allJobs = {
 		maxIncrement:425,
 		successRate:null,
 		cgpaNeeded:null,
-		requires:['ART'],
+		requires:['LIB'],
 	},
 
 
@@ -477,7 +477,7 @@ allJobs = {
 		maxIncrement:400,
 		successRate:null,
 		cgpaNeeded:null,
-		requires:['COMMUNITY','ART'],
+		requires:['COMMUNITY','LIB'],
 	},
 
 
@@ -502,7 +502,7 @@ allJobs = {
 		maxIncrement:425,
 		successRate:null,
 		cgpaNeeded:null,
-		requires:['ART','COMMUNITY'],
+		requires:['LIB','COMMUNITY'],
 	},
 
 
@@ -514,7 +514,7 @@ allJobs = {
 		maxIncrement:325,
 		successRate:null,
 		cgpaNeeded:null,
-		requires:['ART'],
+		requires:['LIB'],
 	},
 
 
@@ -549,7 +549,7 @@ allJobs = {
 		maxIncrement:300,
 		successRate:null,
 		cgpaNeeded:null,
-		requires:['COMMUNITY','ART','COM'],
+		requires:['COMMUNITY','LIB','COM'],
 	},
 
 
@@ -560,7 +560,7 @@ allJobs = {
 		maxIncrement:300,
 		successRate:null,
 		cgpaNeeded:null,
-		requires:['COMMUNITY','COM','ART','ENG'],
+		requires:['COMMUNITY','COM','LIB','ENG'],
 	},
 
 
@@ -571,7 +571,7 @@ allJobs = {
 		maxIncrement:200,
 		successRate:null,
 		cgpaNeeded:null,
-		requires:['COMMUNITY','ART','LIB'],
+		requires:['COMMUNITY','LIB','LIB'],
 	},
 
 
@@ -774,7 +774,7 @@ allJobs = {
 		maxIncrement:100,
 		successRate:null,
 		cgpaNeeded:null,
-		requires:['COMMUNITY','ENG','COM','ART'],
+		requires:['COMMUNITY','ENG','COM','LIB'],
 	}
 
 }
