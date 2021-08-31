@@ -91,6 +91,11 @@ body {
 	font-family: Nunito;
 }
 
+b {
+	color: #a8e3c5;
+	font-family: "Jost";
+}
+
 
 
 @media only screen and (max-width:840px){

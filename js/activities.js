@@ -1,10 +1,9 @@
+// DEV NOTES
+// last refactored on 31 Aug 2021
+
 function library(){
 	let cost = randint(5,40);
-
-	let html = `<br>
-	Cost per session : $${cost}<br><br><br>
-
-	<br><br>`;
+	let html = `<br>Cost per session : $${cost}<br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
@@ -22,8 +21,6 @@ function library(){
 			if (hasMoney(cost)){
 				money -= cost;
 				visitedLibrary = true;
-
-
 			}
 			else if (hasMoneyInBank(cost)){
 				bankTransaction(-cost);
@@ -51,19 +48,13 @@ function library(){
 			}
 		}
 	});
-
-}
-
-
+};
 
 
 
 function gym(){
 	let cost = randint(20,100);
-
-	let html = `<br>
-	Cost per session : $${cost}<br><br><br>
-	<br><br>`;
+	let html = `<br>Cost per session : $${cost}<br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
@@ -91,7 +82,6 @@ function gym(){
 				visitedGym = false;
 			};
 
-
 			if (visitedGym){
 				message(`You spent $${cost} for a Gym session`);
 				totalGymVisits += 1;
@@ -100,7 +90,6 @@ function gym(){
 					health += randint(0,1);
 					morale += randint(0,1);
 				};
-
 				Swal.fire({
 					heightAuto:false,
 					title:'You trained at the gym!',
@@ -112,9 +101,7 @@ function gym(){
 			};
 		};
 	});
-
 };
-
 
 
 
@@ -127,10 +114,10 @@ function exercise(){
 		title:"You did some exercise!",
 		confirmButtonText:"Nice"
 	});
-	var chance = randint(0,3);
+	let chance = randint(0,3);
 	if (chance == 0){
-		morale += 1;
 		health += 1;
+		morale += randint(0,1);
 		looks += randint(0,1);
 		display();
 	};
@@ -138,21 +125,14 @@ function exercise(){
 
 
 
-
-
-
-
-
-
 function restaurant(){
 	let cost = randint(30,300);
 	let rating = randint(30,100);
-	let html = 
-	`<br><br>
+	let html = `<br><br>
 	Cost of food - <b>$${cost}</b><br>
-	Restaurant rating - <b>${rating}%</b><br>
-	<br><br>
-	`;
+	Restaurant rating - <b>${rating}%</b>
+	<br><br>`;
+
 	Swal.fire({
 		heightAuto:false,
 		title:"Restaurant",
@@ -177,42 +157,30 @@ function restaurant(){
 				visitedRestaurant = false;
 			};
 
-
 			if (visitedRestaurant){
 				message(`You spent $${cost} on a restaurant`);
 				morale += randint(0,2);
-
-
 				Swal.fire({
 					heightAuto:false,
 					title:'You ate at a restaurant',
 					icon:'success',
-					confirmButtonText:'Nice'
+					confirmButtonText:'Okay'
 				});
 			};
-			
-		display();
+
+			display();
 		};
 	});
-
 };
 
 
 
-
 function hospital(){
-	var html = 
-	`<br><br>
-	<button onclick="checkup()" class="btn btn-success">&nbspGet a Checkup&nbsp</button>
-	<br><br>
-	<button onclick="westernMedicine()" class="btn btn-success">Get Western Medicine</button>
-	<br><br>
-	<button onclick="therapy()" class="btn btn-success">Go to Therapy</button>
-	<br><br>
-	<button onclick="dentist()" class="btn btn-success">Visit the Dentist</button>
-	<br><br>
-	<button onclick="plasticSurgery()" class="btn btn-success">Get Plastic Surgery</button>
-	<br><br>`;
+	let html = `<br><br>
+	${buttons.checkup}<br><br>
+	${buttons.westernMedicine}<br><br>
+	${buttons.therapy}<br><br>
+	${buttons.plasticSurgery}<br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
@@ -222,26 +190,19 @@ function hospital(){
 		showConfirmButton:false,
 
 	});
-
-
 };
 
 
 
-
-
-
-
 function crime(){
-	let chance = randint(1,100);
-
-	if (chance < 65){ //65% chance
+	let chance = randint(0,100);
+	if (chance < 65){ 
 		crimeSuccess();
 	}
-	else if (chance >= 65 && chance <= 90){ // 25% chance
+	else if (chance >= 65 && chance <= 90){
 		crimeFine();
 	}
-	else {	//10% chance
+	else {
 		crimeJail();
 	}
 
@@ -252,36 +213,28 @@ function crime(){
 
 function crimeSuccess(){
 	let amt = approx(randint(100,1500));
+	let html = `<br><br>You commited a crime and stole <b>$${amt}</b><br><br>`;
 	money += amt;
 	message(`You commited a crime and stole $${amt}`);
-
-	let html = `<br><br>
-	You commited a crime and stole <b>$${amt}</b>
-	<br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
 		icon:"success",
-		title:`Successful Crime`,
+		title:`You commited a crime`,
 		html:html,
 		confirmButtonText:"Okay"
 	});
-
-
-
-}
+};
 
 
 
 function crimeFine(){
 	let fine = randint(500,2500);
-	money -= fine;
-	message(`You were caught commiting a minor crime and were fined $${fine}`);
-	
 	let html = `<br><br>
-	You were caught while trying to commit a minor crime.<br>
-	You have been fined <b>$${fine}</b>
-	<br><br>`;
+	You were caught by police while committing a minor crime.
+	You have been fined <b>$${fine}</b>.<br><br>`;
+	money -= fine;
+	message(`You were caught commiting a minor crime and fined $${fine}`);
 
 	Swal.fire({
 		heightAuto:false,
@@ -291,54 +244,43 @@ function crimeFine(){
 		allowOutsideClick:false,
 		confirmButtonText:`Pay $${fine}`
 	});	
-
-}
+};
 
 
 
 function crimeJail(){
-	message(`You were caught committing a serious crime`);
 	let jailTime = randchoice([3,6,8,12]);
-	message(`You might have to serve ${jailTime} months in Jail`);
-	
 	let html = `<br><br>
-	You were caught whilst commiting a serious crime.<br>
-	You have been sentenced to <b>${jailTime}</b> months in jail.
-	<br><br>
-	`
+	You were caught by police while committing a serious crime.<br>
+	You are about to be sentenced to <b>${jailTime}</b> months in prison.
+	<br><br>`;
+	message(`You were caught committing a serious crime`);
+	message(`You might have to serve ${jailTime} months in prison`);
+	
 	Swal.fire({
 		heightAuto:false,
 		icon:"warning",
 		title:"Caught and charged!",
 		allowOutsideClick:false,
 		html:html,
-		confirmButtonText:"Oh No"
+		confirmButtonText:"Accept your fate"
 	}).then((result) => {
 		jail(jailTime);
 	});
-}
-
-
-
-
-
+};
 
 
 
 function gamble(){
 	let placeholder = 100;
-	
 	let html = `<br><br>
-	Minimum gamble amount : <b>$100</b><br>
-	Maximum gamble amount : <b>$10000</b><br><br>
-	On winning the gamble , your gambling amount is doubled!<br>
-	On losing the gamble , your gambling amount is lost!
-	<br><br>`;
+	Gamble money between <b>$1000</b> and <b>$10000</b>.<br>
+	Prize money is double the amount you gambled.<br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
 		icon:"info",
-		title:"Gambling Time",
+		title:"Gambling",
 		input:"text",
 		inputValue:placeholder,
 		html:html,
@@ -346,61 +288,53 @@ function gamble(){
 		showCancelButton:true,
 		cancelButtonText:"Nevermind",
 		inputValidator: (cost) => {
-			let isnum = /^\d+$/.test(cost);
-			if (isnum && hasMoney(cost)){
+			let isNum = /^\d+$/.test(cost);
+			if (isNum && hasMoney(cost)){
 				startGamble(cost);
 			}
 			else if (!cost){
-				return 'You need to bet some money'
+				return 'You need to bet some money';
 			}
-			else if (!isnum){
-				return 'Dude, just enter a number'
+			else if (!isNum){
+				return 'You need to enter a number';
 			}
 			else if (cost < 100){
-				return 'You have to bet a minimum of $100'
+				return 'Minimum gamble amount is $1000';
 			}
 			else if (cost > 10000){
-				return 'You can only bet a maximum of $10000'
+				return 'Maximum gamble amount is $10000';
 			}
 			else if (!hasMoney(cost)){
-				return `You don't have enough money in hand`
-			}
-		}
-	})
-
-
+				return `You don't have enough money in hand`;
+			};
+		},
+	});
 };
 
 
 
-
-
 function startGamble(amount){
-	
 	message(`You gambled $${amount}`);
+	let html = `<br><br>
+	You've spent <b>${amount}$</b> to gamble.<br>
+	Pick your choice below. Good luck.<br><br>`;
 	money -= amount;
 	display();
-
-	let html = `<br><br>
-	<h5>You've spent <b>${amount}$</b> to gamble</h5><br><br>
-	<h6>Click one button below.<br>
-	One of these buttons will win you the gamble!</h6>
-	<br><br>`;
 
 	var opts = [1,2,3,4];
 	shuffle(opts);
 
-	let btns = `
+	let btns = `<br>
 	<button onclick="resultGamble(${opts[0]},${amount})" class="btn btn-success">Choice 1</button>
 	&nbsp;&nbsp;&nbsp;&nbsp
-	<button onclick="resultGamble(${opts[1]},${amount})" class="btn btn-success">Choice 2</button>
+	<button onclick="resultGamble(${opts[1]},${amount})" class="btn btn-info">Choice 2</button>
 	<br><br>
-	<button onclick="resultGamble(${opts[2]},${amount})" class="btn btn-success">Choice 3</button>
+	<button onclick="resultGamble(${opts[2]},${amount})" class="btn btn-info">Choice 3</button>
 	&nbsp;&nbsp;&nbsp;&nbsp
 	<button onclick="resultGamble(${opts[3]},${amount})" class="btn btn-success">Choice 4</button>
 	<br><br>`;
 
-	html = html+btns;
+	html += btns;
 
 	Swal.fire({
 		heightAuto:false,
@@ -410,77 +344,59 @@ function startGamble(amount){
 		allowOutsideClick:false,
 		showConfirmButton:false
 	});
-
 };
-
-
 
 
 
 function resultGamble(option,amount){
-	
 	if (option == 1){
 		let prize = amount*2;
 		money += prize;
 		morale += randint(1,2);
-		
 		message(`You won $${prize} in a gamble`);
 
-		let html = `<br><br>
-		<b>YOU WON THE GAMBLE!</b><br><br>
+		let html = `<br><br><b>You won the gamble!</b><br><br>
 		You gambled <b>$${amount}</b><br>
-		You won <b>$${prize}</b>
-		<br><br>`;
+		You won <b>$${prize}</b><br><br>`;
 
 		Swal.fire({
 			heightAuto:false,
 			icon:"success",
-			title:"Congratulations!!",
+			title:"Congratulations!",
 			html:html,
-			confirmButtonText:"Amazing!"
+			confirmButtonText:"Great"
 		});
-	
 	}
 	else {
-		
-		message(`You lost the gamble`);
 		morale -= randint(0,1);
+		message(`You lost the gamble`);
+		
+		let html = `<br><br>You lost <b>$${amount} in the gamble</b><br><br>`;
 
-		let html = `<br><br>
-		You lost <b>${amount}$ in the gamble</b>
-		<br><br>`;
 		Swal.fire({
 			heightAuto:false,
 			icon:"error",
-			title:"You lost the gamble!",
+			title:"You lost the gamble",
 			html:html,
-			confirmButtonText:"Harsh Luck"
+			confirmButtonText:"Okay"
 		});
 
 	};
-	display();
 
+	display();
 };
 
 
 
-
-
-
-
-
-
-
+// Removed emigration feature from the game on 31 Aug 2021
+/*
 function emigrate(){
 	let cost = randint(15000,35000);
-
 	let html = `<br><br>
 	<h2 class="w3-center"> Emigration Process <i class="fa fa-plane-departure"></h2><br><br>
 	<br>
 	Total Cost : <b>$${cost}</b><br><br>
-	Choose the desired country : 
-	<br><br>
-	`
+	Choose the desired country : <br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
@@ -497,7 +413,6 @@ function emigrate(){
 
 			// allCountries is global variable declared in countries.js
 			let countryFound = allCountries.includes(value);
-			
 			
 			if (countryFound){
 				willEmigrate = false;
@@ -523,18 +438,16 @@ function emigrate(){
 
 			}
 			else {
-				return "Country not found"
-			}
-
-		}
-	})
-
-}
-
+				return "Country not found";
+			};
+		},
+	});
+};
+*/
 
 
 
-
+/*
 function successEmigrate(){
 	message(`You emigrated to <b>${USER.country}</b>`);
 	message(`All your bank details have been transferred to ${USER.country} National Bank`);
@@ -553,19 +466,30 @@ function successEmigrate(){
 		confirmButtonText:"New Life!",
 		allowOutsideClick:false
 	});
+	
 	display();
-}
+};
+*/
 
 
+
+function emigrate(){
+	Swal.fire({
+		heightAuto:false,
+		icon:"info",
+		title:"Coming soon!",
+		confirmButtonText:"Okay"
+	});
+};
 
 
 
 
 
 function vacation(){
-	
 	let countries = [];
-	
+
+	// select 5 countries to show as options for vacation.
 	for (x=0;x<5;x++){
 		let randCountry = allCountries[randint(0,allCountries.length-1)];
 		if (countries.includes(randCountry)){
@@ -579,17 +503,16 @@ function vacation(){
 		};
 	};
 
-	var countryObject = {
-		country0:countries[0],
-		country1:countries[1],
-		country2:countries[2],
-		country3:countries[3],
-		country4:countries[4]
+	let countryObj = {
+		0:countries[0],
+		1:countries[1],
+		2:countries[2],
+		3:countries[3],
+		4:countries[4]
 	};
 
 	let html = `<br><br>
-	<button onclick="vacation()" class="btn btn-success">View More Locations</button>
-	<br><br>`;
+	<button onclick="vacation()" class="btn btn-success">View More</button><br><br>`;
 	
 	Swal.fire({
 		heightAuto:false,
@@ -599,19 +522,15 @@ function vacation(){
 		confirmButtonText:"Lets go!",
 		cancelButtonText:"Nevermind",
 		input:"select",
-		inputOptions:countryObject,
+		inputOptions:countryObj,
 		inputPlaceholder:"Select Country",
-		html:html,
-		position:"top",
+		html:html
 		
 	}).then((result) => {
 		if (result.value){
-			let country = countryObject[result.value];
+			let country = countryObj[result.value];
 			let cost = randint(10000,25000);
-
-			let html2 = `<br><br>
-			Cost of vacation : <b>$${cost}</b>
-			<br><br>`;
+			let html2 = `<br><br>Cost of vacation : <b>$${cost}</b><br><br>`;
 
 			Swal.fire({
 				heightAuto:false,
@@ -620,9 +539,8 @@ function vacation(){
 				showCancelButton:true,
 				confirmButtonText:`Pay $${cost}`,
 				cancelButtonText:"Not For Me!",
-				footer:"Note : Going on a vacation significantly boosts your morale",
+				footer:"Note : Going on a vacation boosts your morale",
 				html:html2
-
 			}).then((result) => {
 				if (result.value){
 					let wentForVacation = false;
@@ -640,11 +558,10 @@ function vacation(){
 						wentForVacation = false;
 					};
 
-
 					if (wentForVacation){
 						message(`You went for a vacation to ${country}`);
-						morale += randint(15,20);
-						intellect += randint(-1,1);
+						morale += randint(12,20);
+						intellect += randint(-2,1);
 
 						Swal.fire({
 							heightAuto:false,
@@ -653,24 +570,16 @@ function vacation(){
 							confirmButtonText:'Nice',
 							icon:'success'
 						});
-
 					}
 				}
 				else if (result.dismiss == Swal.DismissReason.cancel){
 					vacation();
 				};
 			});
+
 			display();
 		};
 
 	});
 };
-
-
-
-
-
-
-
-
 

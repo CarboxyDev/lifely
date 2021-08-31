@@ -239,7 +239,7 @@ $(document).ready(main());
 
 
 // update stats every 10 seconds just in case I miss to
-// update them after stats related changes in a function
+// update them after stats related changes (using display()) in a function. 
 
 setInterval(() => {
 	display();

@@ -1,82 +1,64 @@
-
+// DEV NOTES
+// Cleaned code on 1 Sept 2021
 
 function bank(){
-
-	let html = `<br><br>
-	${buttons.bankAccount}
-	<br><br>
-	${buttons.loanServices}
-	
-	<br><br>`;
-
-
+	let html = `<br>${buttons.bankAccount}<br><br>${buttons.loanServices}<br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
 		title:"Bank",
 		html:html,
 		showConfirmButton:false
-	})
-
-}
-
-
+	});
+};
 
 
 
 function bankAccount(){
-
 	let loanStatus;
 	let bal = BANK.balance;
 
 	if (hasLoan){
-		loanStatus = `Loan Status : <i class="t-red">HAS LOAN</i>`
-	
+		loanStatus = `Loan Status : <i class="t-red">HAS LOAN</i>`;
 	}
 	else {
-		loanStatus = `Loan Status : <i class="t-green">NO LOAN</i>`
-	
+		loanStatus = `Loan Status : <i class="t-green">NO LOAN</i>`;
 	};
 	
 	if (BANK.balance < 0){
 		bal = `<span class="t-red">$${BANK.balance}</span>`;
-	}
-
+	};
 
 	let html = `<br><br>
 	Account Holder : ${USER.name}<br>
 	Bank Account ID : ${BANK.id}<br>
 	Transactions : ${BANK.transactions}<br>
-	Current Debt : <b>$${BANK.loan}</b><br><br><br>
+	Current Debt : <b>$${BANK.loan}</b><br><br>
 
-	<h5>BANK BALANCE  : <b>$${bal}</b></h5><br><br>
+	<h4>BANK BALANCE  : <b>$${bal}</b></h4><br><br>
 	
 	${loanStatus}<br><br><br>
 	${buttons.deposit}&nbsp;&nbsp;&nbsp;
 	${buttons.withdraw}
-	<br><br><br>`;
+	<br><br>`;
 	
 	Swal.fire({
 		heightAuto:false,
 		title:`Bank Account`,
 		html:html,
-		position:top,
 		showConfirmButton:false,
 		showCloseButton:true
-	})
+	});
+};
 
-}
 
 
 function loanServices(){
-
-	let html = `<br>
-	<h4> Current Debt : <b>$${BANK.loan}</b>
+	let html = `<br><h4>Current Debt : <b>$${BANK.loan}</b>
 	<br><br><hr>
-	<button onclick="loan()" class="w3-btn w3-red w3-large">Take Loan</button>
-	<button onclick="repay_loan()" class="w3-btn w3-green w3-large">Repay Loan</button>
-	<br><br>
-	`
+	<button onclick="loan()" class="w3-btn w3-red w3-large w3-round">Take Loan</button>
+	<button onclick="repayLoan()" class="w3-btn w3-green w3-large w3-round">Repay Loan</button>
+	<br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
@@ -86,30 +68,28 @@ function loanServices(){
 	}).then((result) => {
 		if (result.value){
 			bank();
-		}
-
+		};
 	});
+};
 
-
-}
 
 
 function loan(){
+	let maxLoanableAmt;
 
 	if (hasJob){
-
-		var max_loan_amt = Math.floor(USER.job.salary*12)*4 - BANK.loan;
+		maxLoanableAmt = Math.floor(USER.job.salary*12)*4 - BANK.loan;
 	}
 	else {
-		var max_loan_amt = 20000 - BANK.loan;
-	}
+		maxLoanableAmt = 20000 - BANK.loan;
+	};
+
 	let html = ` <br>
 	Bank Balance : <b>$${BANK.balance}</b><br>
 	Current Debt : <b>$${BANK.loan}</b><br>
 	Annual Salary : <b>$${Math.floor(USER.job.salary*12)}</b><br><br>
 
-	Maximum Loanable Amount : <b>$${max_loan_amt}</b><br>
-	`;
+	Maximum Loanable Amount : <b>$${maxLoanableAmt}</b><br><br>`;
 	
 	Swal.fire({
 		heightAuto:false,
@@ -120,82 +100,71 @@ function loan(){
 		confirmButtonText:"Proceed",
 		cancelButtonText:"Not today"
 	}).then((result) => {
-
 		if (result.value){
-			loan_money(max_loan_amt);
+			loanBankMoney(maxLoanableAmt);
 		}
 		else if (result.dismiss == Swal.DismissReason.cancel){
 			bank();
-		}
-
+		};
 	});
+};
 
 
-}
-
-
-function loan_money(max_loan_amt){
-
-	let html = `
-	<br>
+function loanBankMoney(maxLoanableAmt){
+	let html = `<br>
 	You are in the process of taking a loan.<br>
 	The requested amount shall be added to your bank balance.<br>
-	Loan Interest Rate : <b>2% / Month</b><br><br> 
+	Loan Interest Rate : <b>2% / Month</b><br><br> `;
 
-
-	`
 	Swal.fire({
 		heightAuto:false,
 		title:"Loan Services",
-		position:top,
 		html:html,
 		showCancelButton:true,
-		cancelButtonText:"Abandon",
+		cancelButtonText:"Cancel",
 		confirmButtonText:"Authorize",
 		input:"text",
 		inputValue:10000,
 		inputValidator: (val) => {
 
-			let isnum = /^\d+$/.test(val);
+			let isNum = /^\d+$/.test(val);
 			
-			if (isnum && val < 2500){
+			if (isNum && val < 2500){
 				return "Minimum Loan Amount is $2500";
 			}
-			else if (!isnum){
-				return "Please input a number only";
+			else if (!isNum){
+				return "Please enter a number";
 			}
 			else if (!val){
-				return "Please input an amount";
+				return "Please enter a valid amount";
 			}
-			else if (isnum && val > max_loan_amt){
-				return `Maximum allotable loan is $${max_loan_amt}`;
+			else if (isNum && val > maxLoanableAmt){
+				return `Maximum loan allowed is $${maxLoanableAmt}`;
 			}
-			else if (isnum && val >= 2500){
-				process_loan(val);
+			else if (isNum && val >= 2500){
+				processBankLoan(val);
 			}
 			else {
 				return "Please input a valid amount";
-			}
-		}
+			};
+		},
 	});
-}
+};
 
 
 
 
-function process_loan(amount){
-	var amount = parseInt(amount);
+function processBankLoan(amount){
+	amount = parseInt(amount);
 	BANK.balance += amount;
 	BANK.loan += amount;
 	hasLoan = true;
 	message(`Your loan of $${amount} has been processed`);
-	message(`You've recieved the said amount in your bank account`);
+	message(`You've received the loaded amount in your bank account`);
 
-	let html = `
-	Amount Loaned : <b>$${amount}</b><br>
-	The loaned amount has been added to your bank balance.<br>
+	let html = `Amount Loaned : <b>$${amount}</b><br>
+	The loaned amount has been added to your bank balance.<br><br>`;
 
-	`
 	Swal.fire({
 		heightAuto:false,
 		title:"Loan Alloted",
@@ -203,22 +172,16 @@ function process_loan(amount){
 		html:html,
 		confirmButtonText:"Proceed",
 		allowOutsideClick:false,
-
 	}).then((result) => {
-
 		if (result.value){
-			loan_certificate(amount);
-
-		}
-
-	})
-
-}
+			loanCertificate(amount);
+		};
+	});
+};
 
 
 
-function loan_certificate(amount){
-
+function loanCertificate(amount){
 	let html = `
 	<h3> ${USER.country} National Bank </h3><br><hr><br>
 
@@ -235,66 +198,56 @@ function loan_certificate(amount){
 	<b>${USER.country} National Bank Account</b> balance.
 	<br><br>
 	By proceeding , you agree to all the <b>Terms & Conditions</b>
-	of ${USER.country} National Bank.<br><br>
-	`
+	of ${USER.country} National Bank.<br><br>`;
+
 	Swal.fire({
 		heightAuto:false,
 		title:"Loan Certificate",
 		html:html,
-		confirmButtonText:"I agree with the terms",
+		confirmButtonText:"Sign",
 		allowOutsideClick:false,
-		position:top,
 		footer:"Note : Use the Repay Button under Loan Services to repay"
 	});
-
-}
-
+};
 
 
 
-function repay_loan(){
-
+function repayLoan(){
 	if (hasLoan){
-		let html = `
-		<br>
-		You are in the process repaying your outstanding debt.<br>
+		let html = `<br>You are in the process repaying your outstanding debt.<br>
 		The repayment amount shall be deducted from your bank balance.<br>
-		<br>Current Debt : <b>$${BANK.loan}</b><br>	
+		<br>Current Debt : <b>$${BANK.loan}</b><br>`;
 
-		`
 		Swal.fire({
 			heightAuto:false,
 			title:"Loan Services",
-			position:top,
 			html:html,
 			showCancelButton:true,
-			cancelButtonText:"Abandon",
-			confirmButtonText:"Authorize",
+			cancelButtonText:"Cancel",
+			confirmButtonText:"Repay",
 			input:"text",
 			inputValue:2500,
 			inputValidator: (val) => {
-
-				let isnum = /^\d+$/.test(val);
-			
-				if (isnum && val < 2500){
+				let isNum = /^\d+$/.test(val);
+				if (isNum && val < 2500){
 					return "Minimum Repayment Amount is $2500";
 				}
-				else if (!isnum){
+				else if (!isNum){
 					return "Please input a number only";
 				}
 				else if (!val){
 					return "Please input an amount";
 				}
 				else if (val >= 2500 && BANK.balance >= val){
-					repay_amount(val);
+					repayAmount(val);
 				}
 				else if (val >= 2500 && BANK.balance < val){
 					return "You don't have that much money in bank";
 				}
 				else {
 					return "Please input a valid amount";
-				}
-			}
+				};
+			},
 		});
 
 	}
@@ -302,63 +255,53 @@ function repay_loan(){
 		Swal.fire({
 			heightAuto:false,
 			icon:"error",
-			title:"You don't have any loan!",
-			confirmButtonText:"Back To Bank"
+			title:"You don't have any loans!",
+			confirmButtonText:"Okay"
 		}).then((result) => {
 			if (result.value){
 				bank();
-			}
-
-		})
-	}
-
-}
+			};
+		});
+	};
+};
 
 
 
-function repay_amount(amount){
-
-	var amount = parseInt(amount);
+function repayAmount(amount){
+	amount = parseInt(amount);
 	if (amount > BANK.loan){
 		amount = BANK.loan;
 	}
+
+	message(`You repaid $${amount} in due loans`);
 	BANK.balance -= amount;
 	BANK.loan -= amount;
 	if (BANK.loan <= 0){
 		hasLoan = false;
-	}
+	};
 
-	message(`You repaid $${amount} in due loans`);
-
-	let html = `
-	<br>
-	Debt Paid : <b>$${amount}</b><br>
-	Remaining Debt : <b>$${BANK.loan}</b><br>
-	`;
+	let html = `<br>Debt Paid : <b>$${amount}</b><br>
+	Remaining Debt : <b>$${BANK.loan}</b><br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
 		icon:"success",
-		title:"Loan Repayment",
+		title:"Repaid Loan",
 		html:html,
-		confirmButtonText:"Cool!"
+		confirmButtonText:"Great"
 	});
-
-}
+};
 
 
 
 function deposit(){
-	let html = `<br>
-	<h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br><br>
+	let html = `<br><h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br><br>
 	The amount in bank is increased at <b>1%</b> /month<br>
-	<h5> Depositing money </h5>
-	`
+	<h5> Depositing money </h5>`;
 
 	Swal.fire({
 		heightAuto:false,
 		title:`${USER.country} National Bank`,
-		position:top,
 		html:html,
 		confirmButtonText:"Confirm Deposit",
 		showCancelButton:true,
@@ -366,135 +309,117 @@ function deposit(){
 		input:"text",
 		inputValue:500,
 		inputValidator: (val) => {
-
-			let isnum = /^\d+$/.test(val);
+			let isNum = /^\d+$/.test(val);
 			
-			if (isnum && val < 500){
+			if (isNum && val < 500){
 				return "Minimum Deposit is $500";
 			}
-			else if (isnum && val >= money){
+			else if (isNum && val >= money){
 				return "You don't have that much money";
 			}
-			else if (!isnum){
+			else if (!isNum){
 				return "Please input a number only";
 			}
 			else if (!val){
 				return "Please input an amount";
 			}
-			else if (isnum && val >= 500){
-				deposit_money(val);
+			else if (isNum && val >= 500){
+				depositMoney(val);
 			}
 			else {
 				return "Please input a valid amount";
-			}
-		}
+			};
+		},
 	});
+};
 
-}
 
 
-function deposit_money(amount){
-	var amount = parseInt(amount);
-	money = money - amount;
-	BANK.balance = BANK.balance + amount;
-	BANK.transactions += 1;
-
-	display()
+function depositMoney(amount){
+	amount = parseInt(amount);
+	money -= amount;
 	message(`You deposited $${amount} to your bank acount`);
-
-
+	BANK.balance += amount;
+	BANK.transactions += 1;
+	display();
+	
 	let html = `<br>
 	You deposited money to your ${USER.country} National Bank account.<br><br>
 	Amount Deposited : <b>$${amount}</b><br><br><br>
-	<h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br>
-	`
+	<h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br>`;
+	
 	Swal.fire({
 		heightAuto:false,
-		title:"Transaction Successful",
+		title:"Deposited Money",
 		icon:"success",
 		html:html,
 		confirmButtonText:"Okay"
 	});
-
-}
-
+};
 
 
 
 function withdraw(){
-
-	let html = `<br>
-	<h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br>
-
-	<h5> Withdrawing money </h5>
-	`
+	let html = `<br><h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br>
+	<h5> Withdrawing money </h5><br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
 		title:`${USER.country} National Bank`,
-		position:top,
 		html:html,
-		confirmButtonText:"Confirm Transaction",
+		confirmButtonText:"Withdraw",
 		showCancelButton:true,
 		cancelButtonText:"Cancel",
 		input:"text",
 		inputValue:250,
 		inputValidator: (val) => {
-
-			let isnum = /^\d+$/.test(val);
+			let isNum = /^\d+$/.test(val);
 			
-			if (isnum && val < 250){
-				return "Minimum Widthdraw is $250";
+			if (isNum && val < 250){
+				return "Minimum amount to withdraw is $250";
 			}
-			else if (isnum && val > BANK.balance){
+			else if (isNum && val > BANK.balance){
 				return "You don't have that much money in bank";
 			}
-			else if (!isnum){
+			else if (!isNum){
 				return "Please input a number only";
 			}
 			else if (!val){
 				return "Please input an amount";
 			}
-			else if (isnum && val >= 250){
-				withdraw_money(val);
+			else if (isNum && val >= 250){
+				withdrawMoney(val);
 			}
 			else {
 				return "Please input a valid amount";
-			}
-		}
+			};
+		},
 	});
+};
 
 
 
-}
-
-
-function withdraw_money(amount){
-
-	var amount = parseInt(amount);
-	money = money + amount;
-	BANK.balance = BANK.balance - amount;
-	BANK.transactions += 1;
-
-	display()
+function withdrawMoney(amount){
+	amount = parseInt(amount);
+	money += amount;
 	message(`You withdrew $${amount} from your bank acount`);
-
-
+	BANK.balance -= amount;
+	BANK.transactions += 1;
+	display()
+	
 	let html = `<br>
 	You withdrew money from your ${USER.country} National Bank account.<br><br>
 	Amount Withdrawn : <b>$${amount}</b><br><br><br>
-	<h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br>
-	`
+	<h4>BANK BALANCE : <b>$${BANK.balance}</b></h4><br><br>`;
+
 	Swal.fire({
 		heightAuto:false,
-		title:"Transaction Successful",
+		title:"Withdrawn Money",
 		icon:"success",
 		html:html,
 		confirmButtonText:"Okay"
 	});
-
-
-}
+};
 
 
 
@@ -502,30 +427,18 @@ function bankTransaction(amount){
 	BANK.transactions += 1;
 	BANK.balance += amount;
 	BANK.transactionsList.push(amount);
+
 	if (amount > 0){
 		message(`$${amount} was added to your bank balance`);
 	}
-	if (amount < 0){
+	else if (amount < 0){
 		let msg = `$${amount} was deducted from your bank balance`.replace('-','');
 		message(msg);
-	}
-}
+	};
+};
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// In an event where the person requires money urgently.
 function forceLoan(amt,msg=null){
 	BANK.transactions += 1;
 	BANK.loan += Number(amt);
@@ -536,5 +449,5 @@ function forceLoan(amt,msg=null){
 	}
 	if (msg != null){
 		message(msg);
-	}
-}
+	};
+};

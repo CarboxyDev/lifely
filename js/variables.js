@@ -22,9 +22,6 @@ var USER  = {
 		'promotions':0,
 		'duration':0,
 		'previousJobs':[]
-
-		
-
 	}
 }
 
@@ -43,9 +40,6 @@ var BANK = {
 
 
 
-
-
-
 var money = 0;
 var health;
 var morale;
@@ -53,11 +47,7 @@ var intellect;
 var looks;
 var karma = 0;
 
-
-
 //student variables 
-
-
 
 var isStudent = false;
 var student = {
@@ -71,12 +61,7 @@ var student = {
 }
 
 
-
-
-
-
 var isJailed = false;
-
 var totalLibVisits = 0;
 var totalGymVisits = 0;
 var jobQualified = false;
@@ -136,10 +121,14 @@ const buttons = {
 	leaveJob:`<button class="btn-md btn-red btn-radius" onclick="leaveJob()">Leave Job</button>`,
 	bankAccount:`<button onclick="bankAccount()" class="btn-lg btn-info">Bank Details</button>`,
 	loanServices:`<button onclick="loanServices()" class="btn-lg btn-secondary">Loan Services</button>`,
-	deposit:`<button onclick="deposit()" class="btn-md btn-blue btn-radius">DEPOSIT&nbsp;</button>`,
-	withdraw:`<button onclick="withdraw()" class="btn-md btn-blue btn-radius">WITHDRAW</button>`,
+	deposit:`<button onclick="deposit()" class="w3-btn w3-blue w3-round">DEPOSIT&nbsp;</button>`,
+	withdraw:`<button onclick="withdraw()" class="w3-btn w3-blue w3-round">WITHDRAW</button>`,
 	myCollege:`<button class="btn-lg btn-success" onclick="myCollege()">My College</button>`,
 	leaveCollege:`<button class="btn-md btn-red btn-radius" onclick="leaveCollege()">Drop out</button>`,
+	checkup:`<button onclick="checkup()" class="btn btn-success">Get a Checkup</button>`,
+	westernMedicine:`<button onclick="westernMedicine()" class="btn btn-success">Get Western Medicine</button>`,
+	therapy:`<button onclick="therapy()" class="btn btn-success">Go to Therapy</button>`,
+	plasticSurgery:`<button onclick="plasticSurgery()" class="btn btn-success">Get Plastic Surgery</button>`,
 
 }
 

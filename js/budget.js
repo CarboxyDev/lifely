@@ -1,3 +1,6 @@
+// DEV NOTES
+//
+
 function monthlyBudgetEvents(){
 
 	if (!isJailed && !isStudent){

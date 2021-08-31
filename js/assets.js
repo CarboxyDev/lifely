@@ -1,200 +1,177 @@
-
+// DEV NOTES
+// last cleaned on 31 Aug 2021
+// Needs serious updates. Terrible code. 
 
 function assets(){
 
 	let html = `<br><br>
-	<button onclick="my_assets()" class="w3-btn w3-large w3-blue">
+	<button onclick="myAssets()" class="w3-btn w3-large w3-green w3-round">
 	My Assets &nbsp;<i class="fa fa-home"></i></button>
-	<br><br><hr><br>
-	<br><button class="btn btn-success" onclick="purchase_assets()">
-	Purchase Assets</button><br><br>
-	`;
+	<br><br>
+	<button class="btn btn-secondary" onclick="buyAssets()">Buy Assets</button><br><br>`;
 
 	Swal.fire({
 		heightAuto:false,
-		position:"top",
 		title:"Assets",
 		showConfirmButton:false,
 		html:html,
-		background:"#333",
-		footer:`NOTE : Assets are currently in BETA`,
+		footer:`NOTE : This feature is in development`,
 		showCloseButton:true
 	});
 };
 
 
 
-
-function my_assets(){
+function myAssets(){
 	var html = `<div id="scroll-container">`;
 	if (USER.assets.length == 0){
 		html = `<br><hr><h2>You don't own any assets</h2><br>
 		<h2><i class="w3-center">:(</i></h2>`;
 	}
 	else {
-		for (x=0;x!=USER.assets.length;x++){
+		for (x = 0;x != USER.assets.length;x++){
 			let asset = USER.assets[x];
-			let new_html = `
+			let newHtml = `
 			<div id="${asset[0]}" class="w3-margin-16 
 			w3-panel w3-pale-blue w3-leftbar w3-border-blue">
 			<br>
 			<h4 class="">${asset[0]}</h4>
-			<h6 class="">${asset[1]}$</h6>
+			<h6 class="">$${asset[1]}</h6>
 			<br>
-			<button onclick=sell_assets(${x})
+			<button onclick=sellAssets(${x})
 			class="w3-btn w3-small w3-red w3-hover-green w3-center">
-			Sell This</button><br>
-			</div>
-			`;
+			Sell Asset</button><br><br></div>`;
 
-			html = html+new_html;
+			html += newHtml;
+		};
+	};
+	html += "<br></div>";
 
-		}	
-	}
-	html = html + "<br></div>";
-
-
-	
 	Swal.fire({
 		heightAuto:false,
 		title:"My Assets",
 		html:html,
 		showCloseButton:true,
-		showConfirmButton:false,
-		position:top
-	})
-
-
-}
-
-
-
-
-
-
-
-
-function purchase_assets(){
-	var btn1 = `<br><button class="btn btn-success" onclick="purchase('house')">Purchase House</button><br>`;
-	var btn2 = `<br><button class="btn btn-success" onclick="purchase('vehicle')">Purchase Vehicle</button><br>`;
-	
-	let html =`<br><hr>${btn1}${btn2}`;
-	Swal.fire({
-		heightAuto:false,
-		position:"top",
-		icon:"info",
-		title:"Purchase Assets",
-		showConfirmButton:false,
-		html:html
+		showConfirmButton:false
 	});
-
 };
 
 
 
+function buyAssets(){
+	let houseBtn = `<button class="btn btn-success" onclick="purchase('house')">Purchase House</button>`;
+	let vehicleBtn = `<button class="btn btn-success" onclick="purchase('vehicle')">Purchase Vehicle</button>`;
+	let html =`<br><br>${houseBtn}<br><br>${vehicleBtn}<br><br>`;
+
+	Swal.fire({
+		heightAuto:false,
+		title:"Purchase Assets",
+		showConfirmButton:false,
+		html:html,
+		showCloseButton:true
+	});
+};
 
 
-function sell_assets(index){
-	asset = USER.assets[index];
 
-	let html = `<br><br>
-	Asset Type - <b>${asset[0]}</b><br>
-	Selling Price - <b>${asset[1]}$</b><br><hr><br>
-	`;
+function sellAssets(index){
+	let asset = USER.assets[index];
+
+	let html = `<br><br>Asset name : <b>${asset[0]}</b><br>
+	Asset value : <b>$${asset[1]}</b><br><br>`;
 	
 	Swal.fire({
 		heightAuto:false,
 		icon:"warning",
 		title:"Selling Asset",
 		html:html,
-		confirmButtonText:"Sell It",
+		confirmButtonText:"Sell Asset",
 		showCancelButton:true,
 		cancelButtonText:"Nevermind"
 	}).then((result) => {
-
 		if (result.value){
-			asset_sell(index);
-		}
-
+			sellAssetsConfirm(index);
+		};
 	});
 
 };
 
 
 
-function asset_sell(index){
+function sellAssetsConfirm(index){
 	let asset = USER.assets[index];
-	let asset_price = asset[1];
-	let asset_name = asset[0];
-	money += asset_price;
-	display();
+	let assetPrice = asset[1];
+	let assetName = asset[0];
+	money += assetPrice;
+	
+	// remove asset from asset list.
 	USER.assets.splice(index,1);
-	message(`You sold your ${asset_name} for ${asset_price}$`);
+	message(`You sold your ${assetName} for $${assetPrice}`);
 
-	let html = `<br><br>
-	<h3>Sold for ${asset_price}$</h3>
-	`;
+	let html = `<br><br>Sold for $${assetPrice}`;
 	Swal.fire({
 		heightAuto:false,
-		title:"Sold An Asset",
+		title:"Sold Asset",
 		icon:"success",
 		html:html,
-		confirmButtonText:"Cool!"
+		confirmButtonText:"Nice"
 	});
 
-}
+	display();
+};
 
 
 
 
 
-function purchase_house(name,cost){
+function purchaseHouse(name,cost){
 	let chance = randint(0,2);
 	let l = [10,15,20,25,30,35,40,45,50,55,60,65,70];
-	var discount = false;
+	let discount = false;
+	let price;
+	let html;
 	r = l[randint(0,12)];
 	let change = 200*r;
 	if (chance == 0){
-		var price = cost - change;
-		var discount = true;
+		price = cost - change;
+		discount = true;
 	}
 	else {
-		var price = cost + change;
+		price = cost + change;
 	};
 
 
 	if (discount){
-		var html = `
-		Price - <del>${cost}$</del> <b>${price}$</b><br>
-		Discount - <b>${cost-price}$</b><br>
-		Condition - <b>${randint(40,100)}%</b>`;
+		html = `
+		Price : <del>${cost}</del> <b>$${price}</b><br>
+		Discount : <b>$${cost-price}</b><br>`;
 	}
 	else {
-		var html = `Price - <b>${price}$</b><br>
-		Condition - <b>${randint(40,100)}%</b>`;
-	}
+		html = `Price : <b>$${price}</b><br>`;
+	};
+
 	Swal.fire({
 		heightAuto:false,
 		title:name,
 		html:html,
 		icon:"info",
 		showCancelButton:true,
-		confirmButtonText:`Pay ${price}$`,
+		confirmButtonText:`Pay $${price}`,
 		cancelButtonText:"I'll pass"
 	}).then((result) => {
 		if (result.value){
-			if (has_money(price)){
-				money = money - price;
+			if (hasMoney(price)){
+				money -= price;
 				Swal.fire({
 					heightAuto:false,
 					icon:"success",
 					title:"You bought a house!",
 					html:`You are now a proud owner of a <b>${name}</b><br>`+
-					`You bought it for <b>${price}$</b>`,
-					confirmButtonText:"Amazing!"
+					`You bought it for <b>$${price}</b>`,
+					confirmButtonText:"Great!"
 				});
 				USER.assets.push([name,price,"house"]);
-				message(`You bought a ${name} for ${price}$`)
+				message(`You bought a ${name} for $${price}`)
 				morale += randint(5,10);
 				display();
 			};
@@ -209,66 +186,63 @@ function purchase_house(name,cost){
 
 
 
-function purchase_vehicle(name,cost){
+function purchaseVehicle(name,cost){
 	let chance = randint(0,2);
 	let l = [10,15,20,25,30,35,40,45,50,55,60,65,70];
-	var discount = false;
+	let discount = false;
+	let price;
+	let html;
 	r = l[randint(0,12)];
 	let change = 100*r;
 	if (chance == 0){
-		var price = cost - change;
-		var discount = true;
+		price = cost - change;
+		discount = true;
 	}
 	else {
-		var price = cost + change;
+		price = cost + change;
 	};
 
-
 	if (discount){
-		var html = `
-		Price - <del>${cost}$</del> <b>${price}$</b><br>
-		Discount - <b>${cost-price}$</b><br>
-		Condition - <b>${randint(40,100)}%</b>`;
+		html = `
+		Price : <del>$${cost}</del> <b>$${price}</b><br>
+		Discount : <b>$${cost-price}</b><br>`;
 	}
 	else {
-		var html = `Price - <b>${price}$</b><br>
-		Condition - <b>${randint(40,100)}%</b>`;
+		html = `Price : <b>$${price}</b><br>`;
 	}
+
 	Swal.fire({
 		heightAuto:false,
 		title:name,
 		html:html,
 		icon:"info",
 		showCancelButton:true,
-		confirmButtonText:`Pay ${price}$`,
+		confirmButtonText:`Pay $${price}`,
 		cancelButtonText:"Not Interested"
 	}).then((result) => {
 		if (result.value){
-			if (has_money(price)){
-				money = money - price;
+			if (hasMoney(price)){
+				money -= price;
+
 				Swal.fire({
 					heightAuto:false,
 					icon:"success",
 					title:"You bought a vehicle!",
 					html:`You are now a proud owner of a <b>${name}</b><br>`+
-					`You bought it for <b>${price}$</b>`,
+					`You bought it for <b>$${price}</b>`,
 					confirmButtonText:"Amazing!"
 				});
 				USER.assets.push([name,price,"vehicle"]);
-				message(`You bought a ${name} for ${price}$`)
-				morale += randint(3,7)
+				message(`You bought a ${name} for $${price}`);
+				morale += randint(3,7);
 				display();
 			};
-
 		}
 		else if (result.dismiss == Swal.DismissReason.cancel){
 			purchase("vehicle");
 		};
-
 	});
 };
-
-
 
 
 
@@ -303,26 +277,23 @@ function purchase(item){
 		for (x in all){
 			let house = Object.keys(all[x])[0];
 			let cost = Object.values(all[x])[0];
-			let btn = `<br><button onclick="purchase_house('${house}',${cost})"
+			let btn = `<br><button onclick="purchaseHouse('${house}',${cost})"
 			class="btn btn-primary">${house}</button><br>`;
 			btns.push(btn);
 
 		};
-		let reload_btn = `<br><br><button onclick="purchase('house')" 
+		let reloadBtn = `<br><br><button onclick="purchase('house')" 
 		class="btn-lg btn-secondary">View More Houses</button>`;
-		let html = "<br><hr><br>"+btns[0]+btns[1]+btns[2]+btns[3]+reload_btn;
+		let html = "<br><hr><br>"+btns[0]+btns[1]+btns[2]+btns[3]+reloadBtn;
+
 		Swal.fire({
 			heightAuto:false,
 			title:"Available Houses",
 			icon:"info",
-			position:"top",
 			html:html,
 			showConfirmButton:false
 		});
-
 	};
-
-
 
 	if (item == "vehicle"){
 
@@ -350,33 +321,20 @@ function purchase(item){
 		for (x in all){
 			let vehicle = Object.keys(all[x])[0];
 			let cost = Object.values(all[x])[0];
-			let btn = `<br><button onclick="purchase_vehicle('${vehicle}',${cost})"
+			let btn = `<br><button onclick="purchaseVehicle('${vehicle}',${cost})"
 			class="btn btn-primary">${vehicle}</button><br>`;
 			btns.push(btn);
 
 		};
-		let reload_btn = `<br><br><button onclick="purchase('vehicle')" 
+		let reloadBtn = `<br><br><button onclick="purchase('vehicle')" 
 		class="btn-lg btn-secondary">View More Vehicles</button>`;
-		let html = "<br><hr><br>"+btns[0]+btns[1]+btns[2]+btns[3]+reload_btn;
+		let html = "<br><hr><br>"+btns[0]+btns[1]+btns[2]+btns[3]+reloadBtn;
 		Swal.fire({
 			heightAuto:false,
 			title:"Available Vehicles",
 			icon:"info",
-			position:"top",
 			html:html,
 			showConfirmButton:false
 		});
-
 	};
-
 };
-
-
-
-
-
-
-
-
-
-
