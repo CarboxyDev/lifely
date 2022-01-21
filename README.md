@@ -3,7 +3,7 @@
 
 
 ---
-**Game Status** - In Development as of 18 April 2021 
+**Game Status** - Not in development and unstable.
 
 ---
 
@@ -35,10 +35,13 @@ The simulator shows you your attributes on the right. They're very important and
 ---
 
 ## Latest note from developer
-[Update : 04/18/21]
+[Update: 04/18/21]
 
 Lifely recently had a huge revamp where I completely changed the design and the code. Almost every piece of code was rewritten inspired by the old (and rusty) version of Lifely.
 
-As of now, my plan is to add some more features and make this game better before going on a break from Lifely. More features will probably come in the future.
+~~As of now, my plan is to add some more features and make this game better before going on a break from Lifely. More features will probably come in the future.~~
+
+[Update: 01/22/22]
+Lifely has been out of development for quite some time now. The latest release might be very unstable. 
 
 ---
