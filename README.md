@@ -4,6 +4,7 @@
 
 ---
 **Game Status** - Not in development and unstable.
+**Play at** https://carboxy.me/lifely
 
 ---
 
@@ -43,5 +44,9 @@ Lifely recently had a huge revamp where I completely changed the design and the 
 
 [Update: 01/22/22]
 Lifely has been out of development for quite some time now. The latest release might be very unstable. 
+
+[Update: 11/22/22]
+Lifely has been deployed using vercel on my [personal website](https://carboxy.me).
+Also, I must mention here that I have no immediate plans of updating Lifely. If any plans for an update do brew up, they'll be done in a separate repository until they're production-ready.
 
 ---
