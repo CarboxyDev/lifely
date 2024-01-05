@@ -1,7 +1,9 @@
+import SecondaryAttributes from "@/components/SecondaryAttributes";
+
 export default function Home() {
   return (
-    <main>
-      <h1 className="text-2xl">Hello world</h1>
+    <main className="mx-12 my-9">
+      <SecondaryAttributes />
     </main>
   );
 }
