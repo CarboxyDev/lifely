@@ -1,4 +1,9 @@
-import { RocketIcon } from '@/components/Icons';
+import {
+  BankIcon,
+  RocketIcon,
+  SocialIcon,
+  ThunderIcon,
+} from '@/components/Icons';
 
 interface GameButtonProps {
   label: string;
@@ -16,10 +21,20 @@ const GameButton = (props: GameButtonProps) => {
   );
 };
 
+const AgeUpButton = () => {
+  return (
+    <button className="bg-dark-900 rounded-xl border-dark-700 border flex flex-row items-center w-full"></button>
+  );
+};
+
 const ButtonGroup = () => {
   return (
-    <div>
+    <div className="flex flex-row gap-x-3">
       <GameButton label={'Actions'} icon={<RocketIcon />}></GameButton>
+      <GameButton label={'Activities'} icon={<ThunderIcon />}></GameButton>
+      <AgeUpButton />
+      <GameButton label={'Finances'} icon={<BankIcon />}></GameButton>
+      <GameButton label={'Socials'} icon={<SocialIcon />}></GameButton>
     </div>
   );
 };
