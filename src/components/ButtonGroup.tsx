@@ -14,9 +14,9 @@ const GameButton = (props: GameButtonProps) => {
   const { label, icon } = props;
 
   return (
-    <button className="bg-dark-900 rounded-xl border-dark-700 border px-5 py-4 flex flex-row items-center">
-      <div className="text-zinc-400">{icon}</div>
-      <span className="text-zinc-300 text-lg font-medium ml-3">{label}</span>
+    <button className="bg-dark-900 rounded-xl text-zinc-300 border-dark-700 border px-5 py-4 flex flex-row items-center shadow-md focus:ring-1 focus:ring-primary-500 hover:bg-dark-800 transition delay-100 duration-200 ease-linear focus:text-primary-500">
+      <div className="">{icon}</div>
+      <span className="text-lg font-medium ml-3">{label}</span>
     </button>
   );
 };
