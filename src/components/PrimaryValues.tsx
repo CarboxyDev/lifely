@@ -33,6 +33,9 @@ interface ProgressRingProps {
   name: PrimaryValue;
   value: number;
 }
+
+/** Reference: https://www.npmjs.com/package/react-circular-progressbar?activeTab=readme */
+
 export const ProgressRing = (props: ProgressRingProps) => {
   const { name, value } = props;
 
@@ -54,10 +57,7 @@ export const ProgressRing = (props: ProgressRingProps) => {
           },
         }}
       >
-        <div
-          style={{ color: primaryValueInfo[name].color }}
-          className="flex items-center justify-center"
-        >
+        <div style={{ color: primaryValueInfo[name].color }}>
           {primaryValueInfo[name].icon}
         </div>
       </CircularProgressbarWithChildren>

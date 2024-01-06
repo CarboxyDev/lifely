@@ -6,6 +6,7 @@ import PrimaryValues from '@/components/PrimaryValues';
 import SecondaryValues from '@/components/SecondaryValues';
 
 /**
+ * Supported screen sizes so far: xl, 2xl (i.e laptop, desktop)
  * Roughly 5.5:1 ratio for main content to sidebar
  * Left side main Content: (Screen height)
  *  - Secondary Values -> Fixed height
@@ -14,10 +15,10 @@ import SecondaryValues from '@/components/SecondaryValues';
  */
 
 export default function Home() {
-  let consoleHeight = 'calc(100vh - 2.25rem - 2.25rem - 1rem - 1rem - 9rem)';
+  let consoleHeight = 'calc(100vh - 2.25rem - 2.25rem - 1rem - 1rem - 8rem)'; // css calc() hack for greedy fluid height of console
 
   return (
-    <main className="mx-12 my-10 2xl:mx-24 grid grid-flow-col grid-cols-13 gap-x-4">
+    <main className="mx-12 my-10 2xl:mx-24 grid-flow-col grid-cols-13 gap-x-4 hidden xl:grid">
       <div className="col-span-10 2xl:col-span-11 flex flex-col gap-y-4">
         <SecondaryValues />
         <div style={{ height: consoleHeight }}>
