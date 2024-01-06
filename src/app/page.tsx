@@ -18,14 +18,14 @@ export default function Home() {
 
   return (
     <main className="mx-12 my-10 2xl:mx-24 grid grid-flow-col grid-cols-13 gap-x-4">
-      <div className="col-span-11 flex flex-col gap-y-4">
+      <div className="col-span-10 2xl:col-span-11 flex flex-col gap-y-4">
         <SecondaryValues />
         <div style={{ height: consoleHeight }}>
           <Console />
         </div>
         <ButtonGroup />
       </div>
-      <div className="col-span-2 h-full">
+      <div className="col-span-3 2xl:col-span-2 h-full flex flex-col gap-y-4">
         <Age />
         <PrimaryValues />
         <EventGroup />
