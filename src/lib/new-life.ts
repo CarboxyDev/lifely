@@ -31,10 +31,10 @@ export const createNewLife = () => {
   };
 
   Setter.addMoney(money);
-  Setter.addPrimaryValue('health', primaryValues.health);
-  Setter.addPrimaryValue('morale', primaryValues.morale);
-  Setter.addPrimaryValue('intellect', primaryValues.intellect);
-  Setter.addPrimaryValue('looks', primaryValues.looks);
+  Setter.addHealth(primaryValues.health);
+  Setter.addMorale(primaryValues.morale);
+  Setter.addIntellect(primaryValues.intellect);
+  Setter.addLooks(primaryValues.looks);
 
   return {
     country,

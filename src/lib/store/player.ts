@@ -29,14 +29,14 @@ export interface PlayerMutations {
   subtractMoney: (amount: number) => void;
   setMoney: (amount: number) => void;
   increaseAge: (amount: number) => void;
-  addPrimaryValue: (
-    key: keyof PlayerState['primaryValues'],
-    amount: number
-  ) => void;
-  subtractPrimaryValue: (
-    key: keyof PlayerState['primaryValues'],
-    amount: number
-  ) => void;
+  addHealth: (amount: number) => void;
+  subtractHealth: (amount: number) => void;
+  addMorale: (amount: number) => void;
+  subtractMorale: (amount: number) => void;
+  addIntellect: (amount: number) => void;
+  subtractIntellect: (amount: number) => void;
+  addLooks: (amount: number) => void;
+  subtractLooks: (amount: number) => void;
 }
 
 export const usePlayer = create<PlayerState & PlayerMutations>()(
@@ -59,13 +59,21 @@ export const usePlayer = create<PlayerState & PlayerMutations>()(
       set((state) => void (state.money -= amount)),
     setMoney: (amount: number) => set((state) => void (state.money = amount)),
     increaseAge: (amount: number) => set((state) => void (state.age += amount)),
-    addPrimaryValue: (
-      key: keyof PlayerState['primaryValues'],
-      amount: number
-    ) => set((state) => void (state.primaryValues[key] += amount)),
-    subtractPrimaryValue: (
-      key: keyof PlayerState['primaryValues'],
-      amount: number
-    ) => set((state) => void (state.primaryValues[key] -= amount)),
+    addHealth: (amount: number) =>
+      set((state) => void (state.primaryValues.health += amount)),
+    subtractHealth: (amount: number) =>
+      set((state) => void (state.primaryValues.health -= amount)),
+    addMorale: (amount: number) =>
+      set((state) => void (state.primaryValues.morale += amount)),
+    subtractMorale: (amount: number) =>
+      set((state) => void (state.primaryValues.morale -= amount)),
+    addIntellect: (amount: number) =>
+      set((state) => void (state.primaryValues.intellect += amount)),
+    subtractIntellect: (amount: number) =>
+      set((state) => void (state.primaryValues.intellect -= amount)),
+    addLooks: (amount: number) =>
+      set((state) => void (state.primaryValues.looks += amount)),
+    subtractLooks: (amount: number) =>
+      set((state) => void (state.primaryValues.looks -= amount)),
   }))
 );
