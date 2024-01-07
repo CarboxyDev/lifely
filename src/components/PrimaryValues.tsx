@@ -83,7 +83,7 @@ const PrimaryValues = () => {
   const values = Getter.usePrimaryValues();
 
   return (
-    <div className="flex flex-col items-center justify-center gap-y-12 rounded-xl border border-dark-700 bg-dark-900 py-8">
+    <div className="flex h-full flex-col items-center gap-y-12 rounded-xl border border-dark-700 bg-dark-900 py-8">
       <PrimaryValueItem name={'health'} value={values?.health || 0} />
       <PrimaryValueItem name={'morale'} value={values?.morale || 0} />
       <PrimaryValueItem name={'intellect'} value={values?.intellect || 0} />

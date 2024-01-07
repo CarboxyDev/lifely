@@ -3,7 +3,6 @@
 import Age from '@/components/Age';
 import ButtonGroup from '@/components/ButtonGroup';
 import Console from '@/components/Console';
-import EventGroup from '@/components/EventGroup';
 import PrimaryValues from '@/components/PrimaryValues';
 import SecondaryValues from '@/components/SecondaryValues';
 import { createNewLife } from '@/lib/new-life';
@@ -37,8 +36,9 @@ export default function Home() {
       </div>
       <div className="col-span-3 flex h-full flex-col gap-y-4 2xl:col-span-2">
         <Age />
-        <PrimaryValues />
-        <EventGroup />
+        <div style={{ height: consoleHeight }}>
+          <PrimaryValues />
+        </div>
       </div>
     </main>
   );

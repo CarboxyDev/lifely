@@ -14,6 +14,7 @@ import { immer } from 'zustand/middleware/immer';
 export interface PlayerState {
   name: string;
   country: string;
+  gender: 'male' | 'female';
   age: number; // In months
   money: number;
   primaryValues: {
@@ -25,6 +26,8 @@ export interface PlayerState {
 }
 
 export interface PlayerMutations {
+  setName: (name: string) => void;
+  setCountry: (country: string) => void;
   addMoney: (amount: number) => void;
   subtractMoney: (amount: number) => void;
   setMoney: (amount: number) => void;
@@ -42,6 +45,7 @@ export interface PlayerMutations {
 export const usePlayer = create<PlayerState & PlayerMutations>()(
   immer((set) => ({
     name: 'Player',
+    gender: 'male',
     country: 'Undefined',
     age: 12 * 18,
     money: 0,
@@ -54,6 +58,9 @@ export const usePlayer = create<PlayerState & PlayerMutations>()(
     /**
      * !> All the mutations/setters go in here. These are all non-reactive and hence not to be used inside hooks
      */
+    setName: (name: string) => set((state) => void (state.name = name)),
+    setCountry: (country: string) =>
+      set((state) => void (state.country = country)),
     addMoney: (amount: number) => set((state) => void (state.money += amount)),
     subtractMoney: (amount: number) =>
       set((state) => void (state.money -= amount)),

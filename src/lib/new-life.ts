@@ -10,11 +10,27 @@ const generateCountry = () => {
 };
 
 const generateName = (country: string) => {
-  //const countryNameGroup = COUNTRIES_DATA[country];
-  //const countryNameData = COUNTRIES_DATA[country];
-  console.log(country);
-  console.log(NAMES_DATA);
-  return 'John Doe';
+  const countryNameGroup = COUNTRIES_DATA[country]['group'];
+  let firstNames = [];
+  let lastNames = [];
+  countryNameGroup.forEach((nameGroup) => {
+    if (NAMES_DATA[nameGroup] == undefined) {
+      console.log(`Error: Name group ${nameGroup} doesn't exist`);
+      return 'John Doe';
+    }
+    console.log(`Success: Name group ${nameGroup} exists`);
+    firstNames = [...firstNames, ...NAMES_DATA[nameGroup]['firstNames']];
+    lastNames = [...lastNames, ...NAMES_DATA[nameGroup]['lastNames']];
+  });
+
+  if (firstNames.length == 0 || lastNames.length == 0) {
+    console.log('Error: No name could be generated. Defaulting to John Doe...');
+    return 'John Doe';
+  }
+
+  const randomFirstName = firstNames[randint(0, firstNames.length - 1)];
+  const randomLastName = lastNames[randint(0, lastNames.length - 1)];
+  return `${randomFirstName} ${randomLastName}`;
 };
 
 export const createNewLife = () => {
@@ -24,12 +40,14 @@ export const createNewLife = () => {
   const name = generateName(country);
   const money = randint(500, 4000, 100); // Starting money
   const primaryValues = {
-    health: randint(80, 96, 1),
-    morale: randint(80, 98, 1),
-    intellect: randint(60, 95, 1),
-    looks: randint(60, 95, 1),
+    health: randint(80, 96),
+    morale: randint(80, 98),
+    intellect: randint(60, 95),
+    looks: randint(60, 95),
   };
 
+  Setter.setName(name);
+  Setter.setCountry(country);
   Setter.addMoney(money);
   Setter.addHealth(primaryValues.health);
   Setter.addMorale(primaryValues.morale);

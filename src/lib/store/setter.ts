@@ -1,5 +1,13 @@
 import { usePlayer } from '@/lib/store/player';
 
+const setName = (name: string) => {
+  return usePlayer.getState().setName(name);
+};
+
+const setCountry = (country: string) => {
+  return usePlayer.getState().setCountry(country);
+};
+
 const setMoney = (amount: number) => {
   return usePlayer.getState().setMoney(amount);
 };
@@ -49,6 +57,8 @@ const subtractLooks = (amount: number) => {
 };
 
 export const Setter = {
+  setName,
+  setCountry,
   setMoney,
   addMoney,
   subtractMoney,
