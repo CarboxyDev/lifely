@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "clsx": "^2.1.0",
+    "immer": "^10.0.3",
     "next": "14.0.4",
     "react": "^18",
     "react-circular-progressbar": "^2.1.0",
