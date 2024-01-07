@@ -6,6 +6,7 @@ import {
   LooksIcon,
   MoraleIcon,
 } from '@/components/Icons';
+import { useGetPrimaryValues } from '@/lib/store/player';
 import { PrimaryValue } from '@/lib/types/general';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -80,12 +81,14 @@ export const PrimaryValueItem = (props: PrimaryValueItemProps) => {
 };
 
 const PrimaryValues = () => {
+  const values = useGetPrimaryValues();
+
   return (
     <div className="flex flex-col items-center justify-center gap-y-12 rounded-xl border border-dark-700 bg-dark-900 py-8">
-      <PrimaryValueItem name={'health'} value={86} />
-      <PrimaryValueItem name={'morale'} value={73} />
-      <PrimaryValueItem name={'intellect'} value={81} />
-      <PrimaryValueItem name={'looks'} value={45} />
+      <PrimaryValueItem name={'health'} value={values?.health || 0} />
+      <PrimaryValueItem name={'morale'} value={values?.morale || 0} />
+      <PrimaryValueItem name={'intellect'} value={values?.intellect || 0} />
+      <PrimaryValueItem name={'looks'} value={values?.looks || 0} />
     </div>
   );
 };
