@@ -12,20 +12,34 @@ const generateCountry = () => {
 const generateName = (country: string) => {
   //const countryNameGroup = COUNTRIES_DATA[country];
   //const countryNameData = COUNTRIES_DATA[country];
+  console.log(country);
   console.log(NAMES_DATA);
   return 'John Doe';
 };
 
 export const createNewLife = () => {
+  // !> Heads up: React strict mode is turned OFF for testing due to the dynamic nature of the game
+
   const country = generateCountry();
   const name = generateName(country);
-  const inheritedMoney = randint(500, 4000, 100);
+  const money = randint(500, 4000, 100); // Starting money
+  const primaryValues = {
+    health: randint(80, 96, 1),
+    morale: randint(80, 98, 1),
+    intellect: randint(60, 95, 1),
+    looks: randint(60, 95, 1),
+  };
 
-  Setter.setMoney(inheritedMoney);
+  Setter.addMoney(money);
+  Setter.addPrimaryValue('health', primaryValues.health);
+  Setter.addPrimaryValue('morale', primaryValues.morale);
+  Setter.addPrimaryValue('intellect', primaryValues.intellect);
+  Setter.addPrimaryValue('looks', primaryValues.looks);
 
   return {
     country,
     name,
-    money: inheritedMoney,
+    money: money,
+    primaryValues,
   };
 };

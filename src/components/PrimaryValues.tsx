@@ -72,7 +72,6 @@ interface PrimaryValueItemProps {
 }
 
 export const PrimaryValueItem = (props: PrimaryValueItemProps) => {
-  const { name } = props;
   return (
     <>
       <ProgressRing {...props} />

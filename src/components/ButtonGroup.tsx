@@ -4,6 +4,8 @@ import {
   SocialIcon,
   ThunderIcon,
 } from '@/components/Icons';
+import { Setter } from '@/lib/store/setter';
+import { useRef } from 'react';
 
 interface GameButtonProps {
   label: string;
@@ -22,8 +24,20 @@ const GameButton = (props: GameButtonProps) => {
 };
 
 const AgeUpButton = () => {
+  const ageUpButtonRef = useRef<HTMLButtonElement>(null);
+  const ageUp = () => {
+    console.log('Player aged +1 month');
+    Setter.increaseAge(1);
+    if (ageUpButtonRef.current) {
+      // Handle case when the user just keeps clicking the button in a short time frame
+    }
+  };
   return (
-    <button className="flex w-full items-center justify-center rounded-xl border border-dark-700 bg-dark-900 text-zinc-200 shadow-md transition delay-100 duration-200 ease-linear hover:border-sky-500 hover:bg-sky-500 hover:text-white">
+    <button
+      onClick={() => ageUp()}
+      ref={ageUpButtonRef}
+      className="flex w-full items-center justify-center rounded-xl border border-dark-700 bg-dark-900 text-zinc-200 shadow-md transition delay-100 duration-200 ease-linear hover:border-sky-500 hover:bg-sky-500 hover:text-white"
+    >
       Age +1 month
     </button>
   );

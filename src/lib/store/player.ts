@@ -11,7 +11,7 @@ import { immer } from 'zustand/middleware/immer';
  * !> getter.ts has reactive/hook getter methods as the PlayerState is constantly changing.
  */
 
-interface PlayerState {
+export interface PlayerState {
   name: string;
   country: string;
   age: number; // In months
@@ -24,10 +24,19 @@ interface PlayerState {
   };
 }
 
-interface PlayerMutations {
+export interface PlayerMutations {
   addMoney: (amount: number) => void;
   subtractMoney: (amount: number) => void;
   setMoney: (amount: number) => void;
+  increaseAge: (amount: number) => void;
+  addPrimaryValue: (
+    key: keyof PlayerState['primaryValues'],
+    amount: number
+  ) => void;
+  subtractPrimaryValue: (
+    key: keyof PlayerState['primaryValues'],
+    amount: number
+  ) => void;
 }
 
 export const usePlayer = create<PlayerState & PlayerMutations>()(
@@ -37,10 +46,10 @@ export const usePlayer = create<PlayerState & PlayerMutations>()(
     age: 12 * 18,
     money: 0,
     primaryValues: {
-      health: 90,
-      morale: 82,
-      intellect: 75,
-      looks: 52,
+      health: 0,
+      morale: 0,
+      intellect: 0,
+      looks: 0,
     },
     /**
      * !> All the mutations/setters go in here. These are all non-reactive and hence not to be used inside hooks
@@ -49,5 +58,14 @@ export const usePlayer = create<PlayerState & PlayerMutations>()(
     subtractMoney: (amount: number) =>
       set((state) => void (state.money -= amount)),
     setMoney: (amount: number) => set((state) => void (state.money = amount)),
+    increaseAge: (amount: number) => set((state) => void (state.age += amount)),
+    addPrimaryValue: (
+      key: keyof PlayerState['primaryValues'],
+      amount: number
+    ) => set((state) => void (state.primaryValues[key] += amount)),
+    subtractPrimaryValue: (
+      key: keyof PlayerState['primaryValues'],
+      amount: number
+    ) => set((state) => void (state.primaryValues[key] -= amount)),
   }))
 );
