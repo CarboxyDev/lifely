@@ -10,7 +10,7 @@ interface GenericTextProps extends React.PropsWithChildren {
 export class Responsive {
   public static BigText = (props: GenericTextProps) => {
     return (
-      <span className={cn(props.className, 'font-medium text-xl')}>
+      <span className={cn(props.className, 'text-xl font-medium')}>
         {props.children}
       </span>
     );

@@ -40,7 +40,7 @@ export const ProgressRing = (props: ProgressRingProps) => {
   const { name, value } = props;
 
   return (
-    <div className="w-20 h-20">
+    <div className="h-20 w-20">
       <CircularProgressbarWithChildren
         value={value}
         strokeWidth={9}
@@ -81,7 +81,7 @@ export const PrimaryValueItem = (props: PrimaryValueItemProps) => {
 
 const PrimaryValues = () => {
   return (
-    <div className="bg-dark-900 rounded-xl border-dark-700 border flex items-center justify-center flex-col py-8 gap-y-12">
+    <div className="flex flex-col items-center justify-center gap-y-12 rounded-xl border border-dark-700 bg-dark-900 py-8">
       <PrimaryValueItem name={'health'} value={86} />
       <PrimaryValueItem name={'morale'} value={73} />
       <PrimaryValueItem name={'intellect'} value={81} />

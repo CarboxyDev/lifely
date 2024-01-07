@@ -1,6 +1,6 @@
 const EventGroup = () => {
   return (
-    <div className="bg-dark-900 rounded-xl border-dark-700 border flex items-center justify-center flex-col h-full"></div>
+    <div className="flex h-full flex-col items-center justify-center rounded-xl border border-dark-700 bg-dark-900"></div>
   );
 };
 

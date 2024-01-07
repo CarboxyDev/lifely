@@ -1,6 +1,6 @@
 const Console = () => {
   return (
-    <div className="bg-dark-900 rounded-xl border-dark-700 border h-full"></div>
+    <div className="h-full rounded-xl border border-dark-700 bg-dark-900"></div>
   );
 };
 
