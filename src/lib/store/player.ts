@@ -62,28 +62,18 @@ export const usePlayer = create<PlayerState & PlayerMutations>()(
      * !> All the mutations/setters go in here. These are all non-reactive and hence not to be used inside hooks
      */
     setName: (name: string) => set((state) => void (state.name = name)),
-    setCountry: (country: string) =>
-      set((state) => void (state.country = country)),
+    setCountry: (country: string) => set((state) => void (state.country = country)),
     addMoney: (amount: number) => set((state) => void (state.money += amount)),
-    subtractMoney: (amount: number) =>
-      set((state) => void (state.money -= amount)),
+    subtractMoney: (amount: number) => set((state) => void (state.money -= amount)),
     setMoney: (amount: number) => set((state) => void (state.money = amount)),
     increaseAge: (amount: number) => set((state) => void (state.age += amount)),
-    addHealth: (amount: number) =>
-      set((state) => void (state.primaryValues.health += amount)),
-    subtractHealth: (amount: number) =>
-      set((state) => void (state.primaryValues.health -= amount)),
-    addMorale: (amount: number) =>
-      set((state) => void (state.primaryValues.morale += amount)),
-    subtractMorale: (amount: number) =>
-      set((state) => void (state.primaryValues.morale -= amount)),
-    addIntellect: (amount: number) =>
-      set((state) => void (state.primaryValues.intellect += amount)),
-    subtractIntellect: (amount: number) =>
-      set((state) => void (state.primaryValues.intellect -= amount)),
-    addLooks: (amount: number) =>
-      set((state) => void (state.primaryValues.looks += amount)),
-    subtractLooks: (amount: number) =>
-      set((state) => void (state.primaryValues.looks -= amount)),
+    addHealth: (amount: number) => set((state) => void (state.primaryValues.health += amount)),
+    subtractHealth: (amount: number) => set((state) => void (state.primaryValues.health -= amount)),
+    addMorale: (amount: number) => set((state) => void (state.primaryValues.morale += amount)),
+    subtractMorale: (amount: number) => set((state) => void (state.primaryValues.morale -= amount)),
+    addIntellect: (amount: number) => set((state) => void (state.primaryValues.intellect += amount)),
+    subtractIntellect: (amount: number) => set((state) => void (state.primaryValues.intellect -= amount)),
+    addLooks: (amount: number) => set((state) => void (state.primaryValues.looks += amount)),
+    subtractLooks: (amount: number) => set((state) => void (state.primaryValues.looks -= amount)),
   }))
 );

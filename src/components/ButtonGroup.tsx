@@ -1,9 +1,4 @@
-import {
-  BankIcon,
-  RocketIcon,
-  SocialIcon,
-  ThunderIcon,
-} from '@/components/Icons';
+import { BankIcon, RocketIcon, SocialIcon, ThunderIcon } from '@/components/Icons';
 import { Setter } from '@/lib/store/setter';
 import { useRef } from 'react';
 
@@ -18,9 +13,7 @@ const GameButton = (props: GameButtonProps) => {
   return (
     <button className="flex flex-row items-center rounded-xl border border-transparent bg-dark-900 px-4 py-4 text-zinc-300 shadow-md transition delay-100 duration-200 ease-linear hover:bg-dark-800 focus:ring-1 focus:ring-primary-500 *:focus:text-primary-500 *:focus:transition *:focus:duration-100 *:focus:ease-in-out ">
       <div className="text-zinc-400">{icon}</div>
-      <span className="ml-3 text-[16px] font-medium text-zinc-200">
-        {label}
-      </span>
+      <span className="ml-3 text-[16px] font-medium text-zinc-200">{label}</span>
     </button>
   );
 };

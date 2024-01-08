@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  BrainIcon,
-  HeartIcon,
-  LooksIcon,
-  MoraleIcon,
-} from '@/components/Icons';
+import { BrainIcon, HeartIcon, LooksIcon, MoraleIcon } from '@/components/Icons';
 import { Getter } from '@/lib/store/getter';
 import { PrimaryValue } from '@/lib/types/general';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
@@ -58,9 +53,7 @@ export const ProgressRing = (props: ProgressRingProps) => {
           },
         }}
       >
-        <div style={{ color: primaryValueInfo[name].color }}>
-          {primaryValueInfo[name].icon}
-        </div>
+        <div style={{ color: primaryValueInfo[name].color }}>{primaryValueInfo[name].icon}</div>
       </CircularProgressbarWithChildren>
     </div>
   );

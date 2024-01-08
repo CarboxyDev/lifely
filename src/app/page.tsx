@@ -6,7 +6,7 @@ import Console from '@/components/Console';
 import PrimaryValues from '@/components/PrimaryValues';
 import SecondaryValues from '@/components/SecondaryValues';
 import { createNewLife } from '@/lib/new-life';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 /**
  * Supported screen sizes so far: xl, 2xl (i.e laptop, desktop)
@@ -18,11 +18,14 @@ import { useEffect } from 'react';
  */
 
 export default function Home() {
-  let consoleHeight =
-    'calc(100vh - 2.25rem - 2.25rem - 1rem - 1rem - 1rem - 8rem)'; // css calc() hack for greedy fluid height of console
+  const consoleRef = useRef<HTMLDivElement>(null);
+  let consoleHeight = 'calc(100vh - 2.25rem - 2.25rem - 1rem - 1rem - 1rem - 8rem)'; // css calc() hack for greedy fluid height of console
 
   useEffect(() => {
     const player = createNewLife();
+    if (consoleRef.current) {
+      console.log('Client console height -> ' + consoleRef.current.clientHeight);
+    }
     console.log(player);
   });
 
@@ -30,7 +33,7 @@ export default function Home() {
     <main className="mx-12 my-10 hidden grid-flow-col grid-cols-13 gap-x-4 xl:grid 2xl:mx-24">
       <div className="col-span-10 flex flex-col gap-y-4 2xl:col-span-11">
         <SecondaryValues />
-        <div style={{ height: consoleHeight }}>
+        <div style={{ height: consoleHeight }} ref={consoleRef}>
           <Console />
         </div>
         <ButtonGroup />
