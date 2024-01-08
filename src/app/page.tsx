@@ -40,7 +40,7 @@ export default function Home() {
       </div>
       <div className="col-span-3 flex h-full flex-col gap-y-4 2xl:col-span-2">
         <Age />
-        <div style={{ height: consoleHeight }}>
+        <div className="flex-1">
           <PrimaryValues />
         </div>
       </div>
