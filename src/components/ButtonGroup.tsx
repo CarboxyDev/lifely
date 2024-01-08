@@ -38,7 +38,7 @@ const AgeUpButton = () => {
     <button
       onClick={() => ageUp()}
       ref={ageUpButtonRef}
-      className="flex w-full items-center justify-center rounded-xl border border-dark-700 bg-dark-900 text-zinc-200 shadow-md transition delay-100 duration-200 ease-linear hover:border-sky-500 hover:bg-sky-500 hover:text-white"
+      className="flex w-full items-center justify-center rounded-xl border border-dark-700 bg-dark-900 text-zinc-200 shadow-md transition delay-100 duration-300 ease-in hover:border-sky-500 hover:bg-sky-500 hover:text-white"
     >
       Age 1 month
     </button>

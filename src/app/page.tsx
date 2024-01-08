@@ -18,7 +18,8 @@ import { useEffect } from 'react';
  */
 
 export default function Home() {
-  let consoleHeight = 'calc(100vh - 2.25rem - 2.25rem - 1rem - 1rem - 8rem)'; // css calc() hack for greedy fluid height of console
+  let consoleHeight =
+    'calc(100vh - 2.25rem - 2.25rem - 1rem - 1rem - 1rem - 8rem)'; // css calc() hack for greedy fluid height of console
 
   useEffect(() => {
     const player = createNewLife();

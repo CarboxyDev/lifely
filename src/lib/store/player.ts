@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
@@ -12,6 +13,7 @@ import { immer } from 'zustand/middleware/immer';
  */
 
 export interface PlayerState {
+  id: string;
   name: string;
   country: string;
   gender: 'male' | 'female';
@@ -44,6 +46,7 @@ export interface PlayerMutations {
 
 export const usePlayer = create<PlayerState & PlayerMutations>()(
   immer((set) => ({
+    id: uuidv4(),
     name: 'Player',
     gender: 'male',
     country: 'Undefined',
