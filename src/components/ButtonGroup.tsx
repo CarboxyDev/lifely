@@ -16,9 +16,11 @@ const GameButton = (props: GameButtonProps) => {
   const { label, icon } = props;
 
   return (
-    <button className="flex flex-row items-center rounded-xl border border-dark-700 bg-dark-900 px-4 py-3 text-zinc-300 shadow-md transition delay-100 duration-200 ease-linear hover:bg-dark-800 focus:text-primary-500 focus:ring-1 focus:ring-primary-500">
-      <div className="">{icon}</div>
-      <span className="ml-3 text-[16px] font-medium">{label}</span>
+    <button className="flex flex-row items-center rounded-xl border border-transparent bg-dark-900 px-4 py-4 text-zinc-300 shadow-md transition delay-100 duration-200 ease-linear hover:bg-dark-800 focus:ring-1 focus:ring-primary-500 *:focus:text-primary-500 *:focus:transition *:focus:duration-100 *:focus:ease-in-out ">
+      <div className="text-zinc-400">{icon}</div>
+      <span className="ml-3 text-[16px] font-medium text-zinc-200">
+        {label}
+      </span>
     </button>
   );
 };
@@ -38,7 +40,7 @@ const AgeUpButton = () => {
       ref={ageUpButtonRef}
       className="flex w-full items-center justify-center rounded-xl border border-dark-700 bg-dark-900 text-zinc-200 shadow-md transition delay-100 duration-200 ease-linear hover:border-sky-500 hover:bg-sky-500 hover:text-white"
     >
-      Age +1 month
+      Age 1 month
     </button>
   );
 };
