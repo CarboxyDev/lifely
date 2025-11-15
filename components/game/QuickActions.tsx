@@ -19,6 +19,7 @@ import { ProfileDialog } from './dialogs/ProfileDialog';
 import { BankDialog } from './dialogs/BankDialog';
 import { ActivitiesDialog } from './dialogs/ActivitiesDialog';
 import { EducationDialog } from './dialogs/EducationDialog';
+import { RelationshipsDialog } from './dialogs/RelationshipsDialog';
 
 export function QuickActions() {
   const [jobsOpen, setJobsOpen] = useState(false);
@@ -26,6 +27,7 @@ export function QuickActions() {
   const [bankOpen, setBankOpen] = useState(false);
   const [activitiesOpen, setActivitiesOpen] = useState(false);
   const [educationOpen, setEducationOpen] = useState(false);
+  const [relationshipsOpen, setRelationshipsOpen] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
 
   // Frequently accessed - full cards
@@ -70,7 +72,7 @@ export function QuickActions() {
     {
       icon: Users,
       label: 'Relationships',
-      onClick: () => {},
+      onClick: () => setRelationshipsOpen(true),
       color: '#ec4899',
     },
     {
@@ -176,6 +178,7 @@ export function QuickActions() {
       <BankDialog open={bankOpen} onOpenChange={setBankOpen} />
       <ActivitiesDialog open={activitiesOpen} onOpenChange={setActivitiesOpen} />
       <EducationDialog open={educationOpen} onOpenChange={setEducationOpen} />
+      <RelationshipsDialog open={relationshipsOpen} onOpenChange={setRelationshipsOpen} />
     </>
   );
 }

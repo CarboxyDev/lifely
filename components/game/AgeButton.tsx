@@ -8,6 +8,7 @@ import {
   moneyAtom,
   hasJobAtom,
   addConsoleMessageAtom,
+  relationshipsAtom,
 } from '@/lib/atoms/game-state';
 import { Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -23,6 +24,7 @@ export function AgeButton() {
   const [hasJob] = useAtom(hasJobAtom);
   const [money, setMoney] = useAtom(moneyAtom);
   const [, addMessage] = useAtom(addConsoleMessageAtom);
+  const [relationships, setRelationships] = useAtom(relationshipsAtom);
   const [isAging, setIsAging] = useState(false);
 
   const handleAgeUp = async () => {
@@ -119,6 +121,57 @@ export function AgeButton() {
           });
         }
       }
+    }
+
+    // Relationship progression
+    if (relationships.relationships.length > 0) {
+      const updatedRelationships = relationships.relationships.map((relationship) => {
+        // Increment years known
+        const newYearsKnown = relationship.yearsKnown + 1 / 12; // Add 1 month
+
+        // Natural quality decay if not interacted with recently
+        const monthsSinceInteraction = newAge - relationship.lastInteraction;
+        let qualityChange = 0;
+
+        if (monthsSinceInteraction > 6) {
+          // Haven't interacted in over 6 months - relationship decays
+          qualityChange = randint(-3, -1);
+        } else if (monthsSinceInteraction > 3) {
+          // Haven't interacted in over 3 months - slight decay
+          qualityChange = randint(-2, 0);
+        } else {
+          // Regular interaction - slight improvement or stability
+          qualityChange = randint(-1, 1);
+        }
+
+        // Family relationships are more stable
+        if (['parent', 'sibling', 'child'].includes(relationship.type)) {
+          qualityChange = Math.max(-1, qualityChange);
+        }
+
+        // Spouse relationship needs maintenance
+        if (relationship.type === 'spouse' && monthsSinceInteraction > 2) {
+          qualityChange -= 2;
+        }
+
+        const newQuality = Math.max(0, Math.min(100, relationship.quality + qualityChange));
+
+        // Notify about declining relationships
+        if (qualityChange < -2 && relationship.quality > 40 && newQuality <= 40) {
+          addMessage(`Your relationship with ${relationship.name} is declining`);
+        }
+
+        return {
+          ...relationship,
+          yearsKnown: Number(newYearsKnown.toFixed(2)),
+          quality: newQuality,
+        };
+      });
+
+      setRelationships({
+        ...relationships,
+        relationships: updatedRelationships,
+      });
     }
 
     // Random stat changes

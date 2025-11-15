@@ -134,3 +134,48 @@ export interface Activity {
   };
   description: string;
 }
+
+export type RelationshipType =
+  | 'parent'
+  | 'sibling'
+  | 'spouse'
+  | 'child'
+  | 'friend'
+  | 'dating'
+  | 'ex';
+
+export type RelationshipStatus =
+  | 'excellent'   // 80-100
+  | 'good'        // 60-79
+  | 'neutral'     // 40-59
+  | 'poor'        // 20-39
+  | 'terrible';   // 0-19
+
+export interface Relationship {
+  id: string;
+  name: string;
+  type: RelationshipType;
+  quality: number; // 0-100
+  yearsKnown: number;
+  lastInteraction: number; // age in months
+  metAt: number; // age in months
+  isAlive: boolean;
+  traits: string[];
+}
+
+export interface RelationshipState {
+  relationships: Relationship[];
+  hasSpouse: boolean;
+  spouseId: string | null;
+  children: number;
+  totalFriends: number;
+}
+
+export interface SocialInteraction {
+  id: string;
+  relationshipId: string;
+  type: 'conversation' | 'activity' | 'gift' | 'argument' | 'support';
+  qualityChange: number;
+  timestamp: number;
+  description: string;
+}

@@ -9,6 +9,7 @@ import type {
   Alert,
   ConsoleMessage,
   Disease,
+  RelationshipState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -71,11 +72,20 @@ const initialStudent: Student = {
   collegeDuration: 0,
 };
 
+const initialRelationships: RelationshipState = {
+  relationships: [],
+  hasSpouse: false,
+  spouseId: null,
+  children: 0,
+  totalFriends: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
 export const statsAtom = atomWithStorage<GameStats>('lifely-stats', initialStats);
 export const studentAtom = atomWithStorage<Student>('lifely-student', initialStudent);
+export const relationshipsAtom = atomWithStorage<RelationshipState>('lifely-relationships', initialRelationships);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -129,6 +139,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
 
   set(moneyAtom, 0);
   set(studentAtom, initialStudent);
+  set(relationshipsAtom, initialRelationships);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);
