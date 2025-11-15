@@ -14,6 +14,7 @@ import type {
   HealthState,
   HousingState,
   VehicleState,
+  CreditState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -112,6 +113,14 @@ const initialVehicles: VehicleState = {
   maintenanceScheduled: false,
 };
 
+const initialCredit: CreditState = {
+  score: 650, // Average starting score
+  activeLoans: [],
+  loanHistory: [],
+  totalDebt: 0,
+  paymentHistory: [],
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -122,6 +131,7 @@ export const skillsAtom = atomWithStorage<SkillsState>('lifely-skills', initialS
 export const healthAtom = atomWithStorage<HealthState>('lifely-health', initialHealth);
 export const housingAtom = atomWithStorage<HousingState>('lifely-housing', initialHousing);
 export const vehiclesAtom = atomWithStorage<VehicleState>('lifely-vehicles', initialVehicles);
+export const creditAtom = atomWithStorage<CreditState>('lifely-credit', initialCredit);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -184,6 +194,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
   });
   set(housingAtom, initialHousing);
   set(vehiclesAtom, initialVehicles);
+  set(creditAtom, initialCredit);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);

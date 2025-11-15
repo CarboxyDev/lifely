@@ -282,3 +282,25 @@ export interface VehicleState {
   totalMilesDriven: number;
   maintenanceScheduled: boolean;
 }
+
+export type LoanType = 'personal' | 'student' | 'auto' | 'mortgage';
+
+export interface Loan {
+  id: string;
+  type: LoanType;
+  amount: number;
+  remainingBalance: number;
+  interestRate: number; // percentage
+  monthlyPayment: number;
+  monthsRemaining: number;
+  monthsTaken: number; // age in months when loan was taken
+  missedPayments: number;
+}
+
+export interface CreditState {
+  score: number; // 300-850
+  activeLoans: Loan[];
+  loanHistory: Loan[];
+  totalDebt: number;
+  paymentHistory: number[]; // last 12 months: 1 = on-time, 0 = missed
+}

@@ -13,6 +13,7 @@ import {
   housingAtom,
   bankAtom,
   vehiclesAtom,
+  creditAtom,
 } from '@/lib/atoms/game-state';
 import { Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -35,6 +36,7 @@ export function AgeButton() {
   const [housing] = useAtom(housingAtom);
   const [bank, setBank] = useAtom(bankAtom);
   const [vehicles, setVehicles] = useAtom(vehiclesAtom);
+  const [credit, setCredit] = useAtom(creditAtom);
   const [isAging, setIsAging] = useState(false);
 
   const handleAgeUp = async () => {
@@ -82,6 +84,15 @@ export function AgeButton() {
         vehicles.currentVehicle.fuelCost
       );
       monthlyExpenses += vehicleCost;
+    }
+
+    // Loan payments
+    let totalLoanPayments = 0;
+    if (credit.activeLoans.length > 0) {
+      credit.activeLoans.forEach((loan) => {
+        totalLoanPayments += loan.monthlyPayment;
+      });
+      monthlyExpenses += totalLoanPayments;
     }
 
     // Deduct expenses
@@ -310,6 +321,61 @@ export function AgeButton() {
       // Notify if reliability is low
       if (newReliability < 60 && vehicles.currentVehicle.reliability >= 60) {
         addMessage(`Your ${vehicles.currentVehicle.name} needs maintenance`);
+      }
+    }
+
+    // Process loan payments
+    if (credit.activeLoans.length > 0) {
+      const updatedLoans = credit.activeLoans.map((loan) => {
+        // Check if payment was made (based on whether expenses were paid)
+        const paymentMade = currentMoney >= totalLoanPayments || bank.balance >= totalLoanPayments;
+
+        if (paymentMade) {
+          // Calculate interest for the month
+          const monthlyInterest = (loan.remainingBalance * loan.interestRate) / 100 / 12;
+          const principalPayment = loan.monthlyPayment - monthlyInterest;
+          const newBalance = Math.max(0, loan.remainingBalance - principalPayment);
+
+          return {
+            ...loan,
+            remainingBalance: newBalance,
+            monthsRemaining: loan.monthsRemaining - 1,
+          };
+        } else {
+          // Missed payment
+          return {
+            ...loan,
+            missedPayments: loan.missedPayments + 1,
+          };
+        }
+      });
+
+      // Filter out paid-off loans
+      const activeLoans = updatedLoans.filter((loan) => loan.remainingBalance > 0);
+      const paidOffLoans = updatedLoans.filter((loan) => loan.remainingBalance === 0);
+
+      // Update payment history (1 = on-time, 0 = missed)
+      const newPaymentHistory = [
+        ...credit.paymentHistory,
+        currentMoney >= totalLoanPayments || bank.balance >= totalLoanPayments ? 1 : 0,
+      ].slice(-12); // Keep last 12 months
+
+      setCredit({
+        ...credit,
+        activeLoans,
+        loanHistory: [...credit.loanHistory, ...paidOffLoans],
+        totalDebt: activeLoans.reduce((sum, loan) => sum + loan.remainingBalance, 0),
+        paymentHistory: newPaymentHistory,
+      });
+
+      // Notify about paid-off loans
+      paidOffLoans.forEach((loan) => {
+        addMessage(`Paid off ${loan.type} loan!`);
+      });
+
+      // Warn about missed payments
+      if (!(currentMoney >= totalLoanPayments || bank.balance >= totalLoanPayments)) {
+        addMessage(`Missed loan payment - credit score affected`);
       }
     }
 
