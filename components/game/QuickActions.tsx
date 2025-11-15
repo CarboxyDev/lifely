@@ -18,12 +18,14 @@ import { JobsDialog } from './dialogs/JobsDialog';
 import { ProfileDialog } from './dialogs/ProfileDialog';
 import { BankDialog } from './dialogs/BankDialog';
 import { ActivitiesDialog } from './dialogs/ActivitiesDialog';
+import { EducationDialog } from './dialogs/EducationDialog';
 
 export function QuickActions() {
   const [jobsOpen, setJobsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [bankOpen, setBankOpen] = useState(false);
   const [activitiesOpen, setActivitiesOpen] = useState(false);
+  const [educationOpen, setEducationOpen] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
 
   // Frequently accessed - full cards
@@ -62,7 +64,7 @@ export function QuickActions() {
     {
       icon: GraduationCap,
       label: 'Education',
-      onClick: () => {},
+      onClick: () => setEducationOpen(true),
       color: '#8b5cf6',
     },
     {
@@ -173,6 +175,7 @@ export function QuickActions() {
       <ProfileDialog open={profileOpen} onOpenChange={setProfileOpen} />
       <BankDialog open={bankOpen} onOpenChange={setBankOpen} />
       <ActivitiesDialog open={activitiesOpen} onOpenChange={setActivitiesOpen} />
+      <EducationDialog open={educationOpen} onOpenChange={setEducationOpen} />
     </>
   );
 }

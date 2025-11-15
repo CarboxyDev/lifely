@@ -26,7 +26,14 @@ const initialUser: User = {
   status: 'None',
   assets: [],
   education: {
-    degrees: {},
+    currentLevel: 'high-school',
+    currentInstitution: null,
+    currentMajor: null,
+    yearsInCurrentLevel: 4,
+    gpa: 0,
+    degrees: [],
+    isEnrolled: false,
+    graduationYear: null,
   },
   job: {
     name: 'Unemployed',

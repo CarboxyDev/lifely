@@ -20,8 +20,8 @@ export function StatsCards() {
   const [money] = useAtom(moneyAtom);
 
   const netWorth = money + user.assets.reduce((sum, asset) => sum + asset.value, 0);
-  const hasEducation = user.education && Object.keys(user.education.degrees).length > 0;
-  const latestDegree = hasEducation ? Object.values(user.education.degrees)[0] : null;
+  const hasEducation = user.education && user.education.degrees.length > 0;
+  const latestDegree = hasEducation ? user.education.degrees[user.education.degrees.length - 1] : null;
 
   return (
     <div className="space-y-4">
@@ -114,10 +114,10 @@ export function StatsCards() {
                 <div className="flex-1">
                   <div className="text-xs text-muted-foreground">Education</div>
                   <div className="mt-0.5 text-sm font-medium text-foreground">
-                    {latestDegree.name}
+                    {latestDegree.major}
                   </div>
                   <div className="mt-0.5 text-xs text-muted-foreground">
-                    GPA: {latestDegree.cgpa.toFixed(2)} ({latestDegree.grade})
+                    GPA: {latestDegree.gpa.toFixed(2)}{latestDegree.honors ? ` (${latestDegree.honors})` : ''}
                   </div>
                 </div>
               </div>

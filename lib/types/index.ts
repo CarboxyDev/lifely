@@ -18,15 +18,34 @@ export interface Asset {
   purchaseDate: number; // age in months
 }
 
+export type EducationLevel =
+  | 'none'
+  | 'elementary'
+  | 'middle-school'
+  | 'high-school'
+  | 'college'
+  | 'university'
+  | 'graduate'
+  | 'phd';
+
 export interface Education {
-  degrees: Record<string, Degree>;
+  currentLevel: EducationLevel;
+  currentInstitution: string | null;
+  currentMajor: string | null;
+  yearsInCurrentLevel: number;
+  gpa: number;
+  degrees: Degree[];
+  isEnrolled: boolean;
+  graduationYear: number | null;
 }
 
 export interface Degree {
-  name: string;
-  cgpa: number;
-  grade: string;
-  remark: string;
+  level: EducationLevel;
+  institution: string;
+  major: string;
+  gpa: number;
+  graduationYear: number;
+  honors: string | null;
 }
 
 export interface Job {

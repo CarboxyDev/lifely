@@ -14,6 +14,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import { randint, formatAge } from '@/lib/utils/game-utils';
 import { useState } from 'react';
+import { educationLevelNames, educationLevelDurations } from '@/lib/data/education';
+import type { Degree } from '@/lib/types';
 
 export function AgeButton() {
   const [user, setUser] = useAtom(userAtom);
@@ -42,6 +44,81 @@ export function AgeButton() {
         age: newAge,
         job: { ...user.job, duration: user.job.duration + 1 },
       });
+    }
+
+    // Education progression
+    if (user.education.isEnrolled) {
+      const monthsInYear = 12;
+      const newYearsInLevel = user.education.yearsInCurrentLevel + 1 / monthsInYear;
+      const requiredYears = educationLevelDurations[user.education.currentLevel];
+
+      // Update GPA gradually (random performance each month)
+      const monthlyPerformance = randint(70, 100) / 100; // 0.7 to 1.0
+      const newGPA = user.education.gpa === 0
+        ? monthlyPerformance * 4.0
+        : (user.education.gpa * 0.9 + monthlyPerformance * 4.0 * 0.1);
+
+      if (newYearsInLevel >= requiredYears) {
+        // Graduate!
+        const currentYear = Math.floor(newAge / 12) + 1982; // Approximate year
+        const finalGPA = Number(newGPA.toFixed(2));
+
+        const newDegree: Degree = {
+          level: user.education.currentLevel,
+          institution: user.education.currentInstitution!,
+          major: user.education.currentMajor || educationLevelNames[user.education.currentLevel],
+          gpa: finalGPA,
+          graduationYear: currentYear,
+          honors: finalGPA >= 3.5 ? 'Honors' : finalGPA >= 3.8 ? 'High Honors' : null,
+        };
+
+        setUser({
+          ...user,
+          age: newAge,
+          education: {
+            ...user.education,
+            degrees: [...user.education.degrees, newDegree],
+            isEnrolled: false,
+            currentInstitution: null,
+            currentMajor: null,
+            yearsInCurrentLevel: 0,
+            gpa: 0,
+          },
+        });
+
+        const degreeText = newDegree.major ? `in ${newDegree.major}` : '';
+        addMessage(`Graduated from ${newDegree.institution} ${degreeText} with ${finalGPA.toFixed(2)} GPA!`);
+
+        // Boost intellect for graduating
+        setStats({
+          ...stats,
+          intellect: Math.min(100, stats.intellect + 10),
+          morale: Math.min(100, stats.morale + 10),
+        });
+      } else {
+        // Still studying
+        setUser({
+          ...user,
+          age: newAge,
+          education: {
+            ...user.education,
+            yearsInCurrentLevel: Number(newYearsInLevel.toFixed(2)),
+            gpa: Number(newGPA.toFixed(2)),
+          },
+        });
+
+        // Occasionally show study progress
+        if (Math.floor(newYearsInLevel) > Math.floor(user.education.yearsInCurrentLevel)) {
+          const yearCompleted = Math.floor(newYearsInLevel);
+          addMessage(`Completed year ${yearCompleted} at ${user.education.currentInstitution}`);
+
+          // Small intellect boost for completing a year
+          setStats({
+            ...stats,
+            intellect: Math.min(100, stats.intellect + 2),
+          });
+        }
+      }
     }
 
     // Random stat changes
