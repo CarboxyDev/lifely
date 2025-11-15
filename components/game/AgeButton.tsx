@@ -9,6 +9,9 @@ import {
   hasJobAtom,
   addConsoleMessageAtom,
   relationshipsAtom,
+  healthAtom,
+  housingAtom,
+  bankAtom,
 } from '@/lib/atoms/game-state';
 import { Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -26,6 +29,9 @@ export function AgeButton() {
   const [money, setMoney] = useAtom(moneyAtom);
   const [, addMessage] = useAtom(addConsoleMessageAtom);
   const [relationships, setRelationships] = useAtom(relationshipsAtom);
+  const [health] = useAtom(healthAtom);
+  const [housing] = useAtom(housingAtom);
+  const [bank, setBank] = useAtom(bankAtom);
   const [isAging, setIsAging] = useState(false);
 
   const handleAgeUp = async () => {
@@ -39,14 +45,56 @@ export function AgeButton() {
     setUser({ ...user, age: newAge });
 
     // Pay salary if employed
+    let currentMoney = money;
     if (hasJob && user.job.salary > 0) {
-      setMoney(money + user.job.salary);
+      currentMoney += user.job.salary;
+      setMoney(currentMoney);
       addMessage(`Earned $${user.job.salary} from your job`);
       setUser({
         ...user,
         age: newAge,
         job: { ...user.job, duration: user.job.duration + 1 },
       });
+    }
+
+    // Deduct monthly expenses
+    let monthlyExpenses = 0;
+
+    // Health insurance
+    if (health.hasInsurance && health.insuranceCost > 0) {
+      monthlyExpenses += health.insuranceCost;
+    }
+
+    // Housing costs (rent or mortgage)
+    if (housing.currentProperty && housing.currentProperty.monthlyMortgage > 0) {
+      monthlyExpenses += housing.currentProperty.monthlyMortgage;
+    } else if (housing.isRenting && housing.monthlyRent > 0) {
+      monthlyExpenses += housing.monthlyRent;
+    }
+
+    // Deduct expenses
+    if (monthlyExpenses > 0) {
+      if (currentMoney >= monthlyExpenses) {
+        currentMoney -= monthlyExpenses;
+        setMoney(currentMoney);
+        addMessage(`Paid $${monthlyExpenses} in monthly expenses`);
+      } else {
+        // Not enough cash, use bank or go into debt
+        const shortfall = monthlyExpenses - currentMoney;
+        if (bank.balance >= shortfall) {
+          setBank({ ...bank, balance: bank.balance - shortfall });
+          setMoney(0);
+          addMessage(`Paid expenses using $${shortfall} from bank`);
+        } else {
+          // Can't afford expenses - add consequences
+          setMoney(0);
+          setStats({
+            ...stats,
+            morale: Math.max(0, stats.morale - 10),
+          });
+          addMessage(`Couldn't afford all expenses - morale decreased`);
+        }
+      }
     }
 
     // Education progression
