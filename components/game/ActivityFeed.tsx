@@ -47,18 +47,18 @@ export function ActivityFeed() {
   const [messages] = useAtom(consoleMessagesAtom);
 
   return (
-    <Card className="border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Activity className="h-5 w-5" />
-          Activity Feed
+    <Card className="border-zinc-800 bg-zinc-900">
+      <CardHeader className="border-b border-zinc-800 pb-4">
+        <CardTitle className="flex items-center gap-2 text-base font-semibold text-zinc-100">
+          <Activity className="h-4 w-4" />
+          Life Activity
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4">
         <ScrollArea className="h-[600px] pr-4">
           {messages.length === 0 ? (
             <div className="flex h-full items-center justify-center py-12 text-center">
-              <div className="text-sm text-slate-500 dark:text-slate-400">
+              <div className="text-sm text-zinc-500">
                 Your life story will appear here...
               </div>
             </div>
@@ -76,14 +76,13 @@ export function ActivityFeed() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ delay: index * 0.03 }}
-                      className="group"
                     >
-                      <div className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 transition-colors hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-900">
+                      <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 p-3 transition-colors hover:bg-zinc-800">
                         <div className={`mt-0.5 rounded-md p-1.5 ${colorClass}`}>
                           {Icon}
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                          <p className="text-sm leading-relaxed text-zinc-300">
                             {msg.message}
                           </p>
                         </div>

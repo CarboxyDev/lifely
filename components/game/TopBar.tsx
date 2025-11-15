@@ -3,7 +3,7 @@
 import { useAtom } from 'jotai';
 import { userAtom, moneyAtom, bankAtom, netWorthAtom } from '@/lib/atoms/game-state';
 import { formatCurrency, formatAge } from '@/lib/utils/game-utils';
-import { Settings, TrendingUp, Wallet } from 'lucide-react';
+import { Settings, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { SettingsDialog } from './dialogs/SettingsDialog';
@@ -17,56 +17,40 @@ export function TopBar() {
 
   return (
     <>
-      <div className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6 lg:px-8">
-          {/* Left - Branding & User Info */}
-          <div className="flex items-center gap-6">
+      <div className="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+          {/* Left - User Info */}
+          <div className="flex items-center gap-4">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
+              <User className="h-5 w-5" />
+            </div>
             <div>
-              <h1 className="text-xl font-bold text-slate-900 dark:text-white">
-                Lifely
-              </h1>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                {user.name} • {formatAge(user.age)}
-              </p>
+              <div className="text-sm font-semibold text-zinc-100">{user.name}</div>
+              <div className="text-xs text-zinc-500">{formatAge(user.age)}</div>
             </div>
           </div>
 
-          {/* Right - Money & Stats */}
-          <div className="flex items-center gap-4">
-            {/* Cash */}
-            <div className="hidden items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2 dark:bg-emerald-950/30 sm:flex">
-              <Wallet className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              <div className="text-right">
-                <div className="text-xs text-emerald-700 dark:text-emerald-300">
-                  Cash
-                </div>
-                <div className="font-semibold text-emerald-900 dark:text-emerald-100">
-                  {formatCurrency(money)}
-                </div>
+          {/* Right - Money Stats & Settings */}
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 text-sm">
+              <div>
+                <div className="text-xs text-zinc-500">Cash</div>
+                <div className="font-semibold text-emerald-400">{formatCurrency(money)}</div>
+              </div>
+              <div className="h-8 w-px bg-zinc-800" />
+              <div>
+                <div className="text-xs text-zinc-500">Net Worth</div>
+                <div className="font-semibold text-zinc-300">{formatCurrency(netWorth)}</div>
               </div>
             </div>
 
-            {/* Net Worth */}
-            <div className="hidden items-center gap-2 rounded-lg bg-blue-50 px-3 py-2 dark:bg-blue-950/30 md:flex">
-              <TrendingUp className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-              <div className="text-right">
-                <div className="text-xs text-blue-700 dark:text-blue-300">
-                  Net Worth
-                </div>
-                <div className="font-semibold text-blue-900 dark:text-blue-100">
-                  {formatCurrency(netWorth)}
-                </div>
-              </div>
-            </div>
-
-            {/* Settings */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setSettingsOpen(true)}
-              className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+              className="h-9 w-9 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100"
             >
-              <Settings className="h-5 w-5" />
+              <Settings className="h-4 w-4" />
             </Button>
           </div>
         </div>

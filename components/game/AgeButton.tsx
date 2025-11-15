@@ -9,7 +9,7 @@ import {
   hasJobAtom,
   addConsoleMessageAtom,
 } from '@/lib/atoms/game-state';
-import { Calendar, TrendingUp, Clock } from 'lucide-react';
+import { Calendar, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { randint, formatAge } from '@/lib/utils/game-utils';
@@ -85,50 +85,35 @@ export function AgeButton() {
   return (
     <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2">
       <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        animate={isAging ? { scale: [1, 1.1, 1] } : {}}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        animate={isAging ? { scale: [1, 1.05, 1] } : {}}
         transition={{ duration: 0.3 }}
       >
         <Button
           onClick={handleAgeUp}
           disabled={isAging}
           size="lg"
-          className="group relative h-16 gap-3 rounded-full bg-blue-600 px-8 text-lg font-semibold shadow-2xl shadow-blue-600/50 hover:bg-blue-700 hover:shadow-blue-700/50 dark:bg-blue-600 dark:hover:bg-blue-700"
+          className="group relative h-14 gap-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 px-8 text-base font-semibold shadow-lg shadow-blue-600/30 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:shadow-blue-600/40"
         >
           <motion.div
             animate={{ rotate: isAging ? 360 : 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Calendar className="h-6 w-6" />
+            <Calendar className="h-5 w-5" />
           </motion.div>
-          <div className="flex items-center gap-2">
-            <span>Age 1 Month</span>
-            <motion.div
-              animate={{ x: isAging ? 5 : 0 }}
-              transition={{ repeat: isAging ? Infinity : 0, duration: 0.5 }}
-            >
-              <TrendingUp className="h-5 w-5 opacity-70" />
-            </motion.div>
-          </div>
-
-          {/* Pulse animation on hover */}
+          <span>Age 1 Month</span>
           <motion.div
-            className="absolute inset-0 rounded-full bg-blue-400/30"
-            initial={{ scale: 1, opacity: 0 }}
-            whileHover={{ scale: 1.5, opacity: 0 }}
-            transition={{ duration: 0.6 }}
-          />
+            animate={{ x: isAging ? [0, 3, 0] : 0 }}
+            transition={{ repeat: isAging ? Infinity : 0, duration: 0.8 }}
+          >
+            <TrendingUp className="h-4 w-4 opacity-80" />
+          </motion.div>
+
+          {/* Subtle glow on hover */}
+          <div className="absolute inset-0 rounded-xl bg-white/0 transition-colors group-hover:bg-white/5" />
         </Button>
       </motion.div>
-
-      {/* Age indicator */}
-      <div className="mt-3 text-center">
-        <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-4 py-2 text-sm font-medium text-white backdrop-blur dark:bg-slate-100/80 dark:text-slate-900">
-          <Clock className="h-4 w-4" />
-          Currently: {formatAge(user.age)}
-        </div>
-      </div>
     </div>
   );
 }
