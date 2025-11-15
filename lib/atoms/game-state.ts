@@ -1,0 +1,179 @@
+// Jotai atoms for game state management
+import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
+import type {
+  User,
+  Bank,
+  Student,
+  GameStats,
+  Alert,
+  ConsoleMessage,
+  Disease,
+} from '../types';
+import { randint } from '../utils/game-utils';
+import { randomChoice } from '../utils/game-utils';
+import { allCountries } from '../data/countries';
+import { generateRandomName } from '../utils/name-generator';
+
+// Initialize default values
+const getInitialCountry = () => randomChoice(allCountries);
+const initialCountry = getInitialCountry();
+
+const initialUser: User = {
+  name: '',
+  country: initialCountry,
+  age: 216, // 18 years in months
+  status: 'None',
+  assets: [],
+  education: {
+    degrees: {},
+  },
+  job: {
+    name: 'Unemployed',
+    salary: 0,
+    promotions: 0,
+    duration: 0,
+    previousJobs: [],
+  },
+};
+
+const initialBank: Bank = {
+  balance: 0,
+  id: randint(100000, 999999),
+  loan: 0,
+  hasLoan: false,
+  transactions: 0,
+  transactionsList: [],
+};
+
+const initialStats: GameStats = {
+  health: randint(80, 100),
+  morale: randint(70, 100),
+  intellect: randint(40, 100),
+  looks: randint(40, 100),
+  karma: 0,
+};
+
+const initialStudent: Student = {
+  hasStudentLoan: false,
+  loanMonths: 0,
+  loanAmount: 0,
+  loanAmountPaid: 0,
+  months: 0,
+  course: null,
+  collegeDuration: 0,
+};
+
+// Core game state atoms (with persistence)
+export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
+export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
+export const statsAtom = atomWithStorage<GameStats>('lifely-stats', initialStats);
+export const studentAtom = atomWithStorage<Student>('lifely-student', initialStudent);
+
+// Money (separate for easier access)
+export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
+
+// Game state flags
+export const isStudentAtom = atomWithStorage<boolean>('lifely-isStudent', false);
+export const isJailedAtom = atomWithStorage<boolean>('lifely-isJailed', false);
+export const hasJobAtom = atomWithStorage<boolean>('lifely-hasJob', false);
+
+// UI state (not persisted)
+export const alertsAtom = atom<Alert[]>([]);
+export const consoleMessagesAtom = atom<ConsoleMessage[]>([]);
+export const diseasesAtom = atom<Record<string, Disease>>({});
+
+// Computed atoms
+export const alertCountAtom = atom((get) => get(alertsAtom).length);
+
+export const netWorthAtom = atom((get) => {
+  const money = get(moneyAtom);
+  const bank = get(bankAtom);
+  const user = get(userAtom);
+  const student = get(studentAtom);
+
+  const assetsValue = user.assets.reduce((sum, asset) => sum + asset.value, 0);
+  return money + bank.balance + assetsValue - bank.loan - student.loanAmount;
+});
+
+// Action atoms for game initialization
+export const initializeGameAtom = atom(null, (get, set) => {
+  const country = randomChoice(allCountries);
+  const name = generateRandomName(country);
+
+  set(userAtom, {
+    ...initialUser,
+    name,
+    country,
+  });
+
+  set(bankAtom, {
+    ...initialBank,
+    id: randint(100000, 999999),
+  });
+
+  set(statsAtom, {
+    health: randint(80, 100),
+    morale: randint(70, 100),
+    intellect: randint(40, 100),
+    looks: randint(40, 100),
+    karma: 0,
+  });
+
+  set(moneyAtom, 0);
+  set(studentAtom, initialStudent);
+  set(isStudentAtom, false);
+  set(isJailedAtom, false);
+  set(hasJobAtom, false);
+  set(alertsAtom, []);
+  set(consoleMessagesAtom, [
+    {
+      id: '1',
+      message: `You are ${name}`,
+      timestamp: Date.now(),
+    },
+    {
+      id: '2',
+      message: `You live in ${country}`,
+      timestamp: Date.now() + 1,
+    },
+  ]);
+});
+
+// Add console message
+export const addConsoleMessageAtom = atom(null, (get, set, message: string) => {
+  const messages = get(consoleMessagesAtom);
+  const newMessage: ConsoleMessage = {
+    id: `${Date.now()}-${Math.random()}`,
+    message,
+    timestamp: Date.now(),
+  };
+
+  // Keep only last 12 messages
+  const updatedMessages = [...messages, newMessage].slice(-12);
+  set(consoleMessagesAtom, updatedMessages);
+});
+
+// Add alert
+export const addAlertAtom = atom(
+  null,
+  (get, set, alert: Omit<Alert, 'id' | 'timestamp'>) => {
+    const alerts = get(alertsAtom);
+    const newAlert: Alert = {
+      ...alert,
+      id: `${Date.now()}-${Math.random()}`,
+      timestamp: Date.now(),
+    };
+
+    set(alertsAtom, [...alerts, newAlert]);
+  }
+);
+
+// Clear alert
+export const clearAlertAtom = atom(null, (get, set, alertId: string) => {
+  const alerts = get(alertsAtom);
+  set(
+    alertsAtom,
+    alerts.filter((a) => a.id !== alertId)
+  );
+});
