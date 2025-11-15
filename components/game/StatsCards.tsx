@@ -1,10 +1,11 @@
 'use client';
 
 import { useAtom } from 'jotai';
-import { statsAtom, userAtom } from '@/lib/atoms/game-state';
+import { statsAtom, userAtom, moneyAtom } from '@/lib/atoms/game-state';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, Smile, Brain, Sparkles, Briefcase } from 'lucide-react';
+import { Heart, Smile, Brain, Sparkles, Briefcase, GraduationCap, MapPin, Home } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { formatAge } from '@/lib/utils/game-utils';
 
 const statConfig = [
   { key: 'health', label: 'Health', icon: Heart, color: '#ef4444' },
@@ -16,16 +17,21 @@ const statConfig = [
 export function StatsCards() {
   const [stats] = useAtom(statsAtom);
   const [user] = useAtom(userAtom);
+  const [money] = useAtom(moneyAtom);
+
+  const netWorth = money + user.assets.reduce((sum, asset) => sum + asset.value, 0);
+  const hasEducation = user.education && Object.keys(user.education.degrees).length > 0;
+  const latestDegree = hasEducation ? Object.values(user.education.degrees)[0] : null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Stats */}
       <Card className="border-zinc-800 bg-zinc-900">
         <CardContent className="p-4">
           <div className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
             Attributes
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3.5">
             {statConfig.map((stat, index) => {
               const value = stats[stat.key as keyof typeof stats] as number;
               const Icon = stat.icon;
@@ -60,48 +66,88 @@ export function StatsCards() {
         </CardContent>
       </Card>
 
-      {/* Career & Info */}
+      {/* Overview */}
       <Card className="border-zinc-800 bg-zinc-900">
         <CardContent className="p-4">
           <div className="mb-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
             Overview
           </div>
           <div className="space-y-3">
-            {/* Job */}
-            <div>
-              <div className="mb-1 flex items-center gap-1.5">
-                <Briefcase className="h-3 w-3 text-zinc-500" />
-                <span className="text-xs text-zinc-500">Career</span>
+            {/* Location */}
+            <div className="flex items-start gap-2">
+              <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-zinc-500" />
+              <div className="flex-1">
+                <div className="text-xs text-zinc-500">Location</div>
+                <div className="mt-0.5 text-sm font-medium text-zinc-200">{user.country}</div>
               </div>
-              <div className="text-sm font-semibold text-zinc-200">
-                {user.job.name || 'Unemployed'}
-              </div>
-              {user.job.name && user.job.name !== 'Unemployed' && (
-                <div className="mt-0.5 text-xs text-zinc-400">
-                  ${user.job.salary.toLocaleString()}/mo
+            </div>
+
+            {/* Career */}
+            <div className="flex items-start gap-2">
+              <Briefcase className="mt-0.5 h-3.5 w-3.5 shrink-0 text-zinc-500" />
+              <div className="flex-1">
+                <div className="text-xs text-zinc-500">Career</div>
+                <div className="mt-0.5 text-sm font-medium text-zinc-200">
+                  {user.job.name || 'Unemployed'}
                 </div>
-              )}
-              {(!user.job.name || user.job.name === 'Unemployed') && (
-                <div className="mt-0.5 text-xs text-zinc-500">Looking for work</div>
-              )}
+                {user.job.name && user.job.name !== 'Unemployed' && (
+                  <div className="mt-0.5 flex items-center gap-2 text-xs text-zinc-400">
+                    <span>${user.job.salary.toLocaleString()}/mo</span>
+                    {user.job.duration > 0 && (
+                      <>
+                        <span className="text-zinc-600">•</span>
+                        <span>{formatAge(user.job.duration)}</span>
+                      </>
+                    )}
+                  </div>
+                )}
+                {(!user.job.name || user.job.name === 'Unemployed') && (
+                  <div className="mt-0.5 text-xs italic text-zinc-500">Looking for work</div>
+                )}
+              </div>
             </div>
 
             {/* Education */}
-            {user.education && Object.keys(user.education.degrees).length > 0 && (
-              <div>
-                <div className="mb-1 flex items-center gap-1.5">
-                  <Brain className="h-3 w-3 text-zinc-500" />
-                  <span className="text-xs text-zinc-500">Education</span>
-                </div>
-                <div className="text-sm text-zinc-300">
-                  {Object.keys(user.education.degrees).length} degree
-                  {Object.keys(user.education.degrees).length > 1 ? 's' : ''}
-                </div>
-                <div className="mt-0.5 text-xs text-zinc-500">
-                  {Object.values(user.education.degrees)[0]?.name || 'Unknown'}
+            {hasEducation && latestDegree && (
+              <div className="flex items-start gap-2">
+                <GraduationCap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-zinc-500" />
+                <div className="flex-1">
+                  <div className="text-xs text-zinc-500">Education</div>
+                  <div className="mt-0.5 text-sm font-medium text-zinc-200">
+                    {latestDegree.name}
+                  </div>
+                  <div className="mt-0.5 text-xs text-zinc-400">
+                    GPA: {latestDegree.cgpa.toFixed(2)} ({latestDegree.grade})
+                  </div>
                 </div>
               </div>
             )}
+
+            {/* Assets */}
+            {user.assets.length > 0 && (
+              <div className="flex items-start gap-2">
+                <Home className="mt-0.5 h-3.5 w-3.5 shrink-0 text-zinc-500" />
+                <div className="flex-1">
+                  <div className="text-xs text-zinc-500">Assets</div>
+                  <div className="mt-0.5 text-sm font-medium text-zinc-200">
+                    {user.assets.length} item{user.assets.length !== 1 ? 's' : ''}
+                  </div>
+                  <div className="mt-0.5 text-xs text-zinc-400">
+                    Worth ${user.assets.reduce((sum, a) => sum + a.value, 0).toLocaleString()}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Net Worth */}
+            <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-zinc-500">Net Worth</span>
+                <span className="text-sm font-bold text-emerald-400">
+                  ${netWorth.toLocaleString()}
+                </span>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

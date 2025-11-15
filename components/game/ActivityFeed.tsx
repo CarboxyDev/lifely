@@ -5,9 +5,23 @@ import { consoleMessagesAtom } from '@/lib/atoms/game-state';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Activity } from 'lucide-react';
+import {
+  Activity,
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  Heart,
+  Briefcase,
+  GraduationCap,
+  Home,
+  Users,
+  AlertTriangle,
+  Sparkles,
+  MessageCircle,
+} from 'lucide-react';
 
 type MessageCategory = 'positive' | 'negative' | 'neutral';
+type MessageIconType = React.ComponentType<{ className?: string }>;
 
 function categorizeMessage(message: string): MessageCategory {
   const lowerMsg = message.toLowerCase();
@@ -20,7 +34,10 @@ function categorizeMessage(message: string): MessageCategory {
     lowerMsg.includes('hired') ||
     lowerMsg.includes('increased') ||
     lowerMsg.includes('graduated') ||
-    lowerMsg.includes('success')
+    lowerMsg.includes('success') ||
+    lowerMsg.includes('great day') ||
+    lowerMsg.includes('found') ||
+    lowerMsg.includes('friend')
   ) {
     return 'positive';
   }
@@ -39,6 +56,58 @@ function categorizeMessage(message: string): MessageCategory {
   }
 
   return 'neutral';
+}
+
+function getMessageIcon(message: string): MessageIconType {
+  const lowerMsg = message.toLowerCase();
+
+  // Money related
+  if (lowerMsg.includes('earned') || lowerMsg.includes('$') || lowerMsg.includes('money') || lowerMsg.includes('found')) {
+    return DollarSign;
+  }
+
+  // Career related
+  if (lowerMsg.includes('job') || lowerMsg.includes('hired') || lowerMsg.includes('promotion') || lowerMsg.includes('fired')) {
+    return Briefcase;
+  }
+
+  // Education related
+  if (lowerMsg.includes('graduated') || lowerMsg.includes('college') || lowerMsg.includes('university')) {
+    return GraduationCap;
+  }
+
+  // Health related
+  if (lowerMsg.includes('health') || lowerMsg.includes('hospital') || lowerMsg.includes('sick') || lowerMsg.includes('gym')) {
+    return Heart;
+  }
+
+  // Social related
+  if (lowerMsg.includes('friend') || lowerMsg.includes('relationship') || lowerMsg.includes('conversation')) {
+    return Users;
+  }
+
+  // Property related
+  if (lowerMsg.includes('house') || lowerMsg.includes('property') || lowerMsg.includes('apartment')) {
+    return Home;
+  }
+
+  // Positive events
+  if (lowerMsg.includes('great day') || lowerMsg.includes('won')) {
+    return Sparkles;
+  }
+
+  // Warnings/negative
+  if (lowerMsg.includes('decreased') || lowerMsg.includes('lost')) {
+    return AlertTriangle;
+  }
+
+  // Increased/improved
+  if (lowerMsg.includes('increased')) {
+    return TrendingUp;
+  }
+
+  // Default neutral
+  return MessageCircle;
 }
 
 function getMessageStyle(message: string) {
@@ -78,6 +147,7 @@ export function ActivityFeed() {
               <AnimatePresence mode="popLayout">
                 {messages.map((msg, index) => {
                   const styleClass = getMessageStyle(msg.message);
+                  const Icon = getMessageIcon(msg.message);
 
                   return (
                     <motion.div
@@ -89,7 +159,7 @@ export function ActivityFeed() {
                     >
                       <div className="group flex items-start gap-2.5 rounded-lg border border-zinc-800/50 bg-zinc-900/30 p-2.5 transition-colors hover:border-zinc-700 hover:bg-zinc-800/50">
                         <div className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded ${styleClass}`}>
-                          <Activity className="h-3 w-3" />
+                          <Icon className="h-3 w-3" />
                         </div>
                         <div className="flex-1 pt-0.5">
                           <p className="text-sm leading-relaxed text-zinc-300">

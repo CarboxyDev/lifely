@@ -9,7 +9,7 @@ import {
   hasJobAtom,
   addConsoleMessageAtom,
 } from '@/lib/atoms/game-state';
-import { Calendar, TrendingUp } from 'lucide-react';
+import { Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { randint, formatAge } from '@/lib/utils/game-utils';
@@ -84,44 +84,56 @@ export function AgeButton() {
 
   return (
     <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2">
-      <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+      >
         <Button
           onClick={handleAgeUp}
           disabled={isAging}
-          className="group relative h-12 gap-2.5 overflow-hidden rounded-full border-2 border-zinc-700 bg-zinc-900 px-6 font-semibold text-zinc-100 shadow-xl shadow-black/50 transition-all hover:border-zinc-600 hover:bg-zinc-800 hover:shadow-2xl disabled:opacity-50"
+          className="group relative h-14 cursor-pointer gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-teal-600 to-cyan-600 px-8 text-base font-bold text-white shadow-2xl shadow-teal-900/50 transition-all hover:from-teal-500 hover:to-cyan-500 hover:shadow-teal-900/70 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {/* Animated background on hover */}
+          {/* Shimmer effect */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-zinc-800 via-zinc-700 to-zinc-800"
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
             initial={{ x: '-100%' }}
-            whileHover={{ x: '100%' }}
-            transition={{ duration: 0.8, ease: 'easeInOut' }}
+            animate={{ x: '200%' }}
+            transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
           />
 
           {/* Content */}
-          <div className="relative z-10 flex items-center gap-2.5">
+          <div className="relative z-10 flex items-center gap-3">
             <motion.div
-              animate={isAging ? { rotate: 360 } : {}}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
+              animate={isAging ? { rotate: 360 } : { rotate: 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
             >
-              <Calendar className="h-4 w-4" />
+              <Calendar className="h-5 w-5" />
             </motion.div>
-            <span className="text-sm">Age 1 Month</span>
+
+            <span className="tracking-wide">Age 1 Month</span>
+
             <motion.div
-              animate={isAging ? { scale: [1, 1.2, 1] } : {}}
-              transition={{ repeat: isAging ? Infinity : 0, duration: 0.6 }}
+              animate={
+                isAging
+                  ? { x: [0, 4, 0] }
+                  : { x: 0 }
+              }
+              transition={{ repeat: isAging ? Infinity : 0, duration: 0.8 }}
             >
-              <TrendingUp className="h-3.5 w-3.5 opacity-70" />
+              <ArrowRight className="h-5 w-5" />
             </motion.div>
           </div>
 
-          {/* Pulse ring on hover */}
+          {/* Sparkles on hover */}
           <motion.div
-            className="absolute inset-0 rounded-full border-2 border-zinc-500"
-            initial={{ scale: 1, opacity: 0 }}
-            whileHover={{ scale: 1.1, opacity: [0, 0.5, 0] }}
-            transition={{ duration: 1, repeat: Infinity }}
-          />
+            className="absolute right-3 top-1/2 -translate-y-1/2"
+            initial={{ opacity: 0, scale: 0 }}
+            whileHover={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Sparkles className="h-4 w-4 text-yellow-300" />
+          </motion.div>
         </Button>
       </motion.div>
     </div>

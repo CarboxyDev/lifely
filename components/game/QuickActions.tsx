@@ -31,18 +31,21 @@ export function QuickActions() {
     {
       icon: User,
       label: 'Profile',
+      description: 'View your life details',
       onClick: () => setProfileOpen(true),
       color: '#6b7280',
     },
     {
       icon: Landmark,
       label: 'Bank',
+      description: 'Manage finances',
       onClick: () => setBankOpen(true),
       color: '#10b981',
     },
     {
       icon: Dumbbell,
       label: 'Activities',
+      description: 'Exercise & hobbies',
       onClick: () => setActivitiesOpen(true),
       color: '#f59e0b',
     },
@@ -107,16 +110,21 @@ export function QuickActions() {
                 className="group cursor-pointer border-zinc-800 bg-zinc-900 transition-all hover:border-zinc-700 hover:bg-zinc-800"
                 onClick={action.onClick}
               >
-                <CardContent className="p-2.5">
-                  <div className="flex items-center gap-2.5">
+                <CardContent className="px-3 py-2">
+                  <div className="flex items-center gap-3">
                     <div
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors"
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors"
                       style={{ backgroundColor: `${action.color}20` }}
                     >
-                      <Icon className="h-4 w-4" style={{ color: action.color }} />
+                      <Icon className="h-5 w-5" style={{ color: action.color }} />
                     </div>
-                    <div className="text-sm font-semibold text-zinc-100">
-                      {action.label}
+                    <div className="flex-1">
+                      <div className="text-sm font-semibold text-zinc-100">
+                        {action.label}
+                      </div>
+                      <div className="text-xs text-zinc-500">
+                        {action.description}
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -125,18 +133,16 @@ export function QuickActions() {
           })}
         </div>
 
-        {/* Divider */}
-        <div className="relative py-2">
+        {/* Divider - Fixed height to prevent layout shift */}
+        <div className="relative h-5">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-zinc-800"></div>
           </div>
-          {hoveredAction && (
-            <div className="relative flex justify-center">
-              <span className="bg-zinc-950 px-2 text-xs text-zinc-400">
-                {hoveredAction}
-              </span>
-            </div>
-          )}
+          <div className="relative flex justify-center">
+            <span className="bg-zinc-950 px-2 text-xs text-zinc-400">
+              {hoveredAction || '\u00A0'}
+            </span>
+          </div>
         </div>
 
         {/* Secondary Actions - Icon Grid */}
@@ -149,7 +155,7 @@ export function QuickActions() {
                 onClick={action.onClick}
                 onMouseEnter={() => setHoveredAction(action.label)}
                 onMouseLeave={() => setHoveredAction(null)}
-                className="group flex aspect-square items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 transition-all hover:border-zinc-700 hover:bg-zinc-800"
+                className="group flex aspect-square cursor-pointer items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 transition-all hover:border-zinc-700 hover:bg-zinc-800"
                 aria-label={action.label}
               >
                 <Icon
