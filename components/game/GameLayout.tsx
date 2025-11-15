@@ -1,31 +1,39 @@
 'use client';
 
-import { TopPanel } from './TopPanel';
-import { Console } from './Console';
-import { StatsPanel } from './StatsPanel';
-import { BottomPanel } from './BottomPanel';
+import { TopBar } from './TopBar';
+import { StatsCards } from './StatsCards';
+import { ActivityFeed } from './ActivityFeed';
+import { QuickActions } from './QuickActions';
+import { AgeButton } from './AgeButton';
 
 export function GameLayout() {
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950">
-      {/* Top Panel - Money & Age */}
-      <TopPanel />
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      {/* Top Navigation Bar */}
+      <TopBar />
 
-      {/* Main Content */}
-      <div className="flex flex-1 flex-col gap-4 p-4 lg:flex-row">
-        {/* Console - Main Game Feed */}
-        <div className="flex-1">
-          <Console />
+      {/* Main Content Grid */}
+      <div className="mx-auto max-w-7xl p-4 md:p-6 lg:p-8">
+        <div className="grid gap-6 lg:grid-cols-12">
+          {/* Left Column - Stats */}
+          <div className="space-y-6 lg:col-span-4">
+            <StatsCards />
+          </div>
+
+          {/* Center Column - Activity Feed */}
+          <div className="space-y-6 lg:col-span-5">
+            <ActivityFeed />
+          </div>
+
+          {/* Right Column - Quick Actions */}
+          <div className="space-y-6 lg:col-span-3">
+            <QuickActions />
+          </div>
         </div>
 
-        {/* Stats Sidebar */}
-        <div className="w-full lg:w-80">
-          <StatsPanel />
-        </div>
+        {/* Floating Age Button */}
+        <AgeButton />
       </div>
-
-      {/* Bottom Panel - Action Buttons */}
-      <BottomPanel />
     </div>
   );
 }
