@@ -304,3 +304,24 @@ export interface CreditState {
   totalDebt: number;
   paymentHistory: number[]; // last 12 months: 1 = on-time, 0 = missed
 }
+
+export type InvestmentType = 'stocks' | 'bonds' | 'crypto' | 'real-estate' | 'index-fund';
+
+export interface Investment {
+  id: string;
+  type: InvestmentType;
+  name: string;
+  shares: number;
+  purchasePrice: number; // price per share when bought
+  currentPrice: number; // current price per share
+  monthsHeld: number;
+  totalInvested: number;
+}
+
+export interface InvestmentState {
+  portfolio: Investment[];
+  totalValue: number;
+  totalInvested: number;
+  monthlyContribution: number; // automatic monthly investment
+  retirementFund: number; // separate retirement account
+}

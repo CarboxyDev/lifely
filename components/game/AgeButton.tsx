@@ -14,6 +14,7 @@ import {
   bankAtom,
   vehiclesAtom,
   creditAtom,
+  investmentsAtom,
 } from '@/lib/atoms/game-state';
 import { Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -24,6 +25,7 @@ import { educationLevelNames, educationLevelDurations } from '@/lib/data/educati
 import type { Degree } from '@/lib/types';
 import { getRandomEvent } from '@/lib/data/events';
 import { calculateVehicleValue, calculateMonthlyVehicleCost } from '@/lib/data/vehicles';
+import { investmentOptions, simulateMonthlyPriceChange } from '@/lib/data/investments';
 
 export function AgeButton() {
   const [user, setUser] = useAtom(userAtom);
@@ -37,6 +39,7 @@ export function AgeButton() {
   const [bank, setBank] = useAtom(bankAtom);
   const [vehicles, setVehicles] = useAtom(vehiclesAtom);
   const [credit, setCredit] = useAtom(creditAtom);
+  const [investments, setInvestments] = useAtom(investmentsAtom);
   const [isAging, setIsAging] = useState(false);
 
   const handleAgeUp = async () => {
@@ -93,6 +96,11 @@ export function AgeButton() {
         totalLoanPayments += loan.monthlyPayment;
       });
       monthlyExpenses += totalLoanPayments;
+    }
+
+    // Automatic retirement contribution
+    if (investments.monthlyContribution > 0) {
+      monthlyExpenses += investments.monthlyContribution;
     }
 
     // Deduct expenses
@@ -377,6 +385,56 @@ export function AgeButton() {
       if (!(currentMoney >= totalLoanPayments || bank.balance >= totalLoanPayments)) {
         addMessage(`Missed loan payment - credit score affected`);
       }
+    }
+
+    // Process investments
+    if (investments.portfolio.length > 0 || investments.monthlyContribution > 0) {
+      // Update investment prices and months held
+      const updatedPortfolio = investments.portfolio.map((investment) => {
+        const option = investmentOptions.find(
+          (opt) => opt.name === investment.name
+        );
+
+        if (!option) return investment;
+
+        // Simulate monthly price change
+        const newPrice = simulateMonthlyPriceChange(
+          investment.currentPrice,
+          option.avgReturn,
+          option.volatility
+        );
+
+        return {
+          ...investment,
+          currentPrice: newPrice,
+          monthsHeld: investment.monthsHeld + 1,
+        };
+      });
+
+      // Calculate new total value
+      const newTotalValue = updatedPortfolio.reduce((sum, inv) => {
+        return sum + Math.round((inv.shares / 100) * inv.currentPrice);
+      }, 0);
+
+      // Process monthly retirement contribution
+      let newRetirementFund = investments.retirementFund;
+      if (investments.monthlyContribution > 0 && currentMoney >= investments.monthlyContribution) {
+        // Contribution already deducted from expenses
+        const monthlyReturnRate = 7 / 100 / 12; // 7% annual return
+        newRetirementFund = Math.round(
+          (investments.retirementFund + investments.monthlyContribution) * (1 + monthlyReturnRate)
+        );
+      } else if (investments.monthlyContribution > 0) {
+        // Couldn't afford contribution
+        addMessage(`Skipped retirement contribution - insufficient funds`);
+      }
+
+      setInvestments({
+        ...investments,
+        portfolio: updatedPortfolio,
+        totalValue: newTotalValue,
+        retirementFund: newRetirementFund,
+      });
     }
 
     // Show success animation - wait for full transition

@@ -12,6 +12,7 @@ import {
   Car,
   Heart,
   Users,
+  TrendingUp,
 } from 'lucide-react';
 import { useState } from 'react';
 import { JobsDialog } from './dialogs/JobsDialog';
@@ -24,6 +25,7 @@ import { SkillsDialog } from './dialogs/SkillsDialog';
 import { HealthDialog } from './dialogs/HealthDialog';
 import { HousingDialog } from './dialogs/HousingDialog';
 import { VehiclesDialog } from './dialogs/VehiclesDialog';
+import { InvestmentsDialog } from './dialogs/InvestmentsDialog';
 
 export function QuickActions() {
   const [jobsOpen, setJobsOpen] = useState(false);
@@ -36,6 +38,7 @@ export function QuickActions() {
   const [healthOpen, setHealthOpen] = useState(false);
   const [housingOpen, setHousingOpen] = useState(false);
   const [vehiclesOpen, setVehiclesOpen] = useState(false);
+  const [investmentsOpen, setInvestmentsOpen] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
 
   // Frequently accessed - full cards
@@ -106,6 +109,12 @@ export function QuickActions() {
       label: 'Skills',
       onClick: () => setSkillsOpen(true),
       color: '#8b5cf6',
+    },
+    {
+      icon: TrendingUp,
+      label: 'Investments',
+      onClick: () => setInvestmentsOpen(true),
+      color: '#10b981',
     },
   ];
 
@@ -191,6 +200,7 @@ export function QuickActions() {
       <HealthDialog open={healthOpen} onOpenChange={setHealthOpen} />
       <HousingDialog open={housingOpen} onOpenChange={setHousingOpen} />
       <VehiclesDialog open={vehiclesOpen} onOpenChange={setVehiclesOpen} />
+      <InvestmentsDialog open={investmentsOpen} onOpenChange={setInvestmentsOpen} />
     </>
   );
 }
