@@ -84,34 +84,44 @@ export function AgeButton() {
 
   return (
     <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2">
-      <motion.div
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        animate={isAging ? { scale: [1, 1.05, 1] } : {}}
-        transition={{ duration: 0.3 }}
-      >
+      <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
         <Button
           onClick={handleAgeUp}
           disabled={isAging}
-          size="lg"
-          className="group relative h-14 gap-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 px-8 text-base font-semibold shadow-lg shadow-blue-600/30 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:shadow-blue-600/40"
+          className="group relative h-12 gap-2.5 overflow-hidden rounded-full border-2 border-zinc-700 bg-zinc-900 px-6 font-semibold text-zinc-100 shadow-xl shadow-black/50 transition-all hover:border-zinc-600 hover:bg-zinc-800 hover:shadow-2xl disabled:opacity-50"
         >
+          {/* Animated background on hover */}
           <motion.div
-            animate={{ rotate: isAging ? 360 : 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <Calendar className="h-5 w-5" />
-          </motion.div>
-          <span>Age 1 Month</span>
-          <motion.div
-            animate={{ x: isAging ? [0, 3, 0] : 0 }}
-            transition={{ repeat: isAging ? Infinity : 0, duration: 0.8 }}
-          >
-            <TrendingUp className="h-4 w-4 opacity-80" />
-          </motion.div>
+            className="absolute inset-0 bg-gradient-to-r from-zinc-800 via-zinc-700 to-zinc-800"
+            initial={{ x: '-100%' }}
+            whileHover={{ x: '100%' }}
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
+          />
 
-          {/* Subtle glow on hover */}
-          <div className="absolute inset-0 rounded-xl bg-white/0 transition-colors group-hover:bg-white/5" />
+          {/* Content */}
+          <div className="relative z-10 flex items-center gap-2.5">
+            <motion.div
+              animate={isAging ? { rotate: 360 } : {}}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            >
+              <Calendar className="h-4 w-4" />
+            </motion.div>
+            <span className="text-sm">Age 1 Month</span>
+            <motion.div
+              animate={isAging ? { scale: [1, 1.2, 1] } : {}}
+              transition={{ repeat: isAging ? Infinity : 0, duration: 0.6 }}
+            >
+              <TrendingUp className="h-3.5 w-3.5 opacity-70" />
+            </motion.div>
+          </div>
+
+          {/* Pulse ring on hover */}
+          <motion.div
+            className="absolute inset-0 rounded-full border-2 border-zinc-500"
+            initial={{ scale: 1, opacity: 0 }}
+            whileHover={{ scale: 1.1, opacity: [0, 0.5, 0] }}
+            transition={{ duration: 1, repeat: Infinity }}
+          />
         </Button>
       </motion.div>
     </div>

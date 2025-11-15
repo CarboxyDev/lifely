@@ -8,13 +8,13 @@ import { AgeButton } from './AgeButton';
 
 export function GameLayout() {
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="flex h-screen flex-col overflow-hidden bg-zinc-950">
       {/* Top Navigation Bar */}
       <TopBar />
 
-      {/* Main Content Grid */}
-      <div className="mx-auto max-w-7xl p-6">
-        <div className="grid gap-6 lg:grid-cols-12">
+      {/* Main Content Grid - takes remaining height */}
+      <div className="mx-auto flex w-full max-w-7xl flex-1 overflow-hidden px-6 py-6">
+        <div className="grid w-full gap-6 lg:grid-cols-12">
           {/* Left Column - Stats (Compact) */}
           <div className="lg:col-span-3">
             <StatsCards />
@@ -30,10 +30,10 @@ export function GameLayout() {
             <QuickActions />
           </div>
         </div>
-
-        {/* Floating Age Button */}
-        <AgeButton />
       </div>
+
+      {/* Floating Age Button */}
+      <AgeButton />
     </div>
   );
 }

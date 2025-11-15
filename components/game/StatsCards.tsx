@@ -60,20 +60,46 @@ export function StatsCards() {
         </CardContent>
       </Card>
 
-      {/* Career */}
+      {/* Career & Info */}
       <Card className="border-zinc-800 bg-zinc-900">
         <CardContent className="p-4">
-          <div className="mb-3 flex items-center gap-2">
-            <Briefcase className="h-3.5 w-3.5 text-zinc-500" />
-            <div className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-              Career
-            </div>
+          <div className="mb-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
+            Overview
           </div>
-          <div>
-            <div className="text-sm font-medium text-zinc-200">{user.job.name}</div>
-            {user.job.name !== 'Unemployed' && (
-              <div className="mt-1 text-xs text-zinc-500">
-                ${user.job.salary.toLocaleString()}/mo
+          <div className="space-y-3">
+            {/* Job */}
+            <div>
+              <div className="mb-1 flex items-center gap-1.5">
+                <Briefcase className="h-3 w-3 text-zinc-500" />
+                <span className="text-xs text-zinc-500">Career</span>
+              </div>
+              <div className="text-sm font-semibold text-zinc-200">
+                {user.job.name || 'Unemployed'}
+              </div>
+              {user.job.name && user.job.name !== 'Unemployed' && (
+                <div className="mt-0.5 text-xs text-zinc-400">
+                  ${user.job.salary.toLocaleString()}/mo
+                </div>
+              )}
+              {(!user.job.name || user.job.name === 'Unemployed') && (
+                <div className="mt-0.5 text-xs text-zinc-500">Looking for work</div>
+              )}
+            </div>
+
+            {/* Education */}
+            {user.education && Object.keys(user.education.degrees).length > 0 && (
+              <div>
+                <div className="mb-1 flex items-center gap-1.5">
+                  <Brain className="h-3 w-3 text-zinc-500" />
+                  <span className="text-xs text-zinc-500">Education</span>
+                </div>
+                <div className="text-sm text-zinc-300">
+                  {Object.keys(user.education.degrees).length} degree
+                  {Object.keys(user.education.degrees).length > 1 ? 's' : ''}
+                </div>
+                <div className="mt-0.5 text-xs text-zinc-500">
+                  {Object.values(user.education.degrees)[0]?.name || 'Unknown'}
+                </div>
               </div>
             )}
           </div>
