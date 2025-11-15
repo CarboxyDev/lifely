@@ -17,6 +17,7 @@ import { randint, formatAge } from '@/lib/utils/game-utils';
 import { useState } from 'react';
 import { educationLevelNames, educationLevelDurations } from '@/lib/data/education';
 import type { Degree } from '@/lib/types';
+import { getRandomEvent } from '@/lib/data/events';
 
 export function AgeButton() {
   const [user, setUser] = useAtom(userAtom);
@@ -190,20 +191,31 @@ export function AgeButton() {
       addMessage(`Your health decreased by ${Math.abs(healthChange)}`);
     }
 
-    // Random positive events
-    const eventChance = randint(1, 10);
-    if (eventChance === 1) {
-      const events = [
-        { msg: 'You had a great day!', money: 0 },
-        { msg: 'You made a new friend', money: 0 },
-        { msg: 'You found $50 on the street', money: 50 },
-        { msg: 'You had an enjoyable conversation', money: 0 },
-      ];
-      const event = events[randint(0, events.length - 1)];
-      addMessage(event.msg);
-      if (event.money > 0) {
-        setMoney(money + event.money);
+    // Random life events
+    const randomEvent = getRandomEvent(stats, newAge, money, hasJob);
+    if (randomEvent && randint(1, 100) <= 30) { // 30% chance per month
+      addMessage(randomEvent.message);
+
+      // Apply event effects
+      if (randomEvent.effects.money) {
+        setMoney(Math.max(0, money + randomEvent.effects.money));
       }
+
+      const eventStats = { ...newStats };
+      if (randomEvent.effects.health) {
+        eventStats.health = Math.max(0, Math.min(100, eventStats.health + randomEvent.effects.health));
+      }
+      if (randomEvent.effects.morale) {
+        eventStats.morale = Math.max(0, Math.min(100, eventStats.morale + randomEvent.effects.morale));
+      }
+      if (randomEvent.effects.intellect) {
+        eventStats.intellect = Math.max(0, Math.min(100, eventStats.intellect + randomEvent.effects.intellect));
+      }
+      if (randomEvent.effects.looks) {
+        eventStats.looks = Math.max(0, Math.min(100, eventStats.looks + randomEvent.effects.looks));
+      }
+
+      setStats(eventStats);
     }
 
     // Show success animation - wait for full transition
