@@ -325,3 +325,27 @@ export interface InvestmentState {
   monthlyContribution: number; // automatic monthly investment
   retirementFund: number; // separate retirement account
 }
+
+export type AchievementCategory =
+  | 'financial'
+  | 'career'
+  | 'education'
+  | 'relationships'
+  | 'health'
+  | 'lifestyle'
+  | 'special';
+
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  category: AchievementCategory;
+  icon: string;
+  unlockedAt: number; // age in months when unlocked
+  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+}
+
+export interface AchievementState {
+  unlocked: Achievement[];
+  totalPoints: number;
+}

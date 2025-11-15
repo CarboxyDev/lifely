@@ -15,6 +15,7 @@ import {
   vehiclesAtom,
   creditAtom,
   investmentsAtom,
+  achievementsAtom,
 } from '@/lib/atoms/game-state';
 import { Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -26,6 +27,7 @@ import type { Degree } from '@/lib/types';
 import { getRandomEvent } from '@/lib/data/events';
 import { calculateVehicleValue, calculateMonthlyVehicleCost } from '@/lib/data/vehicles';
 import { investmentOptions, simulateMonthlyPriceChange } from '@/lib/data/investments';
+import { checkAndUnlockAchievements } from '@/lib/utils/achievements';
 
 export function AgeButton() {
   const [user, setUser] = useAtom(userAtom);
@@ -40,6 +42,7 @@ export function AgeButton() {
   const [vehicles, setVehicles] = useAtom(vehiclesAtom);
   const [credit, setCredit] = useAtom(creditAtom);
   const [investments, setInvestments] = useAtom(investmentsAtom);
+  const [achievements, setAchievements] = useAtom(achievementsAtom);
   const [isAging, setIsAging] = useState(false);
 
   const handleAgeUp = async () => {
@@ -434,6 +437,33 @@ export function AgeButton() {
         portfolio: updatedPortfolio,
         totalValue: newTotalValue,
         retirementFund: newRetirementFund,
+      });
+    }
+
+    // Check for newly unlocked achievements
+    const achievementCheck = checkAndUnlockAchievements({
+      user,
+      stats,
+      money: currentMoney,
+      bankBalance: bank.balance,
+      achievements,
+      relationships,
+      credit,
+      investments,
+      vehicles,
+      housing,
+    });
+
+    if (achievementCheck.newAchievements.length > 0) {
+      setAchievements(achievementCheck.updatedState);
+
+      // Show toast for each new achievement
+      achievementCheck.newAchievements.forEach((achievement) => {
+        toast.success(`Achievement Unlocked: ${achievement.name}`, {
+          description: achievement.description,
+          duration: 5000,
+        });
+        addMessage(`🏆 Unlocked: ${achievement.name}`);
       });
     }
 
