@@ -179,3 +179,37 @@ export interface SocialInteraction {
   timestamp: number;
   description: string;
 }
+
+export type SkillCategory =
+  | 'technical'
+  | 'creative'
+  | 'business'
+  | 'social'
+  | 'physical'
+  | 'academic';
+
+export interface Skill {
+  id: string;
+  name: string;
+  category: SkillCategory;
+  level: number; // 0-100
+  experience: number; // Progress to next level
+}
+
+export interface SkillsState {
+  skills: Skill[];
+  totalSkillPoints: number;
+}
+
+export interface Training {
+  id: string;
+  name: string;
+  skillId: string;
+  cost: number;
+  duration: number; // in months
+  experienceGain: number;
+  requirements: {
+    minLevel?: number;
+    minIntellect?: number;
+  };
+}

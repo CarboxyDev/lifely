@@ -7,7 +7,7 @@ import {
   Landmark,
   User,
   Dumbbell,
-  Settings,
+  Target,
   Home,
   Car,
   Heart,
@@ -20,6 +20,7 @@ import { BankDialog } from './dialogs/BankDialog';
 import { ActivitiesDialog } from './dialogs/ActivitiesDialog';
 import { EducationDialog } from './dialogs/EducationDialog';
 import { RelationshipsDialog } from './dialogs/RelationshipsDialog';
+import { SkillsDialog } from './dialogs/SkillsDialog';
 
 export function QuickActions() {
   const [jobsOpen, setJobsOpen] = useState(false);
@@ -28,6 +29,7 @@ export function QuickActions() {
   const [activitiesOpen, setActivitiesOpen] = useState(false);
   const [educationOpen, setEducationOpen] = useState(false);
   const [relationshipsOpen, setRelationshipsOpen] = useState(false);
+  const [skillsOpen, setSkillsOpen] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
 
   // Frequently accessed - full cards
@@ -94,10 +96,10 @@ export function QuickActions() {
       color: '#ef4444',
     },
     {
-      icon: Settings,
-      label: 'Settings',
-      onClick: () => {},
-      color: '#64748b',
+      icon: Target,
+      label: 'Skills',
+      onClick: () => setSkillsOpen(true),
+      color: '#8b5cf6',
     },
   ];
 
@@ -179,6 +181,7 @@ export function QuickActions() {
       <ActivitiesDialog open={activitiesOpen} onOpenChange={setActivitiesOpen} />
       <EducationDialog open={educationOpen} onOpenChange={setEducationOpen} />
       <RelationshipsDialog open={relationshipsOpen} onOpenChange={setRelationshipsOpen} />
+      <SkillsDialog open={skillsOpen} onOpenChange={setSkillsOpen} />
     </>
   );
 }
