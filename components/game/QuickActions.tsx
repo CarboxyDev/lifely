@@ -23,6 +23,7 @@ import { RelationshipsDialog } from './dialogs/RelationshipsDialog';
 import { SkillsDialog } from './dialogs/SkillsDialog';
 import { HealthDialog } from './dialogs/HealthDialog';
 import { HousingDialog } from './dialogs/HousingDialog';
+import { VehiclesDialog } from './dialogs/VehiclesDialog';
 
 export function QuickActions() {
   const [jobsOpen, setJobsOpen] = useState(false);
@@ -34,6 +35,7 @@ export function QuickActions() {
   const [skillsOpen, setSkillsOpen] = useState(false);
   const [healthOpen, setHealthOpen] = useState(false);
   const [housingOpen, setHousingOpen] = useState(false);
+  const [vehiclesOpen, setVehiclesOpen] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
 
   // Frequently accessed - full cards
@@ -90,7 +92,7 @@ export function QuickActions() {
     {
       icon: Car,
       label: 'Vehicles',
-      onClick: () => {},
+      onClick: () => setVehiclesOpen(true),
       color: '#f97316',
     },
     {
@@ -188,6 +190,7 @@ export function QuickActions() {
       <SkillsDialog open={skillsOpen} onOpenChange={setSkillsOpen} />
       <HealthDialog open={healthOpen} onOpenChange={setHealthOpen} />
       <HousingDialog open={housingOpen} onOpenChange={setHousingOpen} />
+      <VehiclesDialog open={vehiclesOpen} onOpenChange={setVehiclesOpen} />
     </>
   );
 }

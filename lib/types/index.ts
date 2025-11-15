@@ -251,3 +251,34 @@ export interface Training {
     minIntellect?: number;
   };
 }
+
+export type VehicleType =
+  | 'bicycle'
+  | 'motorcycle'
+  | 'sedan'
+  | 'suv'
+  | 'truck'
+  | 'sports'
+  | 'luxury'
+  | 'supercar';
+
+export interface Vehicle {
+  id: string;
+  name: string;
+  type: VehicleType;
+  price: number;
+  maintenanceCost: number; // per month
+  fuelCost: number; // per month
+  depreciation: number; // percentage per year
+  reliability: number; // 0-100
+  currentValue: number;
+  monthsOwned: number;
+  mileage: number;
+}
+
+export interface VehicleState {
+  currentVehicle: Vehicle | null;
+  vehicleHistory: Vehicle[];
+  totalMilesDriven: number;
+  maintenanceScheduled: boolean;
+}

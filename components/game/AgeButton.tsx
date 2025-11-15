@@ -12,6 +12,7 @@ import {
   healthAtom,
   housingAtom,
   bankAtom,
+  vehiclesAtom,
 } from '@/lib/atoms/game-state';
 import { Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,6 +22,7 @@ import { useState } from 'react';
 import { educationLevelNames, educationLevelDurations } from '@/lib/data/education';
 import type { Degree } from '@/lib/types';
 import { getRandomEvent } from '@/lib/data/events';
+import { calculateVehicleValue, calculateMonthlyVehicleCost } from '@/lib/data/vehicles';
 
 export function AgeButton() {
   const [user, setUser] = useAtom(userAtom);
@@ -32,6 +34,7 @@ export function AgeButton() {
   const [health] = useAtom(healthAtom);
   const [housing] = useAtom(housingAtom);
   const [bank, setBank] = useAtom(bankAtom);
+  const [vehicles, setVehicles] = useAtom(vehiclesAtom);
   const [isAging, setIsAging] = useState(false);
 
   const handleAgeUp = async () => {
@@ -70,6 +73,15 @@ export function AgeButton() {
       monthlyExpenses += housing.currentProperty.monthlyMortgage;
     } else if (housing.isRenting && housing.monthlyRent > 0) {
       monthlyExpenses += housing.monthlyRent;
+    }
+
+    // Vehicle costs (maintenance + fuel)
+    if (vehicles.currentVehicle) {
+      const vehicleCost = calculateMonthlyVehicleCost(
+        vehicles.currentVehicle.maintenanceCost,
+        vehicles.currentVehicle.fuelCost
+      );
+      monthlyExpenses += vehicleCost;
     }
 
     // Deduct expenses
@@ -264,6 +276,41 @@ export function AgeButton() {
       }
 
       setStats(eventStats);
+    }
+
+    // Vehicle progression
+    if (vehicles.currentVehicle) {
+      const monthsOwned = vehicles.currentVehicle.monthsOwned + 1;
+      const mileageIncrease = randint(800, 1500); // Monthly mileage
+      const newMileage = vehicles.currentVehicle.mileage + mileageIncrease;
+
+      // Calculate depreciation
+      const newValue = calculateVehicleValue(
+        vehicles.currentVehicle.price,
+        monthsOwned,
+        vehicles.currentVehicle.depreciation
+      );
+
+      // Reliability decay over time
+      const reliabilityDecay = randint(0, 2);
+      const newReliability = Math.max(40, vehicles.currentVehicle.reliability - reliabilityDecay);
+
+      setVehicles({
+        ...vehicles,
+        currentVehicle: {
+          ...vehicles.currentVehicle,
+          monthsOwned,
+          mileage: newMileage,
+          currentValue: newValue,
+          reliability: newReliability,
+        },
+        totalMilesDriven: vehicles.totalMilesDriven + mileageIncrease,
+      });
+
+      // Notify if reliability is low
+      if (newReliability < 60 && vehicles.currentVehicle.reliability >= 60) {
+        addMessage(`Your ${vehicles.currentVehicle.name} needs maintenance`);
+      }
     }
 
     // Show success animation - wait for full transition
