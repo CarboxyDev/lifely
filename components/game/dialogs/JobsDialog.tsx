@@ -25,9 +25,9 @@ export function JobsDialog({ open, onOpenChange }: JobsDialogProps) {
   const [user, setUser] = useAtom(userAtom);
   const [, setHasJob] = useAtom(hasJobAtom);
   const [, addMessage] = useAtom(addConsoleMessageAtom);
-  const [selectedJobs] = useState(() => {
+  const [selectedJobs] = useState<string[]>(() => {
     const jobNames = Object.keys(allJobs);
-    const selected = [];
+    const selected: string[] = [];
     for (let i = 0; i < 6 && i < jobNames.length; i++) {
       const randomJob = jobNames[randint(0, jobNames.length - 1)];
       if (!selected.includes(randomJob)) {

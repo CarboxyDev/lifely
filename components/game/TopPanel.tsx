@@ -5,7 +5,6 @@ import { moneyAtom, userAtom, bankAtom } from '@/lib/atoms/game-state';
 import { formatCurrency, formatAge } from '@/lib/utils/game-utils';
 import { motion } from 'framer-motion';
 import { DollarSign, Calendar } from 'lucide-react';
-import { Card } from '@/components/ui/card';
 import { useState } from 'react';
 
 export function TopPanel() {

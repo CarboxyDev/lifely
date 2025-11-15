@@ -1,7 +1,7 @@
 // Name generator utility
 import { randomChoice } from './game-utils';
 import { namesByRegion } from '../data/names';
-import { getRegionForCountry, type RegionType } from '../data/countries';
+import { getRegionForCountry } from '../data/countries';
 
 export function generateRandomName(country: string): string {
   const region = getRegionForCountry(country);

@@ -146,7 +146,7 @@ export function ActivitiesDialog({ open, onOpenChange }: ActivitiesDialogProps) 
           </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-4 py-4">
-          {activities.map((activity, index) => (
+          {activities.map((activity) => (
             <Button
               key={activity.label}
               onClick={activity.onClick}

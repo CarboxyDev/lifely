@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useAtom } from 'jotai';
-import { userAtom, netWorthAtom, moneyAtom, bankAtom } from '@/lib/atoms/game-state';
+import { userAtom, netWorthAtom } from '@/lib/atoms/game-state';
 import { formatCurrency, formatAge } from '@/lib/utils/game-utils';
 import { Separator } from '@/components/ui/separator';
 

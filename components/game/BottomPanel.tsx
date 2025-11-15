@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useAtom } from 'jotai';
 import { alertCountAtom } from '@/lib/atoms/game-state';
-import { Rocket, Zap, Calendar, AlertTriangle, Settings } from 'lucide-react';
+import { Rocket, Zap, AlertTriangle, Settings } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ActionsDialog } from './dialogs/ActionsDialog';

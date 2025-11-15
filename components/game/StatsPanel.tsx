@@ -38,9 +38,11 @@ function StatItem({ label, value, icon, color, index }: StatItemProps) {
       <Progress
         value={value}
         className="h-2 bg-zinc-800"
-        style={{
-          ['--progress-background' as any]: getStatColor(value),
-        }}
+        style={
+          {
+            '--progress-background': getStatColor(value),
+          } as React.CSSProperties
+        }
       />
     </motion.div>
   );

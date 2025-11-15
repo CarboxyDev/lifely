@@ -108,7 +108,7 @@ export function randomChance(percentage: number): boolean {
 /**
  * Save game state to localStorage
  */
-export function saveGame(state: any): void {
+export function saveGame(state: unknown): void {
   try {
     localStorage.setItem('lifely-save', JSON.stringify(state));
     localStorage.setItem('lifely-save-date', new Date().toISOString());
@@ -120,7 +120,7 @@ export function saveGame(state: any): void {
 /**
  * Load game state from localStorage
  */
-export function loadGame(): any | null {
+export function loadGame(): unknown {
   try {
     const saved = localStorage.getItem('lifely-save');
     return saved ? JSON.parse(saved) : null;

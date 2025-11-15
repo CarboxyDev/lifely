@@ -15,6 +15,7 @@ export default function Home() {
     if (!user.name) {
       initGame();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return user.name ? <GameLayout /> : <WelcomeScreen />;
