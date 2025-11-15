@@ -11,6 +11,7 @@ import type {
   Disease,
   RelationshipState,
   SkillsState,
+  HealthState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -86,6 +87,15 @@ const initialSkills: SkillsState = {
   totalSkillPoints: 0,
 };
 
+const initialHealth: HealthState = {
+  currentDiseases: [],
+  hasInsurance: false,
+  insuranceCost: 0,
+  lastCheckup: 0,
+  fitnessLevel: randint(50, 80),
+  mentalHealth: randint(60, 90),
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -93,6 +103,7 @@ export const statsAtom = atomWithStorage<GameStats>('lifely-stats', initialStats
 export const studentAtom = atomWithStorage<Student>('lifely-student', initialStudent);
 export const relationshipsAtom = atomWithStorage<RelationshipState>('lifely-relationships', initialRelationships);
 export const skillsAtom = atomWithStorage<SkillsState>('lifely-skills', initialSkills);
+export const healthAtom = atomWithStorage<HealthState>('lifely-health', initialHealth);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -148,6 +159,11 @@ export const initializeGameAtom = atom(null, (get, set) => {
   set(studentAtom, initialStudent);
   set(relationshipsAtom, initialRelationships);
   set(skillsAtom, initialSkills);
+  set(healthAtom, {
+    ...initialHealth,
+    fitnessLevel: randint(50, 80),
+    mentalHealth: randint(60, 90),
+  });
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);

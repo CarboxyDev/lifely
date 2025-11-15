@@ -105,10 +105,31 @@ export interface ConsoleMessage {
 }
 
 export interface Disease {
+  id: string;
   name: string;
-  severity: number;
-  duration: number;
-  monthsActive: number;
+  severity: number; // 1-10
+  duration: number; // months until recovery
+  monthsActive: number; // how long you've had it
+  treatmentCost: number;
+  isChronic: boolean;
+}
+
+export interface HealthState {
+  currentDiseases: Disease[];
+  hasInsurance: boolean;
+  insuranceCost: number;
+  lastCheckup: number; // age in months
+  fitnessLevel: number; // 0-100
+  mentalHealth: number; // 0-100
+}
+
+export interface MedicalTreatment {
+  id: string;
+  name: string;
+  cost: number;
+  healthRestoration: number;
+  description: string;
+  requiresHospital: boolean;
 }
 
 export interface JobData {

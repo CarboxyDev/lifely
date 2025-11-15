@@ -21,6 +21,7 @@ import { ActivitiesDialog } from './dialogs/ActivitiesDialog';
 import { EducationDialog } from './dialogs/EducationDialog';
 import { RelationshipsDialog } from './dialogs/RelationshipsDialog';
 import { SkillsDialog } from './dialogs/SkillsDialog';
+import { HealthDialog } from './dialogs/HealthDialog';
 
 export function QuickActions() {
   const [jobsOpen, setJobsOpen] = useState(false);
@@ -30,6 +31,7 @@ export function QuickActions() {
   const [educationOpen, setEducationOpen] = useState(false);
   const [relationshipsOpen, setRelationshipsOpen] = useState(false);
   const [skillsOpen, setSkillsOpen] = useState(false);
+  const [healthOpen, setHealthOpen] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
 
   // Frequently accessed - full cards
@@ -92,7 +94,7 @@ export function QuickActions() {
     {
       icon: Heart,
       label: 'Health',
-      onClick: () => {},
+      onClick: () => setHealthOpen(true),
       color: '#ef4444',
     },
     {
@@ -182,6 +184,7 @@ export function QuickActions() {
       <EducationDialog open={educationOpen} onOpenChange={setEducationOpen} />
       <RelationshipsDialog open={relationshipsOpen} onOpenChange={setRelationshipsOpen} />
       <SkillsDialog open={skillsOpen} onOpenChange={setSkillsOpen} />
+      <HealthDialog open={healthOpen} onOpenChange={setHealthOpen} />
     </>
   );
 }
