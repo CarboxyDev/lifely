@@ -18,6 +18,23 @@ export interface Asset {
   purchaseDate: number; // age in months
 }
 
+export interface Property {
+  id: string;
+  name: string;
+  type: 'apartment' | 'house' | 'condo' | 'mansion';
+  price: number;
+  monthlyMortgage: number;
+  monthsOwned: number;
+  appreciation: number; // percentage per year
+}
+
+export interface HousingState {
+  currentProperty: Property | null;
+  isRenting: boolean;
+  monthlyRent: number;
+  propertyHistory: Property[];
+}
+
 export type EducationLevel =
   | 'none'
   | 'elementary'

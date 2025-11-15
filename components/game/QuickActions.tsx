@@ -22,6 +22,7 @@ import { EducationDialog } from './dialogs/EducationDialog';
 import { RelationshipsDialog } from './dialogs/RelationshipsDialog';
 import { SkillsDialog } from './dialogs/SkillsDialog';
 import { HealthDialog } from './dialogs/HealthDialog';
+import { HousingDialog } from './dialogs/HousingDialog';
 
 export function QuickActions() {
   const [jobsOpen, setJobsOpen] = useState(false);
@@ -32,6 +33,7 @@ export function QuickActions() {
   const [relationshipsOpen, setRelationshipsOpen] = useState(false);
   const [skillsOpen, setSkillsOpen] = useState(false);
   const [healthOpen, setHealthOpen] = useState(false);
+  const [housingOpen, setHousingOpen] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
 
   // Frequently accessed - full cards
@@ -82,7 +84,7 @@ export function QuickActions() {
     {
       icon: Home,
       label: 'Real Estate',
-      onClick: () => {},
+      onClick: () => setHousingOpen(true),
       color: '#14b8a6',
     },
     {
@@ -185,6 +187,7 @@ export function QuickActions() {
       <RelationshipsDialog open={relationshipsOpen} onOpenChange={setRelationshipsOpen} />
       <SkillsDialog open={skillsOpen} onOpenChange={setSkillsOpen} />
       <HealthDialog open={healthOpen} onOpenChange={setHealthOpen} />
+      <HousingDialog open={housingOpen} onOpenChange={setHousingOpen} />
     </>
   );
 }
