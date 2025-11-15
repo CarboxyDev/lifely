@@ -8,7 +8,7 @@ import { AgeButton } from './AgeButton';
 
 export function GameLayout() {
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-zinc-950">
+    <div className="flex h-screen flex-col overflow-hidden bg-background">
       {/* Top Navigation Bar */}
       <TopBar />
 

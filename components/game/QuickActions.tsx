@@ -107,7 +107,7 @@ export function QuickActions() {
             return (
               <Card
                 key={action.label}
-                className="group cursor-pointer border-zinc-800 bg-zinc-900 transition-all hover:border-zinc-700 hover:bg-zinc-800"
+                className="group cursor-pointer border-border bg-card transition-all hover:border-accent hover:bg-accent/50"
                 onClick={action.onClick}
               >
                 <CardContent className="px-3 py-2">
@@ -119,10 +119,10 @@ export function QuickActions() {
                       <Icon className="h-5 w-5" style={{ color: action.color }} />
                     </div>
                     <div className="flex-1">
-                      <div className="text-sm font-semibold text-zinc-100">
+                      <div className="text-sm font-semibold text-foreground">
                         {action.label}
                       </div>
-                      <div className="text-xs text-zinc-500">
+                      <div className="text-xs text-muted-foreground">
                         {action.description}
                       </div>
                     </div>
@@ -136,10 +136,10 @@ export function QuickActions() {
         {/* Divider - Fixed height to prevent layout shift */}
         <div className="relative h-5">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-zinc-800"></div>
+            <div className="w-full border-t border-border"></div>
           </div>
           <div className="relative flex justify-center">
-            <span className="bg-zinc-950 px-2 text-xs text-zinc-400">
+            <span className="bg-background px-2 text-xs text-muted-foreground">
               {hoveredAction || '\u00A0'}
             </span>
           </div>
@@ -155,7 +155,7 @@ export function QuickActions() {
                 onClick={action.onClick}
                 onMouseEnter={() => setHoveredAction(action.label)}
                 onMouseLeave={() => setHoveredAction(null)}
-                className="group flex aspect-square cursor-pointer items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 transition-all hover:border-zinc-700 hover:bg-zinc-800"
+                className="group flex aspect-square cursor-pointer items-center justify-center rounded-lg border border-border bg-card transition-all hover:border-accent hover:bg-accent/50"
                 aria-label={action.label}
               >
                 <Icon

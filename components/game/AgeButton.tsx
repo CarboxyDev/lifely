@@ -10,7 +10,7 @@ import {
   addConsoleMessageAtom,
 } from '@/lib/atoms/game-state';
 import { Calendar, ArrowRight, Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import { randint, formatAge } from '@/lib/utils/game-utils';
 import { useState } from 'react';
@@ -26,6 +26,9 @@ export function AgeButton() {
   const handleAgeUp = async () => {
     setIsAging(true);
 
+    // Wait for transition to start
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
     // Age up by 1 month
     const newAge = user.age + 1;
     setUser({ ...user, age: newAge });
@@ -33,7 +36,7 @@ export function AgeButton() {
     // Pay salary if employed
     if (hasJob && user.job.salary > 0) {
       setMoney(money + user.job.salary);
-      addMessage(`💰 Earned $${user.job.salary} from your job`);
+      addMessage(`Earned $${user.job.salary} from your job`);
       setUser({
         ...user,
         age: newAge,
@@ -54,17 +57,17 @@ export function AgeButton() {
     setStats(newStats);
 
     if (healthChange < -2) {
-      addMessage(`⚠️ Your health decreased by ${Math.abs(healthChange)}`);
+      addMessage(`Your health decreased by ${Math.abs(healthChange)}`);
     }
 
     // Random positive events
     const eventChance = randint(1, 10);
     if (eventChance === 1) {
       const events = [
-        { msg: '✨ You had a great day!', money: 0 },
-        { msg: '🤝 You made a new friend', money: 0 },
-        { msg: '💵 You found $50 on the street', money: 50 },
-        { msg: '😊 You had an enjoyable conversation', money: 0 },
+        { msg: 'You had a great day!', money: 0 },
+        { msg: 'You made a new friend', money: 0 },
+        { msg: 'You found $50 on the street', money: 50 },
+        { msg: 'You had an enjoyable conversation', money: 0 },
       ];
       const event = events[randint(0, events.length - 1)];
       addMessage(event.msg);
@@ -73,69 +76,103 @@ export function AgeButton() {
       }
     }
 
-    // Show success animation
+    // Show success animation - wait for full transition
     setTimeout(() => {
       setIsAging(false);
       toast.success('A month has passed', {
         description: formatAge(newAge),
       });
-    }, 300);
+    }, 2500);
   };
 
   return (
-    <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2">
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-      >
-        <Button
-          onClick={handleAgeUp}
-          disabled={isAging}
-          className="group relative h-14 cursor-pointer gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-teal-600 to-cyan-600 px-8 text-base font-bold text-white shadow-2xl shadow-teal-900/50 transition-all hover:from-teal-500 hover:to-cyan-500 hover:shadow-teal-900/70 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {/* Shimmer effect */}
+    <>
+      {/* Age Transition Overlay */}
+      <AnimatePresence>
+        {isAging && (
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-            initial={{ x: '-100%' }}
-            animate={{ x: '200%' }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-          />
-
-          {/* Content */}
-          <div className="relative z-10 flex items-center gap-3">
-            <motion.div
-              animate={isAging ? { rotate: 360 } : { rotate: 0 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-            >
-              <Calendar className="h-5 w-5" />
-            </motion.div>
-
-            <span className="tracking-wide">Age 1 Month</span>
-
-            <motion.div
-              animate={
-                isAging
-                  ? { x: [0, 4, 0] }
-                  : { x: 0 }
-              }
-              transition={{ repeat: isAging ? Infinity : 0, duration: 0.8 }}
-            >
-              <ArrowRight className="h-5 w-5" />
-            </motion.div>
-          </div>
-
-          {/* Sparkles on hover */}
-          <motion.div
-            className="absolute right-3 top-1/2 -translate-y-1/2"
-            initial={{ opacity: 0, scale: 0 }}
-            whileHover={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 z-40 flex items-center justify-center bg-background/80 backdrop-blur-md"
           >
-            <Sparkles className="h-4 w-4 text-yellow-300" />
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="flex flex-col items-center gap-4"
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, ease: 'linear', repeat: Infinity }}
+              >
+                <Calendar className="h-16 w-16 text-foreground" />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-center"
+              >
+                <div className="text-2xl font-bold text-foreground">Time passes...</div>
+                <div className="mt-2 text-muted-foreground">One month forward</div>
+              </motion.div>
+            </motion.div>
           </motion.div>
-        </Button>
-      </motion.div>
-    </div>
+        )}
+      </AnimatePresence>
+
+      <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2">
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+        >
+          <Button
+            onClick={handleAgeUp}
+            disabled={isAging}
+            className="group relative h-14 cursor-pointer gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-teal-600 to-cyan-600 px-8 text-base font-bold text-white shadow-2xl shadow-teal-900/50 transition-all hover:from-teal-500 hover:to-cyan-500 hover:shadow-teal-900/70 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {/* Shimmer effect */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              initial={{ x: '-100%' }}
+              animate={{ x: '200%' }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+            />
+
+            {/* Content */}
+            <div className="relative z-10 flex items-center gap-3">
+              <motion.div
+                animate={isAging ? { rotate: 360 } : { rotate: 0 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+              >
+                <Calendar className="h-5 w-5" />
+              </motion.div>
+
+              <span className="tracking-wide">Age 1 Month</span>
+
+              <motion.div
+                animate={isAging ? { x: [0, 4, 0] } : { x: 0 }}
+                transition={{ repeat: isAging ? Infinity : 0, duration: 0.8 }}
+              >
+                <ArrowRight className="h-5 w-5" />
+              </motion.div>
+            </div>
+
+            {/* Sparkles on hover */}
+            <motion.div
+              className="absolute right-3 top-1/2 -translate-y-1/2"
+              initial={{ opacity: 0, scale: 0 }}
+              whileHover={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Sparkles className="h-4 w-4 text-yellow-300" />
+            </motion.div>
+          </Button>
+        </motion.div>
+      </div>
+    </>
   );
 }

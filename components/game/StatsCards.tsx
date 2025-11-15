@@ -26,9 +26,9 @@ export function StatsCards() {
   return (
     <div className="space-y-4">
       {/* Stats */}
-      <Card className="border-zinc-800 bg-zinc-900">
+      <Card className="border-border bg-card">
         <CardContent className="p-4">
-          <div className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
+          <div className="mb-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Attributes
           </div>
           <div className="space-y-3.5">
@@ -46,11 +46,11 @@ export function StatsCards() {
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
                       <Icon className="h-3.5 w-3.5" style={{ color: stat.color }} />
-                      <span className="text-xs text-zinc-400">{stat.label}</span>
+                      <span className="text-xs text-muted-foreground">{stat.label}</span>
                     </div>
-                    <span className="text-sm font-semibold text-zinc-200">{value}</span>
+                    <span className="text-sm font-semibold text-foreground">{value}</span>
                   </div>
-                  <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-zinc-800">
+                  <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted">
                     <motion.div
                       className="h-full rounded-full"
                       style={{ backgroundColor: stat.color }}
@@ -67,42 +67,42 @@ export function StatsCards() {
       </Card>
 
       {/* Overview */}
-      <Card className="border-zinc-800 bg-zinc-900">
+      <Card className="border-border bg-card">
         <CardContent className="p-4">
-          <div className="mb-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
+          <div className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Overview
           </div>
           <div className="space-y-3">
             {/* Location */}
             <div className="flex items-start gap-2">
-              <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-zinc-500" />
+              <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
               <div className="flex-1">
-                <div className="text-xs text-zinc-500">Location</div>
-                <div className="mt-0.5 text-sm font-medium text-zinc-200">{user.country}</div>
+                <div className="text-xs text-muted-foreground">Location</div>
+                <div className="mt-0.5 text-sm font-medium text-foreground">{user.country}</div>
               </div>
             </div>
 
             {/* Career */}
             <div className="flex items-start gap-2">
-              <Briefcase className="mt-0.5 h-3.5 w-3.5 shrink-0 text-zinc-500" />
+              <Briefcase className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
               <div className="flex-1">
-                <div className="text-xs text-zinc-500">Career</div>
-                <div className="mt-0.5 text-sm font-medium text-zinc-200">
+                <div className="text-xs text-muted-foreground">Career</div>
+                <div className="mt-0.5 text-sm font-medium text-foreground">
                   {user.job.name || 'Unemployed'}
                 </div>
                 {user.job.name && user.job.name !== 'Unemployed' && (
-                  <div className="mt-0.5 flex items-center gap-2 text-xs text-zinc-400">
+                  <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
                     <span>${user.job.salary.toLocaleString()}/mo</span>
                     {user.job.duration > 0 && (
                       <>
-                        <span className="text-zinc-600">•</span>
+                        <span className="text-muted">•</span>
                         <span>{formatAge(user.job.duration)}</span>
                       </>
                     )}
                   </div>
                 )}
                 {(!user.job.name || user.job.name === 'Unemployed') && (
-                  <div className="mt-0.5 text-xs italic text-zinc-500">Looking for work</div>
+                  <div className="mt-0.5 text-xs italic text-muted-foreground">Looking for work</div>
                 )}
               </div>
             </div>
@@ -110,13 +110,13 @@ export function StatsCards() {
             {/* Education */}
             {hasEducation && latestDegree && (
               <div className="flex items-start gap-2">
-                <GraduationCap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-zinc-500" />
+                <GraduationCap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                 <div className="flex-1">
-                  <div className="text-xs text-zinc-500">Education</div>
-                  <div className="mt-0.5 text-sm font-medium text-zinc-200">
+                  <div className="text-xs text-muted-foreground">Education</div>
+                  <div className="mt-0.5 text-sm font-medium text-foreground">
                     {latestDegree.name}
                   </div>
-                  <div className="mt-0.5 text-xs text-zinc-400">
+                  <div className="mt-0.5 text-xs text-muted-foreground">
                     GPA: {latestDegree.cgpa.toFixed(2)} ({latestDegree.grade})
                   </div>
                 </div>
@@ -126,13 +126,13 @@ export function StatsCards() {
             {/* Assets */}
             {user.assets.length > 0 && (
               <div className="flex items-start gap-2">
-                <Home className="mt-0.5 h-3.5 w-3.5 shrink-0 text-zinc-500" />
+                <Home className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                 <div className="flex-1">
-                  <div className="text-xs text-zinc-500">Assets</div>
-                  <div className="mt-0.5 text-sm font-medium text-zinc-200">
+                  <div className="text-xs text-muted-foreground">Assets</div>
+                  <div className="mt-0.5 text-sm font-medium text-foreground">
                     {user.assets.length} item{user.assets.length !== 1 ? 's' : ''}
                   </div>
-                  <div className="mt-0.5 text-xs text-zinc-400">
+                  <div className="mt-0.5 text-xs text-muted-foreground">
                     Worth ${user.assets.reduce((sum, a) => sum + a.value, 0).toLocaleString()}
                   </div>
                 </div>
@@ -140,9 +140,9 @@ export function StatsCards() {
             )}
 
             {/* Net Worth */}
-            <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-2.5">
+            <div className="rounded-lg border border-border bg-muted/50 p-2.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-zinc-500">Net Worth</span>
+                <span className="text-xs text-muted-foreground">Net Worth</span>
                 <span className="text-sm font-bold text-emerald-400">
                   ${netWorth.toLocaleString()}
                 </span>

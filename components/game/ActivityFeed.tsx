@@ -127,9 +127,9 @@ export function ActivityFeed() {
   const [messages] = useAtom(consoleMessagesAtom);
 
   return (
-    <Card className="flex h-full flex-col border-zinc-800 bg-zinc-900">
-      <CardHeader className="shrink-0 border-b border-zinc-800 pb-3">
-        <CardTitle className="flex items-center gap-2 text-sm font-semibold text-zinc-100">
+    <Card className="flex h-full flex-col border-border bg-card">
+      <CardHeader className="shrink-0 border-b border-border pb-3">
+        <CardTitle className="flex items-center gap-2 text-sm font-semibold text-foreground">
           <Activity className="h-4 w-4" />
           Life Activity
         </CardTitle>
@@ -138,7 +138,7 @@ export function ActivityFeed() {
         <ScrollArea className="h-full pr-3">
           {messages.length === 0 ? (
             <div className="flex h-full items-center justify-center py-12 text-center">
-              <div className="text-sm text-zinc-500">
+              <div className="text-sm text-muted-foreground">
                 Your life story will appear here...
               </div>
             </div>
@@ -157,12 +157,12 @@ export function ActivityFeed() {
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ delay: index * 0.02 }}
                     >
-                      <div className="group flex items-start gap-2.5 rounded-lg border border-zinc-800/50 bg-zinc-900/30 p-2.5 transition-colors hover:border-zinc-700 hover:bg-zinc-800/50">
+                      <div className="group flex items-start gap-2.5 rounded-lg border border-border bg-muted/30 p-2.5 transition-colors hover:border-accent hover:bg-accent/20">
                         <div className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded ${styleClass}`}>
                           <Icon className="h-3 w-3" />
                         </div>
                         <div className="flex-1 pt-0.5">
-                          <p className="text-sm leading-relaxed text-zinc-300">
+                          <p className="text-sm leading-relaxed text-card-foreground">
                             {msg.message}
                           </p>
                         </div>
