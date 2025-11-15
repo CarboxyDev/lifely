@@ -6,6 +6,9 @@ import { WelcomeScreen } from '@/components/game/WelcomeScreen';
 import { useAtom } from 'jotai';
 import { userAtom, initializeGameAtom } from '@/lib/atoms/game-state';
 
+// Force dynamic rendering since we use client-side localStorage
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [user] = useAtom(userAtom);
