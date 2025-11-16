@@ -521,9 +521,10 @@ export const isStudentAtom = atomWithStorage<boolean>('lifely-isStudent', false)
 export const isJailedAtom = atomWithStorage<boolean>('lifely-isJailed', false);
 export const hasJobAtom = atomWithStorage<boolean>('lifely-hasJob', false);
 
-// UI state (not persisted)
+// UI state
 export const alertsAtom = atom<Alert[]>([]);
-export const consoleMessagesAtom = atom<ConsoleMessage[]>([]);
+export const consoleMessagesAtom = atomWithStorage<ConsoleMessage[]>('lifely-console-messages', []);
+export const activityFeedPageAtom = atomWithStorage<number>('lifely-activity-page', 0);
 export const diseasesAtom = atom<Record<string, Disease>>({});
 
 // Computed atoms
@@ -658,8 +659,8 @@ export const addConsoleMessageAtom = atom(null, (get, set, message: string) => {
     timestamp: Date.now(),
   };
 
-  // Keep only last 12 messages
-  const updatedMessages = [...messages, newMessage].slice(-12);
+  // Keep all messages - we have pagination now
+  const updatedMessages = [...messages, newMessage];
   set(consoleMessagesAtom, updatedMessages);
 });
 

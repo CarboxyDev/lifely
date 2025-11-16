@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useAtom } from 'jotai';
-import { consoleMessagesAtom, calendarAtom } from '@/lib/atoms/game-state';
+import { consoleMessagesAtom, calendarAtom, activityFeedPageAtom } from '@/lib/atoms/game-state';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
@@ -134,7 +134,7 @@ const ITEMS_PER_PAGE = 12;
 export function ActivityFeed() {
   const [messages] = useAtom(consoleMessagesAtom);
   const [calendar] = useAtom(calendarAtom);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useAtom(activityFeedPageAtom);
   const [showDateChange, setShowDateChange] = useState(false);
   const previousDayRef = useRef(calendar.ageInDays);
 
@@ -173,73 +173,47 @@ export function ActivityFeed() {
   };
 
   return (
-    <Card className="flex h-[calc(100vh-240px)] flex-col border-border bg-card">
-      <CardHeader className="shrink-0 border-b border-border px-4 py-1.5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 relative">
-            <Calendar className="h-4 w-4 text-foreground" />
-            <CardTitle className="text-sm font-semibold text-foreground">
-              {formatDateWithYear(calendar.currentDate)}
-            </CardTitle>
+    <Card className="flex h-[calc(100vh-240px)] flex-col border-border bg-card relative">
+      <CardHeader className="shrink-0 border-b border-border px-2.5 py-1">
+        <div className="flex items-center gap-1.5 relative">
+          <Calendar className="h-3 w-3 text-muted-foreground" />
+          <CardTitle className="text-[11px] font-medium text-foreground">
+            {calendar.currentDate.day} {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][calendar.currentDate.month - 1]}
+          </CardTitle>
+          <span className="text-[11px] text-muted-foreground">
+            {calendar.currentDate.year}
+          </span>
 
-            {/* Date change animation */}
-            <AnimatePresence>
-              {showDateChange && (
-                <motion.div
-                  initial={{ opacity: 0, y: 0, scale: 0.5 }}
-                  animate={{
-                    opacity: [0, 1, 1, 0],
-                    y: [0, -6, -10, -14],
-                    scale: [0.5, 1.1, 1, 0.9]
-                  }}
-                  exit={{ opacity: 0 }}
-                  transition={{
-                    duration: 1.2,
-                    times: [0, 0.3, 0.7, 1],
-                    ease: "easeOut"
-                  }}
-                  className="absolute left-0 -top-3 flex items-center gap-1 text-xs font-bold"
-                  style={{
-                    textShadow: '0 0 8px rgba(16, 185, 129, 0.6)',
-                    color: '#10b981'
-                  }}
-                >
-                  <Plus className="h-3 w-3" strokeWidth={3} />
-                  <span>1 day</span>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-          {messages.length > 0 && (
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground">
-                Page {currentPage + 1} of {totalPages}
-              </span>
-              <div className="flex gap-1">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6"
-                  onClick={goToPreviousPage}
-                  disabled={currentPage === 0}
-                >
-                  <ChevronLeft className="h-3 w-3" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6"
-                  onClick={goToNextPage}
-                  disabled={currentPage >= totalPages - 1}
-                >
-                  <ChevronRight className="h-3 w-3" />
-                </Button>
-              </div>
-            </div>
-          )}
+          {/* Date change animation */}
+          <AnimatePresence>
+            {showDateChange && (
+              <motion.div
+                initial={{ opacity: 0, y: 0, scale: 0.5 }}
+                animate={{
+                  opacity: [0, 1, 1, 0],
+                  y: [0, -6, -10, -14],
+                  scale: [0.5, 1.1, 1, 0.9]
+                }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  duration: 1.2,
+                  times: [0, 0.3, 0.7, 1],
+                  ease: "easeOut"
+                }}
+                className="absolute left-0 -top-3 flex items-center gap-0.5 text-[10px] font-bold"
+                style={{
+                  textShadow: '0 0 8px rgba(16, 185, 129, 0.6)',
+                  color: '#10b981'
+                }}
+              >
+                <Plus className="h-2.5 w-2.5" strokeWidth={3} />
+                <span>1 day</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </CardHeader>
-      <CardContent className="flex-1 overflow-hidden p-3">
+      <CardContent className="flex-1 overflow-hidden p-3 pb-9 relative">
         <ScrollArea className="h-full pr-3">
           {messages.length === 0 ? (
             <div className="flex h-full items-center justify-center py-12 text-center">
@@ -279,6 +253,33 @@ export function ActivityFeed() {
             </div>
           )}
         </ScrollArea>
+
+        {/* Pagination Controls - Bottom Right */}
+        {totalPages > 1 && (
+          <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-card/95 backdrop-blur-sm border border-border rounded-md px-2 py-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={goToPreviousPage}
+              disabled={currentPage === 0}
+              className="h-6 w-6"
+            >
+              <ChevronLeft className="h-3.5 w-3.5" />
+            </Button>
+            <span className="text-[11px] text-muted-foreground min-w-[32px] text-center">
+              {currentPage + 1}/{totalPages}
+            </span>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={goToNextPage}
+              disabled={currentPage >= totalPages - 1}
+              className="h-6 w-6"
+            >
+              <ChevronRight className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

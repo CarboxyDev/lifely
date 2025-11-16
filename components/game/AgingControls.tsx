@@ -40,6 +40,9 @@ const speedColors: Record<AgingSpeed, string> = {
 export function AgingControls() {
   const { isAging, currentSpeed, progressPercentage, startAging, stopAging, changeSpeed } = useAutoAging();
 
+  // Always show the actual speed setting, never "Paused"
+  const displaySpeed = currentSpeed === 'paused' ? 'normal' : currentSpeed;
+
   const handleToggleAging = () => {
     if (isAging) {
       stopAging();
@@ -98,12 +101,12 @@ export function AgingControls() {
             >
               <Gauge className="h-5 w-5" />
               <div className="flex flex-col items-start gap-0.5">
-                <span className={`text-sm font-semibold ${speedColors[currentSpeed]}`}>
-                  {speedLabels[currentSpeed]}
+                <span className={`text-sm font-semibold ${speedColors[displaySpeed]}`}>
+                  {speedLabels[displaySpeed]}
                 </span>
-                {speedDetails[currentSpeed] && (
+                {speedDetails[displaySpeed] && (
                   <span className="text-[10px] font-medium text-muted-foreground">
-                    {speedDetails[currentSpeed]}
+                    {speedDetails[displaySpeed]}
                   </span>
                 )}
               </div>
@@ -114,37 +117,37 @@ export function AgingControls() {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => handleSpeedChange('slow')}
-              className={currentSpeed === 'slow' ? 'bg-accent' : ''}
+              className={displaySpeed === 'slow' ? 'bg-accent' : ''}
             >
               <span className={`${speedColors.slow} font-medium`}>
-                {currentSpeed === 'slow' ? '● ' : '  '}Slow
+                {displaySpeed === 'slow' ? '● ' : '  '}Slow
               </span>
               <span className="ml-auto text-xs text-zinc-500">1 day/10s</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handleSpeedChange('normal')}
-              className={currentSpeed === 'normal' ? 'bg-accent' : ''}
+              className={displaySpeed === 'normal' ? 'bg-accent' : ''}
             >
               <span className={`${speedColors.normal} font-medium`}>
-                {currentSpeed === 'normal' ? '● ' : '  '}Normal
+                {displaySpeed === 'normal' ? '● ' : '  '}Normal
               </span>
               <span className="ml-auto text-xs text-zinc-500">1 day/5s</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handleSpeedChange('fast')}
-              className={currentSpeed === 'fast' ? 'bg-accent' : ''}
+              className={displaySpeed === 'fast' ? 'bg-accent' : ''}
             >
               <span className={`${speedColors.fast} font-medium`}>
-                {currentSpeed === 'fast' ? '● ' : '  '}Fast
+                {displaySpeed === 'fast' ? '● ' : '  '}Fast
               </span>
               <span className="ml-auto text-xs text-zinc-500">1 day/2.5s</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handleSpeedChange('very-fast')}
-              className={currentSpeed === 'very-fast' ? 'bg-accent' : ''}
+              className={displaySpeed === 'very-fast' ? 'bg-accent' : ''}
             >
               <span className={`${speedColors['very-fast']} font-medium`}>
-                {currentSpeed === 'very-fast' ? '● ' : '  '}Very Fast
+                {displaySpeed === 'very-fast' ? '● ' : '  '}Very Fast
               </span>
               <span className="ml-auto text-xs text-zinc-500">1 day/s</span>
             </DropdownMenuItem>
