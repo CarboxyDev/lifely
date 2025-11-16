@@ -736,12 +736,15 @@ export const multiStageEvents: InteractiveEvent[] = [
 ];
 
 /**
- * Get all interactive events
+ * Get all interactive events (import expanded events)
  */
+import { expandedInteractiveEvents } from './interactive-events-expanded';
+
 export const allInteractiveEvents: InteractiveEvent[] = [
   ...attributeCheckEvents,
   ...diceChallengeEvents,
   ...multiStageEvents,
+  ...expandedInteractiveEvents,
 ];
 
 /**

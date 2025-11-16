@@ -9,12 +9,13 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
-import { userAtom, hasJobAtom, addConsoleMessageAtom } from '@/lib/atoms/game-state';
+import { userAtom, hasJobAtom, addConsoleMessageAtom, perksAtom } from '@/lib/atoms/game-state';
 import { allJobs } from '@/lib/data/jobs';
 import { randint, formatCurrency } from '@/lib/utils/game-utils';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
+import { getPerkMultiplier } from '@/lib/data/perks';
 
 interface JobsDialogProps {
   open: boolean;
@@ -25,6 +26,7 @@ export function JobsDialog({ open, onOpenChange }: JobsDialogProps) {
   const [user, setUser] = useAtom(userAtom);
   const [, setHasJob] = useAtom(hasJobAtom);
   const [, addMessage] = useAtom(addConsoleMessageAtom);
+  const [perks] = useAtom(perksAtom);
   const [selectedJobs] = useState<string[]>(() => {
     const jobNames = Object.keys(allJobs);
     const selected: string[] = [];
@@ -39,7 +41,11 @@ export function JobsDialog({ open, onOpenChange }: JobsDialogProps) {
 
   const applyForJob = (jobName: string) => {
     const jobData = allJobs[jobName];
-    const salary = randint(jobData.minSalary, jobData.maxSalary);
+    let baseSalary = randint(jobData.minSalary, jobData.maxSalary);
+
+    // Apply perk multipliers to salary
+    const salaryMultiplier = getPerkMultiplier(perks.activePerks, 'salaryMultiplier');
+    const finalSalary = Math.floor(baseSalary * salaryMultiplier);
 
     // Check if user has required degree
     const userDegrees = Object.keys(user.education.degrees);
@@ -51,7 +57,7 @@ export function JobsDialog({ open, onOpenChange }: JobsDialogProps) {
         ...user,
         job: {
           name: jobName,
-          salary,
+          salary: finalSalary,
           promotions: 0,
           duration: 0,
           previousJobs: user.job.name !== 'Unemployed'
@@ -62,7 +68,15 @@ export function JobsDialog({ open, onOpenChange }: JobsDialogProps) {
         },
       });
       setHasJob(true);
-      addMessage(`You got a job as a ${jobName}!`);
+
+      // Show bonus message if salary was boosted by perks
+      if (salaryMultiplier > 1.0) {
+        const bonusPercent = Math.floor((salaryMultiplier - 1.0) * 100);
+        addMessage(`You got a job as a ${jobName}! Salary boosted by ${bonusPercent}% due to your perks!`);
+      } else {
+        addMessage(`You got a job as a ${jobName}!`);
+      }
+
       toast.success(`Hired as ${jobName}!`);
       onOpenChange(false);
     } else {

@@ -9,10 +9,11 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
-import { statsAtom, moneyAtom, bankAtom, addConsoleMessageAtom } from '@/lib/atoms/game-state';
+import { statsAtom, moneyAtom, bankAtom, addConsoleMessageAtom, perksAtom } from '@/lib/atoms/game-state';
 import { randint, formatCurrency, hasSufficientFunds } from '@/lib/utils/game-utils';
 import { toast } from 'sonner';
 import { Dumbbell, Book, Hospital, Utensils, Plane, Dice6 } from 'lucide-react';
+import { getPerkMultiplier } from '@/lib/data/perks';
 
 interface ActivitiesDialogProps {
   open: boolean;
@@ -24,6 +25,7 @@ export function ActivitiesDialog({ open, onOpenChange }: ActivitiesDialogProps) 
   const [money, setMoney] = useAtom(moneyAtom);
   const [bank, setBank] = useAtom(bankAtom);
   const [, addMessage] = useAtom(addConsoleMessageAtom);
+  const [perks] = useAtom(perksAtom);
 
   const doActivity = (
     activityName: string,
@@ -55,9 +57,16 @@ export function ActivitiesDialog({ open, onOpenChange }: ActivitiesDialogProps) 
       color: 'from-red-500 to-pink-600',
       onClick: () => {
         const cost = randint(20, 100);
+        // Apply gym effectiveness multiplier from perks
+        const gymMultiplier = getPerkMultiplier(perks.activePerks, 'gymEffectiveness');
+        const baseHealthGain = randint(1, 3);
+        const baseLooksGain = randint(0, 2);
+        const healthGain = Math.floor(baseHealthGain * gymMultiplier);
+        const looksGain = Math.floor(baseLooksGain * gymMultiplier);
+
         doActivity('went to the gym', cost, {
-          health: Math.min(100, stats.health + randint(1, 3)),
-          looks: Math.min(100, stats.looks + randint(0, 2)),
+          health: Math.min(100, stats.health + healthGain),
+          looks: Math.min(100, stats.looks + looksGain),
         });
       },
     },
@@ -68,8 +77,13 @@ export function ActivitiesDialog({ open, onOpenChange }: ActivitiesDialogProps) 
       color: 'from-blue-500 to-cyan-600',
       onClick: () => {
         const cost = randint(5, 40);
+        // Apply learning speed multiplier from perks
+        const learningMultiplier = getPerkMultiplier(perks.activePerks, 'learningSpeed');
+        const baseIntellectGain = randint(1, 3);
+        const intellectGain = Math.floor(baseIntellectGain * learningMultiplier);
+
         doActivity('studied at the library', cost, {
-          intellect: Math.min(100, stats.intellect + randint(1, 3)),
+          intellect: Math.min(100, stats.intellect + intellectGain),
         });
       },
     },
