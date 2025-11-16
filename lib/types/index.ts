@@ -1235,3 +1235,72 @@ export interface EstateState {
   estatePlanningCost: number;
   estimatedEstateTax: number;
 }
+
+// ===== REPUTATION & FAME =====
+export type FameLevel = 'unknown' | 'local-celebrity' | 'regional' | 'national' | 'international' | 'superstar' | 'icon';
+export type ReputationType = 'positive' | 'negative' | 'controversial' | 'neutral';
+export type MediaType = 'news' | 'magazine' | 'tv' | 'radio' | 'podcast' | 'documentary' | 'biography';
+export type ScandalType = 'personal' | 'professional' | 'legal' | 'financial' | 'relationship' | 'health';
+
+export interface MediaAppearance {
+  id: string;
+  type: MediaType;
+  outlet: string;
+  date: number; // age in months
+  topic: string;
+  sentiment: 'positive' | 'neutral' | 'negative';
+  reach: number; // Number of people reached
+  payment: number; // If paid appearance
+}
+
+export interface Endorsement {
+  id: string;
+  brand: string;
+  category: string;
+  startAge: number;
+  duration: number; // months
+  annualPay: number;
+  fameRequired: number;
+  active: boolean;
+}
+
+export interface PublicScandal {
+  id: string;
+  type: ScandalType;
+  severity: number; // 1-10
+  occurredAge: number;
+  description: string;
+  fameImpact: number; // negative
+  publicityGained: number; // even bad press increases recognition
+  resolved: boolean;
+}
+
+export interface Award {
+  id: string;
+  name: string;
+  category: string;
+  receivedAge: number;
+  prestige: number; // 1-100
+  fameGained: number;
+}
+
+export interface ReputationState {
+  fameLevel: FameLevel;
+  famePoints: number; // 0-1000+
+  reputation: number; // -100 to +100
+  reputationType: ReputationType;
+  mediaAppearances: MediaAppearance[];
+  endorsements: Endorsement[];
+  scandals: PublicScandal[];
+  awards: Award[];
+  recognitionRate: number; // 0-100, % chance of being recognized in public
+  paparazziLevel: number; // 0-10, how much media follows you
+  hasPublicist: boolean;
+  publicistCost: number;
+  hasBodyguard: boolean;
+  bodyguardCost: number;
+  fanClubSize: number;
+  haters: number;
+  totalMediaValue: number; // Lifetime earnings from fame
+  publicPerception: string; // Generated description
+}
