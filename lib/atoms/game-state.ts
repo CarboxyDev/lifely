@@ -29,6 +29,7 @@ import type {
   CharityState,
   AddictionsState,
   MentalHealthState,
+  StockMarketState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -252,6 +253,16 @@ const initialMentalHealth: MentalHealthState = {
   mentalHealthDaysTaken: 0,
 };
 
+const initialStockMarket: StockMarketState = {
+  holdings: [],
+  transactionHistory: [],
+  totalInvested: 0,
+  totalDividendsReceived: 0,
+  currentMarketCondition: 'stable',
+  marketSentiment: 0,
+  lastMarketUpdate: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -276,6 +287,7 @@ export const insuranceAtom = atomWithStorage<InsuranceState>('lifely-insurance',
 export const charityAtom = atomWithStorage<CharityState>('lifely-charity', initialCharity);
 export const addictionsAtom = atomWithStorage<AddictionsState>('lifely-addictions', initialAddictions);
 export const mentalHealthAtom = atomWithStorage<MentalHealthState>('lifely-mental-health', initialMentalHealth);
+export const stockMarketAtom = atomWithStorage<StockMarketState>('lifely-stock-market', initialStockMarket);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -371,6 +383,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
     copingSkills: randint(40, 70),
     supportNetwork: randint(50, 80),
   });
+  set(stockMarketAtom, initialStockMarket);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);

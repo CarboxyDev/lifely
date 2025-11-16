@@ -852,3 +852,53 @@ export interface MentalHealthState {
   supportNetwork: number; // 0-100 (quality of support system)
   mentalHealthDaysTaken: number;
 }
+
+// Stock Market types
+export type StockSector =
+  | 'technology'
+  | 'healthcare'
+  | 'finance'
+  | 'energy'
+  | 'consumer'
+  | 'industrials'
+  | 'utilities';
+
+export type MarketCondition = 'bull' | 'bear' | 'volatile' | 'stable' | 'crash';
+
+export interface Stock {
+  symbol: string;
+  name: string;
+  sector: StockSector;
+  currentPrice: number;
+  previousPrice: number;
+  dividendYield: number; // annual percentage
+  volatility: number; // 0-100
+}
+
+export interface StockHolding {
+  stockSymbol: string;
+  shares: number;
+  purchasePrice: number; // average cost basis
+  purchaseAge: number; // when purchased
+}
+
+export interface StockTransaction {
+  id: string;
+  type: 'buy' | 'sell' | 'dividend';
+  stockSymbol: string;
+  shares: number;
+  pricePerShare: number;
+  totalAmount: number;
+  timestamp: number;
+  age: number;
+}
+
+export interface StockMarketState {
+  holdings: StockHolding[];
+  transactionHistory: StockTransaction[];
+  totalInvested: number;
+  totalDividendsReceived: number;
+  currentMarketCondition: MarketCondition;
+  marketSentiment: number; // -100 to 100
+  lastMarketUpdate: number;
+}
