@@ -1362,3 +1362,83 @@ export interface RandomEventsState {
   luckStreak: number; // Consecutive good events
   unluckyStreak: number; // Consecutive bad events
 }
+
+// ===== EDUCATION EXPANSION =====
+export type GraduateDegree = 'masters' | 'phd' | 'mba' | 'jd' | 'md';
+export type AcademicStatus = 'good-standing' | 'deans-list' | 'honors' | 'probation' | 'suspended' | 'expelled';
+export type ResearchField = 'stem' | 'humanities' | 'social-sciences' | 'business' | 'medical' | 'law';
+
+export interface GraduateProgram {
+  id: string;
+  degree: GraduateDegree;
+  field: ResearchField;
+  university: string;
+  prestigeLevel: number; // 1-100
+  startedAge: number;
+  yearsRequired: number;
+  tuitionPerYear: number;
+  fellowshipAmount: number; // If funded
+  thesisCompleted: boolean;
+  gpa: number; // 0.0-4.0
+}
+
+export interface Scholarship {
+  id: string;
+  name: string;
+  amount: number;
+  duration: number; // years
+  requirements: {
+    minGPA?: number;
+    financialNeed?: boolean;
+    specificField?: ResearchField;
+  };
+  competitive: boolean;
+  renewable: boolean;
+}
+
+export interface AcademicAchievement {
+  id: string;
+  type: 'deans-list' | 'honors' | 'award' | 'publication' | 'presentation' | 'fellowship';
+  title: string;
+  receivedAge: number;
+  prestige: number;
+  fameGain: number;
+}
+
+export interface Publication {
+  id: string;
+  title: string;
+  journalName: string;
+  impactFactor: number; // 0-100
+  publishedAge: number;
+  citations: number;
+  coAuthors: string[];
+}
+
+export interface StudyAbroadProgram {
+  id: string;
+  country: string;
+  university: string;
+  duration: number; // months
+  cost: number;
+  scholarshipCovered: number;
+  startAge: number;
+}
+
+export interface ExpandedEducationState {
+  graduatePrograms: GraduateProgram[];
+  currentGradProgram: GraduateProgram | null;
+  academicStatus: AcademicStatus;
+  scholarships: Scholarship[];
+  academicAchievements: AcademicAchievement[];
+  publications: Publication[];
+  studyAbroadHistory: StudyAbroadProgram[];
+  cumulativeGPA: number;
+  totalCredits: number;
+  studentOrganizations: string[];
+  academicProbationCount: number;
+  totalScholarshipMoney: number;
+  thesesDefended: number;
+  conferencesPresentedAt: number;
+}
+

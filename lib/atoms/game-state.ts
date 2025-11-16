@@ -39,6 +39,7 @@ import type {
   EstateState,
   ReputationState,
   RandomEventsState,
+  ExpandedEducationState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -396,6 +397,23 @@ const initialRandomEvents: RandomEventsState = {
   unluckyStreak: 0,
 };
 
+const initialExpandedEducation: ExpandedEducationState = {
+  graduatePrograms: [],
+  currentGradProgram: null,
+  academicStatus: 'good-standing',
+  scholarships: [],
+  academicAchievements: [],
+  publications: [],
+  studyAbroadHistory: [],
+  cumulativeGPA: 0,
+  totalCredits: 0,
+  studentOrganizations: [],
+  academicProbationCount: 0,
+  totalScholarshipMoney: 0,
+  thesesDefended: 0,
+  conferencesPresentedAt: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -430,6 +448,7 @@ export const politicsAtom = atomWithStorage<PoliticsState>('lifely-politics', in
 export const estateAtom = atomWithStorage<EstateState>('lifely-estate', initialEstate);
 export const reputationAtom = atomWithStorage<ReputationState>('lifely-reputation', initialReputation);
 export const randomEventsAtom = atomWithStorage<RandomEventsState>('lifely-random-events', initialRandomEvents);
+export const expandedEducationAtom = atomWithStorage<ExpandedEducationState>('lifely-expanded-education', initialExpandedEducation);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -535,6 +554,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
   set(estateAtom, initialEstate);
   set(reputationAtom, initialReputation);
   set(randomEventsAtom, initialRandomEvents);
+  set(expandedEducationAtom, initialExpandedEducation);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);
