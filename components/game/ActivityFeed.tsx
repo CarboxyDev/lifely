@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useAtom } from 'jotai';
 import { consoleMessagesAtom } from '@/lib/atoms/game-state';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Activity,
@@ -18,6 +20,8 @@ import {
   AlertTriangle,
   Sparkles,
   MessageCircle,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 
 type MessageCategory = 'positive' | 'negative' | 'neutral';
@@ -123,16 +127,71 @@ function getMessageStyle(message: string) {
   }
 }
 
+const ITEMS_PER_PAGE = 12;
+
 export function ActivityFeed() {
   const [messages] = useAtom(consoleMessagesAtom);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  // Calculate pagination
+  const totalPages = Math.max(1, Math.ceil(messages.length / ITEMS_PER_PAGE));
+  const startIndex = currentPage * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentMessages = messages.slice(startIndex, endIndex);
+
+  // Reset to last page if messages change and current page is out of bounds
+  if (currentPage >= totalPages && totalPages > 0) {
+    setCurrentPage(Math.max(0, totalPages - 1));
+  }
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
-    <Card className="flex h-full flex-col border-border bg-card">
-      <CardHeader className="shrink-0 border-b border-border pb-3">
-        <CardTitle className="flex items-center gap-2 text-sm font-semibold text-foreground">
-          <Activity className="h-4 w-4" />
-          Life Activity
-        </CardTitle>
+    <Card className="flex max-h-[calc(100vh-280px)] flex-col border-border bg-card">
+      <CardHeader className="shrink-0 border-b border-border px-4 py-2">
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2 text-sm font-semibold text-foreground">
+            <Activity className="h-4 w-4" />
+            Life Activity
+          </CardTitle>
+          {messages.length > 0 && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">
+                Page {currentPage + 1} of {totalPages}
+              </span>
+              <div className="flex gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6"
+                  onClick={goToPreviousPage}
+                  disabled={currentPage === 0}
+                >
+                  <ChevronLeft className="h-3 w-3" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6"
+                  onClick={goToNextPage}
+                  disabled={currentPage >= totalPages - 1}
+                >
+                  <ChevronRight className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </CardHeader>
       <CardContent className="flex-1 overflow-hidden p-3">
         <ScrollArea className="h-full pr-3">
@@ -145,7 +204,7 @@ export function ActivityFeed() {
           ) : (
             <div className="space-y-1.5">
               <AnimatePresence mode="popLayout">
-                {messages.map((msg, index) => {
+                {currentMessages.map((msg, index) => {
                   const styleClass = getMessageStyle(msg.message);
                   const Icon = getMessageIcon(msg.message);
 
