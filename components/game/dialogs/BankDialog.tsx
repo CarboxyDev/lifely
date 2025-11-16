@@ -34,6 +34,7 @@ import {
 import type { Loan } from '@/lib/types';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface BankDialogProps {
   open: boolean;
@@ -183,6 +184,8 @@ export function BankDialog({ open, onOpenChange }: BankDialogProps) {
           </DialogTitle>
           <DialogDescription>Manage your finances and credit</DialogDescription>
         </DialogHeader>
+
+        <ScrollArea className="max-h-[60vh] pr-4">
 
         <div className="space-y-6 py-4">
           {/* Account Overview */}
@@ -463,6 +466,7 @@ export function BankDialog({ open, onOpenChange }: BankDialogProps) {
             </TabsContent>
           </Tabs>
         </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

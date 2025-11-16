@@ -29,6 +29,7 @@ import {
 } from '@/lib/data/skills';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface SkillsDialogProps {
   open: boolean;
@@ -155,6 +156,8 @@ export function SkillsDialog({ open, onOpenChange }: SkillsDialogProps) {
             <DialogDescription className="capitalize">{skillDef.category} Skill</DialogDescription>
           </DialogHeader>
 
+        <ScrollArea className="max-h-[60vh] pr-4">
+
           <div className="space-y-6 py-4">
             {/* Current Progress */}
             {userSkill && (
@@ -238,6 +241,7 @@ export function SkillsDialog({ open, onOpenChange }: SkillsDialogProps) {
               )}
             </div>
           </div>
+        </ScrollArea>
         </DialogContent>
       </Dialog>
     );
@@ -253,6 +257,8 @@ export function SkillsDialog({ open, onOpenChange }: SkillsDialogProps) {
           </DialogTitle>
           <DialogDescription>Develop your abilities and career prospects</DialogDescription>
         </DialogHeader>
+
+        <ScrollArea className="max-h-[60vh] pr-4">
 
         <div className="space-y-6 py-4">
           {/* Quick Stats */}
@@ -354,6 +360,7 @@ export function SkillsDialog({ open, onOpenChange }: SkillsDialogProps) {
             </div>
           )}
         </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

@@ -27,6 +27,7 @@ import {
 } from '@/lib/data/health';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface HealthDialogProps {
   open: boolean;
@@ -128,6 +129,8 @@ export function HealthDialog({ open, onOpenChange }: HealthDialogProps) {
           </DialogTitle>
           <DialogDescription>Manage your health and wellbeing</DialogDescription>
         </DialogHeader>
+
+        <ScrollArea className="max-h-[60vh] pr-4">
 
         <div className="space-y-6 py-4">
           {/* Health Stats */}
@@ -281,6 +284,7 @@ export function HealthDialog({ open, onOpenChange }: HealthDialogProps) {
             </div>
           </div>
         </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

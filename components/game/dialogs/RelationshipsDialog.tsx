@@ -33,6 +33,7 @@ import {
   relationshipTraits,
 } from '@/lib/data/relationships';
 import { Separator } from '@/components/ui/separator';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { randomChoice, randint } from '@/lib/utils/game-utils';
 import { generateRandomName } from '@/lib/utils/name-generator';
 import {
@@ -253,6 +254,8 @@ export function RelationshipsDialog({ open, onOpenChange }: RelationshipsDialogP
             <DialogDescription>{getRelationshipTypeLabel(selectedPerson.type)}</DialogDescription>
           </DialogHeader>
 
+        <ScrollArea className="max-h-[60vh] pr-4">
+
           <div className="space-y-6 py-4">
             {/* Person Info */}
             <div className="rounded-lg border border-border bg-muted/30 p-4">
@@ -411,6 +414,7 @@ export function RelationshipsDialog({ open, onOpenChange }: RelationshipsDialogP
               </>
             )}
           </div>
+        </ScrollArea>
         </DialogContent>
       </Dialog>
     );
@@ -426,6 +430,8 @@ export function RelationshipsDialog({ open, onOpenChange }: RelationshipsDialogP
           </DialogTitle>
           <DialogDescription>Manage your social connections</DialogDescription>
         </DialogHeader>
+
+        <ScrollArea className="max-h-[60vh] pr-4">
 
         <div className="space-y-6 py-4">
           {/* Quick Stats */}
@@ -528,6 +534,7 @@ export function RelationshipsDialog({ open, onOpenChange }: RelationshipsDialogP
             )}
           </div>
         </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Plane,
   MapPin,
@@ -166,6 +167,8 @@ export function TravelDialog({ open, onOpenChange }: TravelDialogProps) {
             Travel the World
           </DialogTitle>
         </DialogHeader>
+
+        <ScrollArea className="max-h-[60vh] pr-4">
 
         <Tabs defaultValue="destinations" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
@@ -482,6 +485,7 @@ export function TravelDialog({ open, onOpenChange }: TravelDialogProps) {
             </Card>
           </div>
         )}
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

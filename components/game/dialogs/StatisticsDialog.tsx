@@ -36,6 +36,7 @@ import {
 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface StatisticsDialogProps {
   open: boolean;
@@ -87,7 +88,8 @@ export function StatisticsDialog({ open, onOpenChange }: StatisticsDialogProps) 
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
+        <ScrollArea className="max-h-[60vh] pr-4">
+          <div className="space-y-6 py-4">
           {/* Overview Cards */}
           <div className="grid grid-cols-4 gap-3">
             <div className="rounded-lg border border-border bg-muted/30 p-3">
@@ -439,7 +441,8 @@ export function StatisticsDialog({ open, onOpenChange }: StatisticsDialogProps) 
               </div>
             </TabsContent>
           </Tabs>
-        </div>
+          </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

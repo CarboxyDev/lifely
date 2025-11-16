@@ -33,6 +33,7 @@ import {
 import { randomChoice } from '@/lib/utils/game-utils';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface EducationDialogProps {
   open: boolean;
@@ -145,6 +146,8 @@ export function EducationDialog({ open, onOpenChange }: EducationDialogProps) {
           </DialogTitle>
           <DialogDescription>Manage your educational journey</DialogDescription>
         </DialogHeader>
+
+        <ScrollArea className="max-h-[60vh] pr-4">
 
         <div className="space-y-6 py-4">
           {/* Current Education Status */}
@@ -313,6 +316,7 @@ export function EducationDialog({ open, onOpenChange }: EducationDialogProps) {
             )}
           </div>
         </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

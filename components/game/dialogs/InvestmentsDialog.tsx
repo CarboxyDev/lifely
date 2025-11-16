@@ -33,6 +33,7 @@ import {
 import type { Investment } from '@/lib/types';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface InvestmentsDialogProps {
   open: boolean;
@@ -200,6 +201,8 @@ export function InvestmentsDialog({ open, onOpenChange }: InvestmentsDialogProps
           </DialogTitle>
           <DialogDescription>Build your wealth through investing</DialogDescription>
         </DialogHeader>
+
+        <ScrollArea className="max-h-[60vh] pr-4">
 
         <div className="space-y-6 py-4">
           {/* Overview */}
@@ -496,6 +499,7 @@ export function InvestmentsDialog({ open, onOpenChange }: InvestmentsDialogProps
             </TabsContent>
           </Tabs>
         </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

@@ -29,6 +29,7 @@ import {
 } from '@/lib/data/vehicles';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface VehiclesDialogProps {
   open: boolean;
@@ -147,7 +148,8 @@ export function VehiclesDialog({ open, onOpenChange }: VehiclesDialogProps) {
           <DialogDescription>Buy and manage your vehicles</DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
+        <ScrollArea className="max-h-[60vh] pr-4">
+          <div className="space-y-6 py-4">
           {/* Current Vehicle */}
           {vehicles.currentVehicle && (
             <>
@@ -342,7 +344,8 @@ export function VehiclesDialog({ open, onOpenChange }: VehiclesDialogProps) {
               </div>
             </>
           )}
-        </div>
+          </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
