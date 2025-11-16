@@ -1119,3 +1119,69 @@ export interface PoliticsState {
   politicalReputation: number; // 0-100
   lobbyingInfluence: number;
 }
+
+// ===== INHERITANCE & ESTATE =====
+export type BeneficiaryType = 'spouse' | 'child' | 'parent' | 'sibling' | 'friend' | 'charity' | 'organization';
+export type TrustType = 'revocable-living' | 'irrevocable-life' | 'testamentary' | 'charitable-remainder' | 'special-needs';
+export type AssetDistributionMethod = 'equal-split' | 'weighted' | 'specific-allocation' | 'residuary';
+
+export interface Beneficiary {
+  id: string;
+  name: string;
+  relationship: BeneficiaryType;
+  sharePercentage: number; // 0-100
+  specificAssets: string[]; // Asset IDs
+  conditional: boolean;
+  condition?: string;
+}
+
+export interface Will {
+  id: string;
+  createdAge: number;
+  lastUpdatedAge: number;
+  executor: string;
+  beneficiaries: Beneficiary[];
+  distributionMethod: AssetDistributionMethod;
+  charitableDonations: { charity: string; amount: number }[];
+  specialInstructions: string[];
+  witnessed: boolean;
+  legallyValid: boolean;
+}
+
+export interface Trust {
+  id: string;
+  type: TrustType;
+  createdAge: number;
+  principal: number; // Initial funding
+  currentValue: number;
+  beneficiaries: string[]; // Names
+  trustee: string;
+  yearsActive: number;
+  taxBenefit: number; // Annual tax savings
+}
+
+export interface Inheritance {
+  id: string;
+  receivedAge: number;
+  fromWho: string;
+  relationship: string;
+  totalValue: number;
+  cash: number;
+  property: number;
+  investments: number;
+  taxes: number;
+  netReceived: number;
+}
+
+export interface EstateState {
+  currentWill: Will | null;
+  willHistory: Will[];
+  trusts: Trust[];
+  inheritances: Inheritance[];
+  totalInherited: number;
+  hasLivingWill: boolean;
+  hasPowerOfAttorney: boolean;
+  powerOfAttorneyHolder: string | null;
+  estatePlanningCost: number;
+  estimatedEstateTax: number;
+}

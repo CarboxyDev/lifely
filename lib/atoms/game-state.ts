@@ -36,6 +36,7 @@ import type {
   SocialMediaState,
   DisasterState,
   PoliticsState,
+  EstateState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -327,6 +328,19 @@ const initialPolitics: PoliticsState = {
   lobbyingInfluence: 0,
 };
 
+const initialEstate: EstateState = {
+  currentWill: null,
+  willHistory: [],
+  trusts: [],
+  inheritances: [],
+  totalInherited: 0,
+  hasLivingWill: false,
+  hasPowerOfAttorney: false,
+  powerOfAttorneyHolder: null,
+  estatePlanningCost: 0,
+  estimatedEstateTax: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -358,6 +372,7 @@ export const hobbiesAtom = atomWithStorage<HobbiesState>('lifely-hobbies', initi
 export const socialMediaAtom = atomWithStorage<SocialMediaState>('lifely-social-media', initialSocialMedia);
 export const disastersAtom = atomWithStorage<DisasterState>('lifely-disasters', initialDisasters);
 export const politicsAtom = atomWithStorage<PoliticsState>('lifely-politics', initialPolitics);
+export const estateAtom = atomWithStorage<EstateState>('lifely-estate', initialEstate);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -460,6 +475,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
   set(socialMediaAtom, initialSocialMedia);
   set(disastersAtom, initialDisasters);
   set(politicsAtom, initialPolitics);
+  set(estateAtom, initialEstate);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);
