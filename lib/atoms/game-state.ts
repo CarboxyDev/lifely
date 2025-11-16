@@ -38,6 +38,7 @@ import type {
   PoliticsState,
   EstateState,
   ReputationState,
+  RandomEventsState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -383,6 +384,18 @@ const initialReputation: ReputationState = {
   publicPerception: 'Nobody knows who you are.',
 };
 
+const initialRandomEvents: RandomEventsState = {
+  eventsHistory: [],
+  totalEventsExperienced: 0,
+  bestEvent: null,
+  worstEvent: null,
+  pendingEvent: null,
+  miraclesExperienced: 0,
+  catastrophesExperienced: 0,
+  luckStreak: 0,
+  unluckyStreak: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -416,6 +429,7 @@ export const disastersAtom = atomWithStorage<DisasterState>('lifely-disasters', 
 export const politicsAtom = atomWithStorage<PoliticsState>('lifely-politics', initialPolitics);
 export const estateAtom = atomWithStorage<EstateState>('lifely-estate', initialEstate);
 export const reputationAtom = atomWithStorage<ReputationState>('lifely-reputation', initialReputation);
+export const randomEventsAtom = atomWithStorage<RandomEventsState>('lifely-random-events', initialRandomEvents);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -520,6 +534,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
   set(politicsAtom, initialPolitics);
   set(estateAtom, initialEstate);
   set(reputationAtom, initialReputation);
+  set(randomEventsAtom, initialRandomEvents);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);

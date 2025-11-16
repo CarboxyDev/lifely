@@ -1304,3 +1304,61 @@ export interface ReputationState {
   totalMediaValue: number; // Lifetime earnings from fame
   publicPerception: string; // Generated description
 }
+
+// ===== RANDOM LIFE EVENTS =====
+export type EventCategory =
+  | 'fortune' | 'misfortune' | 'opportunity' | 'encounter'
+  | 'discovery' | 'loss' | 'windfall' | 'accident' | 'miracle'
+  | 'betrayal' | 'romance' | 'career' | 'health' | 'social' | 'mystery';
+
+export type EventSeverity = 'trivial' | 'minor' | 'moderate' | 'major' | 'life-changing' | 'catastrophic';
+export type EventFrequency = 'very-rare' | 'rare' | 'uncommon' | 'common' | 'frequent';
+
+export interface RandomLifeEvent {
+  id: string;
+  category: EventCategory;
+  severity: EventSeverity;
+  title: string;
+  description: string;
+  occurredAge: number;
+  effects: {
+    money?: number;
+    health?: number;
+    morale?: number;
+    intellect?: number;
+    looks?: number;
+    karma?: number;
+    reputation?: number;
+    fame?: number;
+    customEffect?: string;
+  };
+  choices?: EventChoice[];
+  wasChoiceMade: boolean;
+  choiceOutcome?: string;
+}
+
+export interface EventChoice {
+  id: string;
+  text: string;
+  difficultyClass: number; // DC for dice roll
+  successOutcome: EventOutcome;
+  failureOutcome: EventOutcome;
+}
+
+export interface EventOutcome {
+  description: string;
+  effects: RandomLifeEvent['effects'];
+  followUpEvent?: string; // ID of follow-up event
+}
+
+export interface RandomEventsState {
+  eventsHistory: RandomLifeEvent[];
+  totalEventsExperienced: number;
+  bestEvent: RandomLifeEvent | null;
+  worstEvent: RandomLifeEvent | null;
+  pendingEvent: RandomLifeEvent | null; // Event waiting for player choice
+  miraclesExperienced: number;
+  catastrophesExperienced: number;
+  luckStreak: number; // Consecutive good events
+  unluckyStreak: number; // Consecutive bad events
+}
