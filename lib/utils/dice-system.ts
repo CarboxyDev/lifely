@@ -144,6 +144,19 @@ export function rollWithAdvantage(
 }
 
 /**
+ * Roll with disadvantage (take lower of two rolls)
+ * Convenience wrapper for rollWithAdvantage with disadvantage=true
+ */
+export function rollWithDisadvantage(
+  diceType: DiceType,
+  modifiers: DiceModifier[] = [],
+  luck: number = 50
+): number {
+  const result = rollWithAdvantage(diceType, false, true, modifiers, luck);
+  return result.modifiedRoll;
+}
+
+/**
  * Check if roll succeeds against difficulty class
  */
 export function checkSuccess(
