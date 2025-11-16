@@ -69,6 +69,7 @@ export function useAutoAging() {
     if (elapsed < requiredDelay) return;
 
     lastTickTimeRef.current = now;
+    setProgressPercentage(0); // Reset progress immediately after tick
 
     // Get player data
     const playerData = {

@@ -72,13 +72,25 @@ export function UserInfoCard() {
                   <AnimatePresence>
                     {showDateChange && (
                       <motion.div
-                        initial={{ opacity: 0, y: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, y: -10, scale: 1 }}
-                        exit={{ opacity: 0, y: -20, scale: 0.8 }}
-                        transition={{ duration: 0.4 }}
-                        className="absolute right-0 top-0 flex items-center gap-0.5 text-xs font-bold text-emerald-400"
+                        initial={{ opacity: 0, y: 0, scale: 0.5 }}
+                        animate={{
+                          opacity: [0, 1, 1, 0],
+                          y: [0, -8, -12, -18],
+                          scale: [0.5, 1.1, 1, 0.9]
+                        }}
+                        exit={{ opacity: 0 }}
+                        transition={{
+                          duration: 1.2,
+                          times: [0, 0.3, 0.7, 1],
+                          ease: "easeOut"
+                        }}
+                        className="absolute right-0 top-0 flex items-center gap-1 text-sm font-bold"
+                        style={{
+                          textShadow: '0 0 8px rgba(16, 185, 129, 0.6)',
+                          color: '#10b981'
+                        }}
                       >
-                        <Plus className="h-3 w-3" />
+                        <Plus className="h-4 w-4" strokeWidth={3} />
                         <span>1 day</span>
                       </motion.div>
                     )}
