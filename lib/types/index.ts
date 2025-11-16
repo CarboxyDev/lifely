@@ -553,3 +553,36 @@ export interface LegalState {
   hasLawyer: boolean;
   lawyerCost: number; // monthly retainer
 }
+
+export type BusinessType =
+  | 'restaurant'
+  | 'retail-store'
+  | 'tech-startup'
+  | 'consulting'
+  | 'real-estate'
+  | 'franchise';
+
+export type BusinessStage = 'startup' | 'growing' | 'established' | 'struggling' | 'failing';
+
+export interface Business {
+  id: string;
+  name: string;
+  type: BusinessType;
+  stage: BusinessStage;
+  foundedAt: number; // age in months
+  initialInvestment: number;
+  currentValue: number;
+  monthlyRevenue: number;
+  monthlyExpenses: number;
+  employees: number;
+  profitMargin: number; // percentage
+  successRate: number; // 0-100, how well it's doing
+}
+
+export interface BusinessState {
+  ownedBusinesses: Business[];
+  businessHistory: Business[]; // sold or failed businesses
+  totalBusinessesStarted: number;
+  totalBusinessRevenue: number;
+  totalBusinessExpenses: number;
+}
