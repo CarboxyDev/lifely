@@ -1011,3 +1011,51 @@ export interface HobbiesState {
   totalMoneySpent: number;
   achievements: string[]; // "Master Painter", etc
 }
+
+// Social Media / Influencer System
+export type SocialPlatform = 'youtube' | 'instagram' | 'tiktok' | 'twitter' | 'twitch' | 'podcast';
+export type ContentNiche = 'gaming' | 'lifestyle' | 'fitness' | 'cooking' | 'tech' | 'comedy' | 'education' | 'music' | 'beauty' | 'travel';
+
+export interface SocialMediaAccount {
+  platform: SocialPlatform;
+  niche: ContentNiche;
+  followers: number;
+  totalPosts: number;
+  engagement: number; // 0-100
+  monthlyGrowthRate: number; // percentage
+  isVerified: boolean;
+  isMonetized: boolean;
+}
+
+export interface ContentPost {
+  id: string;
+  platform: SocialPlatform;
+  contentType: 'video' | 'photo' | 'text' | 'stream';
+  quality: number; // 0-100
+  views: number;
+  likes: number;
+  timestamp: number;
+  age: number;
+  viralSuccess: boolean;
+}
+
+export interface SponsorshipDeal {
+  id: string;
+  brand: string;
+  paymentPerPost: number;
+  postsRequired: number;
+  postsCompleted: number;
+  startAge: number;
+  endAge: number;
+}
+
+export interface SocialMediaState {
+  accounts: SocialMediaAccount[];
+  postHistory: ContentPost[];
+  sponsorships: SponsorshipDeal[];
+  totalEarnings: number;
+  totalFollowers: number;
+  viralPosts: number;
+  canceledCount: number; // controversies
+  fame: number; // 0-100
+}
