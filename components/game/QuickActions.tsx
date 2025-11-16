@@ -15,6 +15,7 @@ import {
   TrendingUp,
   BarChart3,
   Plane,
+  Clock,
 } from 'lucide-react';
 import { useState } from 'react';
 import { JobsDialog } from './dialogs/JobsDialog';
@@ -30,6 +31,7 @@ import { VehiclesDialog } from './dialogs/VehiclesDialog';
 import { InvestmentsDialog } from './dialogs/InvestmentsDialog';
 import { StatisticsDialog } from './dialogs/StatisticsDialog';
 import { TravelDialog } from './dialogs/TravelDialog';
+import { TimelineDialog } from './dialogs/TimelineDialog';
 
 export function QuickActions() {
   const [jobsOpen, setJobsOpen] = useState(false);
@@ -45,6 +47,7 @@ export function QuickActions() {
   const [investmentsOpen, setInvestmentsOpen] = useState(false);
   const [statisticsOpen, setStatisticsOpen] = useState(false);
   const [travelOpen, setTravelOpen] = useState(false);
+  const [timelineOpen, setTimelineOpen] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
 
   // Frequently accessed - full cards
@@ -134,6 +137,12 @@ export function QuickActions() {
       onClick: () => setStatisticsOpen(true),
       color: '#6366f1',
     },
+    {
+      icon: Clock,
+      label: 'Timeline',
+      onClick: () => setTimelineOpen(true),
+      color: '#a855f7',
+    },
   ];
 
   return (
@@ -221,6 +230,7 @@ export function QuickActions() {
       <InvestmentsDialog open={investmentsOpen} onOpenChange={setInvestmentsOpen} />
       <StatisticsDialog open={statisticsOpen} onOpenChange={setStatisticsOpen} />
       <TravelDialog open={travelOpen} onOpenChange={setTravelOpen} />
+      <TimelineDialog open={timelineOpen} onOpenChange={setTimelineOpen} />
     </>
   );
 }

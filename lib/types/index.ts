@@ -428,3 +428,49 @@ export interface TaxState {
   hasTaxDebt: boolean;
   taxDebtAmount: number;
 }
+
+export type TimelineEventType =
+  | 'birth'
+  | 'education'
+  | 'job'
+  | 'relationship'
+  | 'purchase'
+  | 'travel'
+  | 'health'
+  | 'financial'
+  | 'achievement'
+  | 'life-event'
+  | 'milestone';
+
+export type TimelineEventCategory =
+  | 'positive'
+  | 'negative'
+  | 'neutral'
+  | 'milestone';
+
+export interface TimelineEvent {
+  id: string;
+  type: TimelineEventType;
+  category: TimelineEventCategory;
+  title: string;
+  description: string;
+  age: number; // age in months when event occurred
+  timestamp: number; // Date.now() when event occurred
+  icon?: string; // optional icon identifier
+  metadata?: Record<string, any>; // additional data about the event
+}
+
+export interface LifeMilestone {
+  id: string;
+  name: string;
+  description: string;
+  requiredAge?: number; // age in months
+  condition: (data: any) => boolean;
+  icon: string;
+}
+
+export interface TimelineState {
+  events: TimelineEvent[];
+  milestones: string[]; // IDs of achieved milestones
+  totalEvents: number;
+}

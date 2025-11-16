@@ -19,6 +19,8 @@ import type {
   AchievementState,
   TravelState,
   TaxState,
+  TimelineState,
+  TimelineEvent,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -158,6 +160,12 @@ const initialTax: TaxState = {
   taxDebtAmount: 0,
 };
 
+const initialTimeline: TimelineState = {
+  events: [],
+  milestones: [],
+  totalEvents: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -173,6 +181,7 @@ export const investmentsAtom = atomWithStorage<InvestmentState>('lifely-investme
 export const achievementsAtom = atomWithStorage<AchievementState>('lifely-achievements', initialAchievements);
 export const travelAtom = atomWithStorage<TravelState>('lifely-travel', initialTravel);
 export const taxAtom = atomWithStorage<TaxState>('lifely-tax', initialTax);
+export const timelineAtom = atomWithStorage<TimelineState>('lifely-timeline', initialTimeline);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -240,6 +249,21 @@ export const initializeGameAtom = atom(null, (get, set) => {
   set(achievementsAtom, initialAchievements);
   set(travelAtom, initialTravel);
   set(taxAtom, initialTax);
+  set(timelineAtom, {
+    events: [
+      {
+        id: '1',
+        type: 'birth',
+        category: 'milestone',
+        title: 'Born',
+        description: `You were born in ${country}`,
+        age: 216, // 18 years
+        timestamp: Date.now(),
+      },
+    ],
+    milestones: [],
+    totalEvents: 1,
+  });
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);
@@ -295,3 +319,22 @@ export const clearAlertAtom = atom(null, (get, set, alertId: string) => {
     alerts.filter((a) => a.id !== alertId)
   );
 });
+
+// Add timeline event
+export const addTimelineEventAtom = atom(
+  null,
+  (get, set, event: Omit<TimelineEvent, 'id' | 'timestamp'>) => {
+    const timeline = get(timelineAtom);
+    const newEvent: TimelineEvent = {
+      ...event,
+      id: `${Date.now()}-${Math.random()}`,
+      timestamp: Date.now(),
+    };
+
+    set(timelineAtom, {
+      events: [...timeline.events, newEvent],
+      milestones: timeline.milestones,
+      totalEvents: timeline.totalEvents + 1,
+    });
+  }
+);
