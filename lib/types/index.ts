@@ -1388,6 +1388,110 @@ export interface CalendarState {
   tickSpeed: 'paused' | 'slow' | 'normal' | 'fast' | 'very-fast';
 }
 
+// ===== PERKS & TRAITS SYSTEM =====
+export type PerkCategory = 'physical' | 'mental' | 'social' | 'financial' | 'luck' | 'career' | 'health';
+export type PerkRarity = 'common' | 'uncommon' | 'rare' | 'legendary';
+
+export interface Perk {
+  id: string;
+  name: string;
+  description: string;
+  category: PerkCategory;
+  rarity: PerkRarity;
+  isPositive: boolean; // true = perk, false = flaw
+  effects: {
+    statModifiers?: {
+      health?: number;
+      morale?: number;
+      intellect?: number;
+      looks?: number;
+    };
+    multipliers?: {
+      salaryMultiplier?: number; // 1.1 = +10%
+      learningSpeed?: number;
+      socialSuccess?: number;
+      crimeDetection?: number; // Lower = harder to catch
+      gymEffectiveness?: number;
+      relationshipGain?: number;
+      relationshipLoss?: number;
+      positiveEventChance?: number;
+      negativeEventChance?: number;
+      skillGain?: number;
+      moraleRecovery?: number;
+      stressResistance?: number;
+      nightProductivity?: number;
+      morningProductivity?: number;
+      promotionChance?: number;
+      expenseReduction?: number;
+      savingsGain?: number;
+      recoverySpeed?: number;
+      careerProgress?: number;
+      diseaseChance?: number;
+      activityEffectiveness?: number;
+      conflictChance?: number;
+      stressGain?: number;
+      negativeEventImpact?: number;
+      physicalActivityBonus?: number;
+      expenseIncrease?: number;
+      impulseSpending?: number;
+      energyRecovery?: number;
+      accidentChance?: number;
+      injuryChance?: number;
+      skillRetention?: number;
+      riskTakingPenalty?: number;
+      courageRequired?: number;
+      addictionChance?: number;
+      negotiationBonus?: number;
+      streetWiseBonus?: number;
+      investmentReturns?: number;
+      businessSuccess?: number;
+      passiveIncomeBonus?: number;
+      karmaGain?: number;
+      reputationGain?: number;
+      crimeSuccess?: number;
+      politicalInfluence?: number;
+      familySupport?: number;
+      extremeSportsBonus?: number;
+      riskReward?: number;
+      decisionQuality?: number;
+      intimidationBonus?: number;
+      firstImpressions?: number;
+      gamblingLosses?: number;
+      jobOpportunities?: number;
+    };
+    special?: {
+      unlockCareer?: string;
+      immuneToAddiction?: boolean;
+      luckyEvents?: boolean; // 2x chance of good events
+      unluckyEvents?: boolean; // 2x chance of bad events
+      photogenicMemory?: boolean;
+      charismaBoost?: boolean;
+      diseaseResistance?: boolean;
+      combatBonus?: boolean;
+      unlockPoliticalOffices?: boolean;
+      unlockInternationalJobs?: boolean;
+      deathResistance?: boolean;
+      cannotLearnMusic?: boolean;
+    };
+  };
+  unlockCondition?: {
+    achievementRequired?: string;
+    ageRequired?: number; // in years
+    wealthRequired?: number;
+    fameRequired?: number;
+    randomChance?: number; // Chance to unlock per year
+  };
+}
+
+export interface PerksState {
+  activePerks: Perk[];
+  birthTraits: Perk[]; // Traits you're born with
+  unlockedPerks: Perk[];
+  availablePerks: Perk[];
+  totalPerksUnlocked: number;
+  totalFlaws: number;
+}
+
 // ===== EDUCATION EXPANSION =====
 export type GraduateDegree = 'masters' | 'phd' | 'mba' | 'jd' | 'md';
 export type AcademicStatus = 'good-standing' | 'deans-list' | 'honors' | 'probation' | 'suspended' | 'expelled';

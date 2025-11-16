@@ -41,12 +41,14 @@ import type {
   RandomEventsState,
   ExpandedEducationState,
   CalendarState,
+  PerksState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
 import { allCountries } from '../data/countries';
 import { generateRandomName } from '../utils/name-generator';
 import { createInitialCalendarState } from '../utils/calendar-system';
+import { getRandomBirthTraits, unlockablePerks } from '../data/perks';
 
 // Initialize default values
 const getInitialCountry = () => randomChoice(allCountries);
@@ -419,6 +421,17 @@ const initialExpandedEducation: ExpandedEducationState = {
 // Initialize calendar - starts at 18 years old
 const initialCalendar = createInitialCalendarState();
 
+// Initialize perks - assign random birth traits
+const birthTraits = getRandomBirthTraits();
+const initialPerks: PerksState = {
+  activePerks: [...birthTraits.positiveTraits, ...birthTraits.negativeTraits],
+  birthTraits: [...birthTraits.positiveTraits, ...birthTraits.negativeTraits],
+  unlockedPerks: [],
+  availablePerks: unlockablePerks,
+  totalPerksUnlocked: 0,
+  totalFlaws: birthTraits.negativeTraits.length,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -455,6 +468,7 @@ export const reputationAtom = atomWithStorage<ReputationState>('lifely-reputatio
 export const randomEventsAtom = atomWithStorage<RandomEventsState>('lifely-random-events', initialRandomEvents);
 export const expandedEducationAtom = atomWithStorage<ExpandedEducationState>('lifely-expanded-education', initialExpandedEducation);
 export const calendarAtom = atomWithStorage<CalendarState>('lifely-calendar', initialCalendar);
+export const perksAtom = atomWithStorage<PerksState>('lifely-perks', initialPerks);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -562,6 +576,18 @@ export const initializeGameAtom = atom(null, (get, set) => {
   set(randomEventsAtom, initialRandomEvents);
   set(expandedEducationAtom, initialExpandedEducation);
   set(calendarAtom, createInitialCalendarState());
+
+  // Reset perks with new random birth traits
+  const newBirthTraits = getRandomBirthTraits();
+  set(perksAtom, {
+    activePerks: [...newBirthTraits.positiveTraits, ...newBirthTraits.negativeTraits],
+    birthTraits: [...newBirthTraits.positiveTraits, ...newBirthTraits.negativeTraits],
+    unlockedPerks: [],
+    availablePerks: unlockablePerks,
+    totalPerksUnlocked: 0,
+    totalFlaws: newBirthTraits.negativeTraits.length,
+  });
+
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);
