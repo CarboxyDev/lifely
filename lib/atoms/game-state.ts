@@ -21,6 +21,7 @@ import type {
   TaxState,
   TimelineState,
   TimelineEvent,
+  PetsState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -168,6 +169,13 @@ const initialTimeline: TimelineState = {
   totalEvents: 0,
 };
 
+const initialPets: PetsState = {
+  currentPets: [],
+  petHistory: [],
+  totalPetsOwned: 0,
+  totalSpentOnPets: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -184,6 +192,7 @@ export const achievementsAtom = atomWithStorage<AchievementState>('lifely-achiev
 export const travelAtom = atomWithStorage<TravelState>('lifely-travel', initialTravel);
 export const taxAtom = atomWithStorage<TaxState>('lifely-tax', initialTax);
 export const timelineAtom = atomWithStorage<TimelineState>('lifely-timeline', initialTimeline);
+export const petsAtom = atomWithStorage<PetsState>('lifely-pets', initialPets);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -266,6 +275,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
     milestones: [],
     totalEvents: 1,
   });
+  set(petsAtom, initialPets);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);

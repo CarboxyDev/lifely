@@ -479,3 +479,45 @@ export interface TimelineState {
   milestones: string[]; // IDs of achieved milestones
   totalEvents: number;
 }
+
+export type PetType = 'dog' | 'cat' | 'bird' | 'fish' | 'rabbit' | 'hamster';
+
+export type PetPersonality =
+  | 'playful'
+  | 'calm'
+  | 'energetic'
+  | 'shy'
+  | 'friendly'
+  | 'independent';
+
+export interface Pet {
+  id: string;
+  name: string;
+  type: PetType;
+  personality: PetPersonality;
+  age: number; // in months
+  health: number; // 0-100
+  happiness: number; // 0-100
+  adoptedAt: number; // player age in months
+  lastFed: number; // months since last fed
+  lastVetVisit: number; // months since last vet visit
+  bond: number; // 0-100, relationship strength with owner
+  isAlive: boolean;
+}
+
+export interface PetCareActivity {
+  id: string;
+  name: string;
+  cost: number;
+  happinessBoost: number;
+  healthBoost: number;
+  bondBoost: number;
+  description: string;
+}
+
+export interface PetsState {
+  currentPets: Pet[];
+  petHistory: Pet[]; // deceased or rehomed pets
+  totalPetsOwned: number;
+  totalSpentOnPets: number;
+}
