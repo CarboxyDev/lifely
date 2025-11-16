@@ -199,6 +199,26 @@ const initialLegal: LegalState = {
   totalFinesPaid: 0,
   hasLawyer: false,
   lawyerCost: 0,
+  onProbation: false,
+  probationMonthsRemaining: 0,
+  probationViolations: 0,
+  parole: {
+    eligible: false,
+    eligibilityAge: 0,
+    onParole: false,
+    paroleOfficer: '',
+    paroleViolations: 0,
+    paroleEndAge: 0,
+    restrictions: [],
+  },
+  communityServiceHours: 0,
+  communityServiceCompleted: 0,
+  felonyCount: 0,
+  canExpunge: false,
+  expungedCrimes: 0,
+  hasWarrant: false,
+  inWitnessProtection: false,
+  courtTrials: [],
 };
 
 const initialBusiness: BusinessState = {

@@ -529,9 +529,25 @@ export type CrimeType =
   | 'vandalism'
   | 'drug-possession'
   | 'drunk-driving'
-  | 'tax-evasion';
+  | 'tax-evasion'
+  | 'cybercrime'
+  | 'embezzlement'
+  | 'racketeering'
+  | 'money-laundering'
+  | 'burglary'
+  | 'robbery'
+  | 'extortion'
+  | 'bribery'
+  | 'identity-theft'
+  | 'insider-trading'
+  | 'perjury'
+  | 'kidnapping'
+  | 'arson'
+  | 'manslaughter';
 
-export type CrimeSeverity = 'minor' | 'moderate' | 'serious' | 'felony';
+export type CrimeSeverity = 'minor' | 'moderate' | 'serious' | 'felony' | 'violent-felony';
+export type TrialOutcome = 'not-guilty' | 'guilty' | 'hung-jury' | 'mistrial' | 'plea-deal';
+export type SentenceType = 'jail' | 'probation' | 'community-service' | 'house-arrest' | 'suspended';
 
 export interface Crime {
   id: string;
@@ -544,6 +560,28 @@ export interface Crime {
   description: string;
 }
 
+export interface CourtTrial {
+  id: string;
+  crimeType: CrimeType;
+  trialDate: number; // age in months
+  prosecutorStrength: number; // 0-100
+  evidenceQuality: number; // 0-100
+  hasJury: boolean;
+  outcome: TrialOutcome;
+  sentenceMonths: number;
+  sentenceType: SentenceType;
+}
+
+export interface ParoleStatus {
+  eligible: boolean;
+  eligibilityAge: number; // when eligible
+  onParole: boolean;
+  paroleOfficer: string;
+  paroleViolations: number;
+  paroleEndAge: number;
+  restrictions: string[];
+}
+
 export interface LegalState {
   criminalRecord: Crime[];
   isJailed: boolean;
@@ -552,6 +590,18 @@ export interface LegalState {
   totalFinesPaid: number;
   hasLawyer: boolean;
   lawyerCost: number; // monthly retainer
+  onProbation: boolean;
+  probationMonthsRemaining: number;
+  probationViolations: number;
+  parole: ParoleStatus;
+  communityServiceHours: number;
+  communityServiceCompleted: number;
+  felonyCount: number; // Three strikes tracking
+  canExpunge: boolean;
+  expungedCrimes: number;
+  hasWarrant: boolean;
+  inWitnessProtection: boolean;
+  courtTrials: CourtTrial[];
 }
 
 export type BusinessType =
