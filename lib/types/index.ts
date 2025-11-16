@@ -670,3 +670,68 @@ export interface InsuranceState {
   totalClaimsPaid: number;
   hasActivePolicies: boolean;
 }
+
+// Charity and donations types
+export type CharityCause =
+  | 'education'
+  | 'healthcare'
+  | 'environment'
+  | 'poverty'
+  | 'animal-welfare'
+  | 'disaster-relief'
+  | 'arts-culture'
+  | 'research';
+
+export type DonationFrequency = 'one-time' | 'monthly' | 'yearly';
+
+export interface Donation {
+  id: string;
+  cause: CharityCause;
+  organizationName: string;
+  amount: number;
+  frequency: DonationFrequency;
+  timestamp: number;
+  age: number;
+  taxDeductible: boolean;
+}
+
+export interface RecurringDonation {
+  id: string;
+  cause: CharityCause;
+  organizationName: string;
+  monthlyAmount: number;
+  startAge: number;
+  isActive: boolean;
+  totalPaid: number;
+}
+
+export interface VolunteerActivity {
+  id: string;
+  cause: CharityCause;
+  organizationName: string;
+  hoursVolunteered: number;
+  timestamp: number;
+  age: number;
+}
+
+export interface CharitableFoundation {
+  id: string;
+  name: string;
+  cause: CharityCause;
+  foundedAt: number; // age in months
+  totalFunds: number;
+  totalDisbursed: number;
+  beneficiariesHelped: number;
+  reputation: number; // 0-100
+}
+
+export interface CharityState {
+  donations: Donation[];
+  recurringDonations: RecurringDonation[];
+  volunteerActivities: VolunteerActivity[];
+  foundations: CharitableFoundation[];
+  totalDonated: number;
+  totalVolunteerHours: number;
+  favoriteCharity: string | null;
+  philanthropyLevel: 'none' | 'occasional' | 'regular' | 'generous' | 'philanthropist';
+}
