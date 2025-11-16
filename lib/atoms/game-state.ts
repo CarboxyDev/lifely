@@ -42,7 +42,7 @@ import type {
   ExpandedEducationState,
   CalendarState,
   PerksState,
-  AchievementState,
+  SkillTreeState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -438,6 +438,30 @@ const initialPerks: PerksState = {
   totalFlaws: birthTraits.negativeTraits.length,
 };
 
+// Initialize skill tree
+const initialSkillTree: SkillTreeState = {
+  unlockedSkills: [],
+  availableSkillPoints: 0,
+  totalSkillPointsEarned: 0,
+  totalSkillPointsSpent: 0,
+  skillPointSources: {
+    fromLevels: 0,
+    fromAchievements: 0,
+    fromEvents: 0,
+    fromOther: 0,
+  },
+  activeBonuses: {
+    statModifiers: {
+      health: 0,
+      morale: 0,
+      intellect: 0,
+      looks: 0,
+    },
+    multipliers: {},
+    special: {},
+  },
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -475,6 +499,7 @@ export const randomEventsAtom = atomWithStorage<RandomEventsState>('lifely-rando
 export const expandedEducationAtom = atomWithStorage<ExpandedEducationState>('lifely-expanded-education', initialExpandedEducation);
 export const calendarAtom = atomWithStorage<CalendarState>('lifely-calendar', initialCalendar);
 export const perksAtom = atomWithStorage<PerksState>('lifely-perks', initialPerks);
+export const skillTreeAtom = atomWithStorage<SkillTreeState>('lifely-skill-tree', initialSkillTree);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);

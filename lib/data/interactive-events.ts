@@ -1,5 +1,5 @@
-import type { EventCategory, EventSeverity } from '../types';
-import { rollDice, rollWithAdvantage, rollWithDisadvantage, DiceType } from '../utils/dice-system';
+import type { EventCategory, EventSeverity, DiceType } from '../types';
+import { rollDice, rollWithAdvantage, rollWithDisadvantage } from '../utils/dice-system';
 
 /**
  * INTERACTIVE RPG-STYLE EVENTS
@@ -816,11 +816,11 @@ export function performDiceChallenge(
   let roll: number;
 
   if (challenge.hasAdvantage) {
-    roll = rollWithAdvantage(challenge.diceType);
+    roll = rollWithAdvantage(challenge.diceType, true, false, [], 50).modifiedRoll;
   } else if (challenge.hasDisadvantage) {
-    roll = rollWithDisadvantage(challenge.diceType);
+    roll = rollWithDisadvantage(challenge.diceType, [], 50);
   } else {
-    roll = rollDice(challenge.diceType, challenge.rollCount);
+    roll = rollDice(challenge.diceType, [], 50).modifiedRoll;
   }
 
   // Apply luck modifier

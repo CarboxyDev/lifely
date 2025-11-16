@@ -29,7 +29,7 @@ export function checkAndUnlockAchievements(state: GameState): {
   updatedState: AchievementState;
 } {
   const newlyUnlocked: Achievement[] = [];
-  const alreadyUnlocked = new Set(state.achievements.unlocked.map((a) => a.id));
+  const alreadyUnlocked = new Set(state.achievements.unlockedAchievements.map((a) => a.achievementId));
 
   // Check each achievement
   for (const def of achievementDefs) {
@@ -109,32 +109,29 @@ export function checkAndUnlockAchievements(state: GameState): {
 
     // Special achievements
     if (def.id === 'perfect-credit' && state.credit.score >= 850) shouldUnlock = true;
-    if (def.id === 'overachiever' && state.achievements.unlocked.length >= 50) shouldUnlock = true;
+    if (def.id === 'overachiever' && state.achievements.unlockedAchievements.length >= 50) shouldUnlock = true;
 
     // If should unlock, add to newly unlocked
     if (shouldUnlock) {
-      const newAchievement: Achievement = {
-        id: def.id,
-        name: def.name,
-        description: def.description,
-        category: def.category,
-        icon: def.icon,
-        unlockedAt: state.user.age,
-        rarity: def.rarity,
-      };
-      newlyUnlocked.push(newAchievement);
+      newlyUnlocked.push(def);
     }
   }
 
-  // Calculate new total points
-  const newTotalPoints = state.achievements.totalPoints + newlyUnlocked.reduce((sum, ach) => {
-    const def = achievementDefs.find((d) => d.id === ach.id);
-    return sum + (def?.points || 0);
-  }, 0);
+  // Create UnlockedAchievement entries for newly unlocked achievements
+  const newUnlockedEntries = newlyUnlocked.map(ach => ({
+    achievementId: ach.id,
+    unlockedAt: state.user.age,
+    rewardsClaimed: false,
+  }));
+
+  // Calculate new total points (achievements don't have points property in the new system)
+  const newTotalPoints = state.achievements.totalPoints + newlyUnlocked.length;
 
   const updatedState: AchievementState = {
-    unlocked: [...state.achievements.unlocked, ...newlyUnlocked],
+    ...state.achievements,
+    unlockedAchievements: [...state.achievements.unlockedAchievements, ...newUnlockedEntries],
     totalPoints: newTotalPoints,
+    totalAchievements: state.achievements.totalAchievements + newlyUnlocked.length,
   };
 
   return {

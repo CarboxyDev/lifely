@@ -16,6 +16,7 @@ import {
   BarChart3,
   Plane,
   Clock,
+  Sparkles,
 } from 'lucide-react';
 import { useState } from 'react';
 import { JobsDialog } from './dialogs/JobsDialog';
@@ -32,6 +33,7 @@ import { InvestmentsDialog } from './dialogs/InvestmentsDialog';
 import { StatisticsDialog } from './dialogs/StatisticsDialog';
 import { TravelDialog } from './dialogs/TravelDialog';
 import { TimelineDialog } from './dialogs/TimelineDialog';
+import { SkillTreeDialog } from './dialogs/SkillTreeDialog';
 
 export function QuickActions() {
   const [jobsOpen, setJobsOpen] = useState(false);
@@ -48,6 +50,7 @@ export function QuickActions() {
   const [statisticsOpen, setStatisticsOpen] = useState(false);
   const [travelOpen, setTravelOpen] = useState(false);
   const [timelineOpen, setTimelineOpen] = useState(false);
+  const [skillTreeOpen, setSkillTreeOpen] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
 
   // Frequently accessed - full cards
@@ -118,6 +121,12 @@ export function QuickActions() {
       label: 'Skills',
       onClick: () => setSkillsOpen(true),
       color: '#8b5cf6',
+    },
+    {
+      icon: Sparkles,
+      label: 'Skill Tree',
+      onClick: () => setSkillTreeOpen(true),
+      color: '#fbbf24',
     },
     {
       icon: Plane,
@@ -231,6 +240,7 @@ export function QuickActions() {
       <StatisticsDialog open={statisticsOpen} onOpenChange={setStatisticsOpen} />
       <TravelDialog open={travelOpen} onOpenChange={setTravelOpen} />
       <TimelineDialog open={timelineOpen} onOpenChange={setTimelineOpen} />
+      <SkillTreeDialog open={skillTreeOpen} onOpenChange={setSkillTreeOpen} />
     </>
   );
 }

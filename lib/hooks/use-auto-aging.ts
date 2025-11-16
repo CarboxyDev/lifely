@@ -64,7 +64,7 @@ export function useAutoAging() {
       morale: stats.morale,
       intellect: stats.intellect,
       looks: stats.looks,
-      luck: stats.luck || 50,
+      luck: 50,
     };
 
     // Perform aging tick
@@ -111,7 +111,7 @@ export function useAutoAging() {
       calendar.ageInDays,
       result.newCalendarState?.ageInDays || calendar.ageInDays,
       hasJob,
-      user.salary || 0
+      user.job.salary || 0
     );
 
     if (salaryCheck.shouldReceiveSalary && salaryCheck.salaryAmount) {

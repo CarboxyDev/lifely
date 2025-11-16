@@ -1635,3 +1635,36 @@ export interface ExpandedEducationState {
   conferencesPresentedAt: number;
 }
 
+// ===== SKILL TREE SYSTEM =====
+export type SkillTreeType = 'combat' | 'social' | 'mental' | 'financial' | 'health' | 'career';
+
+export interface UnlockedSkill {
+  skillId: string;
+  unlockedAt: number; // age in days when unlocked
+  tier: number;
+  pointsSpent: number;
+}
+
+export interface SkillTreeState {
+  unlockedSkills: UnlockedSkill[];
+  availableSkillPoints: number;
+  totalSkillPointsEarned: number;
+  totalSkillPointsSpent: number;
+  skillPointSources: {
+    fromLevels: number;
+    fromAchievements: number;
+    fromEvents: number;
+    fromOther: number;
+  };
+  activeBonuses: {
+    statModifiers: {
+      health: number;
+      morale: number;
+      intellect: number;
+      looks: number;
+    };
+    multipliers: Record<string, number>;
+    special: Record<string, boolean | string | number>;
+  };
+}
+

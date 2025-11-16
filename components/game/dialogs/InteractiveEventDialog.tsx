@@ -46,7 +46,7 @@ export function InteractiveEventDialog({ event, isOpen, onClose }: InteractiveEv
   };
 
   const handleDiceChallenge = (challenge: DiceChallenge) => {
-    const luckModifier = Math.floor((stats.luck || 50) / 10) - 5; // -5 to +5 based on luck
+    const luckModifier = Math.floor(50 / 10) - 5; // -5 to +5 based on luck (default 50)
     const { result: outcome, roll } = performDiceChallenge(challenge, luckModifier);
 
     setRollValue(roll);

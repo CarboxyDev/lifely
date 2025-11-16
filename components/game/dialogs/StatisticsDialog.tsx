@@ -105,7 +105,7 @@ export function StatisticsDialog({ open, onOpenChange }: StatisticsDialogProps) 
             <div className="rounded-lg border border-border bg-muted/30 p-3">
               <div className="text-xs text-muted-foreground">Achievements</div>
               <div className="text-lg font-bold text-foreground">
-                {achievements.unlocked.length}
+                {achievements.unlockedAchievements.length}
               </div>
             </div>
             <div className="rounded-lg border border-border bg-muted/30 p-3">
@@ -421,7 +421,7 @@ export function StatisticsDialog({ open, onOpenChange }: StatisticsDialogProps) 
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   <div className="rounded-lg border border-border bg-muted/20 p-3">
                     <div className="text-xs text-muted-foreground">Unlocked</div>
-                    <div className="text-2xl font-bold text-foreground">{achievements.unlocked.length}</div>
+                    <div className="text-2xl font-bold text-foreground">{achievements.unlockedAchievements.length}</div>
                   </div>
                   <div className="rounded-lg border border-border bg-muted/20 p-3">
                     <div className="text-xs text-muted-foreground">Total Points</div>
@@ -429,23 +429,11 @@ export function StatisticsDialog({ open, onOpenChange }: StatisticsDialogProps) 
                   </div>
                 </div>
 
-                {achievements.unlocked.length > 0 && (
+                {achievements.unlockedAchievements.length > 0 && (
                   <div className="space-y-2">
-                    <div className="text-xs font-medium text-foreground mb-2">Recent Achievements</div>
-                    {achievements.unlocked.slice(-10).reverse().map((achievement) => (
-                      <div key={achievement.id} className="rounded border border-border bg-muted/20 p-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg">{achievement.icon}</span>
-                          <div className="flex-1">
-                            <div className="text-sm font-medium text-foreground">{achievement.name}</div>
-                            <div className="text-xs text-muted-foreground">{achievement.description}</div>
-                          </div>
-                          <div className="text-xs text-muted-foreground">
-                            {formatAge(achievement.unlockedAt)}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                    <div className="text-xs font-medium text-foreground mb-2">
+                      You've unlocked {achievements.unlockedAchievements.length} achievements!
+                    </div>
                   </div>
                 )}
               </div>

@@ -482,7 +482,6 @@ export const dailyLifeEvents: InteractiveEvent[] = [
             },
             {
               text: 'Call in sick',
-              requirements: { hasJob: true },
               outcome: {
                 title: 'Mental Health Day',
                 description: 'Took the day off to rest. Needed it.',
