@@ -11,6 +11,9 @@ export const allJobs: Record<string, JobData> = {
     successRate: null,
     cgpaNeeded: null,
     requires: ['ENG'],
+    requiredSkills: ['engineering'],
+    recommendedSkills: ['data-analysis', 'communication'],
+    skillWeight: 0.4,
   },
   'Computer Engineer': {
     minSalary: 6000,
@@ -20,6 +23,9 @@ export const allJobs: Record<string, JobData> = {
     successRate: null,
     cgpaNeeded: null,
     requires: ['ENG'],
+    requiredSkills: ['programming'],
+    recommendedSkills: ['engineering', 'data-analysis'],
+    skillWeight: 0.5,
   },
   'Electrical Engineer': {
     minSalary: 4000,
@@ -29,6 +35,9 @@ export const allJobs: Record<string, JobData> = {
     successRate: null,
     cgpaNeeded: null,
     requires: ['ENG'],
+    requiredSkills: ['engineering'],
+    recommendedSkills: ['programming'],
+    skillWeight: 0.4,
   },
 
   // Medical Jobs
@@ -69,6 +78,9 @@ export const allJobs: Record<string, JobData> = {
     successRate: null,
     cgpaNeeded: null,
     requires: ['LAW'],
+    requiredSkills: ['negotiation', 'communication'],
+    recommendedSkills: ['research', 'writing'],
+    skillWeight: 0.45,
   },
   'Accountant': {
     minSalary: 2000,
@@ -78,6 +90,9 @@ export const allJobs: Record<string, JobData> = {
     successRate: null,
     cgpaNeeded: null,
     requires: ['COM'],
+    requiredSkills: ['finance'],
+    recommendedSkills: ['data-analysis'],
+    skillWeight: 0.35,
   },
   'Stock Broker': {
     minSalary: 3250,
@@ -87,6 +102,9 @@ export const allJobs: Record<string, JobData> = {
     successRate: null,
     cgpaNeeded: null,
     requires: ['COM'],
+    requiredSkills: ['finance', 'negotiation'],
+    recommendedSkills: ['communication', 'data-analysis'],
+    skillWeight: 0.5,
   },
 
   // No Degree Required
@@ -98,6 +116,8 @@ export const allJobs: Record<string, JobData> = {
     successRate: null,
     cgpaNeeded: null,
     requires: [],
+    recommendedSkills: ['communication'],
+    skillWeight: 0.2,
   },
   'Delivery Driver': {
     minSalary: 1500,
@@ -107,6 +127,8 @@ export const allJobs: Record<string, JobData> = {
     successRate: null,
     cgpaNeeded: null,
     requires: [],
+    recommendedSkills: ['time-management'],
+    skillWeight: 0.2,
   },
   'Restaurant Waiter': {
     minSalary: 1250,
@@ -116,6 +138,8 @@ export const allJobs: Record<string, JobData> = {
     successRate: null,
     cgpaNeeded: null,
     requires: [],
+    recommendedSkills: ['communication', 'time-management'],
+    skillWeight: 0.25,
   },
 };
 

@@ -71,6 +71,8 @@ export interface Job {
   promotions: number;
   duration: number; // months
   previousJobs: string[];
+  performance: number; // 0-100, affects raises and promotions
+  lastReview: number; // age in months of last performance review
 }
 
 export interface Bank {
@@ -156,7 +158,10 @@ export interface JobData {
   maxIncrement: number;
   successRate: number | null;
   cgpaNeeded: number | null;
-  requires: string[];
+  requires: string[]; // education requirements
+  requiredSkills?: string[]; // skill IDs that are required
+  recommendedSkills?: string[]; // skill IDs that boost performance
+  skillWeight?: number; // 0-1, how much skills matter (default 0.3)
 }
 
 export interface Activity {

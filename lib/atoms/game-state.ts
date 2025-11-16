@@ -53,6 +53,8 @@ const initialUser: User = {
     promotions: 0,
     duration: 0,
     previousJobs: [],
+    performance: 0,
+    lastReview: 0,
   },
 };
 

@@ -57,6 +57,8 @@ export function JobsDialog({ open, onOpenChange }: JobsDialogProps) {
           previousJobs: user.job.name !== 'Unemployed'
             ? [...user.job.previousJobs, user.job.name]
             : user.job.previousJobs,
+          performance: 50, // Start with average performance
+          lastReview: user.age, // Set review to current age
         },
       });
       setHasJob(true);

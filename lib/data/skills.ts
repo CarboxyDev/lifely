@@ -100,6 +100,13 @@ export const availableSkills: SkillDefinition[] = [
     description: 'Reach beneficial agreements',
     usefulFor: ['Lawyer', 'Sales', 'Manager'],
   },
+  {
+    id: 'time-management',
+    name: 'Time Management',
+    category: 'social',
+    description: 'Organize and prioritize tasks effectively',
+    usefulFor: ['Manager', 'Professional', 'Any Job'],
+  },
 
   // Physical Skills
   {
