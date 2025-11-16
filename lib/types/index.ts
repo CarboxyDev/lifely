@@ -902,3 +902,43 @@ export interface StockMarketState {
   marketSentiment: number; // -100 to 100
   lastMarketUpdate: number;
 }
+
+// Cryptocurrency types
+export interface Cryptocurrency {
+  symbol: string;
+  name: string;
+  currentPrice: number;
+  previousPrice: number;
+  volatility: number; // 0-100, much higher than stocks
+  marketCap: number;
+  maxSupply: number;
+}
+
+export interface CryptoHolding {
+  cryptoSymbol: string;
+  amount: number; // can be fractional
+  purchasePrice: number; // average cost basis
+  purchaseAge: number;
+}
+
+export interface CryptoTransaction {
+  id: string;
+  type: 'buy' | 'sell' | 'stake' | 'unstake';
+  cryptoSymbol: string;
+  amount: number;
+  pricePerCoin: number;
+  totalValue: number;
+  fees: number;
+  timestamp: number;
+  age: number;
+}
+
+export interface CryptoState {
+  holdings: CryptoHolding[];
+  stakedCoins: { cryptoSymbol: string; amount: number; apr: number }[];
+  transactionHistory: CryptoTransaction[];
+  totalInvested: number;
+  totalStakingRewards: number;
+  marketBoom: boolean; // crypto bull run
+  lastUpdate: number;
+}

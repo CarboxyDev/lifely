@@ -30,6 +30,7 @@ import type {
   AddictionsState,
   MentalHealthState,
   StockMarketState,
+  CryptoState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -263,6 +264,16 @@ const initialStockMarket: StockMarketState = {
   lastMarketUpdate: 0,
 };
 
+const initialCrypto: CryptoState = {
+  holdings: [],
+  stakedCoins: [],
+  transactionHistory: [],
+  totalInvested: 0,
+  totalStakingRewards: 0,
+  marketBoom: false,
+  lastUpdate: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -288,6 +299,7 @@ export const charityAtom = atomWithStorage<CharityState>('lifely-charity', initi
 export const addictionsAtom = atomWithStorage<AddictionsState>('lifely-addictions', initialAddictions);
 export const mentalHealthAtom = atomWithStorage<MentalHealthState>('lifely-mental-health', initialMentalHealth);
 export const stockMarketAtom = atomWithStorage<StockMarketState>('lifely-stock-market', initialStockMarket);
+export const cryptoAtom = atomWithStorage<CryptoState>('lifely-crypto', initialCrypto);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -384,6 +396,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
     supportNetwork: randint(50, 80),
   });
   set(stockMarketAtom, initialStockMarket);
+  set(cryptoAtom, initialCrypto);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);
