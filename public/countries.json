@@ -1,0 +1,74 @@
+{
+  "United States of America": {
+    "abbr": "USA",
+    "group": ["Western"]
+  },
+  "Canada": {
+    "abbr": "CAN",
+    "group": ["Western", "French"]
+  },
+  "China": {
+    "abbr": "CHN",
+    "group": ["Chinese"]
+  },
+  "Japan": {
+    "abbr": "JPN",
+    "group": ["Japanese"]
+  },
+  "South Korea": {
+    "abbr": "KOR",
+    "group": ["Korean"]
+  },
+  "Hong Kong": {
+    "abbr": "HKG",
+    "group": ["Chinese"]
+  },
+  "Singapore": {
+    "abbr": "SGP",
+    "group": ["Chinese"]
+  },
+  "India": {
+    "abbr": "IND",
+    "group": ["Indian"]
+  },
+  "Australia": {
+    "abbr": "AUS",
+    "group": ["Western"]
+  },
+  "United Kingdom": {
+    "abbr": "UK",
+    "group": ["Western"]
+  },
+  "Germany": {
+    "abbr": "GER",
+    "group": ["Western"]
+  },
+  "France": {
+    "abbr": "FRA",
+    "group": ["French"]
+  },
+  "Italy": {
+    "abbr": "ITA",
+    "group": ["Western"]
+  },
+  "Mexico": {
+    "abbr": "MEX",
+    "group": ["Spanish"]
+  },
+  "Spain": {
+    "abbr": "SPA",
+    "group": ["Spanish"]
+  },
+  "Brazil": {
+    "abbr": "BRA",
+    "group": ["Portuguese"]
+  },
+  "Argentina": {
+    "abbr": "ARG",
+    "group": ["Spanish"]
+  },
+  "Colombia": {
+    "abbr": "COL",
+    "group": ["Spanish"]
+  }
+}
