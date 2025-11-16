@@ -735,3 +735,61 @@ export interface CharityState {
   favoriteCharity: string | null;
   philanthropyLevel: 'none' | 'occasional' | 'regular' | 'generous' | 'philanthropist';
 }
+
+// Addiction types
+export type AddictionType =
+  | 'alcohol'
+  | 'drugs'
+  | 'gambling'
+  | 'shopping'
+  | 'internet'
+  | 'work';
+
+export type AddictionLevel = 'none' | 'mild' | 'moderate' | 'severe' | 'critical';
+
+export type RecoveryStatus =
+  | 'active-addiction'
+  | 'in-treatment'
+  | 'recovering'
+  | 'relapsed'
+  | 'recovered';
+
+export interface Addiction {
+  type: AddictionType;
+  level: AddictionLevel;
+  monthsSinceStart: number;
+  recoveryStatus: RecoveryStatus;
+  totalMoneySpent: number;
+  interventionCount: number;
+  relapseCount: number;
+  cleanMonths: number; // consecutive months clean
+  inRehab: boolean;
+  attendingSupportGroups: boolean;
+}
+
+export interface RecoveryProgram {
+  id: string;
+  type: 'rehab' | 'outpatient' | 'support-group' | 'therapy';
+  name: string;
+  cost: number;
+  duration: number; // months
+  successRate: number; // 0-100
+}
+
+export interface AddictionsState {
+  currentAddictions: Addiction[];
+  recoveryHistory: {
+    addictionType: AddictionType;
+    recoveredAt: number; // age in months
+    monthsAddicted: number;
+    totalCost: number;
+  }[];
+  activePrograms: {
+    programId: string;
+    addictionType: AddictionType;
+    startAge: number;
+    monthsRemaining: number;
+  }[];
+  totalRecoverySpent: number;
+  hasBeenAddicted: boolean;
+}
