@@ -42,6 +42,7 @@ import type {
   ExpandedEducationState,
   CalendarState,
   PerksState,
+  AchievementState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -161,8 +162,13 @@ const initialInvestments: InvestmentState = {
 };
 
 const initialAchievements: AchievementState = {
-  unlocked: [],
+  unlockedAchievements: [],
+  achievementProgress: [],
+  totalAchievements: 0,
   totalPoints: 0,
+  recentlyUnlocked: [],
+  eventCounts: {},
+  specialConditions: {},
 };
 
 const initialTravel: TravelState = {

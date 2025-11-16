@@ -332,27 +332,91 @@ export interface InvestmentState {
 }
 
 export type AchievementCategory =
+  | 'wealth'
   | 'financial'
   | 'career'
   | 'education'
   | 'relationships'
   | 'health'
   | 'lifestyle'
-  | 'special';
+  | 'special'
+  | 'social'
+  | 'family'
+  | 'crime';
+
+export type AchievementRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
 export interface Achievement {
   id: string;
   name: string;
   description: string;
   category: AchievementCategory;
-  icon: string;
-  unlockedAt: number; // age in months when unlocked
-  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+  rarity: AchievementRarity;
+  icon: string; // emoji
+
+  // Unlock condition
+  condition: {
+    type: 'stat' | 'count' | 'combo' | 'special';
+
+    // For stat-based
+    stat?: 'wealth' | 'age' | 'health' | 'morale' | 'intellect' | 'looks' | 'fame' | 'karma';
+    threshold?: number;
+
+    // For count-based
+    eventId?: string;
+    eventCount?: number;
+
+    // For combo (multiple conditions)
+    conditions?: Array<{
+      stat?: string;
+      threshold?: number;
+      eventId?: string;
+      eventCount?: number;
+    }>;
+
+    // For special checks
+    customCheck?: string; // ID for custom checking logic
+  };
+
+  // Rewards
+  rewards: {
+    perkUnlock?: string; // Perk ID to unlock
+    money?: number;
+    statBoost?: {
+      health?: number;
+      morale?: number;
+      intellect?: number;
+      looks?: number;
+    };
+  };
+
+  // Hidden until unlocked
+  hidden?: boolean;
+}
+
+export interface UnlockedAchievement {
+  achievementId: string;
+  unlockedAt: number; // age in days when unlocked
+  rewardsClaimed: boolean;
+}
+
+export interface AchievementProgress {
+  achievementId: string;
+  currentProgress: number; // For count-based achievements
+  maxProgress: number;
+  lastChecked: number; // timestamp
 }
 
 export interface AchievementState {
-  unlocked: Achievement[];
-  totalPoints: number;
+  unlockedAchievements: UnlockedAchievement[];
+  achievementProgress: AchievementProgress[];
+  totalAchievements: number;
+  totalPoints: number; // Sum of rarity values
+  recentlyUnlocked: string[]; // IDs of recently unlocked (for notifications)
+
+  // Tracking for special achievements
+  eventCounts: Record<string, number>; // eventId -> count
+  specialConditions: Record<string, any>; // For custom tracking
 }
 
 export type TravelType =
