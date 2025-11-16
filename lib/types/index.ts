@@ -521,3 +521,35 @@ export interface PetsState {
   totalPetsOwned: number;
   totalSpentOnPets: number;
 }
+
+export type CrimeType =
+  | 'theft'
+  | 'assault'
+  | 'fraud'
+  | 'vandalism'
+  | 'drug-possession'
+  | 'drunk-driving'
+  | 'tax-evasion';
+
+export type CrimeSeverity = 'minor' | 'moderate' | 'serious' | 'felony';
+
+export interface Crime {
+  id: string;
+  type: CrimeType;
+  severity: CrimeSeverity;
+  committedAt: number; // age in months
+  caught: boolean;
+  jailTime: number; // months
+  fine: number;
+  description: string;
+}
+
+export interface LegalState {
+  criminalRecord: Crime[];
+  isJailed: boolean;
+  jailReleaseAge: number; // age in months when released
+  totalJailTime: number; // total months spent in jail
+  totalFinesPaid: number;
+  hasLawyer: boolean;
+  lawyerCost: number; // monthly retainer
+}
