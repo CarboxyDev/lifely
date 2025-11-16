@@ -633,3 +633,40 @@ export interface GamblingState {
   lastGambleAge: number;
   gamblingStreak: number; // consecutive months gambling
 }
+
+// Insurance types
+export type InsuranceType = 'term-life' | 'whole-life' | 'universal-life';
+
+export type InsuranceRiderType =
+  | 'accidental-death'
+  | 'critical-illness'
+  | 'disability'
+  | 'waiver-of-premium';
+
+export interface InsuranceRider {
+  type: InsuranceRiderType;
+  monthlyCost: number;
+  benefit: number;
+  description: string;
+}
+
+export interface LifeInsurance {
+  id: string;
+  type: InsuranceType;
+  coverageAmount: number;
+  monthlyPremium: number;
+  cashValue: number; // for whole/universal life
+  purchaseAge: number; // age in months when purchased
+  term: number; // term length in months (for term life)
+  riders: InsuranceRider[];
+  beneficiaries: string[];
+  isActive: boolean;
+}
+
+export interface InsuranceState {
+  policies: LifeInsurance[];
+  policyHistory: LifeInsurance[];
+  totalPremiumsPaid: number;
+  totalClaimsPaid: number;
+  hasActivePolicies: boolean;
+}
