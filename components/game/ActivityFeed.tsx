@@ -139,6 +139,7 @@ export function ActivityFeed() {
   const [currentPage, setCurrentPage] = useAtom(activityFeedPageAtom);
   const [showDateChange, setShowDateChange] = useState(false);
   const previousDayRef = useRef(calendar.ageInDays);
+  const previousMessageCountRef = useRef(messages.length);
 
   // Detect date changes
   useEffect(() => {
@@ -156,6 +157,15 @@ export function ActivityFeed() {
   const startIndex = currentPage * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentMessages = messages.slice(startIndex, endIndex);
+
+  // Auto-pagination: Jump to last page when new messages are added
+  useEffect(() => {
+    if (messages.length > previousMessageCountRef.current) {
+      const lastPage = Math.max(0, totalPages - 1);
+      setCurrentPage(lastPage);
+      previousMessageCountRef.current = messages.length;
+    }
+  }, [messages.length, totalPages, setCurrentPage]);
 
   // Reset to last page if messages change and current page is out of bounds
   if (currentPage >= totalPages && totalPages > 0) {
@@ -175,12 +185,12 @@ export function ActivityFeed() {
   };
 
   return (
-    <Card className="flex h-[calc(100vh-240px)] flex-col border-border bg-card relative">
-      <CardHeader className="shrink-0 border-b border-border px-2.5 py-1">
+    <Card className="flex h-[calc(100vh-180px)] flex-col border-border bg-card relative">
+      <CardHeader className="shrink-0 border-b border-border px-4 py-2.5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5 relative">
-            <Calendar className="h-3 w-3 text-muted-foreground" />
-            <CardTitle className="text-[11px] font-medium text-foreground">
+          <div className="flex items-center gap-2 relative">
+            <Calendar className="h-5 w-5 text-muted-foreground" />
+            <CardTitle className="text-lg font-semibold text-foreground">
               {calendar.currentDate.day} {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][calendar.currentDate.month - 1]}
             </CardTitle>
 
@@ -191,7 +201,7 @@ export function ActivityFeed() {
                   initial={{ opacity: 0, y: 0, scale: 0.5 }}
                   animate={{
                     opacity: [0, 1, 1, 0],
-                    y: [0, -6, -10, -14],
+                    y: [0, -8, -12, -16],
                     scale: [0.5, 1.1, 1, 0.9]
                   }}
                   exit={{ opacity: 0 }}
@@ -200,29 +210,24 @@ export function ActivityFeed() {
                     times: [0, 0.3, 0.7, 1],
                     ease: "easeOut"
                   }}
-                  className="absolute left-0 -top-3 flex items-center gap-0.5 text-[10px] font-bold"
+                  className="absolute left-0 -top-4 flex items-center gap-0.5 text-xs font-bold"
                   style={{
                     textShadow: '0 0 8px rgba(16, 185, 129, 0.6)',
                     color: '#10b981'
                   }}
                 >
-                  <Plus className="h-2.5 w-2.5" strokeWidth={3} />
+                  <Plus className="h-3 w-3" strokeWidth={3} />
                   <span>1 day</span>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-muted-foreground">
-              {calendar.currentDate.year}
+          <div className="flex items-center gap-2">
+            <Wallet className="h-5 w-5 text-emerald-400" />
+            <span className="text-lg font-semibold text-emerald-400">
+              {formatCurrency(money)}
             </span>
-            <div className="flex items-center gap-1.5">
-              <Wallet className="h-3 w-3 text-emerald-400" />
-              <span className="text-xs font-medium text-emerald-400">
-                {formatCurrency(money)}
-              </span>
-            </div>
           </div>
         </div>
       </CardHeader>

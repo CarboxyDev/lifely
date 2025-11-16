@@ -97,19 +97,12 @@ export function AgingControls() {
             <Button
               variant="outline"
               size="lg"
-              className="min-w-[140px] gap-3 border-2 transition-colors hover:border-accent"
+              className="gap-2.5 border-2 transition-colors hover:border-accent"
             >
               <Gauge className="h-5 w-5" />
-              <div className="flex flex-col items-start gap-0.5">
-                <span className={`text-sm font-semibold ${speedColors[displaySpeed]}`}>
-                  {speedLabels[displaySpeed]}
-                </span>
-                {speedDetails[displaySpeed] && (
-                  <span className="text-[10px] font-medium text-muted-foreground">
-                    {speedDetails[displaySpeed]}
-                  </span>
-                )}
-              </div>
+              <span className={`text-base font-semibold ${speedColors[displaySpeed]}`}>
+                {speedLabels[displaySpeed]}
+              </span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56">

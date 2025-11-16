@@ -1,27 +1,40 @@
 'use client';
 
 import { useAtom } from 'jotai';
-import { userAtom, calendarAtom, moneyAtom } from '@/lib/atoms/game-state';
+import { userAtom, calendarAtom, moneyAtom, bankAtom } from '@/lib/atoms/game-state';
 import { Card, CardContent } from '@/components/ui/card';
-import { User, Wallet, Cake } from 'lucide-react';
+import { User, Cake, MapPin, Briefcase, GraduationCap, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { formatExactAge, formatCurrency } from '@/lib/utils/game-utils';
+import { educationLevelNames } from '@/lib/data/education';
 
 const coreInfoConfig = [
   { key: 'name', label: 'Name', icon: User, color: '#10b981' },
   { key: 'age', label: 'Age', icon: Cake, color: '#8b5cf6' },
-  { key: 'cash', label: 'Cash', icon: Wallet, color: '#f59e0b' },
+  { key: 'country', label: 'Country', icon: MapPin, color: '#3b82f6' },
+  { key: 'occupation', label: 'Occupation', icon: Briefcase, color: '#f59e0b' },
+  { key: 'education', label: 'Education', icon: GraduationCap, color: '#ec4899' },
+  { key: 'netWorth', label: 'Net Worth', icon: TrendingUp, color: '#10b981' },
 ];
 
 export function UserInfoCard() {
   const [user] = useAtom(userAtom);
   const [calendar] = useAtom(calendarAtom);
   const [money] = useAtom(moneyAtom);
+  const [bank] = useAtom(bankAtom);
+
+  const netWorth = money + bank.balance;
+  const educationStatus = user.education.isEnrolled
+    ? `${educationLevelNames[user.education.currentLevel]} (In Progress)`
+    : educationLevelNames[user.education.currentLevel];
 
   const coreInfo = {
     name: user.name,
     age: formatExactAge(calendar.ageInDays),
-    cash: formatCurrency(money),
+    country: user.country,
+    occupation: user.job.name,
+    education: educationStatus,
+    netWorth: formatCurrency(netWorth),
   };
 
   return (
