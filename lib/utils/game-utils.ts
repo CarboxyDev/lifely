@@ -137,3 +137,22 @@ export function deleteSave(): void {
   localStorage.removeItem('lifely-save');
   localStorage.removeItem('lifely-save-date');
 }
+
+/**
+ * Format date in short format (e.g., "12 Nov")
+ */
+export function formatDateShort(gameDate: { day: number; month: number; year: number }): string {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${gameDate.day} ${months[gameDate.month - 1]}`;
+}
+
+/**
+ * Format exact age with years, months, and days (e.g., "17y 8m 3d")
+ */
+export function formatExactAge(ageInDays: number): string {
+  const years = Math.floor(ageInDays / 365);
+  const remainingDays = ageInDays % 365;
+  const months = Math.floor(remainingDays / 30);
+  const days = remainingDays % 30;
+  return `${years}y ${months}m ${days}d`;
+}

@@ -34,9 +34,12 @@ export function useAutoAging() {
   const [currentSpeed, setCurrentSpeed] = useState<AgingSpeed>('paused');
   const [currentEvent, setCurrentEvent] = useState<any>(null);
   const [daysProcessedCount, setDaysProcessedCount] = useState(0);
+  const [progressPercentage, setProgressPercentage] = useState(0);
 
   const tickIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const lastTickTimeRef = useRef<number>(Date.now());
+  const lastNonPausedSpeedRef = useRef<AgingSpeed>('normal');
 
   // Use refs to store current values to avoid closure issues
   const isAgingRef = useRef(isAging);
@@ -207,6 +210,7 @@ export function useAutoAging() {
         clearInterval(tickIntervalRef.current);
         tickIntervalRef.current = null;
       }
+      setProgressPercentage(0);
       return;
     }
 
@@ -228,16 +232,53 @@ export function useAutoAging() {
   }, [isAging, currentSpeed, processTick]);
 
   /**
+   * Update progress percentage for visual feedback
+   */
+  useEffect(() => {
+    if (!isAging || currentSpeed === 'paused') {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
+      }
+      return;
+    }
+
+    // Update progress every 100ms
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current);
+    }
+
+    progressIntervalRef.current = setInterval(() => {
+      const now = Date.now();
+      const elapsed = now - lastTickTimeRef.current;
+      const requiredDelay = getTickDelay(currentSpeed);
+      const percentage = Math.min(100, (elapsed / requiredDelay) * 100);
+      setProgressPercentage(percentage);
+    }, 100);
+
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
+      }
+    };
+  }, [isAging, currentSpeed]);
+
+  /**
    * Start aging at specified speed
    */
-  const startAging = useCallback((speed: AgingSpeed) => {
-    if (speed === 'paused') {
+  const startAging = useCallback((speed?: AgingSpeed) => {
+    // Use provided speed or last non-paused speed
+    const targetSpeed = speed || lastNonPausedSpeedRef.current;
+
+    if (targetSpeed === 'paused') {
       stopAging();
       return;
     }
 
+    lastNonPausedSpeedRef.current = targetSpeed;
     setIsAging(true);
-    setCurrentSpeed(speed);
+    setCurrentSpeed(targetSpeed);
     setDaysProcessedCount(0);
     lastTickTimeRef.current = Date.now();
   }, []);
@@ -258,6 +299,7 @@ export function useAutoAging() {
     if (speed === 'paused') {
       stopAging();
     } else {
+      lastNonPausedSpeedRef.current = speed;
       startAging(speed);
     }
   }, [startAging, stopAging]);
@@ -275,6 +317,7 @@ export function useAutoAging() {
     currentSpeed,
     currentEvent,
     daysProcessed: daysProcessedCount,
+    progressPercentage,
     startAging,
     stopAging,
     changeSpeed,

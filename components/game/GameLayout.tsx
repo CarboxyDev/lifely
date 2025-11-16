@@ -34,10 +34,10 @@ export function GameLayout() {
       {/* Main Content Grid - takes remaining height */}
       <div className="mx-auto flex w-full max-w-7xl flex-1 overflow-hidden px-6 py-6">
         <div className="grid w-full gap-6 lg:grid-cols-12">
-          {/* Left Column - User Info & Stats (Compact) */}
+          {/* Left Column - Stats & Core Info (Compact) */}
           <div className="space-y-4 lg:col-span-3">
-            <UserInfoCard />
             <StatsCards />
+            <UserInfoCard />
           </div>
 
           {/* Center Column - Activity Feed (More prominent) */}

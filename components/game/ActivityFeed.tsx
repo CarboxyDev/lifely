@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { useAtom } from 'jotai';
-import { consoleMessagesAtom } from '@/lib/atoms/game-state';
+import { consoleMessagesAtom, userAtom } from '@/lib/atoms/game-state';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Activity,
+  MapPin,
   TrendingUp,
   TrendingDown,
   DollarSign,
@@ -131,6 +131,7 @@ const ITEMS_PER_PAGE = 12;
 
 export function ActivityFeed() {
   const [messages] = useAtom(consoleMessagesAtom);
+  const [user] = useAtom(userAtom);
   const [currentPage, setCurrentPage] = useState(0);
 
   // Calculate pagination
@@ -157,12 +158,12 @@ export function ActivityFeed() {
   };
 
   return (
-    <Card className="flex max-h-[calc(100vh-280px)] flex-col border-border bg-card">
+    <Card className="flex h-[calc(100vh-240px)] flex-col border-border bg-card">
       <CardHeader className="shrink-0 border-b border-border px-4 py-2">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <Activity className="h-4 w-4" />
-            Life Activity
+            <MapPin className="h-4 w-4" />
+            {user.country}
           </CardTitle>
           {messages.length > 0 && (
             <div className="flex items-center gap-2">

@@ -30,14 +30,14 @@ const speedColors: Record<AgingSpeed, string> = {
 };
 
 export function AgingControls() {
-  const { isAging, currentSpeed, daysProcessed, startAging, stopAging, changeSpeed } = useAutoAging();
+  const { isAging, currentSpeed, progressPercentage, startAging, stopAging, changeSpeed } = useAutoAging();
 
   const handleToggleAging = () => {
     if (isAging) {
       stopAging();
     } else {
-      // Default to normal speed when starting
-      startAging('normal');
+      // Resume with last speed (or default to normal)
+      startAging();
     }
   };
 
@@ -46,69 +46,76 @@ export function AgingControls() {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      {/* Play/Pause Button */}
-      <Button
-        onClick={handleToggleAging}
-        variant={isAging ? 'destructive' : 'default'}
-        size="lg"
-        className="gap-2"
-      >
-        {isAging ? (
-          <>
-            <Pause className="h-4 w-4" />
-            Pause
-          </>
-        ) : (
-          <>
-            <Play className="h-4 w-4" />
-            Age Up
-          </>
-        )}
-      </Button>
-
-      {/* Speed Control Dropdown */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="lg" className="gap-2">
-            <Gauge className="h-4 w-4" />
-            <span className={speedColors[currentSpeed]}>
-              {speedLabels[currentSpeed]}
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-2">
+        {/* Play/Pause Button with Progress */}
+        <div className="relative">
+          <Button
+            onClick={handleToggleAging}
+            variant={isAging ? 'destructive' : 'default'}
+            size="lg"
+            className="gap-2 relative overflow-hidden"
+          >
+            {/* Progress bar fill */}
+            {isAging && (
+              <div
+                className="absolute inset-0 bg-white/20 transition-all duration-100 ease-linear"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            )}
+            {/* Button content */}
+            <span className="relative z-10 flex items-center gap-2">
+              {isAging ? (
+                <>
+                  <Pause className="h-4 w-4" />
+                  Pause
+                </>
+              ) : (
+                <>
+                  <Play className="h-4 w-4" />
+                  Age Up
+                </>
+              )}
             </span>
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" className="w-48">
-          <DropdownMenuLabel>Aging Speed</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => handleSpeedChange('slow')}>
-            <span className={speedColors.slow}>● Slow</span>
-            <span className="ml-auto text-xs text-zinc-500">1 day/10s</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleSpeedChange('normal')}>
-            <span className={speedColors.normal}>● Normal</span>
-            <span className="ml-auto text-xs text-zinc-500">1 day/5s</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleSpeedChange('fast')}>
-            <span className={speedColors.fast}>● Fast</span>
-            <span className="ml-auto text-xs text-zinc-500">1 day/2.5s</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleSpeedChange('very-fast')}>
-            <span className={speedColors['very-fast']}>● Very Fast</span>
-            <span className="ml-auto text-xs text-zinc-500">1 day/s</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => handleSpeedChange('paused')}>
-            <span className={speedColors.paused}>■ Pause</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      {/* Days Processed Counter */}
-      {isAging && (
-        <div className="text-sm text-zinc-400">
-          <span className="font-mono">{daysProcessed}</span> days processed
         </div>
-      )}
+
+        {/* Speed Control Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="lg" className="gap-2">
+              <Gauge className="h-4 w-4" />
+              <span className={speedColors[currentSpeed]}>
+                {speedLabels[currentSpeed]}
+              </span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-48">
+            <DropdownMenuLabel>Aging Speed</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => handleSpeedChange('slow')}>
+              <span className={speedColors.slow}>● Slow</span>
+              <span className="ml-auto text-xs text-zinc-500">1 day/10s</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleSpeedChange('normal')}>
+              <span className={speedColors.normal}>● Normal</span>
+              <span className="ml-auto text-xs text-zinc-500">1 day/5s</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleSpeedChange('fast')}>
+              <span className={speedColors.fast}>● Fast</span>
+              <span className="ml-auto text-xs text-zinc-500">1 day/2.5s</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleSpeedChange('very-fast')}>
+              <span className={speedColors['very-fast']}>● Very Fast</span>
+              <span className="ml-auto text-xs text-zinc-500">1 day/s</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => handleSpeedChange('paused')}>
+              <span className={speedColors.paused}>■ Pause</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 }
