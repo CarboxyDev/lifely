@@ -9,7 +9,7 @@ import type {
   VehicleState,
   HousingState,
 } from '../types';
-import { achievements as achievementDefs } from '../data/achievements';
+import { allAchievements } from '../data/achievements-expanded';
 
 interface GameState {
   user: User;
@@ -32,7 +32,7 @@ export function checkAndUnlockAchievements(state: GameState): {
   const alreadyUnlocked = new Set(state.achievements.unlockedAchievements.map((a) => a.achievementId));
 
   // Check each achievement
-  for (const def of achievementDefs) {
+  for (const def of allAchievements) {
     if (alreadyUnlocked.has(def.id)) continue;
 
     let shouldUnlock = false;
