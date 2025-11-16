@@ -1059,3 +1059,39 @@ export interface SocialMediaState {
   canceledCount: number; // controversies
   fame: number; // 0-100
 }
+
+// Natural Disasters System
+export type DisasterType =
+  | 'earthquake'
+  | 'hurricane'
+  | 'tornado'
+  | 'flood'
+  | 'wildfire'
+  | 'blizzard'
+  | 'tsunami'
+  | 'volcanic-eruption';
+
+export type DisasterSeverity = 'minor' | 'moderate' | 'major' | 'catastrophic';
+
+export interface Disaster {
+  id: string;
+  type: DisasterType;
+  severity: DisasterSeverity;
+  ageOccurred: number;
+  region: string;
+  damageAmount: number;
+  injuries: boolean;
+  hospitalDays: number;
+  propertyDestroyed: boolean;
+  evacuated: boolean;
+  insuranceCovered: number;
+}
+
+export interface DisasterState {
+  disasterHistory: Disaster[];
+  totalDisastersDamage: number;
+  hasDisasterInsurance: boolean;
+  disasterInsuranceCost: number;
+  emergencyFundUsed: number;
+  lastDisasterAge: number;
+}
