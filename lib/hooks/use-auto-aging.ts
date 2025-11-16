@@ -297,13 +297,13 @@ export function useAutoAging() {
    * Change aging speed
    */
   const changeSpeed = useCallback((speed: AgingSpeed) => {
-    if (speed === 'paused') {
-      stopAging();
-    } else {
-      lastNonPausedSpeedRef.current = speed;
-      startAging(speed);
-    }
-  }, [startAging, stopAging]);
+    // Update the speed setting
+    setCurrentSpeed(speed);
+    lastNonPausedSpeedRef.current = speed;
+
+    // Stop aging when changing speed - user must click Age Up to resume
+    setIsAging(false);
+  }, []);
 
   /**
    * Clear current event and resume aging

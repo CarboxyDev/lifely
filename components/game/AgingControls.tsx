@@ -40,26 +40,17 @@ const speedColors: Record<AgingSpeed, string> = {
 export function AgingControls() {
   const { isAging, currentSpeed, progressPercentage, startAging, stopAging, changeSpeed } = useAutoAging();
 
-  // Get the active speed (the one that will be used when Age Up is clicked)
-  const activeSpeed = currentSpeed === 'paused' ? 'normal' : currentSpeed;
-
   const handleToggleAging = () => {
     if (isAging) {
       stopAging();
     } else {
-      // Resume with last speed (or default to normal)
       startAging();
     }
   };
 
   const handleSpeedChange = (speed: AgingSpeed) => {
-    // Always pause when changing speed - user must click Age Up again
-    if (speed === 'paused') {
-      stopAging();
-    } else {
-      changeSpeed(speed);
-      stopAging(); // Pause after changing speed
-    }
+    // Update the speed setting
+    changeSpeed(speed);
   };
 
   return (
@@ -100,44 +91,60 @@ export function AgingControls() {
         {/* Speed Control Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="lg" className="gap-2">
-              <Gauge className="h-4 w-4" />
-              <div className="flex flex-col items-start">
-                <span className={speedColors[activeSpeed]}>
-                  {speedLabels[activeSpeed]}
+            <Button
+              variant="outline"
+              size="lg"
+              className="min-w-[140px] gap-3 border-2 transition-colors hover:border-accent"
+            >
+              <Gauge className="h-5 w-5" />
+              <div className="flex flex-col items-start gap-0.5">
+                <span className={`text-sm font-semibold ${speedColors[currentSpeed]}`}>
+                  {speedLabels[currentSpeed]}
                 </span>
-                {speedDetails[activeSpeed] && (
-                  <span className="text-[10px] text-muted-foreground">
-                    {speedDetails[activeSpeed]}
+                {speedDetails[currentSpeed] && (
+                  <span className="text-[10px] font-medium text-muted-foreground">
+                    {speedDetails[currentSpeed]}
                   </span>
                 )}
               </div>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-48">
-            <DropdownMenuLabel>Select Speed</DropdownMenuLabel>
+          <DropdownMenuContent align="start" className="w-56">
+            <DropdownMenuLabel className="text-xs">Select Aging Speed</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => handleSpeedChange('slow')}>
-              <span className={speedColors.slow}>
-                {activeSpeed === 'slow' ? '● ' : '○ '}Slow
+            <DropdownMenuItem
+              onClick={() => handleSpeedChange('slow')}
+              className={currentSpeed === 'slow' ? 'bg-accent' : ''}
+            >
+              <span className={`${speedColors.slow} font-medium`}>
+                {currentSpeed === 'slow' ? '● ' : '  '}Slow
               </span>
               <span className="ml-auto text-xs text-zinc-500">1 day/10s</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleSpeedChange('normal')}>
-              <span className={speedColors.normal}>
-                {activeSpeed === 'normal' ? '● ' : '○ '}Normal
+            <DropdownMenuItem
+              onClick={() => handleSpeedChange('normal')}
+              className={currentSpeed === 'normal' ? 'bg-accent' : ''}
+            >
+              <span className={`${speedColors.normal} font-medium`}>
+                {currentSpeed === 'normal' ? '● ' : '  '}Normal
               </span>
               <span className="ml-auto text-xs text-zinc-500">1 day/5s</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleSpeedChange('fast')}>
-              <span className={speedColors.fast}>
-                {activeSpeed === 'fast' ? '● ' : '○ '}Fast
+            <DropdownMenuItem
+              onClick={() => handleSpeedChange('fast')}
+              className={currentSpeed === 'fast' ? 'bg-accent' : ''}
+            >
+              <span className={`${speedColors.fast} font-medium`}>
+                {currentSpeed === 'fast' ? '● ' : '  '}Fast
               </span>
               <span className="ml-auto text-xs text-zinc-500">1 day/2.5s</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleSpeedChange('very-fast')}>
-              <span className={speedColors['very-fast']}>
-                {activeSpeed === 'very-fast' ? '● ' : '○ '}Very Fast
+            <DropdownMenuItem
+              onClick={() => handleSpeedChange('very-fast')}
+              className={currentSpeed === 'very-fast' ? 'bg-accent' : ''}
+            >
+              <span className={`${speedColors['very-fast']} font-medium`}>
+                {currentSpeed === 'very-fast' ? '● ' : '  '}Very Fast
               </span>
               <span className="ml-auto text-xs text-zinc-500">1 day/s</span>
             </DropdownMenuItem>
