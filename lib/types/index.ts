@@ -1668,3 +1668,80 @@ export interface SkillTreeState {
   };
 }
 
+// ===== NPC SYSTEM =====
+export type NPCPersonality =
+  | 'friendly' | 'cold' | 'ambitious' | 'lazy' | 'loyal' | 'manipulative'
+  | 'generous' | 'stingy' | 'optimistic' | 'pessimistic' | 'romantic' | 'stoic'
+  | 'adventurous' | 'cautious' | 'intellectual' | 'athletic' | 'artistic' | 'materialistic';
+
+export type NPCOccupation =
+  | 'student' | 'teacher' | 'doctor' | 'lawyer' | 'engineer' | 'artist'
+  | 'business-owner' | 'manager' | 'retail-worker' | 'bartender' | 'chef'
+  | 'musician' | 'writer' | 'scientist' | 'athlete' | 'politician'
+  | 'unemployed' | 'retired';
+
+export type NPCArchetype =
+  | 'mentor' | 'rival' | 'love-interest' | 'best-friend' | 'family'
+  | 'boss' | 'coworker' | 'neighbor' | 'stranger' | 'enemy';
+
+export type NPCMood = 'happy' | 'neutral' | 'sad' | 'angry' | 'excited' | 'stressed';
+
+export interface NPC {
+  id: string;
+  templateId: string;
+  name: string;
+  age: number;
+  personality: NPCPersonality[];
+  occupation: NPCOccupation;
+  archetype: NPCArchetype;
+
+  // Relationship tracking
+  relationshipScore: number; // 0-100
+  relationshipStatus: 'stranger' | 'acquaintance' | 'friend' | 'close-friend' | 'romantic' | 'enemy';
+
+  // Interaction history
+  metAt: number; // age in days when first met
+  lastInteraction: number; // age in days of last interaction
+  totalInteractions: number;
+
+  // Dynamic state
+  currentMood: NPCMood;
+  backstory: string;
+
+  // Preferences
+  likes: string[];
+  dislikes: string[];
+
+  // Story progression
+  completedEvents: string[]; // Event IDs completed with this NPC
+  activeQuests: string[]; // Quest IDs from this NPC
+  isQuestGiver: boolean;
+
+  // Special flags
+  isRomantic: boolean; // Currently dating
+  isMarried: boolean;
+  isAlive: boolean;
+  hasMovedAway: boolean;
+}
+
+export interface NPCInteraction {
+  id: string;
+  npcId: string;
+  type: 'conversation' | 'activity' | 'gift' | 'argument' | 'date' | 'quest' | 'event';
+  timestamp: number;
+  ageInDays: number;
+  relationshipChange: number;
+  moodChange: NPCMood;
+  description: string;
+  outcomeType: 'positive' | 'neutral' | 'negative';
+}
+
+export interface NPCState {
+  knownNPCs: NPC[];
+  interactions: NPCInteraction[];
+  totalNPCsMet: number;
+  currentRomanticPartner: string | null; // NPC ID
+  bestFriendId: string | null;
+  nemesisId: string | null;
+}
+

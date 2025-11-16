@@ -43,6 +43,7 @@ import type {
   CalendarState,
   PerksState,
   SkillTreeState,
+  NPCState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -462,6 +463,16 @@ const initialSkillTree: SkillTreeState = {
   },
 };
 
+// Initialize NPC state
+const initialNPCState: NPCState = {
+  knownNPCs: [],
+  interactions: [],
+  totalNPCsMet: 0,
+  currentRomanticPartner: null,
+  bestFriendId: null,
+  nemesisId: null,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -500,6 +511,7 @@ export const expandedEducationAtom = atomWithStorage<ExpandedEducationState>('li
 export const calendarAtom = atomWithStorage<CalendarState>('lifely-calendar', initialCalendar);
 export const perksAtom = atomWithStorage<PerksState>('lifely-perks', initialPerks);
 export const skillTreeAtom = atomWithStorage<SkillTreeState>('lifely-skill-tree', initialSkillTree);
+export const npcStateAtom = atomWithStorage<NPCState>('lifely-npcs', initialNPCState);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
