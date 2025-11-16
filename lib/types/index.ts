@@ -1363,6 +1363,31 @@ export interface RandomEventsState {
   unluckyStreak: number; // Consecutive bad events
 }
 
+// ===== CALENDAR & TIME SYSTEM =====
+export interface GameDate {
+  day: number; // 1-31
+  month: number; // 1-12
+  year: number;
+  dayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6; // 0=Sunday, 6=Saturday
+  totalDaysLived: number; // Total days since birth
+}
+
+export type Season = 'spring' | 'summer' | 'fall' | 'winter';
+export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+
+export interface CalendarState {
+  currentDate: GameDate;
+  birthDate: GameDate;
+  ageInYears: number;
+  ageInMonths: number;
+  ageInDays: number;
+  season: Season;
+  isWeekend: boolean;
+  isHoliday: boolean;
+  currentHoliday?: string;
+  tickSpeed: 'paused' | 'slow' | 'normal' | 'fast' | 'very-fast';
+}
+
 // ===== EDUCATION EXPANSION =====
 export type GraduateDegree = 'masters' | 'phd' | 'mba' | 'jd' | 'md';
 export type AcademicStatus = 'good-standing' | 'deans-list' | 'honors' | 'probation' | 'suspended' | 'expelled';

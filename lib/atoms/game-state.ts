@@ -40,11 +40,13 @@ import type {
   ReputationState,
   RandomEventsState,
   ExpandedEducationState,
+  CalendarState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
 import { allCountries } from '../data/countries';
 import { generateRandomName } from '../utils/name-generator';
+import { createInitialCalendarState } from '../utils/calendar-system';
 
 // Initialize default values
 const getInitialCountry = () => randomChoice(allCountries);
@@ -414,6 +416,9 @@ const initialExpandedEducation: ExpandedEducationState = {
   conferencesPresentedAt: 0,
 };
 
+// Initialize calendar - starts at 18 years old
+const initialCalendar = createInitialCalendarState();
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -449,6 +454,7 @@ export const estateAtom = atomWithStorage<EstateState>('lifely-estate', initialE
 export const reputationAtom = atomWithStorage<ReputationState>('lifely-reputation', initialReputation);
 export const randomEventsAtom = atomWithStorage<RandomEventsState>('lifely-random-events', initialRandomEvents);
 export const expandedEducationAtom = atomWithStorage<ExpandedEducationState>('lifely-expanded-education', initialExpandedEducation);
+export const calendarAtom = atomWithStorage<CalendarState>('lifely-calendar', initialCalendar);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -555,6 +561,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
   set(reputationAtom, initialReputation);
   set(randomEventsAtom, initialRandomEvents);
   set(expandedEducationAtom, initialExpandedEducation);
+  set(calendarAtom, createInitialCalendarState());
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);
