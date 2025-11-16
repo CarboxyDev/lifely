@@ -586,3 +586,50 @@ export interface BusinessState {
   totalBusinessRevenue: number;
   totalBusinessExpenses: number;
 }
+
+// Gambling types
+export type GamblingActivityType =
+  | 'lottery'
+  | 'scratch-card'
+  | 'slot-machine'
+  | 'blackjack'
+  | 'roulette'
+  | 'poker'
+  | 'sports-betting'
+  | 'horse-racing';
+
+export interface LotteryDraw {
+  id: string;
+  type: 'daily' | 'weekly' | 'mega';
+  drawDate: number; // timestamp
+  winningNumbers: number[];
+  jackpot: number;
+  winners: number;
+}
+
+export interface GamblingActivity {
+  id: string;
+  type: GamblingActivityType;
+  amount: number;
+  result: 'win' | 'loss';
+  payout: number;
+  timestamp: number;
+  age: number;
+}
+
+export interface GamblingState {
+  activities: GamblingActivity[];
+  totalWagered: number;
+  totalWon: number;
+  totalLost: number;
+  biggestWin: number;
+  biggestLoss: number;
+  lotteryTickets: {
+    drawId: string;
+    numbers: number[];
+    cost: number;
+    purchaseDate: number;
+  }[];
+  lastGambleAge: number;
+  gamblingStreak: number; // consecutive months gambling
+}

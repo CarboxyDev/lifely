@@ -24,6 +24,7 @@ import type {
   PetsState,
   LegalState,
   BusinessState,
+  GamblingState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -196,6 +197,18 @@ const initialBusiness: BusinessState = {
   totalBusinessExpenses: 0,
 };
 
+const initialGambling: GamblingState = {
+  activities: [],
+  totalWagered: 0,
+  totalWon: 0,
+  totalLost: 0,
+  biggestWin: 0,
+  biggestLoss: 0,
+  lotteryTickets: [],
+  lastGambleAge: 0,
+  gamblingStreak: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -215,6 +228,7 @@ export const timelineAtom = atomWithStorage<TimelineState>('lifely-timeline', in
 export const petsAtom = atomWithStorage<PetsState>('lifely-pets', initialPets);
 export const legalAtom = atomWithStorage<LegalState>('lifely-legal', initialLegal);
 export const businessAtom = atomWithStorage<BusinessState>('lifely-business', initialBusiness);
+export const gamblingAtom = atomWithStorage<GamblingState>('lifely-gambling', initialGambling);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -300,6 +314,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
   set(petsAtom, initialPets);
   set(legalAtom, initialLegal);
   set(businessAtom, initialBusiness);
+  set(gamblingAtom, initialGambling);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);
