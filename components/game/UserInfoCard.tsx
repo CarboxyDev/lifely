@@ -1,10 +1,11 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { userAtom, calendarAtom, moneyAtom } from '@/lib/atoms/game-state';
 import { Card, CardContent } from '@/components/ui/card';
-import { User, Calendar, Wallet, Cake } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { User, Calendar, Wallet, Cake, Plus } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { formatDateShort, formatExactAge, formatCurrency } from '@/lib/utils/game-utils';
 
 const coreInfoConfig = [
@@ -18,6 +19,19 @@ export function UserInfoCard() {
   const [user] = useAtom(userAtom);
   const [calendar] = useAtom(calendarAtom);
   const [money] = useAtom(moneyAtom);
+  const [showDateChange, setShowDateChange] = useState(false);
+  const previousDayRef = useRef(calendar.ageInDays);
+
+  // Detect date changes
+  useEffect(() => {
+    if (calendar.ageInDays > previousDayRef.current) {
+      setShowDateChange(true);
+      const timer = setTimeout(() => setShowDateChange(false), 1500);
+      previousDayRef.current = calendar.ageInDays;
+      return () => clearTimeout(timer);
+    }
+    previousDayRef.current = calendar.ageInDays;
+  }, [calendar.ageInDays]);
 
   const coreInfo = {
     name: user.name,
@@ -27,7 +41,7 @@ export function UserInfoCard() {
   };
 
   return (
-    <Card className="border-border bg-card">
+    <Card className="border-border bg-card relative">
       <CardContent className="p-4">
         <div className="mb-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
           Core Info
@@ -43,6 +57,7 @@ export function UserInfoCard() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
+                className="relative"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
@@ -51,6 +66,24 @@ export function UserInfoCard() {
                   </div>
                   <span className="text-sm font-semibold text-foreground">{value}</span>
                 </div>
+
+                {/* Date change animation */}
+                {item.key === 'date' && (
+                  <AnimatePresence>
+                    {showDateChange && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, y: -10, scale: 1 }}
+                        exit={{ opacity: 0, y: -20, scale: 0.8 }}
+                        transition={{ duration: 0.4 }}
+                        className="absolute right-0 top-0 flex items-center gap-0.5 text-xs font-bold text-emerald-400"
+                      >
+                        <Plus className="h-3 w-3" />
+                        <span>1 day</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                )}
               </motion.div>
             );
           })}
