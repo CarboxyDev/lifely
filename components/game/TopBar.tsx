@@ -1,18 +1,20 @@
 'use client';
 
 import { useAtom } from 'jotai';
-import { userAtom, moneyAtom, bankAtom, netWorthAtom } from '@/lib/atoms/game-state';
+import { userAtom, moneyAtom, bankAtom, netWorthAtom, calendarAtom } from '@/lib/atoms/game-state';
 import { formatCurrency, formatAge } from '@/lib/utils/game-utils';
-import { Settings, User } from 'lucide-react';
+import { Settings, User, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { SettingsDialog } from './dialogs/SettingsDialog';
+import { formatDate } from '@/lib/utils/calendar-system';
 
 export function TopBar() {
   const [user] = useAtom(userAtom);
   const [money] = useAtom(moneyAtom);
   const [bank] = useAtom(bankAtom);
   const [netWorth] = useAtom(netWorthAtom);
+  const [calendar] = useAtom(calendarAtom);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
@@ -26,7 +28,13 @@ export function TopBar() {
             </div>
             <div>
               <div className="text-sm font-semibold text-foreground">{user.name}</div>
-              <div className="text-xs text-muted-foreground">{formatAge(user.age)}</div>
+              <div className="text-xs text-muted-foreground">
+                Age {calendar.ageInYears} • {formatDate(calendar.currentDate, 'short')}
+              </div>
+            </div>
+            <div className="ml-2 flex items-center gap-1.5 rounded-md bg-zinc-900/50 px-2 py-1">
+              <Calendar className="h-3 w-3 text-zinc-500" />
+              <span className="text-xs text-zinc-400">{calendar.season}</span>
             </div>
           </div>
 
