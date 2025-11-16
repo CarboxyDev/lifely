@@ -28,6 +28,7 @@ import type {
   InsuranceState,
   CharityState,
   AddictionsState,
+  MentalHealthState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -239,6 +240,18 @@ const initialAddictions: AddictionsState = {
   hasBeenAddicted: false,
 };
 
+const initialMentalHealth: MentalHealthState = {
+  currentConditions: [],
+  mentalHealthHistory: [],
+  activeTherapy: null,
+  events: [],
+  totalTherapyCost: 0,
+  stressLevel: randint(30, 60),
+  copingSkills: randint(40, 70),
+  supportNetwork: randint(50, 80),
+  mentalHealthDaysTaken: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -262,6 +275,7 @@ export const gamblingAtom = atomWithStorage<GamblingState>('lifely-gambling', in
 export const insuranceAtom = atomWithStorage<InsuranceState>('lifely-insurance', initialInsurance);
 export const charityAtom = atomWithStorage<CharityState>('lifely-charity', initialCharity);
 export const addictionsAtom = atomWithStorage<AddictionsState>('lifely-addictions', initialAddictions);
+export const mentalHealthAtom = atomWithStorage<MentalHealthState>('lifely-mental-health', initialMentalHealth);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -351,6 +365,12 @@ export const initializeGameAtom = atom(null, (get, set) => {
   set(insuranceAtom, initialInsurance);
   set(charityAtom, initialCharity);
   set(addictionsAtom, initialAddictions);
+  set(mentalHealthAtom, {
+    ...initialMentalHealth,
+    stressLevel: randint(30, 60),
+    copingSkills: randint(40, 70),
+    supportNetwork: randint(50, 80),
+  });
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);

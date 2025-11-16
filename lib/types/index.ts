@@ -793,3 +793,62 @@ export interface AddictionsState {
   totalRecoverySpent: number;
   hasBeenAddicted: boolean;
 }
+
+// Mental Health types
+export type MentalHealthCondition =
+  | 'depression'
+  | 'anxiety'
+  | 'ptsd'
+  | 'bipolar'
+  | 'ocd'
+  | 'eating-disorder'
+  | 'adhd';
+
+export type MentalHealthSeverity = 'none' | 'mild' | 'moderate' | 'severe';
+
+export type TherapyType =
+  | 'cbt'
+  | 'psychotherapy'
+  | 'medication'
+  | 'group-therapy'
+  | 'emdr';
+
+export interface MentalHealthConditionInstance {
+  condition: MentalHealthCondition;
+  severity: MentalHealthSeverity;
+  diagnosedAt: number; // age in months
+  monthsActive: number;
+  inTreatment: boolean;
+  currentTherapy: TherapyType | null;
+  monthsInTherapy: number;
+  medicationCompliance: number; // 0-100
+}
+
+export interface MentalHealthEvent {
+  id: string;
+  type: 'crisis' | 'breakthrough' | 'relapse' | 'hospitalization';
+  description: string;
+  timestamp: number;
+  age: number;
+}
+
+export interface MentalHealthState {
+  currentConditions: MentalHealthConditionInstance[];
+  mentalHealthHistory: {
+    condition: MentalHealthCondition;
+    recoveredAt: number;
+    monthsActive: number;
+  }[];
+  activeTherapy: {
+    therapyType: TherapyType;
+    startAge: number;
+    monthlyCost: number;
+    sessionPerMonth: number;
+  } | null;
+  events: MentalHealthEvent[];
+  totalTherapyCost: number;
+  stressLevel: number; // 0-100
+  copingSkills: number; // 0-100
+  supportNetwork: number; // 0-100 (quality of support system)
+  mentalHealthDaysTaken: number;
+}
