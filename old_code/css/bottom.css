@@ -1,0 +1,31 @@
+#bottom-panel {
+	display: grid;
+	height: 15%;
+	grid-template-columns: 50% 20% 30%;
+
+}
+
+#bottom-panel div {
+	
+	
+}
+
+#buttons-panel {
+	display: inline-block;
+	position: relative;
+	top:50%;
+	left:50%;
+	padding:5px;
+	transform: translate(-50%,-50%);
+}
+
+#buttons-panel-2 {
+	display: inline-block;
+	position: relative;
+	top:50%;
+	left:50%;
+	transform: translate(-50%,-50%);
+}
+
+
+

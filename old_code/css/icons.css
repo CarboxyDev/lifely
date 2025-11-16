@@ -1,0 +1,39 @@
+#health-icon {
+	color:#d31747;
+	font-size: 4vh;
+	position: relative;
+	left:50%;
+	top:50%;
+	transform: translate(-50%,-50%);
+}
+
+
+#morale-icon {
+	color:#f9a94f;
+	font-size: 4vh;
+	position: relative;
+	left:50%;
+	top:50%;
+	transform: translate(-50%,-50%);
+}
+
+
+#intellect-icon {
+	color:#0865c7;
+	font-size: 4vh;
+	position: relative;
+	left:50%;
+	top:50%;
+	transform: translate(-50%,-50%);
+}
+
+
+#looks-icon {
+	color:#fc30ce;
+	font-size: 4vh;
+	position: relative;
+	left:50%;
+	top:50%;
+	transform: translate(-50%,-50%);
+}
+

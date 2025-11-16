@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Lifely - Life Simulator</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito&family=Open+Sans&family=Jost&display=swap" rel="stylesheet"> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css" type="text/css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.10.4/sweetalert2.min.css" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" type="text/css">
+<link rel="stylesheet" href="css/colors.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="css/stats.css" type="text/css">
+<link rel="stylesheet" href="css/icons.css" type="text/css">
+<link rel="stylesheet" href="css/buttons.css" type="text/css">
+<link rel="stylesheet" href="css/bottom.css" type="text/css">
+<link rel="stylesheet" href="css/jobs.css" type="text/css">
+
+
+
+</head>
+<body>
+	<div id="container" class="">
+		<div id="top-panel">
+			<div id="money-panel">
+				<span id="money">$1000</span>
+			</div>
+			<div id="age-panel">
+				<span id="age">18y 0m</span>
+			</div>
+		</div>
+
+		<div id="root">
+			<div id="console-container">
+				<div id="console"></div>
+			</div>
+			
+			<div id="stats">
+				<div id="health-panel">
+					<div id="health-label-panel">
+						<div id="health-icon-panel">
+							<i class="fas fa-heartbeat stats-icon" id="health-icon"></i>
+						</div>
+						<div id="health-count-panel">
+							<span id="health">0</span>
+						</div>
+					</div>
+					<div id="health-bar-panel">
+						<div id="health-bar">
+							<div id="health-fill"></div>
+						</div>
+					</div>
+
+				</div>
+
+
+				<div id="morale-panel">
+					<div id="morale-label-panel">
+						<div id="morale-icon-panel">
+							<i class="fas fa-fist-raised stats-icon" id="morale-icon"></i>
+						</div>
+						<div id="morale-count-panel">
+							<span id="morale">0</span>
+						</div>
+					</div>
+					<div id="morale-bar-panel">
+						<div id="morale-bar">
+							<div id="morale-fill"></div>
+						</div>
+					</div>
+
+				</div>
+
+
+				<div id="intellect-panel">
+					<div id="intellect-label-panel">
+						<div id="intellect-icon-panel">
+							<i class="fas fa-brain stats-icon" id="intellect-icon"></i>
+						</div>
+						<div id="intellect-count-panel">
+							<span id="intellect">0</span>
+						</div>
+					</div>
+					<div id="intellect-bar-panel">
+						<div id="intellect-bar">
+							<div id="intellect-fill"></div>
+						</div>
+					</div>
+
+				</div>
+
+
+				<div id="looks-panel">
+					<div id="looks-label-panel">
+						<div id="looks-icon-panel">
+							<i class="fas fa-fire stats-icon" id="looks-icon"></i>
+						</div>
+						<div id="looks-count-panel">
+							<span id="looks">0</span>
+						</div>
+					</div>
+					<div id="looks-bar-panel">
+						<div id="looks-bar">
+							<div id="looks-fill"></div>
+						</div>
+					</div>
+
+				</div>
+
+
+
+			</div>
+		</div>
+
+		<div id="bottom-panel">
+			<div id="bottom-left">
+				<div id="buttons-panel">
+					<button id="actions-btn" onclick="actions()" class="btn-main btn-dark"><i class="fas fa-rocket"></i> Actions</button>
+					<button id="activities-btn" onclick="activities()" class="btn-main btn-dark">Activities <i class="fas fa-bolt"></i></button>
+				</div>
+			</div>
+			<div id="bottom-middle">
+				<div id="buttons-panel-2">
+					<button id="age-btn" onclick="update()" class="btn-age btn-blurple">Age 1m</button>
+				</div>
+				
+			</div>
+			<div id="bottom-right">
+				<button id="alert" onclick="alerts()" class="btn-alert btn-red">
+				<i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;<span id="alert-count">0</span></button>
+
+				<button id="settings-btn" onclick="settings()" class="btn-settings"><i class="fas fa-cog"></i></button>
+			</div>
+		</div>
+	</div>
+
+<span id="warning">
+	Your device is not supported to play this game.<br>
+	Your screen width must be more than 840px.<br>
+</span>
+
+
+
+<!-- dependencies-->
+
+<script src="js/jquery-min.js"></script>
+<script src="js/sweetalert2.js"></script>
+
+<!-- javascript files-->
+
+<script src='js/utility.js'></script>
+<script src="js/animations.js"></script>
+<script src="js/names.js"></script>
+<script src="js/countries.js"></script>
+<script src='js/variables.js'></script>
+<script src='js/alert.js'></script>
+<script src="js/misc.js"></script>
+<script src='js/stats.js'></script>
+<script src="js/jail.js"></script>
+<script src="js/jobs.js"></script>
+<script src="js/assets.js"></script>
+<script src="js/bank.js"></script>
+<script src="js/education.js"></script>
+<script src="js/core.js"></script>
+<script src="js/health.js"></script>
+<script src="js/events.js"></script>
+<script src="js/activities.js"></script>
+<script src="js/budget.js"></script>
+<script src="js/main.js"></script>
+
+
+
+
+
+
+
+<noscript>
+Enable javascript to use this simulator.
+</noscript>
+</body>
+</html>

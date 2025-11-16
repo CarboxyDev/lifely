@@ -1,0 +1,192 @@
+
+
+#stats {
+	display: grid;
+	grid-template-rows:25% 25% 25% 25%; 
+}
+
+
+
+
+
+
+
+#health-panel {
+	display: grid;
+	grid-template-columns:25% 75%; 
+}
+#health-label-panel {
+	border-right:1px solid #272626;
+	display: grid;
+	grid-auto-rows:50% 50%; 
+}
+#health-bar-panel {
+	width:100%;
+	height:100%;
+}
+#health-bar {
+	background-color: #3e4350;
+	width:80%;
+	height:20%;
+	position: relative;
+	left:10%;
+	top:40%;
+}
+#health-fill {
+	background-color: #e62020;
+	width:0%;
+	height:100%;
+}
+
+#health-fill:hover {
+	background-color: #f72d2d;
+}
+
+#health-count-panel {
+	text-align: center; 
+}
+#health {
+	color:#d31747;
+	font-size: 26px;
+}
+
+
+
+
+
+
+
+
+
+#morale-panel {
+	display: grid;
+	grid-template-columns:25% 75%; 
+}
+#morale-label-panel {
+	border-right:1px solid #272626;
+	display: grid;
+	grid-auto-rows:50% 50%; 
+}
+#morale-bar-panel {
+	width:100%;
+	height:100%;
+}
+#morale-bar {
+	background-color: #3e4350;
+	width:80%;
+	height:20%;
+	position: relative;
+	left:10%;
+	top:40%;
+}
+#morale-fill {
+	background-color: #dcbe28;
+	width:0%;
+	height:100%;
+}
+#morale-fill:hover {
+	background-color: #f2d027;
+}
+
+
+
+#morale-count-panel {
+	text-align: center; 
+}
+#morale {
+	color:#f9a94f;
+	font-size: 26px;
+}
+
+
+
+
+
+
+
+
+
+#intellect-panel {
+	display: grid;
+	grid-template-columns:25% 75%; 
+}
+#intellect-label-panel {
+	border-right:1px solid #272626;
+	display: grid;
+	grid-auto-rows:50% 50%; 
+}
+#intellect-bar-panel {
+	width:100%;
+	height:100%;
+}
+#intellect-bar {
+	background-color: #3e4350;
+	width:80%;
+	height:20%;
+	position: relative;
+	left:10%;
+	top:40%;
+}
+#intellect-fill {
+	background-color: #0578f2;
+	width:0%;
+	height:100%;
+}
+#intellect-fill:hover {
+	background-color: #1b8aff;
+}
+
+
+#intellect-count-panel {
+	text-align: center; 
+}
+#intellect {
+	color:#0865c7;
+	font-size: 26px;
+}
+
+
+
+
+
+
+
+
+#looks-panel {
+	display: grid;
+	grid-template-columns:25% 75%; 
+}
+#looks-label-panel {
+	border-right:1px solid #272626;
+	display: grid;
+	grid-auto-rows:50% 50%; 
+}
+#looks-bar-panel {
+	width:100%;
+	height:100%;
+}
+#looks-bar {
+	background-color: #3e4350;
+	width:80%;
+	height:20%;
+	position: relative;
+	left:10%;
+	top:40%;
+}
+#looks-fill {
+	background-color: #f41bc3;
+	width:0%;
+	height:100%;
+}
+#looks-fill:hover {
+	background-color: #fc30ce;
+}
+
+#looks-count-panel {
+	text-align: center; 
+}
+#looks {
+	color:#fc30ce;
+	font-size: 26px;
+}
+
