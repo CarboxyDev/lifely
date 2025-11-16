@@ -26,15 +26,15 @@ export function getTickDelay(speed: AgingSpeed): number {
     case 'paused':
       return 0; // No ticking
     case 'slow':
-      return 2000; // 1 day every 2 seconds
+      return 10000; // 1 day every 10 seconds
     case 'normal':
-      return 1000; // 1 day every 1 second
+      return 5000; // 1 day every 5 seconds
     case 'fast':
-      return 500; // 1 day every 0.5 seconds
+      return 2500; // 1 day every 2.5 seconds
     case 'very-fast':
-      return 100; // 1 day every 0.1 seconds
+      return 1000; // 1 day every 1 second
     default:
-      return 1000;
+      return 5000;
   }
 }
 

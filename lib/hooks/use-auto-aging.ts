@@ -203,10 +203,9 @@ export function useAutoAging() {
       clearInterval(tickIntervalRef.current);
     }
 
-    const delay = getTickDelay(speed);
     tickIntervalRef.current = setInterval(() => {
       processTick();
-    }, Math.max(50, delay / 2)); // Check twice as often as needed for smooth ticking
+    }, 5000); // Check every 5 seconds
   }, [processTick]);
 
   /**

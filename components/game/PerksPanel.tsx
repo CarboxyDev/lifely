@@ -5,6 +5,7 @@ import { Award, Sparkles, TrendingUp, TrendingDown } from 'lucide-react';
 import { perksAtom } from '@/lib/atoms/game-state';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import type { Perk } from '@/lib/types';
 
 const rarityColors = {
@@ -106,45 +107,49 @@ export function PerksPanel() {
           </Badge>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {positivePerks.length > 0 && (
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-green-400">
-              Perks ({positivePerks.length})
-            </h3>
-            <div className="space-y-2">
-              {positivePerks.map(renderPerk)}
+      <CardContent className="p-0">
+        <ScrollArea className="h-[400px] px-6 py-4">
+          <div className="space-y-4">
+            {positivePerks.length > 0 && (
+              <div>
+                <h3 className="mb-2 text-sm font-semibold text-green-400">
+                  Perks ({positivePerks.length})
+                </h3>
+                <div className="space-y-2">
+                  {positivePerks.map(renderPerk)}
+                </div>
+              </div>
+            )}
+
+            {negativePerks.length > 0 && (
+              <div>
+                <h3 className="mb-2 text-sm font-semibold text-red-400">
+                  Flaws ({negativePerks.length})
+                </h3>
+                <div className="space-y-2">
+                  {negativePerks.map(renderPerk)}
+                </div>
+              </div>
+            )}
+
+            {perks.activePerks.length === 0 && (
+              <div className="text-center text-sm text-zinc-500">
+                No perks or flaws yet
+              </div>
+            )}
+
+            {/* Stats summary */}
+            <div className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-3 text-xs">
+              <div className="mb-1 font-semibold text-zinc-400">Summary</div>
+              <div className="grid grid-cols-2 gap-1 text-zinc-500">
+                <div>Total Perks: {positivePerks.length}</div>
+                <div>Total Flaws: {negativePerks.length}</div>
+                <div>Birth Traits: {perks.birthTraits.length}</div>
+                <div>Unlocked: {perks.unlockedPerks.length}</div>
+              </div>
             </div>
           </div>
-        )}
-
-        {negativePerks.length > 0 && (
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-red-400">
-              Flaws ({negativePerks.length})
-            </h3>
-            <div className="space-y-2">
-              {negativePerks.map(renderPerk)}
-            </div>
-          </div>
-        )}
-
-        {perks.activePerks.length === 0 && (
-          <div className="text-center text-sm text-zinc-500">
-            No perks or flaws yet
-          </div>
-        )}
-
-        {/* Stats summary */}
-        <div className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-3 text-xs">
-          <div className="mb-1 font-semibold text-zinc-400">Summary</div>
-          <div className="grid grid-cols-2 gap-1 text-zinc-500">
-            <div>Total Perks: {positivePerks.length}</div>
-            <div>Total Flaws: {negativePerks.length}</div>
-            <div>Birth Traits: {perks.birthTraits.length}</div>
-            <div>Unlocked: {perks.unlockedPerks.length}</div>
-          </div>
-        </div>
+        </ScrollArea>
       </CardContent>
     </Card>
   );

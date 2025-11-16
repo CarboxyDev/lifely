@@ -48,7 +48,7 @@ export function StatsCards() {
                       <Icon className="h-3.5 w-3.5" style={{ color: stat.color }} />
                       <span className="text-xs text-muted-foreground">{stat.label}</span>
                     </div>
-                    <span className="text-sm font-semibold text-foreground">{value}</span>
+                    <span className="text-sm font-semibold text-foreground">{Math.round(value)}</span>
                   </div>
                   <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted">
                     <motion.div
@@ -138,16 +138,6 @@ export function StatsCards() {
                 </div>
               </div>
             )}
-
-            {/* Net Worth */}
-            <div className="rounded-lg border border-border bg-muted/50 p-2.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-muted-foreground">Net Worth</span>
-                <span className="text-sm font-bold text-emerald-400">
-                  ${netWorth.toLocaleString()}
-                </span>
-              </div>
-            </div>
           </div>
         </CardContent>
       </Card>

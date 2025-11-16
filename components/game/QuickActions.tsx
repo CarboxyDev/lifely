@@ -197,7 +197,7 @@ export function QuickActions() {
           </div>
           <div className="relative flex justify-center">
             <span className="bg-background px-2 text-xs text-muted-foreground">
-              {hoveredAction || '\u00A0'}
+              {hoveredAction || 'Actions'}
             </span>
           </div>
         </div>

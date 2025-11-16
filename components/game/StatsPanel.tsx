@@ -32,7 +32,7 @@ function StatItem({ label, value, icon, color, index }: StatItemProps) {
           <span className="text-sm font-medium text-zinc-300">{label}</span>
         </div>
         <span className="text-lg font-bold" style={{ color: getStatColor(value) }}>
-          {value}
+          {Math.round(value)}
         </span>
       </div>
       <Progress

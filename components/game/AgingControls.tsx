@@ -15,10 +15,10 @@ import type { AgingSpeed } from '@/lib/utils/auto-aging';
 
 const speedLabels: Record<AgingSpeed, string> = {
   paused: 'Paused',
-  slow: 'Slow (1 day/2s)',
-  normal: 'Normal (1 day/s)',
-  fast: 'Fast (2 days/s)',
-  'very-fast': 'Very Fast (10 days/s)',
+  slow: 'Slow (1 day/10s)',
+  normal: 'Normal (1 day/5s)',
+  fast: 'Fast (1 day/2.5s)',
+  'very-fast': 'Very Fast (1 day/s)',
 };
 
 const speedColors: Record<AgingSpeed, string> = {
@@ -82,19 +82,19 @@ export function AgingControls() {
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => handleSpeedChange('slow')}>
             <span className={speedColors.slow}>● Slow</span>
-            <span className="ml-auto text-xs text-zinc-500">1 day/2s</span>
+            <span className="ml-auto text-xs text-zinc-500">1 day/10s</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleSpeedChange('normal')}>
             <span className={speedColors.normal}>● Normal</span>
-            <span className="ml-auto text-xs text-zinc-500">1 day/s</span>
+            <span className="ml-auto text-xs text-zinc-500">1 day/5s</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleSpeedChange('fast')}>
             <span className={speedColors.fast}>● Fast</span>
-            <span className="ml-auto text-xs text-zinc-500">2 days/s</span>
+            <span className="ml-auto text-xs text-zinc-500">1 day/2.5s</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleSpeedChange('very-fast')}>
             <span className={speedColors['very-fast']}>● Very Fast</span>
-            <span className="ml-auto text-xs text-zinc-500">10 days/s</span>
+            <span className="ml-auto text-xs text-zinc-500">1 day/s</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => handleSpeedChange('paused')}>
