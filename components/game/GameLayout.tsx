@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { TopBar } from './TopBar';
 import { StatsCards } from './StatsCards';
+import { UserInfoCard } from './UserInfoCard';
 import { ActivityFeed } from './ActivityFeed';
 import { QuickActions } from './QuickActions';
 import { AgingControls } from './AgingControls';
@@ -33,10 +34,10 @@ export function GameLayout() {
       {/* Main Content Grid - takes remaining height */}
       <div className="mx-auto flex w-full max-w-7xl flex-1 overflow-hidden px-6 py-6">
         <div className="grid w-full gap-6 lg:grid-cols-12">
-          {/* Left Column - Stats & Perks (Compact) */}
-          <div className="space-y-6 lg:col-span-3">
+          {/* Left Column - User Info & Stats (Compact) */}
+          <div className="space-y-4 lg:col-span-3">
+            <UserInfoCard />
             <StatsCards />
-            <PerksPanel />
           </div>
 
           {/* Center Column - Activity Feed (More prominent) */}
@@ -44,9 +45,10 @@ export function GameLayout() {
             <ActivityFeed />
           </div>
 
-          {/* Right Column - Quick Actions */}
-          <div className="lg:col-span-3">
+          {/* Right Column - Quick Actions & Perks */}
+          <div className="space-y-4 lg:col-span-3 overflow-y-auto">
             <QuickActions />
+            <PerksPanel />
           </div>
         </div>
       </div>

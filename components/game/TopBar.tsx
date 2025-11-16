@@ -1,16 +1,15 @@
 'use client';
 
 import { useAtom } from 'jotai';
-import { userAtom, moneyAtom, bankAtom, netWorthAtom, calendarAtom } from '@/lib/atoms/game-state';
-import { formatCurrency, formatAge } from '@/lib/utils/game-utils';
-import { Settings, User, Calendar } from 'lucide-react';
+import { moneyAtom, bankAtom, netWorthAtom, calendarAtom } from '@/lib/atoms/game-state';
+import { formatCurrency } from '@/lib/utils/game-utils';
+import { Settings, Calendar, Wallet, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { SettingsDialog } from './dialogs/SettingsDialog';
 import { formatDate } from '@/lib/utils/calendar-system';
 
 export function TopBar() {
-  const [user] = useAtom(userAtom);
   const [money] = useAtom(moneyAtom);
   const [bank] = useAtom(bankAtom);
   const [netWorth] = useAtom(netWorthAtom);
@@ -20,45 +19,46 @@ export function TopBar() {
   return (
     <>
       <div className="border-b border-border bg-card/50 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-          {/* Left - User Info */}
-          <div className="flex items-center gap-4">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted text-muted-foreground">
-              <User className="h-5 w-5" />
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          {/* Left - Current Date (Prominent) */}
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30">
+              <Calendar className="h-6 w-6 text-blue-400" />
             </div>
             <div>
-              <div className="text-sm font-semibold text-foreground">{user.name}</div>
-              <div className="text-xs text-muted-foreground">
-                Age {calendar.ageInYears} • {formatDate(calendar.currentDate, 'short')}
-              </div>
-            </div>
-            <div className="ml-2 flex items-center gap-1.5 rounded-md bg-zinc-900/50 px-2 py-1">
-              <Calendar className="h-3 w-3 text-zinc-500" />
-              <span className="text-xs text-zinc-400">{calendar.season}</span>
+              <div className="text-xs text-muted-foreground">Today</div>
+              <div className="text-lg font-bold text-foreground">{formatDate(calendar.currentDate, 'short')}</div>
             </div>
           </div>
 
-          {/* Right - Money Stats & Settings */}
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-4 text-sm">
+          {/* Right - Financial Stats & Settings */}
+          <div className="flex items-center gap-4">
+            {/* Cash */}
+            <div className="flex items-center gap-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-4 py-2.5">
+              <Wallet className="h-5 w-5 text-emerald-400" />
               <div>
-                <div className="text-xs text-muted-foreground">Cash</div>
-                <div className="font-semibold text-emerald-400">{formatCurrency(money)}</div>
-              </div>
-              <div className="h-8 w-px bg-border" />
-              <div>
-                <div className="text-xs text-muted-foreground">Net Worth</div>
-                <div className="font-semibold text-card-foreground">{formatCurrency(netWorth)}</div>
+                <div className="text-[10px] uppercase tracking-wide text-emerald-300/60">Cash</div>
+                <div className="text-base font-bold text-emerald-400">{formatCurrency(money)}</div>
               </div>
             </div>
 
+            {/* Net Worth */}
+            <div className="flex items-center gap-3 rounded-xl bg-blue-500/10 border border-blue-500/20 px-4 py-2.5">
+              <TrendingUp className="h-5 w-5 text-blue-400" />
+              <div>
+                <div className="text-[10px] uppercase tracking-wide text-blue-300/60">Net Worth</div>
+                <div className="text-base font-bold text-blue-400">{formatCurrency(netWorth)}</div>
+              </div>
+            </div>
+
+            {/* Settings */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setSettingsOpen(true)}
-              className="h-9 w-9 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              className="h-11 w-11 cursor-pointer rounded-xl text-muted-foreground hover:bg-accent hover:text-accent-foreground"
             >
-              <Settings className="h-4 w-4" />
+              <Settings className="h-5 w-5" />
             </Button>
           </div>
         </div>
