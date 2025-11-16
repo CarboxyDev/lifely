@@ -349,3 +349,44 @@ export interface AchievementState {
   unlocked: Achievement[];
   totalPoints: number;
 }
+
+export type TravelType =
+  | 'weekend-trip'
+  | 'vacation'
+  | 'world-tour'
+  | 'business-trip'
+  | 'backpacking'
+  | 'luxury-cruise'
+  | 'road-trip';
+
+export interface Destination {
+  id: string;
+  name: string;
+  country: string;
+  type: 'city' | 'beach' | 'mountains' | 'cultural' | 'adventure' | 'exotic';
+  baseCost: number;
+  duration: number; // days
+  moraleBoost: number;
+  stressRelief: number; // reduces negative morale effects
+  culturalValue: number; // intellect boost
+  memories: string[]; // possible experiences
+}
+
+export interface Trip {
+  id: string;
+  destinationId: string;
+  destinationName: string;
+  cost: number;
+  traveledAt: number; // age in months
+  duration: number;
+  experiences: string[]; // what happened during the trip
+  satisfaction: number; // 1-10
+}
+
+export interface TravelState {
+  trips: Trip[];
+  totalCountriesVisited: number;
+  totalMoneySpent: number;
+  favoriteDestination: string | null;
+  travelDays: number; // total days traveled
+}

@@ -14,6 +14,7 @@ import {
   Users,
   TrendingUp,
   BarChart3,
+  Plane,
 } from 'lucide-react';
 import { useState } from 'react';
 import { JobsDialog } from './dialogs/JobsDialog';
@@ -28,6 +29,7 @@ import { HousingDialog } from './dialogs/HousingDialog';
 import { VehiclesDialog } from './dialogs/VehiclesDialog';
 import { InvestmentsDialog } from './dialogs/InvestmentsDialog';
 import { StatisticsDialog } from './dialogs/StatisticsDialog';
+import { TravelDialog } from './dialogs/TravelDialog';
 
 export function QuickActions() {
   const [jobsOpen, setJobsOpen] = useState(false);
@@ -42,6 +44,7 @@ export function QuickActions() {
   const [vehiclesOpen, setVehiclesOpen] = useState(false);
   const [investmentsOpen, setInvestmentsOpen] = useState(false);
   const [statisticsOpen, setStatisticsOpen] = useState(false);
+  const [travelOpen, setTravelOpen] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
 
   // Frequently accessed - full cards
@@ -112,6 +115,12 @@ export function QuickActions() {
       label: 'Skills',
       onClick: () => setSkillsOpen(true),
       color: '#8b5cf6',
+    },
+    {
+      icon: Plane,
+      label: 'Travel',
+      onClick: () => setTravelOpen(true),
+      color: '#06b6d4',
     },
     {
       icon: TrendingUp,
@@ -211,6 +220,7 @@ export function QuickActions() {
       <VehiclesDialog open={vehiclesOpen} onOpenChange={setVehiclesOpen} />
       <InvestmentsDialog open={investmentsOpen} onOpenChange={setInvestmentsOpen} />
       <StatisticsDialog open={statisticsOpen} onOpenChange={setStatisticsOpen} />
+      <TravelDialog open={travelOpen} onOpenChange={setTravelOpen} />
     </>
   );
 }
