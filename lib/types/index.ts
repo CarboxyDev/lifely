@@ -1095,3 +1095,27 @@ export interface DisasterState {
   emergencyFundUsed: number;
   lastDisasterAge: number;
 }
+
+// Politics and Civic Engagement
+export type PoliticalParty = 'liberal' | 'conservative' | 'progressive' | 'libertarian' | 'independent';
+export type PoliticalOffice = 'mayor' | 'state-rep' | 'governor' | 'senator' | 'president';
+
+export interface Election {
+  id: string;
+  office: PoliticalOffice;
+  year: number;
+  candidates: { name: string; party: PoliticalParty; popularity: number }[];
+  playerRunning: boolean;
+  playerVotes: number;
+  winner: string;
+}
+
+export interface PoliticsState {
+  politicalAlignment: PoliticalParty;
+  hasVoted: boolean;
+  electionHistory: Election[];
+  officesHeld: { office: PoliticalOffice; yearsServed: number }[];
+  campaignFundsRaised: number;
+  politicalReputation: number; // 0-100
+  lobbyingInfluence: number;
+}
