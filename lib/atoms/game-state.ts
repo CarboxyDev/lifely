@@ -18,6 +18,7 @@ import type {
   InvestmentState,
   AchievementState,
   TravelState,
+  TaxState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -145,6 +146,18 @@ const initialTravel: TravelState = {
   travelDays: 0,
 };
 
+const initialTax: TaxState = {
+  filingHistory: [],
+  currentYearIncome: 0,
+  currentYearWithheld: 0,
+  lastFiledYear: 0,
+  totalTaxesPaid: 0,
+  totalRefundsReceived: 0,
+  totalPenaltiesPaid: 0,
+  hasTaxDebt: false,
+  taxDebtAmount: 0,
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -159,6 +172,7 @@ export const creditAtom = atomWithStorage<CreditState>('lifely-credit', initialC
 export const investmentsAtom = atomWithStorage<InvestmentState>('lifely-investments', initialInvestments);
 export const achievementsAtom = atomWithStorage<AchievementState>('lifely-achievements', initialAchievements);
 export const travelAtom = atomWithStorage<TravelState>('lifely-travel', initialTravel);
+export const taxAtom = atomWithStorage<TaxState>('lifely-tax', initialTax);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -225,6 +239,7 @@ export const initializeGameAtom = atom(null, (get, set) => {
   set(investmentsAtom, initialInvestments);
   set(achievementsAtom, initialAchievements);
   set(travelAtom, initialTravel);
+  set(taxAtom, initialTax);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);

@@ -390,3 +390,41 @@ export interface TravelState {
   favoriteDestination: string | null;
   travelDays: number; // total days traveled
 }
+
+export type TaxType = 'income' | 'property' | 'capital-gains' | 'sales';
+
+export interface TaxBracket {
+  minIncome: number;
+  maxIncome: number;
+  rate: number; // percentage
+}
+
+export interface TaxRecord {
+  id: string;
+  year: number; // which year's taxes
+  filedAt: number; // age in months when filed
+  incomeReported: number;
+  taxOwed: number;
+  taxPaid: number;
+  refund: number; // if overpaid
+  penalty: number; // if underpaid or late
+  deductions: TaxDeduction[];
+}
+
+export interface TaxDeduction {
+  type: 'student-loan' | 'mortgage' | 'charity' | 'medical' | 'retirement';
+  amount: number;
+  description: string;
+}
+
+export interface TaxState {
+  filingHistory: TaxRecord[];
+  currentYearIncome: number; // income earned this tax year
+  currentYearWithheld: number; // tax already withheld from salary
+  lastFiledYear: number; // last year taxes were filed
+  totalTaxesPaid: number;
+  totalRefundsReceived: number;
+  totalPenaltiesPaid: number;
+  hasTaxDebt: boolean;
+  taxDebtAmount: number;
+}

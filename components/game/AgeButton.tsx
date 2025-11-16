@@ -16,6 +16,7 @@ import {
   creditAtom,
   investmentsAtom,
   achievementsAtom,
+  taxAtom,
 } from '@/lib/atoms/game-state';
 import { Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -28,6 +29,11 @@ import { getRandomEvent } from '@/lib/data/events';
 import { calculateVehicleValue, calculateMonthlyVehicleCost } from '@/lib/data/vehicles';
 import { investmentOptions, simulateMonthlyPriceChange } from '@/lib/data/investments';
 import { checkAndUnlockAchievements } from '@/lib/utils/achievements';
+import {
+  calculateTaxWithholding,
+  generateAvailableDeductions,
+  fileTaxes,
+} from '@/lib/data/taxes';
 
 export function AgeButton() {
   const [user, setUser] = useAtom(userAtom);
@@ -43,6 +49,7 @@ export function AgeButton() {
   const [credit, setCredit] = useAtom(creditAtom);
   const [investments, setInvestments] = useAtom(investmentsAtom);
   const [achievements, setAchievements] = useAtom(achievementsAtom);
+  const [tax, setTax] = useAtom(taxAtom);
   const [isAging, setIsAging] = useState(false);
 
   const handleAgeUp = async () => {
@@ -57,14 +64,26 @@ export function AgeButton() {
 
     // Pay salary if employed
     let currentMoney = money;
+    let taxWithheld = 0;
     if (hasJob && user.job.salary > 0) {
-      currentMoney += user.job.salary;
+      // Calculate tax withholding
+      taxWithheld = calculateTaxWithholding(user.job.salary);
+      const netPay = user.job.salary - taxWithheld;
+
+      currentMoney += netPay;
       setMoney(currentMoney);
-      addMessage(`Earned $${user.job.salary} from your job`);
+      addMessage(`Earned $${netPay} (${user.job.salary} - ${taxWithheld} tax) from your job`);
       setUser({
         ...user,
         age: newAge,
         job: { ...user.job, duration: user.job.duration + 1 },
+      });
+
+      // Track income and withholding for tax year
+      setTax({
+        ...tax,
+        currentYearIncome: tax.currentYearIncome + user.job.salary,
+        currentYearWithheld: tax.currentYearWithheld + taxWithheld,
       });
     }
 
@@ -271,6 +290,70 @@ export function AgeButton() {
 
     if (healthChange < -2) {
       addMessage(`Your health decreased by ${Math.abs(healthChange)}`);
+    }
+
+    // Tax filing (April 15 - month 4 of the year)
+    const currentYear = Math.floor(newAge / 12);
+    const currentMonth = newAge % 12;
+
+    if (currentMonth === 4 && currentYear > tax.lastFiledYear) {
+      // Time to file taxes for the previous year
+      if (tax.currentYearIncome > 0) {
+        // Generate deductions
+        const deductions = generateAvailableDeductions(
+          0, // student loan - would need to track this separately
+          housing.currentProperty?.monthlyMortgage || 0,
+          investments.monthlyContribution
+        );
+
+        // File taxes
+        const taxRecord = fileTaxes(
+          currentYear,
+          newAge,
+          tax.currentYearIncome,
+          tax.currentYearWithheld,
+          deductions
+        );
+
+        // Process refund or additional payment
+        if (taxRecord.refund > 0) {
+          setMoney(currentMoney + taxRecord.refund);
+          currentMoney += taxRecord.refund;
+          addMessage(`Tax refund: $${taxRecord.refund}`);
+          toast.success(`Tax refund received: $${taxRecord.refund}`);
+        } else {
+          const additionalOwed = taxRecord.taxOwed - taxRecord.taxPaid;
+          if (additionalOwed > 0) {
+            if (currentMoney >= additionalOwed) {
+              setMoney(currentMoney - additionalOwed);
+              currentMoney -= additionalOwed;
+              addMessage(`Paid additional taxes: $${additionalOwed}`);
+            } else {
+              // Can't afford, add to tax debt
+              const debt = additionalOwed - currentMoney;
+              setMoney(0);
+              currentMoney = 0;
+              addMessage(`Tax debt: $${debt} (couldn't afford full payment)`);
+              toast.error(`You owe $${debt} in taxes!`);
+            }
+          }
+        }
+
+        // Update tax state
+        setTax({
+          filingHistory: [...tax.filingHistory, taxRecord],
+          currentYearIncome: 0, // Reset for new year
+          currentYearWithheld: 0,
+          lastFiledYear: currentYear,
+          totalTaxesPaid: tax.totalTaxesPaid + taxRecord.taxPaid,
+          totalRefundsReceived: tax.totalRefundsReceived + taxRecord.refund,
+          totalPenaltiesPaid: tax.totalPenaltiesPaid,
+          hasTaxDebt: taxRecord.taxOwed > taxRecord.taxPaid,
+          taxDebtAmount: Math.max(0, taxRecord.taxOwed - taxRecord.taxPaid),
+        });
+
+        addMessage(`Filed taxes for year ${currentYear}`);
+      }
     }
 
     // Random life events
