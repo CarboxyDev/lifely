@@ -736,10 +736,11 @@ export const multiStageEvents: InteractiveEvent[] = [
 ];
 
 /**
- * Get all interactive events (import expanded and themed events)
+ * Get all interactive events (import expanded, themed, and daily life events)
  */
 import { expandedInteractiveEvents } from './interactive-events-expanded';
 import { themedInteractiveEvents } from './interactive-events-themed';
+import { dailyLifeEvents } from './daily-life-events';
 
 export const allInteractiveEvents: InteractiveEvent[] = [
   ...attributeCheckEvents,
@@ -747,6 +748,7 @@ export const allInteractiveEvents: InteractiveEvent[] = [
   ...multiStageEvents,
   ...expandedInteractiveEvents,
   ...themedInteractiveEvents,
+  ...dailyLifeEvents,
 ];
 
 /**
