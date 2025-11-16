@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import {
   calendarAtom,
   statsAtom,
@@ -7,6 +7,7 @@ import {
   hasJobAtom,
   userAtom,
   perksAtom,
+  addConsoleMessageAtom,
 } from '../atoms/game-state';
 import {
   performAgingTick,
@@ -29,6 +30,7 @@ export function useAutoAging() {
   const [hasJob] = useAtom(hasJobAtom);
   const [user] = useAtom(userAtom);
   const [perks] = useAtom(perksAtom);
+  const addConsoleMessage = useSetAtom(addConsoleMessageAtom);
 
   const [isAging, setIsAging] = useState(false);
   const [currentSpeed, setCurrentSpeed] = useState<AgingSpeed>('paused');
@@ -120,8 +122,11 @@ export function useAutoAging() {
     );
 
     if (birthdayCheck.isBirthday) {
-      // TODO: Show birthday notification
-      console.log(`Birthday! Now ${birthdayCheck.age} years old!`, birthdayCheck.milestoneMessage);
+      let message = `You turned ${birthdayCheck.age} years old!`;
+      if (birthdayCheck.milestoneMessage) {
+        message += ` ${birthdayCheck.milestoneMessage}`;
+      }
+      addConsoleMessage(message);
     }
 
     // Check for monthly salary
@@ -134,7 +139,7 @@ export function useAutoAging() {
 
     if (salaryCheck.shouldReceiveSalary && salaryCheck.salaryAmount) {
       setMoney(prev => prev + salaryCheck.salaryAmount!);
-      // TODO: Add console message about salary
+      addConsoleMessage(`You received your monthly salary of $${salaryCheck.salaryAmount.toLocaleString()}`);
     }
 
     // Check for death
@@ -147,8 +152,7 @@ export function useAutoAging() {
       // Stop aging
       setIsAging(false);
       setCurrentSpeed('paused');
-      // TODO: Show death screen
-      console.log('Character died:', deathCheck.deathReason);
+      addConsoleMessage(`You died: ${deathCheck.deathReason}`);
       return;
     }
 
@@ -160,9 +164,9 @@ export function useAutoAging() {
         setCurrentSpeed('paused');
         setCurrentEvent(result.event);
       } else {
-        // Event auto-applies, just log it
-        // TODO: Add to console messages
-        console.log('Event occurred:', result.event.title);
+        // Event auto-applies, add to console
+        const eventMessage = result.event.description || result.event.title;
+        addConsoleMessage(eventMessage);
 
         // Apply event effects if any
         if (result.event.effects) {
@@ -200,7 +204,7 @@ export function useAutoAging() {
     }
 
     setDaysProcessedCount(prev => prev + result.daysAdvanced);
-  }, [calendar, stats, money, hasJob, user, perks, setCalendar, setStats, setMoney]);
+  }, [calendar, stats, money, hasJob, user, perks, setCalendar, setStats, setMoney, addConsoleMessage]);
 
   /**
    * Manage interval lifecycle with useEffect
@@ -222,7 +226,7 @@ export function useAutoAging() {
 
     tickIntervalRef.current = setInterval(() => {
       processTick();
-    }, 5000); // Check every 5 seconds
+    }, 100); // Check every 100ms for responsive timing
 
     return () => {
       if (tickIntervalRef.current) {

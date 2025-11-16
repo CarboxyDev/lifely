@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useAtom } from 'jotai';
-import { consoleMessagesAtom, calendarAtom, activityFeedPageAtom } from '@/lib/atoms/game-state';
+import { consoleMessagesAtom, calendarAtom, activityFeedPageAtom, moneyAtom } from '@/lib/atoms/game-state';
+import { formatCurrency } from '@/lib/utils/game-utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
@@ -23,8 +24,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Plus,
+  Wallet,
 } from 'lucide-react';
-import { formatDateWithYear } from '@/lib/utils/game-utils';
 
 type MessageCategory = 'positive' | 'negative' | 'neutral';
 type MessageIconType = React.ComponentType<{ className?: string }>;
@@ -134,6 +135,7 @@ const ITEMS_PER_PAGE = 12;
 export function ActivityFeed() {
   const [messages] = useAtom(consoleMessagesAtom);
   const [calendar] = useAtom(calendarAtom);
+  const [money] = useAtom(moneyAtom);
   const [currentPage, setCurrentPage] = useAtom(activityFeedPageAtom);
   const [showDateChange, setShowDateChange] = useState(false);
   const previousDayRef = useRef(calendar.ageInDays);
@@ -175,42 +177,53 @@ export function ActivityFeed() {
   return (
     <Card className="flex h-[calc(100vh-240px)] flex-col border-border bg-card relative">
       <CardHeader className="shrink-0 border-b border-border px-2.5 py-1">
-        <div className="flex items-center gap-1.5 relative">
-          <Calendar className="h-3 w-3 text-muted-foreground" />
-          <CardTitle className="text-[11px] font-medium text-foreground">
-            {calendar.currentDate.day} {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][calendar.currentDate.month - 1]}
-          </CardTitle>
-          <span className="text-[11px] text-muted-foreground">
-            {calendar.currentDate.year}
-          </span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5 relative">
+            <Calendar className="h-3 w-3 text-muted-foreground" />
+            <CardTitle className="text-[11px] font-medium text-foreground">
+              {calendar.currentDate.day} {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][calendar.currentDate.month - 1]}
+            </CardTitle>
 
-          {/* Date change animation */}
-          <AnimatePresence>
-            {showDateChange && (
-              <motion.div
-                initial={{ opacity: 0, y: 0, scale: 0.5 }}
-                animate={{
-                  opacity: [0, 1, 1, 0],
-                  y: [0, -6, -10, -14],
-                  scale: [0.5, 1.1, 1, 0.9]
-                }}
-                exit={{ opacity: 0 }}
-                transition={{
-                  duration: 1.2,
-                  times: [0, 0.3, 0.7, 1],
-                  ease: "easeOut"
-                }}
-                className="absolute left-0 -top-3 flex items-center gap-0.5 text-[10px] font-bold"
-                style={{
-                  textShadow: '0 0 8px rgba(16, 185, 129, 0.6)',
-                  color: '#10b981'
-                }}
-              >
-                <Plus className="h-2.5 w-2.5" strokeWidth={3} />
-                <span>1 day</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
+            {/* Date change animation */}
+            <AnimatePresence>
+              {showDateChange && (
+                <motion.div
+                  initial={{ opacity: 0, y: 0, scale: 0.5 }}
+                  animate={{
+                    opacity: [0, 1, 1, 0],
+                    y: [0, -6, -10, -14],
+                    scale: [0.5, 1.1, 1, 0.9]
+                  }}
+                  exit={{ opacity: 0 }}
+                  transition={{
+                    duration: 1.2,
+                    times: [0, 0.3, 0.7, 1],
+                    ease: "easeOut"
+                  }}
+                  className="absolute left-0 -top-3 flex items-center gap-0.5 text-[10px] font-bold"
+                  style={{
+                    textShadow: '0 0 8px rgba(16, 185, 129, 0.6)',
+                    color: '#10b981'
+                  }}
+                >
+                  <Plus className="h-2.5 w-2.5" strokeWidth={3} />
+                  <span>1 day</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-muted-foreground">
+              {calendar.currentDate.year}
+            </span>
+            <div className="flex items-center gap-1.5">
+              <Wallet className="h-3 w-3 text-emerald-400" />
+              <span className="text-xs font-medium text-emerald-400">
+                {formatCurrency(money)}
+              </span>
+            </div>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="flex-1 overflow-hidden p-3 pb-9 relative">
