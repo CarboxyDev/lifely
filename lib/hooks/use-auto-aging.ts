@@ -38,15 +38,29 @@ export function useAutoAging() {
   const tickIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const lastTickTimeRef = useRef<number>(Date.now());
 
+  // Use refs to store current values to avoid closure issues
+  const isAgingRef = useRef(isAging);
+  const currentSpeedRef = useRef(currentSpeed);
+
+  // Update refs when state changes
+  useEffect(() => {
+    isAgingRef.current = isAging;
+  }, [isAging]);
+
+  useEffect(() => {
+    currentSpeedRef.current = currentSpeed;
+  }, [currentSpeed]);
+
   /**
    * Process a single aging tick
    */
   const processTick = useCallback(() => {
-    if (!isAging || currentSpeed === 'paused') return;
+    // Use refs to get current values and avoid stale closures
+    if (!isAgingRef.current || currentSpeedRef.current === 'paused') return;
 
     const now = Date.now();
     const elapsed = now - lastTickTimeRef.current;
-    const requiredDelay = getTickDelay(currentSpeed);
+    const requiredDelay = getTickDelay(currentSpeedRef.current);
 
     // Only tick if enough time has passed
     if (elapsed < requiredDelay) return;
@@ -182,7 +196,36 @@ export function useAutoAging() {
     }
 
     setDaysProcessedCount(prev => prev + result.daysAdvanced);
-  }, [isAging, currentSpeed, calendar, stats, money, hasJob, user, perks, setCalendar, setStats, setMoney]);
+  }, [calendar, stats, money, hasJob, user, perks, setCalendar, setStats, setMoney]);
+
+  /**
+   * Manage interval lifecycle with useEffect
+   */
+  useEffect(() => {
+    if (!isAging || currentSpeed === 'paused') {
+      if (tickIntervalRef.current) {
+        clearInterval(tickIntervalRef.current);
+        tickIntervalRef.current = null;
+      }
+      return;
+    }
+
+    // Start the interval
+    if (tickIntervalRef.current) {
+      clearInterval(tickIntervalRef.current);
+    }
+
+    tickIntervalRef.current = setInterval(() => {
+      processTick();
+    }, 5000); // Check every 5 seconds
+
+    return () => {
+      if (tickIntervalRef.current) {
+        clearInterval(tickIntervalRef.current);
+        tickIntervalRef.current = null;
+      }
+    };
+  }, [isAging, currentSpeed, processTick]);
 
   /**
    * Start aging at specified speed
@@ -197,16 +240,7 @@ export function useAutoAging() {
     setCurrentSpeed(speed);
     setDaysProcessedCount(0);
     lastTickTimeRef.current = Date.now();
-
-    // Set up interval for ticking
-    if (tickIntervalRef.current) {
-      clearInterval(tickIntervalRef.current);
-    }
-
-    tickIntervalRef.current = setInterval(() => {
-      processTick();
-    }, 5000); // Check every 5 seconds
-  }, [processTick]);
+  }, []);
 
   /**
    * Stop aging
@@ -214,11 +248,7 @@ export function useAutoAging() {
   const stopAging = useCallback(() => {
     setIsAging(false);
     setCurrentSpeed('paused');
-
-    if (tickIntervalRef.current) {
-      clearInterval(tickIntervalRef.current);
-      tickIntervalRef.current = null;
-    }
+    // Interval cleanup is handled by useEffect
   }, []);
 
   /**
@@ -238,17 +268,6 @@ export function useAutoAging() {
   const resolveEvent = useCallback(() => {
     setCurrentEvent(null);
     // Don't auto-resume, let user manually restart
-  }, []);
-
-  /**
-   * Cleanup on unmount
-   */
-  useEffect(() => {
-    return () => {
-      if (tickIntervalRef.current) {
-        clearInterval(tickIntervalRef.current);
-      }
-    };
   }, []);
 
   return {
