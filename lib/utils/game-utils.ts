@@ -147,6 +147,14 @@ export function formatDateShort(gameDate: { day: number; month: number; year: nu
 }
 
 /**
+ * Format date with year (e.g., "12 Nov 2024")
+ */
+export function formatDateWithYear(gameDate: { day: number; month: number; year: number }): string {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${gameDate.day} ${months[gameDate.month - 1]} ${gameDate.year}`;
+}
+
+/**
  * Format exact age with years, months, and days (e.g., "17y 8m 3d")
  */
 export function formatExactAge(ageInDays: number): string {

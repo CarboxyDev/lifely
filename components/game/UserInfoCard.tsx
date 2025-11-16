@@ -1,17 +1,15 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { userAtom, calendarAtom, moneyAtom } from '@/lib/atoms/game-state';
 import { Card, CardContent } from '@/components/ui/card';
-import { User, Calendar, Wallet, Cake, Plus } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { formatDateShort, formatExactAge, formatCurrency } from '@/lib/utils/game-utils';
+import { User, Wallet, Cake } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { formatExactAge, formatCurrency } from '@/lib/utils/game-utils';
 
 const coreInfoConfig = [
   { key: 'name', label: 'Name', icon: User, color: '#10b981' },
   { key: 'age', label: 'Age', icon: Cake, color: '#8b5cf6' },
-  { key: 'date', label: 'Today', icon: Calendar, color: '#3b82f6' },
   { key: 'cash', label: 'Cash', icon: Wallet, color: '#f59e0b' },
 ];
 
@@ -19,24 +17,10 @@ export function UserInfoCard() {
   const [user] = useAtom(userAtom);
   const [calendar] = useAtom(calendarAtom);
   const [money] = useAtom(moneyAtom);
-  const [showDateChange, setShowDateChange] = useState(false);
-  const previousDayRef = useRef(calendar.ageInDays);
-
-  // Detect date changes
-  useEffect(() => {
-    if (calendar.ageInDays > previousDayRef.current) {
-      setShowDateChange(true);
-      const timer = setTimeout(() => setShowDateChange(false), 1500);
-      previousDayRef.current = calendar.ageInDays;
-      return () => clearTimeout(timer);
-    }
-    previousDayRef.current = calendar.ageInDays;
-  }, [calendar.ageInDays]);
 
   const coreInfo = {
     name: user.name,
     age: formatExactAge(calendar.ageInDays),
-    date: formatDateShort(calendar.currentDate),
     cash: formatCurrency(money),
   };
 
@@ -66,36 +50,6 @@ export function UserInfoCard() {
                   </div>
                   <span className="text-sm font-semibold text-foreground">{value}</span>
                 </div>
-
-                {/* Date change animation */}
-                {item.key === 'date' && (
-                  <AnimatePresence>
-                    {showDateChange && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 0, scale: 0.5 }}
-                        animate={{
-                          opacity: [0, 1, 1, 0],
-                          y: [0, -8, -12, -18],
-                          scale: [0.5, 1.1, 1, 0.9]
-                        }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                          duration: 1.2,
-                          times: [0, 0.3, 0.7, 1],
-                          ease: "easeOut"
-                        }}
-                        className="absolute right-0 top-0 flex items-center gap-1 text-sm font-bold"
-                        style={{
-                          textShadow: '0 0 8px rgba(16, 185, 129, 0.6)',
-                          color: '#10b981'
-                        }}
-                      >
-                        <Plus className="h-4 w-4" strokeWidth={3} />
-                        <span>1 day</span>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                )}
               </motion.div>
             );
           })}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAtom } from 'jotai';
 import { consoleMessagesAtom, calendarAtom } from '@/lib/atoms/game-state';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,8 +22,9 @@ import {
   MessageCircle,
   ChevronLeft,
   ChevronRight,
+  Plus,
 } from 'lucide-react';
-import { formatDateShort } from '@/lib/utils/game-utils';
+import { formatDateWithYear } from '@/lib/utils/game-utils';
 
 type MessageCategory = 'positive' | 'negative' | 'neutral';
 type MessageIconType = React.ComponentType<{ className?: string }>;
@@ -134,6 +135,19 @@ export function ActivityFeed() {
   const [messages] = useAtom(consoleMessagesAtom);
   const [calendar] = useAtom(calendarAtom);
   const [currentPage, setCurrentPage] = useState(0);
+  const [showDateChange, setShowDateChange] = useState(false);
+  const previousDayRef = useRef(calendar.ageInDays);
+
+  // Detect date changes
+  useEffect(() => {
+    if (calendar.ageInDays > previousDayRef.current) {
+      setShowDateChange(true);
+      const timer = setTimeout(() => setShowDateChange(false), 1500);
+      previousDayRef.current = calendar.ageInDays;
+      return () => clearTimeout(timer);
+    }
+    previousDayRef.current = calendar.ageInDays;
+  }, [calendar.ageInDays]);
 
   // Calculate pagination
   const totalPages = Math.max(1, Math.ceil(messages.length / ITEMS_PER_PAGE));
@@ -160,12 +174,42 @@ export function ActivityFeed() {
 
   return (
     <Card className="flex h-[calc(100vh-240px)] flex-col border-border bg-card">
-      <CardHeader className="shrink-0 border-b border-border px-4 py-2">
+      <CardHeader className="shrink-0 border-b border-border px-4 py-1.5">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <Calendar className="h-4 w-4" />
-            {formatDateShort(calendar.currentDate)}
-          </CardTitle>
+          <div className="flex items-center gap-2 relative">
+            <Calendar className="h-4 w-4 text-foreground" />
+            <CardTitle className="text-sm font-semibold text-foreground">
+              {formatDateWithYear(calendar.currentDate)}
+            </CardTitle>
+
+            {/* Date change animation */}
+            <AnimatePresence>
+              {showDateChange && (
+                <motion.div
+                  initial={{ opacity: 0, y: 0, scale: 0.5 }}
+                  animate={{
+                    opacity: [0, 1, 1, 0],
+                    y: [0, -6, -10, -14],
+                    scale: [0.5, 1.1, 1, 0.9]
+                  }}
+                  exit={{ opacity: 0 }}
+                  transition={{
+                    duration: 1.2,
+                    times: [0, 0.3, 0.7, 1],
+                    ease: "easeOut"
+                  }}
+                  className="absolute left-0 -top-3 flex items-center gap-1 text-xs font-bold"
+                  style={{
+                    textShadow: '0 0 8px rgba(16, 185, 129, 0.6)',
+                    color: '#10b981'
+                  }}
+                >
+                  <Plus className="h-3 w-3" strokeWidth={3} />
+                  <span>1 day</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
           {messages.length > 0 && (
             <div className="flex items-center gap-2">
               <span className="text-xs text-muted-foreground">
