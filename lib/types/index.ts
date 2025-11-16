@@ -942,3 +942,72 @@ export interface CryptoState {
   marketBoom: boolean; // crypto bull run
   lastUpdate: number;
 }
+
+// Dice Rolling Mechanic
+export type DiceType = 'd4' | 'd6' | 'd8' | 'd10' | 'd12' | 'd20' | 'd100';
+
+export interface DiceRoll {
+  id: string;
+  diceType: DiceType;
+  result: number;
+  timestamp: number;
+  context: string; // What was the roll for
+  criticalSuccess: boolean;
+  criticalFailure: boolean;
+}
+
+export interface DiceModifier {
+  name: string;
+  value: number; // +/- to roll
+  source: string; // Where it comes from (skill, luck, etc)
+}
+
+export interface DiceState {
+  rollHistory: DiceRoll[];
+  totalRolls: number;
+  criticalSuccesses: number;
+  criticalFailures: number;
+  luckStat: number; // 0-100, affects rolls
+  blessedUntilAge: number; // temporary luck boost
+  cursedUntilAge: number; // temporary luck penalty
+}
+
+// Hobbies System
+export type HobbyCategory = 'creative' | 'physical' | 'intellectual' | 'social' | 'collecting' | 'gaming';
+
+export interface Hobby {
+  id: string;
+  name: string;
+  category: HobbyCategory;
+  level: number; // 0-100 mastery
+  hoursSpent: number;
+  monthlyCost: number;
+  enjoyment: number; // 0-100
+  lastPracticed: number; // age in months
+}
+
+export interface HobbyDefinition {
+  id: string;
+  name: string;
+  category: HobbyCategory;
+  description: string;
+  startupCost: number;
+  monthlyCost: number;
+  timePerSession: number; // hours
+  statBenefits: {
+    morale?: number;
+    health?: number;
+    intellect?: number;
+    looks?: number;
+  };
+  skillGained?: string;
+  requiresDiceRoll: boolean; // Some hobbies use dice for outcomes
+}
+
+export interface HobbiesState {
+  activeHobbies: Hobby[];
+  hobbyHistory: { hobbyId: string; level: number; totalHours: number }[];
+  totalHoursAllHobbies: number;
+  totalMoneySpent: number;
+  achievements: string[]; // "Master Painter", etc
+}

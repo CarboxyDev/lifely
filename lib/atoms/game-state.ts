@@ -31,6 +31,8 @@ import type {
   MentalHealthState,
   StockMarketState,
   CryptoState,
+  DiceState,
+  HobbiesState,
 } from '../types';
 import { randint } from '../utils/game-utils';
 import { randomChoice } from '../utils/game-utils';
@@ -274,6 +276,24 @@ const initialCrypto: CryptoState = {
   lastUpdate: 0,
 };
 
+const initialDice: DiceState = {
+  rollHistory: [],
+  totalRolls: 0,
+  criticalSuccesses: 0,
+  criticalFailures: 0,
+  luckStat: randint(40, 60),
+  blessedUntilAge: 0,
+  cursedUntilAge: 0,
+};
+
+const initialHobbies: HobbiesState = {
+  activeHobbies: [],
+  hobbyHistory: [],
+  totalHoursAllHobbies: 0,
+  totalMoneySpent: 0,
+  achievements: [],
+};
+
 // Core game state atoms (with persistence)
 export const userAtom = atomWithStorage<User>('lifely-user', initialUser);
 export const bankAtom = atomWithStorage<Bank>('lifely-bank', initialBank);
@@ -300,6 +320,8 @@ export const addictionsAtom = atomWithStorage<AddictionsState>('lifely-addiction
 export const mentalHealthAtom = atomWithStorage<MentalHealthState>('lifely-mental-health', initialMentalHealth);
 export const stockMarketAtom = atomWithStorage<StockMarketState>('lifely-stock-market', initialStockMarket);
 export const cryptoAtom = atomWithStorage<CryptoState>('lifely-crypto', initialCrypto);
+export const diceAtom = atomWithStorage<DiceState>('lifely-dice', initialDice);
+export const hobbiesAtom = atomWithStorage<HobbiesState>('lifely-hobbies', initialHobbies);
 
 // Money (separate for easier access)
 export const moneyAtom = atomWithStorage<number>('lifely-money', 0);
@@ -397,6 +419,8 @@ export const initializeGameAtom = atom(null, (get, set) => {
   });
   set(stockMarketAtom, initialStockMarket);
   set(cryptoAtom, initialCrypto);
+  set(diceAtom, { ...initialDice, luckStat: randint(40, 60) });
+  set(hobbiesAtom, initialHobbies);
   set(isStudentAtom, false);
   set(isJailedAtom, false);
   set(hasJobAtom, false);
